@@ -1,0 +1,12 @@
+<h3 class="heading azheading">A-Z Listing</h3>    
+<div id="suppliers-a-z" class="listing">
+  <div class="text-center" ng-repeat="(letter, gotMade) in vm.azData">
+    <h2 class="title">{{letter}}</h2>      
+
+    <div class="post-title" ng-repeat="item in gotMade">
+      <div class="inner">
+        <a ui-sref="details({id:item.id,page:item.route})">{{item.name}}</a>
+      </div>
+    </div>
+  </div>
+</div>

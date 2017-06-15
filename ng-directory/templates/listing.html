@@ -1,0 +1,15 @@
+<div id="suppliers-listing">
+	<div class="search-view" id="head-row">
+		<input type="search" ng-model="q" placeholder="Search supplier, products, services, region, tags..." aria-label="Search criteria" />
+		<nav app-view="view"></nav>
+	</div>
+
+	<div class="animate-repeat entry-content list-item" ng-repeat="i in vm.data | filter:q as results">
+		{{person.name}}
+		<section ng-include="view"></section>
+	</div>
+
+	<div class="entry-content list-item animate-repeat" ng-if="results.length == 0">
+		<span>No results found...</span>
+	</div>
+</div>

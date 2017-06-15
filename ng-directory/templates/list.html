@@ -1,0 +1,43 @@
+<div class="inner outter">
+  <div class="info">
+    <div class="inner">
+
+      <h3 class="post-title">
+        <a ui-sref="details({id:i.id,page:i.route})">{{i.name}}</a>
+      </h3>
+
+      <p class="region-info">Region: {{i.region.name}}</p>
+
+      <p class="business-info" ng-if="i.businessTypes.length > 0"> 
+        Business Types:
+        <span ng-repeat="business in i.businessTypes">
+          {{business.name}} <span ng-if="!$last">, </span> 
+        </span>
+      </p>
+
+      <p class="products-info" ng-if="i.products.length > 0"> 
+        Produts: 
+        <span ng-repeat="product in i.products">
+          {{product.name}} <span ng-if="!$last">, </span> 
+        </span>
+      </p>
+
+      <p class="service-info" ng-if="i.serviceTypes.length > 0">
+        Service Types: 
+        <span ng-repeat="service in i.serviceTypes">
+          {{service.name}} <span ng-if="!$last">, </span> 
+        </span>
+      </p>
+
+      <p class="brief-info">Description: {{i.briefDescription}}</p>
+
+      <p class="short-info" ng-if="i.tags.length > 0">
+        Tags: 
+        <span ng-repeat="tag in i.tags">
+         {{tag}} <span ng-if="!$last">, </span>
+       </span>
+     </p>
+
+   </div>
+ </div>
+</div>

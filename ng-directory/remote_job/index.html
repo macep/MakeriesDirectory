@@ -1,0 +1,84 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> <script src="data.js"></script><script>
+
+    (function() { 'use strict';
+
+        var tstData = [];
+        var tstParents = [];
+
+        // servicesTypes data builder
+        _.each(data, function(item) {
+            _.each(item.serviceTypes, function(i) {
+                tstData.push(i);
+            });
+        });
+        console.log(tstData);
+
+        // tstData is a set of colletions gruped by the parent's id
+        tstData = _.groupBy(tstData, function(item) { return  item.parentServiceTypeID; });
+        tstParents = tstData['null'];
+        delete tstData['null'];
+
+        // tstParents = _.sortBy(tstData['null'], 'id');
+        console.log(tstData, tstParents);
+
+        for (var s in tstData) {
+            console.log(s);
+
+            _.each(tstData(s), function(i) {
+
+                console.log(i);
+
+                if (i.id !== i.parentServiceTypeID) {
+                    console.log(i);
+                }
+            });
+
+            // tstParents[ tstParents.indexOf( _.find( tstParents, function(i) { return i.id == s; } ) ) ].subServices = tstData[s];
+            // console.log( _.find( tstParents, function(i) { return i.id == s; } ) );
+        }
+
+
+        // find occurences algorithm
+        function findOccurences(array) {
+            var a = [], b = [], c = [], prev;
+
+            array.sort();
+
+            for ( var i = 0; i < array.length; i++ ) {
+                if ( array[i] !== prev ) {
+                    a.push(array[i]);
+                    b.push(1);
+                } else {
+                    b[b.length-1]++;
+                }
+                prev = array[i];
+            }
+
+            for (var i = 0; i < a.length; i++) {
+                c.push({
+                    filter: a[i],
+                    urlFriendly: a[i].split(' ').join('-'),
+                    occurence: b[i]
+                });
+            }
+
+            return c;
+        }
+
+
+    })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
