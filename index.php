@@ -31,6 +31,9 @@
             <div uib-alert template-url="alert.html" style="background-color:#fa39c3;color:white">A happy alert!</div>
             <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
         </div>
-        <?php wp_footer(); ?>
+        <?php wp_footer(); ?>        
+        <script id="__bs_script__">//<![CDATA[
+            document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.12'><\/script>".replace("HOST", location.hostname));
+            //]]></script>
     </body>
 </html>
