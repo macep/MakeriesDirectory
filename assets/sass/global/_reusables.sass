@@ -46,43 +46,43 @@
 
 
 $scrollbar-width: 8px
-%blue-scrollbars
+%scrollbars
   -webkit-overflow-scrolling: touch
-  scrollbar-base-color: $dark-blue
-  scrollbar-3dlight-color: $deep-blue
-  scrollbar-highlight-color: $deep-blue
-  scrollbar-face-color: $dark-blue
-  scrollbar-track-color: $deep-blue
-  scrollbar-arrow-color: $dark-blue
-  scrollbar-shadow-color: $dark-blue
-  scrollbar-darkshadow-color: $dark-blue
+  scrollbar-base-color: $perl
+  scrollbar-3dlight-color: $base
+  scrollbar-highlight-color: $base
+  scrollbar-face-color: $perl
+  scrollbar-track-color: $base
+  scrollbar-arrow-color: $perl
+  scrollbar-shadow-color: $perl
+  scrollbar-darkshadow-color: $perl
 
   &::-webkit-scrollbar
     width: $scrollbar-width
 
   &::-webkit-scrollbar-button
-    background-color: $deep-blue
+    background-color: $base
 
   &::-webkit-scrollbar-track
-    background-color: $deep-blue
+    background-color: $base
 
   &::-webkit-scrollbar-track-piece
-    background-color: $deep-blue
+    background-color: $base
 
   &::-webkit-scrollbar-thumb
-    background-color: $blue
+    background-color: $charcoal
     border-radius: $scrollbar-width / 2
 
   &::-webkit-scrollbar-corner
-    background-color: $deep-blue
+    background-color: $base
 
   &::-webkit-resizer
-    background-color: $deep-blue
+    background-color: $base
 
   @-moz-document url-prefix(http://), url-prefix(https://)
     scrollbar
       -moz-appearance: none
-      background: $deep-blue
+      background: $base
 
       &[orient="vertical"]
         min-width: $scrollbar-width
@@ -92,7 +92,7 @@ $scrollbar-width: 8px
 
     thumb, scrollbarbutton
       -moz-appearance: none
-      background-color: $blue
+      background-color: $charcoal
 
       &:hover
-        background-color: lighten($blue, 5%)
+        background-color: lighten($charcoal, 5%)

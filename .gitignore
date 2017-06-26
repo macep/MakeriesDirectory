@@ -7,3 +7,4 @@
 *.map
 assets/css/
 node_modules/
+app/libs.js
