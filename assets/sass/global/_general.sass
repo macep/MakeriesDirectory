@@ -1,0 +1,64 @@
+$no-space: 0
+$sm-space: 5px
+$md-space: 10px
+$lg-space: 15px
+$xlg-space: 30px
+$xxlg-space: 60px
+
+// grid spacer
+.row
+  &.no-gutter
+    margin-left: 0
+    margin-right: 0
+
+    [class*='col-']
+      padding-left: 0
+      padding-right: 0
+
+  &.no-gutter-left
+    margin-left: 0
+
+    [class*='col-']
+      padding-left: 0
+
+  &.no-gutter-right
+    margin-right: 0
+
+    [class*='col-']
+      padding-right: 0
+
+  &.small-gutter
+    margin-left: -($sm-space)
+    margin-right: -($sm-space)
+
+    [class*='col-']
+      padding-left: $sm-space
+      padding-right: $sm-space
+
+  &.large-gutter
+    margin-left: -($lg-space)
+    margin-right: -($lg-space)
+
+    [class*='col-']
+      padding-left: $lg-space
+      padding-right: $lg-space
+
+  .col
+    @extend %link-hoverings
+
+// margin-spacer generator, eg. sm-margin(-top|right|bottom|left)
++spacer('no', $no-space, 'margin')
++spacer('sm', $sm-space, 'margin')
++spacer('md', $md-space, 'margin')
++spacer('lg', $lg-space, 'margin')
++spacer('xlg', $xlg-space, 'margin')
++spacer('xxlg', $xxlg-space, 'margin')
++spacer('xxlg', $xxlg-space, 'margin')
+
+// padding-spacer generator, eg. xxlg-padding(-top|right|bottom|left)
++spacer('no', $no-space, 'padding')
++spacer('sm', $sm-space, 'padding')
++spacer('md', $md-space, 'padding')
++spacer('lg', $lg-space, 'padding')
++spacer('xlg', $xlg-space, 'padding')
++spacer('xxlg', $xxlg-space, 'padding')

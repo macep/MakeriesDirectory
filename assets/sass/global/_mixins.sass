@@ -1,0 +1,40 @@
+=spacer ($breakpoint, $value, $method, $negative: false)
+  @if($negative == true)
+    $value: -($value)
+
+  .#{$breakpoint}-#{$method}
+    #{$method}: $value
+
+  .#{$breakpoint}-#{$method}-top
+    #{$method}-top: $value
+
+  .#{$breakpoint}-#{$method}-right
+    #{$method}-right: $value
+
+  .#{$breakpoint}-#{$method}-bottom
+    #{$method}-bottom: $value
+
+  .#{$breakpoint}-#{$method}-left
+    #{$method}-left: $value
+
+
+=menu-item-border($x, $y, $size, $color, $side)
+  position: relative
+
+  &:after
+    position: absolute
+    right: $x
+    top: $y
+    content: ''
+    border: 0
+    border-#{$side}: 1px solid $color
+
+    @if ($side == 'right' or $side == 'left')
+      height: $size
+    @else
+      width: $size
+
+
+=linear-gradient-top-bottom($color1, $start, $color2, $stop)
+  background: -webkit-linear-gradient(top,  $color1 $start, $color2 $stop)
+  background: linear-gradient(to bottom,  $color1 $start, $color2 $stop)
