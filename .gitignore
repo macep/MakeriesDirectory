@@ -1,5 +1,9 @@
-.idea
 .DS_Store
+*.sass-cache*
 *.scssc
+*.log
+.idea/
 *.css
-*.exe
+*.map
+assets/css/
+node_modules/
