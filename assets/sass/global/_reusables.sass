@@ -1,0 +1,98 @@
+%link-hoverings
+  transition: all .5s ease
+
+  &:hover
+    transition: all .25s ease
+
+
+%v-scroll
+  overflow-y: scroll
+  overflow-x: hidden
+
+
+%visibility-toggler-animation
+  &.hidden-animated
+    opacity: 0
+    visibility: hidden
+    transition: all .75s ease
+
+  &.show-animated
+    opacity: 1
+    visibility: visible
+    transition: all .75s ease
+
+
+%common-shadow
+  box-shadow: 0 2px 5px 0 rgba($black, .05)
+
+
+%round-avatar
+  @extend .lg-margin-top
+  @extend .md-margin-left
+  width: 48px
+  height: 48px
+  border-radius: 50%
+  position: relative
+  display: block
+
+  img
+    border-radius: 50%
+
+
+%text-ellipsis
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+
+$scrollbar-width: 8px
+%blue-scrollbars
+  -webkit-overflow-scrolling: touch
+  scrollbar-base-color: $dark-blue
+  scrollbar-3dlight-color: $deep-blue
+  scrollbar-highlight-color: $deep-blue
+  scrollbar-face-color: $dark-blue
+  scrollbar-track-color: $deep-blue
+  scrollbar-arrow-color: $dark-blue
+  scrollbar-shadow-color: $dark-blue
+  scrollbar-darkshadow-color: $dark-blue
+
+  &::-webkit-scrollbar
+    width: $scrollbar-width
+
+  &::-webkit-scrollbar-button
+    background-color: $deep-blue
+
+  &::-webkit-scrollbar-track
+    background-color: $deep-blue
+
+  &::-webkit-scrollbar-track-piece
+    background-color: $deep-blue
+
+  &::-webkit-scrollbar-thumb
+    background-color: $blue
+    border-radius: $scrollbar-width / 2
+
+  &::-webkit-scrollbar-corner
+    background-color: $deep-blue
+
+  &::-webkit-resizer
+    background-color: $deep-blue
+
+  @-moz-document url-prefix(http://), url-prefix(https://)
+    scrollbar
+      -moz-appearance: none
+      background: $deep-blue
+
+      &[orient="vertical"]
+        min-width: $scrollbar-width
+
+    scrollbarbutton
+      display: none
+
+    thumb, scrollbarbutton
+      -moz-appearance: none
+      background-color: $blue
+
+      &:hover
+        background-color: lighten($blue, 5%)
