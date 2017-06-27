@@ -1,11 +1,8 @@
 .DS_Store
-*.sass-cache*
-*.scssc
 *.log
 .idea/
 *.css
 *.map
-assets/css/
 node_modules/
-app/libs.js
-app/app.js
+assets/css/
+app/built/

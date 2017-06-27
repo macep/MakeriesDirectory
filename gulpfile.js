@@ -1,4 +1,4 @@
-var $ = require('gulp-load-plugins')();
+var $           = require('gulp-load-plugins')();
 var gulp        = require('gulp');
 var browserSync = require('browser-sync').create();
 var merge       = require('merge-stream');
@@ -6,7 +6,8 @@ var colors      = require('colors');
 var sequence    = require('run-sequence');
 var del         = require('del');
 
-var Config = require('./gulp.config')();
+var Config      = require('./gulp.config')();
+
 
 // Browsersync task
 gulp.task('browser-sync', ['build'], function () {
@@ -26,21 +27,18 @@ gulp.task('sass', function () {
     // Minify CSS if run wtih --production flag
     var minifycss = $.if(Config.isProduction, $.minifyCss());
 
-    return gulp.src('assets/sass/jgm.sass')
+    return gulp.src(Config.mainSass)
         .pipe($.sourcemaps.init())
         .pipe($.sass({
             includePaths: Config.sass
         }))
-        .on('error', $.notify.onError({
-            message: "<%= error.message %>",
-            title: "Sass Error"
-        }))
+        .on('error', $.notify.onError(Config.sassError))
         .pipe($.autoprefixer({
             browsers: Config.compatibility
         }))
         .pipe(minifycss)
         .pipe($.if(!Config.isProduction, $.sourcemaps.write('.')))
-        .pipe(gulp.dest('assets/css'))
+        .pipe(gulp.dest(Config.cssUrl))
         .pipe(browserSync.stream({match: '**/*.css'}))
 });
 
@@ -48,34 +46,26 @@ gulp.task('sass', function () {
 // Combine JavaScript libraries into one file
 // In production, the file is minified
 gulp.task('javascriptLibs', function() {
-    var uglify = $.uglify()
-        .on('error', $.notify.onError({
-            message: "<%= error.message %>",
-            title: "Uglify JS Error"
-        }));
+    var uglify = $.uglify().on('error', $.notify.onError(Config.uglifyError));
 
     return gulp.src(Config.javascriptLibs)
         .pipe($.sourcemaps.init())
-        .pipe($.concat('libs.js', { newLine:'\n;'}))
+        .pipe($.concat(Config.libsJs, { newLine:'\n;'}))
         .pipe($.if(Config.isProduction, uglify))
-        .pipe(gulp.dest('app/'))
+        .pipe(gulp.dest(Config.builtJs))
         .pipe(browserSync.stream())
 });
 
 
 // Combine Angular modules into one file
 gulp.task('javascriptModules', function() {
-    var uglify = $.uglify()
-        .on('error', $.notify.onError({
-            message: "<%= error.message %>",
-            title: "Uglify JS Error"
-        }));
+    var uglify = $.uglify().on('error', $.notify.onError(Config.uglifyError));
 
     return gulp.src(Config.javascriptModules)
         .pipe($.sourcemaps.init())
-        .pipe($.concat('app.js', { newLine:'\n;'}))
+        .pipe($.concat(Config.appJs, { newLine:'\n;'}))
         .pipe($.if(Config.isProduction, uglify))
-        .pipe(gulp.dest('app/'))
+        .pipe(gulp.dest(Config.builtJs))
         .pipe(browserSync.stream())
 });
 
@@ -83,8 +73,8 @@ gulp.task('javascriptModules', function() {
 // Copy task
 gulp.task('copy', function() {
     // Font Awesome
-    var fontAwesome = gulp.src('node_modules/font-awesome/fonts/**/*.*')
-        .pipe(gulp.dest('assets/fonts'));
+    var fontAwesome = gulp.src(Config.fontAwesomeUrl)
+        .pipe(gulp.dest(Config.fontsUrl));
 
     return merge(fontAwesome)
 });
@@ -106,8 +96,8 @@ gulp.task('clean', function(done) {
 // Clean JS
 gulp.task('clean:javascript', function() {
     return del([
-        'app/app.js',
-        'app/libs.js'
+        Config.app + Config.appJs,
+        Config.app + Config.libsJs
     ])
 });
 
@@ -115,8 +105,8 @@ gulp.task('clean:javascript', function() {
 // Clean CSS
 gulp.task('clean:css', function() {
     return del([
-        'assets/css/jgm.css',
-        'assets/css/jgm.css.map'
+        Config.cssUrl + Config.cssFileName,
+        Config.cssUrl + Config.cssMapFileName
     ])
 });
 

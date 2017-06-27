@@ -1,14 +1,28 @@
-/**
- * Created by cristi on 27/06/2017.
- */
-
 module.exports = function () {
     var argv = require('yargs').argv;
 
     var config = {
-        url: '',
-        compatibility: ['last 2 versions', 'ie >= 10'],
         isProduction: !!(argv.production),
+        url: '',
+        app: 'app/',
+        builtJs: 'app/built',
+        appJs: 'app.js',
+        libsJs: 'libs.js',
+        fontsUrl: 'assets/fonts',
+        mainSass: 'assets/sass/jgm.sass',
+        cssUrl: 'assets/css',
+        cssFileName: 'jgm.css',
+        cssMapFileName: 'jgm.css.map',
+        compatibility: ['last 2 versions', 'ie >= 10'],
+        fontAwesomeUrl: 'node_modules/font-awesome/fonts/**/*.*',
+        uglifyError: {
+            message: "<%= error.message %>",
+            title: "Uglify JS Error"
+        },
+        sassError: {
+            message: "<%= error.message %>",
+            title: "Sass Error"
+        },
         sass: [
             'node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
             'assets/sass/jgm.sass'

@@ -9,10 +9,10 @@ function jgm_enqueue_scripts() {
 
 
     // register project libs
-    wp_register_script('jgm-libs', get_bloginfo('template_directory') . '/app/libs.js', array(), null, false);
+    wp_register_script('jgm-libs', get_bloginfo('template_directory') . '/app/built/libs.js', array(), null, false);
 
     // register our app.js, which has a dependency on project libs
-    wp_register_script('jgm-app', get_bloginfo('template_directory') . '/app/app.js', array(), null, false);
+    wp_register_script('jgm-app', get_bloginfo('template_directory') . '/app/built/app.js', array(), null, false);
 
     // enqueue all scripts
     wp_enqueue_script('jgm-libs');
