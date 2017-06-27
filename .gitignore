@@ -8,3 +8,4 @@
 assets/css/
 node_modules/
 app/libs.js
+app/app.js

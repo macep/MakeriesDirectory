@@ -1,7 +1,3 @@
-/**
- * Created by cristi on 26/06/2017.
- */
-
 (function () {
     'use strict';
 
@@ -10,19 +6,82 @@
         'ui.bootstrap',
         'pascalprecht.translate'
     ]);
+})();
 
+;(function () {
+    'use strict';
 
-    // set the configuration
-    jgm.run(['$rootScope', function ($rootScope) {
-        // fetched from wp_localize_script() and stored in the Angular rootScope
-        $rootScope.dir = blogInfo.url;
-        $rootScope.site = blogInfo.site;
-        $rootScope.api = appAPI.url;
-    }]);
+    var themeUrl = 'wp-content/themes/justgotmade/';
 
+    var jgm = angular.module('jgm');
+
+    jgm
+        .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$translateProvider',
+            function ($stateProvider, $urlRouterProvider, $httpProvider, $translateProvider) {
+
+                $httpProvider.defaults.withCredentials = false;
+                $urlRouterProvider.otherwise("/");
+
+                $translateProvider.useStaticFilesLoader({
+                    prefix: themeUrl + '/assets/translations/locale-',
+                    suffix: '.json'
+                });
+
+                $translateProvider.preferredLanguage('en_US');
+            }])
+
+        .run(['$rootScope', '$state', '$stateParams', 'authService', 'ApiService', '$translate',
+            function ($rootScope, $state, $stateParams, authService, apiService, $translate) {
+                // fetched from wp_localize_script() and stored in the Angular rootScope
+                $rootScope.dir = blogInfo.url;
+                $rootScope.site = blogInfo.site;
+                $rootScope.api = appAPI.url;
+            }]);
+})();
+
+;/**
+ * Created by cristi on 27/06/2017.
+ */
+
+(function () {
+    'use strict';
+
+    var jgm = angular.module('jgm');
+
+    jgm.factory("ApiService", ["",
+        function () {
+
+            var ApiService = function () {};
+
+            return new ApiService();
+        }]);
+})();
+
+;/**
+ * Created by cristi on 27/06/2017.
+ */
+
+(function () {
+    'use strict';
+
+    var jgm = angular.module('jgm');
+
+    jgm.factory("authService", ["",
+        function () {
+
+            var AuthService = function () {};
+
+            return new AuthService();
+        }]);
+})();
+
+;(function () {
+    'use strict';
+
+    var jgm = angular.module('jgm');
 
     // add a controller
-    jgm.controller('testcontroller', ['$scope', '$http', function ($scope, $http) {
+    jgm.controller('HomeController', ['$scope', '$http', function ($scope, $http) {
         // load posts from the WordPress API, demo
         $http({
             method: 'GET',
@@ -30,24 +89,8 @@
         }).then(
             function (data, status, headers, config) {
                 $scope.postdata = data.data;
-                console.log(data);
+                console.log(data.data);
             }, function (data, status, headers, config) {}
         );
     }]);
-
-
-    jgm.controller('AlertDemoCtrl', function ($scope) {
-        $scope.alerts = [
-            { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-            { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
-        ];
-
-        $scope.addAlert = function() {
-            $scope.alerts.push({msg: 'Another alert!'});
-        };
-
-        $scope.closeAlert = function(index) {
-            $scope.alerts.splice(index, 1);
-        };
-    });
 })();

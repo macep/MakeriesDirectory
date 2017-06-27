@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cristi
- * Date: 26/06/2017
- * Time: 2:01 PM
- */
 
 function jgm_enqueue_scripts() {
     // WP REST API path
