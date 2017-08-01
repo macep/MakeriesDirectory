@@ -1,53 +1,35 @@
-"use strict"
+require('./check-versions')()
 
-const path = require('path')
-const _exec = require('child_process').exec
-const sw = require('./build.serviceWorker');
-const fs = require('fs-extra');
-const staticAssets = require('./static-assets.json');
+process.env.NODE_ENV = 'production'
 
-const promisify = (ctx, func = ctx) => (...args) => {
-  return new Promise((resolve, reject) => {
-    func.apply(ctx, [...args, (err, result) => err ? reject(err) : resolve(result)])
+var ora = require('ora')
+var rm = require('rimraf')
+var path = require('path')
+var chalk = require('chalk')
+var webpack = require('webpack')
+var config = require('../config')
+var webpackConfig = require('./webpack.prod.conf')
+
+var spinner = ora('building for production...')
+spinner.start()
+
+rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
+  if (err) throw err
+  webpack(webpackConfig, function (err, stats) {
+    spinner.stop()
+    if (err) throw err
+    process.stdout.write(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
+    }) + '\n\n')
+
+    console.log(chalk.cyan('  Build complete.\n'))
+    console.log(chalk.yellow(
+      '  Tip: built files are meant to be served over an HTTP server.\n' +
+      '  Opening index.html over file:// won\'t work.\n'
+    ))
   })
-}
-const exec = promisify(_exec)
-const tasks = new Map()
-const run = (task) => {
-  const start = new Date()
-  return Promise.all([].concat(tasks.get(task)())).then(() => {
-    console.log(`[build] '${task}' done in ${new Date().getTime() - start.getTime()}ms`)
-  }, (err) => console.error(err.stack))
-}
-
-const clear = () => exec('rimraf ./dist')
-const webpackClient = () => exec('cross-env NODE_ENV=production webpack --config ./build/webpack.client.config.js --progress --hide-modules')
-const webpackServer = () => exec('cross-env NODE_ENV=production webpack --config ./build/webpack.server.config.js --progress --hide-modules')
-const copyStaticAssets = () => { 
-  return new Promise((resolve, reject) => {
-    for(var prop in staticAssets){
-      fs.copySync(path.resolve(__dirname, prop), path.resolve(__dirname, staticAssets[prop]));
-    }
-    resolve()
-  })
-}
-const purifyCSS = () => exec('purifycss ./dist/assets/styles.css ./dist/assets/js/app.js --min --info --out ./dist/assets/styles.css')
-
-tasks.set('clear', clear);
-tasks.set('webpackClient', webpackClient);
-tasks.set('webpackServer', webpackServer);
-tasks.set('copyStaticAssets', copyStaticAssets);
-tasks.set('serviceWorker', sw.exec);
-tasks.set('purifyCSS', purifyCSS);
-
-tasks.set('build', () =>
-  // run('serviceWorker')
-  run('clear')
-  .then(() => Promise.all([run('webpackClient')]))
-  .then(() => Promise.all([run('webpackServer')]))
-  .then(() => Promise.all([run('copyStaticAssets')]))
-  .then(() => Promise.all([run('serviceWorker')]))
-  .then(() => Promise.all([run('purifyCSS')]))
-)
-
-run('build')
+})

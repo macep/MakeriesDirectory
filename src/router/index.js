@@ -1,24 +1,19 @@
 import Vue from 'vue'
-import ThemePageCategory from '../theme/Category.vue'
-import ThemePageSingle from '../theme/Single.vue'
-import ThemePagePage from '../theme/Page.vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
+import Main from '@/components/Main'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
-const router = new VueRouter({
+export default new Router({
   mode: 'history',
   linkActiveClass: 'is-active',
   base: __dirname,
   scrollBehavior: () => ({ y: 0 }),
   routes: [
-    { path: '/page/:id', component: ThemePagePage },
-    { path: '/category/:id/page/:page', component: ThemePageCategory },
-    { path: '/category/:categorySlug/:id', component: ThemePageSingle },
-    { path: '/category/:id', component: ThemePageCategory, params: { page: 1 } },
-    { path: '/:id', component: ThemePageSingle },
-    { path: '/', name: 'Home', redirect: '/category/blog/' }
+    {
+      path: '/',
+      name: 'Main',
+      component: Main
+    }
   ]
 })
-
-export default router
