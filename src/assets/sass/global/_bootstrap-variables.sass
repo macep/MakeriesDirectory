@@ -47,7 +47,7 @@ $font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif !defaul
 $font-family-serif:       Georgia, "Times New Roman", Times, serif !default
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default
-$font-family-base:        $font-family-sans-serif !default
+$font-family-base:        $font-family-serif !default
 
 $font-size-base:          14px !default
 $font-size-large:         ceil(($font-size-base * 1.25)) !default // ~18px
@@ -352,7 +352,7 @@ $container-desktop:            (940px + $grid-gutter-width) !default
 $container-md:                 $container-desktop !default
 
 // Large screen / wide desktop
-$container-large-desktop:      100% !default
+$container-large-desktop:      1150px + $grid-gutter-width !default
 //** For `$screen-lg-min` and up.
 $container-lg:                 $container-large-desktop !default
 

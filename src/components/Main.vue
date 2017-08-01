@@ -1,37 +1,41 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div id="wrapper" class="row">
+    <div class="col-xs-12">
+      <jgm-header/>
+      <jgm-menu/>
+      <jgm-notification/>
+      <ga-analytics/>
+      <jgm-footer/>
+      <div id="showActivityIndicator" v-show="showActivityIndicator"
+           :class="showActivityIndicator ? 'loading' : 'loaded'">
+        <i class="icon-circle-o-notch"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'hello',
-  data () {
-    return {
-      msg: 'Just Got Made successfully initialized'
-    }
+  import jgmHeader from './layout/jgm-header.vue'
+  import jgmMenu from './layout/jgm-menu.vue'
+  import jgmFooter from './layout/jgm-footer.vue'
+  import jgmNotification from './layout/jgm-notification.vue'
+  import gaAnalytics from './layout/ga-analytics.vue'
+
+  export default {
+    name: 'main',
+    data () {
+      return {
+        msg: 'Just Got Made successfully initialized',
+        showActivityIndicator: false
+      }
+    },
+    components: {
+      'jgm-header': jgmHeader,
+      'jgm-menu': jgmMenu,
+      'jgm-footer': jgmFooter,
+      'jgm-notification': jgmNotification,
+      'ga-analytics': gaAnalytics
+    },
+    computed: {}
   }
-}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>
