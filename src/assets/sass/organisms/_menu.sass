@@ -6,10 +6,6 @@ nav
 
   .nav-item
     @extend %link-hoverings
-    @extend .md-padding-top
-    @extend .xlg-padding-right
-    @extend .md-padding-bottom
-    @extend .xlg-padding-left
     @extend .din-web-cond
     display: inline-block
     text-transform: uppercase
@@ -17,6 +13,13 @@ nav
     line-height: 1em
     letter-spacing: 1px
     text-align: center
+
+    a
+      @extend .md-padding-top
+      @extend .xlg-padding-right
+      @extend .md-padding-bottom
+      @extend .xlg-padding-left
+      display: block
 
     &:hover
       background: $dark-turqoise

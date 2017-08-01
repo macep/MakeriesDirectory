@@ -19,3 +19,35 @@
   -webkit-animation: spin 1s linear infinite
   animation: spin 1s linear infinite
 
+
+// routes transitions
+@keyframes slide-in
+  from
+    transform: translateX(-$xxlg-space)
+    opacity: 0
+
+  to
+    transform: translateX(0)
+    opacity: 1
+
+
+
+@keyframes slide-out
+  from
+    transform: translateY(0)
+    opacity: 1
+
+  to
+    transform: translateY($xxlg-space)
+    opacity: 0
+
+
+.slide-enter-active
+  animation-name: slide-in
+  animation-duration: .125s
+  animation-duration: forwards
+
+.slide-leave-active
+  animation-name: slide-out
+  animation-duration: .125s
+  animation-duration: forwards
