@@ -6,7 +6,7 @@ import { sync } from 'vuex-router-sync'
 import App from './App'
 import router from './router'
 import './assets/sass/jgm.sass'
-import store from './store'
+import store from './store/index'
 
 Vue.use(VueTouch)
 
