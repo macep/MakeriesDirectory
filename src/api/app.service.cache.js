@@ -13,8 +13,8 @@ const cacheService = {
   isBrowser: false,
   networkFirstStrategy: (configOptions, cacheTime) => {
     return new Promise((resolve, reject) => {
-      return request(configOptions)
-      .then(response => {
+      request(configOptions)
+      .then((response) => {
         // Response returned, cache it and return it
         if (response.status === 200) {
           if (cacheService.isBrowser) {
@@ -42,6 +42,7 @@ const cacheService = {
   offlineFirstStrategy: (configOptions, cacheTime) => {
     return new Promise((resolve, reject) => {
       cacheService.storeCacheTime.getItem(configOptions.path).then(function (timeLastCached) {
+        console.log(configOptions)
         // Cache has expired
         if (timeLastCached < cacheService.currentTime) {
           cacheService.networkFirstStrategy(configOptions.path, cacheTime)
