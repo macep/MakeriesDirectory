@@ -18,8 +18,8 @@ const cacheService = {
         // Response returned, cache it and return it
         if (response.status === 200) {
           if (cacheService.isBrowser) {
-            cacheService.storeCacheTime.setItem(configOptions.path, cacheService.currentTime + cacheTime)
-            cacheService.store.setItem(configOptions.path, { data: response.data, headers: response.headers })
+            cacheService.storeCacheTime.setItem(configOptions.path || configOptions, cacheService.currentTime + cacheTime)
+            cacheService.store.setItem(configOptions.path || configOptions, { data: response.data, headers: response.headers })
             .then((response) => resolve(response))
             .catch((err) => reject(err))
           } else {
