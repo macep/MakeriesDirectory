@@ -7,5 +7,20 @@
 </template>
 
 <script>
+  import apiService from '../../api/app.service'
 
+  export default {
+    name: 'jgm-directory',
+    data () {
+      return {}
+    },
+    mounted () {
+      // big bang
+      console.log('loading directory data...')
+      apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
+        console.log('directory data is here: ', data)
+      })
+    },
+    computed: {}
+  }
 </script>

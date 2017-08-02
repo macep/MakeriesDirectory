@@ -73,10 +73,8 @@ let apiService = {
         'Authorization': 'Basic ' + Config.dotNetToken
       },
       timeout: 3e4
-    }).then((response) => {
-      console.log('!! response ', response)
     }).catch((error) => {
-      console.log('!! error ', error)
+      console.log(error)
     })
   }
 }

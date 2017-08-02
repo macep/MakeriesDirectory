@@ -45,11 +45,6 @@
       apiService.getMenu(9).then((response) => {
         console.log(response)
       })
-
-      // big bang
-      apiService.callDotNetApi('api/makers/GetByGroupId/3').then(() => {
-        console.log(' ====== calling the people')
-      })
     },
     computed: {
       ...mapGetters(['translations'])

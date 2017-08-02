@@ -15,11 +15,16 @@ nav
     text-align: center
 
     a
+      @extend %link-hoverings
       @extend .md-padding-top
       @extend .xlg-padding-right
       @extend .md-padding-bottom
       @extend .xlg-padding-left
       display: block
+      border: 1px dashed transparent
+
+      &.router-link-exact-active
+        border: 1px solid rgba($dark-turqoise, 1/16)
 
     &:hover
       background: $dark-turqoise

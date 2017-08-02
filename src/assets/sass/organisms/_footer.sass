@@ -6,6 +6,9 @@ footer
   .light-pink &
     border-top: 2px solid $pink
 
+.footer-social
+  font-size: 18px
+
 .footer-menu
   @extend .inline-list
   @extend .no-margin
@@ -16,6 +19,10 @@ footer
   @extend .din-web-cond
   font-size: 12px
   letter-spacing: 1px
+
+  a
+    &.router-link-exact-active
+      text-decoration: underline
 
   &:hover
     a

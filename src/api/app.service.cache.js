@@ -11,15 +11,15 @@ const cacheService = {
   storeCacheTime: '',
   currentTime: '',
   isBrowser: false,
-  networkFirstStrategy: (path, cacheTime) => {
+  networkFirstStrategy: (configOptions, cacheTime) => {
     return new Promise((resolve, reject) => {
-      request.get(path)
+      return request(configOptions)
       .then(response => {
         // Response returned, cache it and return it
         if (response.status === 200) {
           if (cacheService.isBrowser) {
-            cacheService.storeCacheTime.setItem(path, cacheService.currentTime + cacheTime)
-            cacheService.store.setItem(path, { data: response.data, headers: response.headers })
+            cacheService.storeCacheTime.setItem(configOptions.path, cacheService.currentTime + cacheTime)
+            cacheService.store.setItem(configOptions.path, { data: response.data, headers: response.headers })
             .then((response) => resolve(response))
             .catch((err) => reject(err))
           } else {
@@ -27,11 +27,11 @@ const cacheService = {
           }
         } else {
           if (cacheService.isBrowser) {
-            cacheService.store.getItem(path)
+            cacheService.store.getItem(configOptions.path)
             .then((response) => resolve(response))
             .catch((err) => reject(err))
           } else {
-            reject('Cannot get ' + path)
+            reject('Cannot get ' + configOptions.path)
           }
         }
       }).catch(error => {
@@ -39,24 +39,24 @@ const cacheService = {
       })
     })
   },
-  offlineFirstStrategy: (path, cacheTime) => {
+  offlineFirstStrategy: (configOptions, cacheTime) => {
     return new Promise((resolve, reject) => {
-      cacheService.storeCacheTime.getItem(path).then(function (timeLastCached) {
+      cacheService.storeCacheTime.getItem(configOptions.path).then(function (timeLastCached) {
         // Cache has expired
         if (timeLastCached < cacheService.currentTime) {
-          cacheService.networkFirstStrategy(path, cacheTime)
+          cacheService.networkFirstStrategy(configOptions.path, cacheTime)
           .then((response) => { resolve(response) })
           .catch((err) => reject(err))
         } else {
           // Get item from cache
-          cacheService.store.getItem(path)
+          cacheService.store.getItem(configOptions.path)
           .then((response) => {
             if (response) {
               // Is in cache perfect!
               resolve(response)
             } else {
               // Doesn't exist in cache try network
-              cacheService.networkFirstStrategy(path, cacheTime)
+              cacheService.networkFirstStrategy(configOptions.path, cacheTime)
               .then((response) => resolve(response))
               .catch((err) => reject(err))
             }
@@ -64,7 +64,7 @@ const cacheService = {
           .catch((error) => {
             console.log(error)
             // Doesn't exist in cache try network
-            cacheService.networkFirstStrategy(path, cacheTime)
+            cacheService.networkFirstStrategy(configOptions.path, cacheTime)
             .then((response) => resolve(response))
             .catch((err) => reject(err))
           })
@@ -72,13 +72,13 @@ const cacheService = {
       }).catch((error) => {
         console.log(error)
         // Doesn't exist in cache timeouts try network
-        cacheService.networkFirstStrategy(path, cacheTime)
+        cacheService.networkFirstStrategy(configOptions.path, cacheTime)
         .then((response) => resolve(response))
         .catch((err) => reject(err))
       })
     })
   },
-  get: function (path, cacheTime) {
+  get: function (configOptions, cacheTime) {
     return new Promise((resolve, reject) => {
       cacheService.currentTime = Math.floor(Date.now() / 1000)
       cacheService.isBrowser = (typeof window !== 'undefined')
@@ -91,11 +91,11 @@ const cacheService = {
         })
       }
       if (!cacheTime || cacheTime === 0) {
-        cacheService.networkFirstStrategy(path, 0)
+        cacheService.networkFirstStrategy(configOptions, 0)
         .then(response => { if (!response) { resolve('') } else { resolve(response) } })
         .catch((err) => { reject(err) })
       } else {
-        cacheService.offlineFirstStrategy(path, cacheTime)
+        cacheService.offlineFirstStrategy(configOptions, cacheTime)
         .then(response => { if (!response) { resolve('') } else { resolve(response) } })
         .catch((err) => reject(err))
       }
