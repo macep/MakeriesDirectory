@@ -1,6 +1,5 @@
 import Config from './app.config.js'
 import appCache from './app.service.cache.js'
-import request from 'axios'
 
 let apiService = {
   cacheRequest (path, cacheTime) {
@@ -16,7 +15,7 @@ let apiService = {
   },
   getMenu (id) {
     return new Promise((resolve, reject) => {
-      this.cacheRequest(`${Config.wpDomain}wp-json/wp-api-menus/v2/menus/${id}`, 0)
+      this.cacheRequest(`${Config.wpDomain}wp-json/wp-api-menus/v2/menus/${id}`, Config.genericCachingTime)
         .then(response => {
           resolve(response.data)
         })
@@ -42,7 +41,7 @@ let apiService = {
       if (postsQuery.length > 1) {
         path += postsQuery.substr(0, postsQuery.length - 1)
       }
-      this.cacheRequest(path, 0)
+      this.cacheRequest(path, Config.genericCachingTime)
         .then(response => {
           let totalPages = (response.headers.hasOwnProperty('X-WP-TotalPages')) ? response.headers['X-WP-TotalPages'][0] : 0
           if (totalPages === 0) {
@@ -57,7 +56,7 @@ let apiService = {
   getPost (postId) {
     return new Promise((resolve, reject) => {
       let path = `${Config.wpDomain}wp-json/wp/v2/posts/${postId}?fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
-      this.cacheRequest(path, 0)
+      this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response.data))
         .catch(error => reject(error))
     })
@@ -65,7 +64,7 @@ let apiService = {
   getPages () {
     return new Promise((resolve, reject) => {
       let path = `${Config.wpDomain}wp-json/wp/v2/pages/?per_page=100`
-      this.cacheRequest(path, 0)
+      this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
     })
@@ -73,16 +72,15 @@ let apiService = {
   getPage (pageId) {
     return new Promise((resolve, reject) => {
       let path = `${Config.wpDomain}wp-json/wp/v2/pages/${pageId}`
-      console.log(path)
-      this.cacheRequest(path, 0)
+      this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
     })
   },
-  callDotNetApi (uri) {
-    return request({
+  callDotNetApi (url) {
+    let requestParams = {
       baseURL: Config.dotNetDomain,
-      url: uri,
+      url: url,
       method: 'get',
       headers: {
         'useXDomain': true,
@@ -92,8 +90,11 @@ let apiService = {
         'Authorization': 'Basic ' + Config.dotNetToken
       },
       timeout: 3e4
-    }).catch((error) => {
-      console.log(error)
+    }
+    return new Promise((resolve, reject) => {
+      this.cacheRequest(requestParams, Config.genericCachingTime)
+        .then((response) => resolve(response))
+        .catch((error) => reject(error))
     })
   }
 }

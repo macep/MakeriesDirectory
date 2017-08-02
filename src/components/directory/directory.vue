@@ -13,7 +13,7 @@
     name: 'jgm-directory',
     mounted () {
       // big bang
-      console.log('Calling .NET API...')
+//      console.log('Calling .NET API...')
 //      apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
 //        console.log('Directory data: ', data)
 //      })

@@ -1,5 +1,3 @@
-'use strict'
-
 import Config from './app.config.js'
 import request from 'axios'
 import localforage from 'localforage'
@@ -11,15 +9,15 @@ const cacheService = {
   storeCacheTime: '',
   currentTime: '',
   isBrowser: false,
-  networkFirstStrategy: (configOptions, cacheTime) => {
+  networkFirstStrategy: (requestOptions, cacheTime) => {
     return new Promise((resolve, reject) => {
-      request(configOptions)
+      request(requestOptions)
       .then((response) => {
         // Response returned, cache it and return it
         if (response.status === 200) {
           if (cacheService.isBrowser) {
-            cacheService.storeCacheTime.setItem(configOptions.path || configOptions, cacheService.currentTime + cacheTime)
-            cacheService.store.setItem(configOptions.path || configOptions, { data: response.data, headers: response.headers })
+            cacheService.storeCacheTime.setItem(requestOptions.url || requestOptions, cacheService.currentTime + cacheTime)
+            cacheService.store.setItem(requestOptions.url || requestOptions, { data: response.data, headers: response.headers })
             .then((response) => resolve(response))
             .catch((err) => reject(err))
           } else {
@@ -27,11 +25,11 @@ const cacheService = {
           }
         } else {
           if (cacheService.isBrowser) {
-            cacheService.store.getItem(configOptions.path)
+            cacheService.store.getItem(requestOptions.url)
             .then((response) => resolve(response))
             .catch((err) => reject(err))
           } else {
-            reject('Cannot get ' + configOptions.path)
+            reject('Cannot get ' + requestOptions.url)
           }
         }
       }).catch(error => {
@@ -39,25 +37,24 @@ const cacheService = {
       })
     })
   },
-  offlineFirstStrategy: (configOptions, cacheTime) => {
+  offlineFirstStrategy: (requestOptions, cacheTime) => {
     return new Promise((resolve, reject) => {
-      cacheService.storeCacheTime.getItem(configOptions.path).then(function (timeLastCached) {
-        console.log(configOptions)
+      cacheService.storeCacheTime.getItem(requestOptions.url || requestOptions).then(function (timeLastCached) {
         // Cache has expired
         if (timeLastCached < cacheService.currentTime) {
-          cacheService.networkFirstStrategy(configOptions.path, cacheTime)
+          cacheService.networkFirstStrategy(requestOptions, cacheTime)
           .then((response) => { resolve(response) })
           .catch((err) => reject(err))
         } else {
           // Get item from cache
-          cacheService.store.getItem(configOptions.path)
+          cacheService.store.getItem(requestOptions.url || requestOptions)
           .then((response) => {
             if (response) {
               // Is in cache perfect!
               resolve(response)
             } else {
               // Doesn't exist in cache try network
-              cacheService.networkFirstStrategy(configOptions.path, cacheTime)
+              cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
               .then((response) => resolve(response))
               .catch((err) => reject(err))
             }
@@ -65,7 +62,7 @@ const cacheService = {
           .catch((error) => {
             console.log(error)
             // Doesn't exist in cache try network
-            cacheService.networkFirstStrategy(configOptions.path, cacheTime)
+            cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
             .then((response) => resolve(response))
             .catch((err) => reject(err))
           })
@@ -73,13 +70,13 @@ const cacheService = {
       }).catch((error) => {
         console.log(error)
         // Doesn't exist in cache timeouts try network
-        cacheService.networkFirstStrategy(configOptions.path, cacheTime)
+        cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
         .then((response) => resolve(response))
         .catch((err) => reject(err))
       })
     })
   },
-  get: function (configOptions, cacheTime) {
+  get: function (requestOptions, cacheTime) {
     return new Promise((resolve, reject) => {
       cacheService.currentTime = Math.floor(Date.now() / 1000)
       cacheService.isBrowser = (typeof window !== 'undefined')
@@ -88,17 +85,21 @@ const cacheService = {
           name: Config.loadDbName
         })
         cacheService.storeCacheTime = localforage.createInstance({
-          name: Config.loadDbName + '_cacheTime'
+          name: Config.loadDbName + '_CacheTime'
         })
       }
       if (!cacheTime || cacheTime === 0) {
-        cacheService.networkFirstStrategy(configOptions, 0)
-        .then(response => { if (!response) { resolve('') } else { resolve(response) } })
-        .catch((err) => { reject(err) })
+        cacheService.networkFirstStrategy(requestOptions, 0)
+          .then(response => {
+            resolve(!response ? '' : response)
+          })
+          .catch((err) => { reject(err) })
       } else {
-        cacheService.offlineFirstStrategy(configOptions, cacheTime)
-        .then(response => { if (!response) { resolve('') } else { resolve(response) } })
-        .catch((err) => reject(err))
+        cacheService.offlineFirstStrategy(requestOptions, cacheTime)
+          .then(response => {
+            resolve(!response ? '' : response)
+          })
+          .catch((err) => reject(err))
       }
     })
   }
