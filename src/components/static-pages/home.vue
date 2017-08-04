@@ -10,9 +10,7 @@
   export default {
     name: 'home',
     data () {
-      return {
-        showActivityIndicator: false
-      }
+      return {}
     }
   }
 </script>

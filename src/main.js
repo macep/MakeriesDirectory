@@ -15,9 +15,8 @@ Vue.config.productionTip = false
 sync(store, router)
 
 /* eslint-disable no-new */
-new Vue({
+new Vue(Vue.util.extend({
   el: '#app',
   router,
-  template: '<App/>',
-  components: {App}
-})
+  store
+}, App))

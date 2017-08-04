@@ -7,8 +7,8 @@
         <router-view/>
       </transition>
       <jgm-notification/>
-      <ga-analytics/>
       <jgm-footer/>
+      <ga-analytics/>
       <div id="showActivityIndicator" v-show="showActivityIndicator"
            :class="showActivityIndicator ? 'loading' : 'loaded'">
         <i class="icon-circle-o-notch"/>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import {mapGetters, mapActions} from 'vuex'
   import jgmHeader from './components/layout/jgm-header.vue'
   import jgmMenu from './components/layout/jgm-menu.vue'
   import jgmFooter from './components/layout/jgm-footer.vue'
@@ -26,12 +27,6 @@
 
   export default {
     name: 'app',
-    data () {
-      return {
-        msg: 'Just Got Made successfully initialized',
-        showActivityIndicator: false
-      }
-    },
     components: {
       'jgm-header': jgmHeader,
       'jgm-menu': jgmMenu,
@@ -39,6 +34,32 @@
       'jgm-notification': jgmNotification,
       'ga-analytics': gaAnalytics
     },
-    computed: {}
+    data () {
+      return {}
+    },
+    mounted () {
+      this.setIsMobile()
+
+      this.loadProject().then((data) => {
+        if (data) {
+          console.log('loaded project: ', data)
+        }
+      }).catch((error) => {
+        console.warn(error.response.data.Message || error)
+      })
+
+      window.addEventListener('resize', () => {
+        clearTimeout(this.debounceWindowResizeId)
+        this.debounceWindowResizeId = setTimeout(() => {
+          this.setIsMobile()
+        }, 500)
+      })
+    },
+    computed: {
+      ...mapGetters(['translations', 'isMobile', 'showActivityIndicator'])
+    },
+    methods: {
+      ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize'])
+    }
   }
 </script>

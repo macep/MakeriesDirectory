@@ -1,4 +1,4 @@
-export default {
+let getters = {
   translations: state => state.translations,
   isMobile: state => state.isMobile,
   windowSize: state => state.windowSize,
@@ -7,3 +7,5 @@ export default {
   posts: state => state.posts,
   makeries: state => state.makeries
 }
+
+export default getters

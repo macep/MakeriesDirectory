@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 let mutations = {
   mutateTranslations: (state, translations) => {
     state.translations = translations
@@ -12,7 +10,7 @@ let mutations = {
       state.windowSize = windowSize
     }
   },
-  mutateActivityIndicatorVisibility: (state, showActivityIndicator) => {
+  mutateActivityIndicator: (state, showActivityIndicator) => {
     state.showActivityIndicator = showActivityIndicator
   },
   mutatePages: (state, pages) => {
