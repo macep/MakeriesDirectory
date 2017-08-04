@@ -1,16 +1,8 @@
-var mutations = {
-  mutateActivityIndicatorVisibility: (state, showActivityIndicator) => {
-    state.showActivityIndicator = showActivityIndicator
-  },
-  mutateViewPort: (state, viewPort) => {
-    if (viewPort.width && viewPort.height && viewPort.originalWidth && viewPort.originalHeight) {
-      state.viewPort = viewPort
-    } else {
-      console.warn('viewPort properties missing! Needed for auto scale. ', JSON.stringify(viewPort))
-    }
-  },
-  mutatePointerIsTouch: (state, isTouch) => {
-    state.pointerIsTouch = !!isTouch
+import Vue from 'vue'
+
+let mutations = {
+  mutateTranslations: (state, translations) => {
+    state.translations = translations
   },
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile
@@ -20,8 +12,18 @@ var mutations = {
       state.windowSize = windowSize
     }
   },
-  mutateTranslations: (state, translations) => {
-    state.translations = translations
+  mutateActivityIndicatorVisibility: (state, showActivityIndicator) => {
+    state.showActivityIndicator = showActivityIndicator
+  },
+  mutatePages: (state, pages) => {
+    state.pages = pages
+  },
+  mutatePosts: (state, posts) => {
+    state.posts = posts
+  },
+  mutateMakeries: (state, makeries) => {
+    state.makeries = makeries
   }
 }
+
 export default mutations
