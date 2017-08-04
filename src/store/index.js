@@ -4,22 +4,20 @@ import Vuex from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import posts from './modules/posts/index'
-import pages from './modules/pages/index'
-import makeries from './modules/makeries/index'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    translations: {}
+    translations: {},
+    isMobile: false,
+    windowSize: {},
+    showActivityIndicator: false,
+    pages: [],
+    posts: [],
+    makeries: []
   },
   getters,
   mutations,
-  actions,
-  modules: {
-    pages,
-    posts,
-    makeries
-  }
+  actions
 })

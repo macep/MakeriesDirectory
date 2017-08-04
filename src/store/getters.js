@@ -1,3 +1,9 @@
 export default {
-  translations: state => state.translations
+  translations: state => state.translations,
+  isMobile: state => state.isMobile,
+  windowSize: state => state.windowSize,
+  showActivityIndicator: state => state.showActivityIndicator,
+  pages: state => state.pages,
+  posts: state => state.posts,
+  makeries: state => state.makeries
 }
