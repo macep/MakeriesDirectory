@@ -7,9 +7,21 @@ import Directory from '@/components/directory/directory'
 Vue.use(Router)
 
 const routes = [
-  {path: '/', name: 'Home', component: Home},
-  {path: '/about', name: 'About', component: About},
-  {path: '/directory', name: 'Directory', component: Directory}
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About
+  },
+  {
+    path: '/directory',
+    name: 'Directory',
+    component: Directory
+  }
 ]
 
 export default new Router({

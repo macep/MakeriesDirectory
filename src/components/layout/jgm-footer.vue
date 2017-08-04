@@ -43,10 +43,6 @@
 <script>
   export default {
     name: 'jgm-footer',
-    data () {
-      return {}
-    },
-
     computed: {
       year () {
         return new Date().getFullYear()

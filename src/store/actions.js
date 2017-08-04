@@ -2,9 +2,11 @@ import apiService from '../api/app.service'
 import translations from '../modules/translations'
 
 let actions = {
-  loadProject: ({commit, state, dispatch}) => {
+  loadProject: ({commit}) => {
+    let time = {}
     return new Promise((resolve, reject) => {
       commit('mutateActivityIndicator', true)
+      time.t0 = performance.now()
       commit('mutateTranslations', translations)
       function getAllPosts () {
         return apiService.getPosts(null, null, 100, 'desc').then((response) => {
@@ -27,6 +29,8 @@ let actions = {
       Promise.all([getAllPosts(), getAllPages(), getDotNetData()])
         .then(() => {
           commit('mutateActivityIndicator', false)
+          time.t1 = performance.now()
+          console.debug('[actions] api data received in ' + ((time.t1 - time.t0) / 1e3).toFixed(3) + 's')
         })
     })
   },

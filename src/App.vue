@@ -34,24 +34,21 @@
       'jgm-notification': jgmNotification,
       'ga-analytics': gaAnalytics
     },
-    data () {
-      return {}
-    },
     mounted () {
       this.setIsMobile()
-
-      this.loadProject().then((data) => {
-        if (data) {
-          console.log('loaded project: ', data)
-        }
-      }).catch((error) => {
-        console.warn(error.response.data.Message || error)
+      this.loadProject()
+      this.setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
       })
-
       window.addEventListener('resize', () => {
         clearTimeout(this.debounceWindowResizeId)
         this.debounceWindowResizeId = setTimeout(() => {
           this.setIsMobile()
+          this.setWindowSize({
+            width: window.innerWidth,
+            height: window.innerHeight
+          })
         }, 500)
       })
     },

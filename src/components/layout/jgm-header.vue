@@ -13,12 +13,8 @@
     name: 'jgm-header',
     data () {
       return {
-        logo: '/static/images/logo.png',
-        pages: []
+        logo: '/static/images/logo.png'
       }
-    },
-    mounted () {
-      console.log('translations', this.translations)
     },
     computed: {
       ...mapGetters(['translations'])
