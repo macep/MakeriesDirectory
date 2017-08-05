@@ -5,6 +5,9 @@ let mutations = {
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile
   },
+  mutatePointerIsTouch: (state, isTouch) => {
+    state.pointerIsTouch = !!isTouch
+  },
   mutateWindowSize: (state, windowSize) => {
     if (windowSize && windowSize.width && windowSize.height) {
       state.windowSize = windowSize

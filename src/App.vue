@@ -18,6 +18,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import {stopZoomingWhenDoubleTapped} from './modules/utils'
   import jgmHeader from './components/layout/jgm-header.vue'
   import jgmMenu from './components/layout/jgm-menu.vue'
   import jgmFooter from './components/layout/jgm-footer.vue'
@@ -36,6 +37,10 @@
     mounted () {
       this.setIsMobile()
       this.loadProject()
+      this.setPointerIsTouch('ontouchstart' in window)
+      if (this.pointerIsTouch) {
+        stopZoomingWhenDoubleTapped()
+      }
       this.setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight
@@ -55,7 +60,7 @@
       ...mapGetters(['translations', 'isMobile', 'showActivityIndicator'])
     },
     methods: {
-      ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize'])
+      ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch'])
     }
   }
 </script>

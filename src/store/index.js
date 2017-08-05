@@ -12,6 +12,7 @@ export default new Vuex.Store({
     hostName: window.location,
     translations: {},
     isMobile: false,
+    pointerIsTouch: false,
     windowSize: {},
     showActivityIndicator: false,
     mainMenu: '',

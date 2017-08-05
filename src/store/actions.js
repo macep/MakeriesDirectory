@@ -51,6 +51,9 @@ let actions = {
     let isMobile = window.matchMedia('only screen and (max-width: 767px)').matches
     commit('mutateIsMobile', isMobile)
   },
+  setPointerIsTouch: ({ commit }, payload) => {
+    commit('mutatePointerIsTouch', payload)
+  },
   setWindowSize: ({commit}, payload) => {
     commit('mutateWindowSize', payload)
   },
