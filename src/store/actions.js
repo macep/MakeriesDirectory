@@ -29,6 +29,9 @@ let actions = {
 
       function getAllPages () {
         return apiService.getPages().then((response) => {
+          response.data.forEach(item => {
+            console.log(item.id, item.title.rendered)
+          })
           commit('mutatePages', response.data)
         })
       }

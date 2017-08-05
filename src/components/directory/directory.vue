@@ -1,22 +1,37 @@
 <template>
   <div id="directory" class="row">
     <div class="col-xs-12">
-      <h1 class="din-web-cond">directory</h1>
+      <h1 class="din-web-cond text-uppercase" v-html="directoryData.title.rendered"></h1>
+      <div class="serif" v-html="directoryData.content.rendered"></div>
     </div>
   </div>
 </template>
 
 <script>
-//  import apiService from '../../api/app.service'
+  import {mapGetters} from 'vuex'
+  import apiService from '../../api/app.service'
 
   export default {
-    name: 'jgm-directory',
+    name: 'directory-page',
+    data () {
+      return {
+        directoryData: {
+          title: {
+            rendered: ''
+          },
+          content: {
+            rendered: ''
+          }
+        }
+      }
+    },
     mounted () {
-      // big bang
-//      console.log('Calling .NET API...')
-//      apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
-//        console.log('Directory data: ', data)
-//      })
+      apiService.getPage(5).then((response) => {
+        this.directoryData = response.data
+      })
+    },
+    computed: {
+      ...mapGetters(['pages'])
     }
   }
 </script>
