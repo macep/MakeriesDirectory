@@ -33,8 +33,13 @@ let relativePath = (url) => {
   return url.substr(domain.length + 1, url.length)
 }
 
+let selectPage = (id) => {
+  return id
+}
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
-  relativePath
+  relativePath,
+  selectPage
 }

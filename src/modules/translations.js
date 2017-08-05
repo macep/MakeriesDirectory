@@ -14,4 +14,3 @@ let translations = {
 }
 
 export default translations
-
