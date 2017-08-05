@@ -9,10 +9,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    hostName: window.location,
     translations: {},
     isMobile: false,
     windowSize: {},
     showActivityIndicator: false,
+    mainMenu: '',
+    secondaryMenu: '',
     pages: [],
     posts: [],
     makeries: []

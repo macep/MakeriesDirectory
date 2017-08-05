@@ -4,35 +4,28 @@
       <span/><span/><span/>
     </a>
     <div :class="{ 'nav-menu': true, 'is-active': isMenuActive }">
-      <span @click="closeMenu" class="nav-item">
-        <router-link to="/">Home</router-link>
-      </span>
-      <span @click="closeMenu" class="nav-item">
-        <router-link to="/about/">About</router-link>
-      </span>
-      <span @click="closeMenu" class="nav-item">
-        <router-link to="/directory/">Directory</router-link>
-      </span>
-      <span @click="closeMenu" class="nav-item">
-        <router-link to="/events-and-blog/">Events and Blog</router-link>
-      </span>
-      <span @click="closeMenu" class="nav-item">
-        <router-link to="/maker-factory-sign-up/">Maker-factory sign up</router-link>
-      </span>
-      <span @click="closeMenu" class="nav-item">
-        <router-link to="/work-with-us/">Work with us</router-link>
+      <span @click="closeMenu" v-for="link in mainMenu" :key="link.id" class="nav-item">
+        <router-link :to="makeRoute(link.url)">{{link.title}}</router-link>
       </span>
     </div>
   </nav>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import {relativePath} from '../../modules/utils'
+
   export default {
     name: 'jgm-menu',
     data () {
       return {
         isMenuActive: false
       }
+    },
+    mounted () {
+    },
+    computed: {
+      ...mapGetters(['mainMenu', 'hostName'])
     },
     methods: {
       toggleMenu () {
@@ -41,9 +34,8 @@
       closeMenu () {
         this.isMenuActive = false
       },
-      relativePath (url) {
-        url = url.replace('https://', '')
-        return url.replace(url.split('/')[0], '')
+      makeRoute (url) {
+        return relativePath(url)
       }
     }
   }

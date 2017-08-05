@@ -16,6 +16,12 @@ let mutations = {
   mutatePages: (state, pages) => {
     state.pages = pages
   },
+  mutateMainMenu: (state, mainMenu) => {
+    state.mainMenu = mainMenu
+  },
+  mutateSecondaryMenu: (state, secondaryMenu) => {
+    state.secondaryMenu = secondaryMenu
+  },
   mutatePosts: (state, posts) => {
     state.posts = posts
   },

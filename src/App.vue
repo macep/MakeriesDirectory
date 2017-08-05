@@ -9,8 +9,7 @@
       <jgm-notification/>
       <jgm-footer/>
       <ga-analytics/>
-      <div id="showActivityIndicator" v-show="showActivityIndicator"
-           :class="showActivityIndicator ? 'loading' : 'loaded'">
+      <div id="showActivityIndicator" v-show="showActivityIndicator" :class="showActivityIndicator ? 'loading' : 'loaded'">
         <i class="icon-circle-o-notch"/>
       </div>
     </div>
