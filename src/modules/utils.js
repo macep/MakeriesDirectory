@@ -29,17 +29,12 @@ let stopZoomingWhenDoubleTapped = () => {
 }
 
 let relativePath = (url) => {
-  let domain = window.location.protocol + '//' + window.location.hostname + (window.location.port.length === 4 ? ':8888/' : '')
-  return url.substr(domain.length + 1, url.length)
-}
-
-let selectPage = (id) => {
-  return id
+  let domainLength = (window.location.protocol + window.location.hostname).length + 13
+  return url.slice(domainLength)
 }
 
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
-  relativePath,
-  selectPage
+  relativePath
 }
