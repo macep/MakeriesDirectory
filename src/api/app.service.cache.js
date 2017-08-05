@@ -91,13 +91,13 @@ const cacheService = {
       if (!cacheTime || cacheTime === 0) {
         cacheService.networkFirstStrategy(requestOptions, 0)
           .then(response => {
-            resolve(!response ? '' : response)
+            resolve(response || '')
           })
           .catch((err) => { reject(err) })
       } else {
         cacheService.offlineFirstStrategy(requestOptions, cacheTime)
           .then(response => {
-            resolve(!response ? '' : response)
+            resolve(response || '')
           })
           .catch((err) => reject(err))
       }

@@ -38,7 +38,7 @@
   export default {
     name: 'jgm-footer',
     computed: {
-      ...mapGetters(['secondaryMenu', 'hostName']),
+      ...mapGetters(['secondaryMenu', 'pages', 'hostName']),
       year () {
         return new Date().getFullYear()
       }

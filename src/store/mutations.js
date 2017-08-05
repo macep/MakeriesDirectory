@@ -9,21 +9,19 @@ let mutations = {
     state.pointerIsTouch = !!isTouch
   },
   mutateWindowSize: (state, windowSize) => {
-    if (windowSize && windowSize.width && windowSize.height) {
-      state.windowSize = windowSize
-    }
+    state.windowSize = windowSize
   },
   mutateActivityIndicator: (state, showActivityIndicator) => {
     state.showActivityIndicator = showActivityIndicator
-  },
-  mutatePages: (state, pages) => {
-    state.pages = pages
   },
   mutateMainMenu: (state, mainMenu) => {
     state.mainMenu = mainMenu
   },
   mutateSecondaryMenu: (state, secondaryMenu) => {
     state.secondaryMenu = secondaryMenu
+  },
+  mutatePages: (state, pages) => {
+    state.pages = pages
   },
   mutatePosts: (state, posts) => {
     state.posts = posts

@@ -4,8 +4,8 @@
       <span/><span/><span/>
     </a>
     <div :class="{ 'nav-menu': true, 'is-active': isMenuActive }">
-      <span v-for="link in mainMenu" :key="link.id" class="nav-item">
-        <router-link @click="selectPageFromID" :to="makeRoute(link.url)">{{link.title}}</router-link>
+      <span @click="closeMenu" v-for="link in mainMenu" :key="link.id" class="nav-item">
+        <router-link :to="makeRoute(link.url)">{{link.title}}</router-link>
       </span>
     </div>
   </nav>
@@ -23,15 +23,18 @@
       }
     },
     mounted () {
+      this.pages.forEach(item => {
+        console.log(item.id, item.title.rendered)
+      })
     },
     computed: {
-      ...mapGetters(['mainMenu', 'hostName'])
+      ...mapGetters(['mainMenu', 'pages', 'hostName'])
     },
     methods: {
       toggleMenu () {
         this.isMenuActive = !this.isMenuActive
       },
-      selectPageFromID () {
+      closeMenu () {
         this.isMenuActive = false
       },
       makeRoute (url) {
