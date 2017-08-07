@@ -1,37 +1,34 @@
 <template>
   <div id="directory" class="row page">
     <div class="col-xs-12">
-      <h1 v-html="directoryData.title.rendered"/>
-      <span v-html="directoryData.content.rendered"/>
+      <span v-html="directoryPageData.content.rendered"/>
+    </div>
+    <div class="col-xs-4" v-for="maker in makeries" :key="maker.id">
+      <img :src="maker.images[0].url"/>
+      <span v-html="maker.name"/>
+      <span v-html="maker.briefDescription"/>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import apiService from '../../api/app.service'
+  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     name: 'directory-page',
-    data () {
-      return {
-        directoryData: {
-          title: {
-            rendered: ''
-          },
-          content: {
-            rendered: ''
-          }
-        }
-      }
-    },
     mounted () {
-      apiService.getPage(5).then((response) => {
-        this.directoryData = response.data
-      })
+      this.loadDirectory()
     },
     computed: {
-      ...mapGetters(['pages'])
+      ...mapGetters(['pages', 'makeries']),
+      directoryPageData () {
+        return this.pages.find(item => {
+          return item.id === 5
+        })
+      }
+    },
+    methods: {
+      ...mapActions(['loadDirectory'])
     }
   }
 </script>

@@ -102,6 +102,26 @@ let actions = {
         })
     })
   },
+  loadDirectory: ({commit}) => {
+    let time = {}
+    return new Promise((resolve, reject) => {
+      commit('mutateActivityIndicator', true)
+      time.t0 = performance.now()
+
+      function getDotNetData () {
+        apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
+          commit('mutateMakeries', data.data)
+        })
+      }
+
+      Promise.all([getDotNetData()])
+        .then(() => {
+          commit('mutateActivityIndicator', false)
+          time.t1 = performance.now()
+          console.debug('[actions] directory data received in ' + ((time.t1 - time.t0) / 1e3).toFixed(3) + 's')
+        })
+    })
+  },
   setIsMobile: ({commit}, payload) => {
     let isMobile = window.matchMedia('only screen and (max-width: 767px)').matches
     commit('mutateIsMobile', isMobile)
