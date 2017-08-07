@@ -7,6 +7,7 @@ let getters = {
   showActivityIndicator: state => state.showActivityIndicator,
   mainMenu: state => state.mainMenu,
   secondaryMenu: state => state.secondaryMenu,
+  categories: state => state.categories,
   pages: state => state.pages,
   posts: state => state.posts,
   sliderPosts: state => state.sliderPosts,

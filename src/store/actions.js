@@ -1,5 +1,6 @@
 import apiService from '../api/app.service'
 import translations from '../modules/translations'
+import {friendlyMonth} from '../modules/utils'
 
 let actions = {
   loadProject: ({commit}) => {
@@ -22,8 +23,36 @@ let actions = {
       }
 
       function getAllPosts () {
+        let posts = []
         return apiService.getPosts(null, null, 100, 'desc').then((response) => {
-          commit('mutatePosts', response.posts)
+          response.posts.forEach((post) => {
+            let dateString = post.date.split('T')[0]
+            let postItem = {
+              id: post.id,
+              original_date: dateString,
+              date: dateString.split('-')[2] + ' ' + friendlyMonth(dateString.split('-')[1] - 1) + ' ' + dateString.split('-')[0],
+              time: post.date.split('T')[1],
+              title: post.title.rendered,
+              excerpt: post.excerpt.rendered,
+              content: post.content.rendered,
+              categories: post.categories,
+              images: post.content.rendered.match(/<img[^>]*>/g)
+            }
+            if (postItem.images === null) {
+              postItem.images = ['<img src="/static/no-img.png"/>']
+            }
+            // console.log(post)
+            // console.log(postItem)
+            posts.push(postItem)
+          })
+
+          commit('mutatePosts', posts)
+        })
+      }
+
+      function getCategories () {
+        return apiService.getCategories().then((response) => {
+          commit('mutateCategories', response.data)
         })
       }
 
@@ -65,7 +94,7 @@ let actions = {
         })
       }
 
-      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getAllPages(), getDotNetData(), getSliderPosts(), getBannerPosts()])
+      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getCategories(), getAllPages(), getDotNetData(), getSliderPosts(), getBannerPosts()])
         .then(() => {
           commit('mutateActivityIndicator', false)
           time.t1 = performance.now()

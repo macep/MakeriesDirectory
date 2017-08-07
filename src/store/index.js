@@ -17,6 +17,7 @@ export default new Vuex.Store({
     showActivityIndicator: false,
     mainMenu: '',
     secondaryMenu: '',
+    categories: [],
     pages: [],
     posts: [],
     sliderPosts: [],

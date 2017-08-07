@@ -33,8 +33,14 @@ let relativePath = (url) => {
   return url.slice(domainLength)
 }
 
+let friendlyMonth = (month) => {
+  let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  return arguments[0] === 'list' ? monthNames : monthNames[parseInt(month)]
+}
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
-  relativePath
+  relativePath,
+  friendlyMonth
 }

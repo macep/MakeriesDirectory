@@ -20,6 +20,9 @@ let mutations = {
   mutateSecondaryMenu: (state, secondaryMenu) => {
     state.secondaryMenu = secondaryMenu
   },
+  mutateCategories: (state, categories) => {
+    state.categories = categories
+  },
   mutatePages: (state, pages) => {
     state.pages = pages
   },

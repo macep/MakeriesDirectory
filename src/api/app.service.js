@@ -78,7 +78,7 @@ let apiService = {
   },
   getPages () {
     return new Promise((resolve, reject) => {
-      let path = `${Config.wpDomain}wp-json/wp/v2/pages/?per_page=100`
+      let path = `${Config.wpDomain}wp-json/wp/v2/pages/?per_page=100&fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
@@ -87,6 +87,14 @@ let apiService = {
   getPage (pageId) {
     return new Promise((resolve, reject) => {
       let path = `${Config.wpDomain}wp-json/wp/v2/pages/${pageId}`
+      this.cacheRequest(path, Config.genericCachingTime)
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+    })
+  },
+  getCategories () {
+    return new Promise((resolve, reject) => {
+      let path = `${Config.wpDomain}wp-json/wp/v2/categories`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
