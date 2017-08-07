@@ -26,6 +26,12 @@ let mutations = {
   mutatePosts: (state, posts) => {
     state.posts = posts
   },
+  mutateSliderPosts: (state, sliderPosts) => {
+    state.sliderPosts = sliderPosts
+  },
+  mutateBannerPosts: (state, bannerPosts) => {
+    state.bannerPosts = bannerPosts
+  },
   mutateMakeries: (state, makeries) => {
     state.makeries = makeries
   }

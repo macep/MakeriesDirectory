@@ -9,6 +9,8 @@ let getters = {
   secondaryMenu: state => state.secondaryMenu,
   pages: state => state.pages,
   posts: state => state.posts,
+  sliderPosts: state => state.sliderPosts,
+  bannerPosts: state => state.bannerPosts,
   makeries: state => state.makeries
 }
 

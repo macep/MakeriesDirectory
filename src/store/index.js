@@ -19,6 +19,8 @@ export default new Vuex.Store({
     secondaryMenu: '',
     pages: [],
     posts: [],
+    sliderPosts: [],
+    bannerPosts: [],
     makeries: []
   },
   getters,

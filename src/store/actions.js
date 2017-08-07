@@ -39,7 +39,33 @@ let actions = {
         })
       }
 
-      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getAllPages(), getDotNetData()])
+      function getSliderPosts () {
+        apiService.getPostsByCategory(863).then(response => {
+          commit('mutateSliderPosts', response.posts)
+        })
+      }
+
+      function getBannerPosts () {
+        apiService.getPostsByCategory(864).then(response => {
+          let bannerPosts = response.posts.reverse()
+          bannerPosts.forEach((item, idx) => {
+            switch (idx) {
+              case 0:
+                item.routeTo = '/directory'
+                break
+              case 1:
+                item.routeTo = '/sign-up'
+                break
+              case 2:
+                item.linkTo = 'http://eepurl.com/lobiL'
+                break
+            }
+          })
+          commit('mutateBannerPosts', bannerPosts)
+        })
+      }
+
+      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getAllPages(), getDotNetData(), getSliderPosts(), getBannerPosts()])
         .then(() => {
           commit('mutateActivityIndicator', false)
           time.t1 = performance.now()

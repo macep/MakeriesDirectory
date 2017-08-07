@@ -9,7 +9,8 @@
       <jgm-notification/>
       <jgm-footer/>
       <ga-analytics/>
-      <div id="showActivityIndicator" v-show="showActivityIndicator" :class="showActivityIndicator ? 'loading' : 'loaded'">
+      <div id="showActivityIndicator" v-show="showActivityIndicator"
+           :class="showActivityIndicator ? 'loading' : 'loaded'">
         <i class="icon-circle-o-notch"/>
       </div>
     </div>
@@ -24,6 +25,14 @@
   import jgmFooter from './components/layout/jgm-footer.vue'
   import jgmNotification from './components/layout/jgm-notification.vue'
   import gaAnalytics from './components/layout/ga-analytics.vue'
+
+  const pageClassSuffix = '-page'
+
+  function makeBodyClass (fromRoute) {
+    let currentRoute = fromRoute.path.replace(/\//g, '')
+    currentRoute += (currentRoute !== '') ? pageClassSuffix : ''
+    document.querySelector('body').classList = currentRoute
+  }
 
   export default {
     name: 'app',
@@ -55,12 +64,18 @@
           })
         }, 500)
       })
+      makeBodyClass(this.$route)
     },
     computed: {
       ...mapGetters(['translations', 'isMobile', 'showActivityIndicator'])
     },
     methods: {
       ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch'])
+    },
+    watch: {
+      '$route' (to) {
+        makeBodyClass(to)
+      }
     }
   }
 </script>

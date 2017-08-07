@@ -1,0 +1,44 @@
+.about-page
+  background: $light-pink
+
+#about
+  @extend .xlg-margin-top
+  @extend .xlg-padding-top
+  @extend .xlg-margin-bottom
+  @extend .xlg-padding-bottom
+  border-top: 2px solid $pink
+  border-bottom: 2px solid $pink
+
+  .about-content
+    @extend .xlg-margin-bottom
+    @extend .xlg-padding-bottom
+    border-bottom: 2px solid $pink
+
+  .about-more-content
+    h1, h2
+      font-size: 40px
+
+  .helen
+    @extend .xlg-padding-top
+
+    img
+      width: 80%
+      margin: 0 10%
+
+  .text
+    span h1
+      &:first-child
+        @extend .xlg-margin-bottom
+        @extend .xlg-padding-bottom
+        border-bottom: 2px solid $pink
+        font-size: 60px
+
+  .banner-title
+    @extend .sm-padding-top
+    @extend .lg-padding-bottom
+    display: block
+    font-size: 18px
+
+  .banner-content
+    display: none
+

@@ -1,10 +1,10 @@
 <template>
   <div id="home" class="row page">
     <div class="col-xs-12">
-      <div class="row">
+      <div class="row small-gutter">
         <div class="col-xs-12">
           <ul id="home-slider">
-            <li v-for="slide in homeSliderPosts" :key="slide.id" class="slide">
+            <li v-for="slide in sliderPosts" :key="slide.id" class="slide">
               <router-link to="/directory">
                 <img :src="slide.better_featured_image.source_url" class="slide-image"/>
                 <span class="slide-caption">
@@ -36,28 +36,8 @@
         </div>
       </div>
       <div class="row small-gutter">
-        <div class="col-xs-12 col-md-4 home-banner" v-for="banner in homeBannerPosts" :key="banner.id">
-          <div class="home-banner-inner">
-            <template v-if="banner.routeTo">
-              <router-link :to="banner.routeTo">
-              <span class="banner-image-wrapper">
-                <img :src="banner.better_featured_image.source_url" class="banner-image"/>
-                <span class="banner-image-overlay"/>
-              </span>
-              </router-link>
-              <router-link :to="banner.routeTo" class="banner-title">{{banner.title.rendered}}</router-link>
-            </template>
-            <template v-else>
-              <a href="http://eepurl.com/lobiL" target="_new">
-              <span class="banner-image-wrapper">
-                <img :src="banner.better_featured_image.source_url" class="banner-image"/>
-                <span class="banner-image-overlay"/>
-              </span>
-              </a>
-              <a href="http://eepurl.com/lobiL" target="_new" class="banner-title">{{banner.title.rendered}}</a>
-            </template>
-            <span v-html="banner.content.rendered" class="banner-content"/>
-          </div>
+        <div class="col-xs-12 col-md-4 home-banner" v-for="banner in bannerPosts" :key="banner.id">
+          <banner :banner="banner"/>
         </div>
       </div>
     </div>
@@ -66,40 +46,13 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import apiService from '../../api/app.service'
+  import banner from '../common/banner'
 
   export default {
     name: 'home-page',
-    data () {
-      return {
-        jgmStar: '/static/images/jgm-star.svg',
-        homeSliderPosts: [],
-        homeBannerPosts: []
-      }
-    },
-    mounted () {
-      apiService.getPostsByCategory(863).then(response => {
-        this.homeSliderPosts = response.posts
-      })
-      apiService.getPostsByCategory(864).then(response => {
-        this.homeBannerPosts = response.posts.reverse()
-        this.homeBannerPosts.forEach((item, idx) => {
-          switch (idx) {
-            case 0:
-              item.routeTo = '/directory'
-              break
-            case 1:
-              item.routeTo = '/sign-up'
-              break
-            case 2:
-              item.linkTo = 'http://eepurl.com/lobiL'
-              break
-          }
-        })
-      })
-    },
+    components: {banner},
     computed: {
-      ...mapGetters(['posts'])
+      ...mapGetters(['sliderPosts', 'bannerPosts'])
     }
   }
 </script>
