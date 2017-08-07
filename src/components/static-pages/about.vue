@@ -1,8 +1,8 @@
 <template>
   <div id="about" class="row page">
     <div class="col-xs-12">
-      <h1 v-html="aboutData.title.rendered"/>
       <span v-html="aboutData.content.rendered"/>
+      <span v-html="aboutMoreData.content.rendered"/>
     </div>
   </div>
 </template>
@@ -16,9 +16,11 @@
     data () {
       return {
         aboutData: {
-          title: {
+          content: {
             rendered: ''
-          },
+          }
+        },
+        aboutMoreData: {
           content: {
             rendered: ''
           }
@@ -28,6 +30,9 @@
     mounted () {
       apiService.getPage(2).then((response) => {
         this.aboutData = response.data
+      })
+      apiService.getPage(107).then((response) => {
+        this.aboutMoreData = response.data
       })
     },
     computed: {
