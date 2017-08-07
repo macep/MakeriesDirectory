@@ -1,8 +1,8 @@
 <template>
-  <div id="contact" class="row">
+  <div id="contact" class="row page">
     <div class="col-xs-12">
-      <h1 class="din-web-cond text-uppercase" v-html="contactData.title.rendered"></h1>
-      <div v-html="contactData.content.rendered"></div>
+      <h1 v-html="contactData.title.rendered"/>
+      <span v-html="contactData.content.rendered"/>
     </div>
   </div>
 </template>

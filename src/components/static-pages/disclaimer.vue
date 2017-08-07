@@ -1,8 +1,8 @@
 <template>
-  <div id="disclaimer" class="row">
+  <div id="disclaimer" class="row page">
     <div class="col-xs-12">
-      <h1 class="din-web-cond text-uppercase" v-html="disclaimerData.title.rendered"></h1>
-      <div v-html="disclaimerData.content.rendered"></div>
+      <h1 v-html="disclaimerData.title.rendered"/>
+      <span v-html="disclaimerData.content.rendered"/>
     </div>
   </div>
 </template>

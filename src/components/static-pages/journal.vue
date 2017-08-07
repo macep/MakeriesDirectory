@@ -1,8 +1,8 @@
 <template>
-  <div id="journal" class="row">
+  <div id="journal" class="row page">
     <div class="col-xs-12">
-      <h1 class="din-web-cond text-uppercase" v-html="journalData.title.rendered"></h1>
-      <div class="serif" v-html="journalData.content.rendered"></div>
+      <h1 v-html="journalData.title.rendered"/>
+      <span v-html="journalData.content.rendered"/>
     </div>
   </div>
 </template>

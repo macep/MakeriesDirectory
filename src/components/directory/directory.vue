@@ -1,8 +1,8 @@
 <template>
-  <div id="directory" class="row">
+  <div id="directory" class="row page">
     <div class="col-xs-12">
-      <h1 class="din-web-cond text-uppercase" v-html="directoryData.title.rendered"></h1>
-      <div class="serif" v-html="directoryData.content.rendered"></div>
+      <h1 v-html="directoryData.title.rendered"/>
+      <span v-html="directoryData.content.rendered"/>
     </div>
   </div>
 </template>

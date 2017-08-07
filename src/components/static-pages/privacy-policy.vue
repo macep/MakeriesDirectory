@@ -1,8 +1,8 @@
 <template>
-  <div id="privacy" class="row">
+  <div id="privacy" class="row page">
     <div class="col-xs-12">
-      <h1 class="din-web-cond text-uppercase" v-html="privacyData.title.rendered"></h1>
-      <div v-html="privacyData.content.rendered"></div>
+      <h1 v-html="privacyData.title.rendered"/>
+      <span v-html="privacyData.content.rendered"/>
     </div>
   </div>
 </template>

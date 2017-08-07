@@ -22,13 +22,8 @@
         isMenuActive: false
       }
     },
-    mounted () {
-      this.pages.forEach(item => {
-        console.log(item.id, item.title.rendered)
-      })
-    },
     computed: {
-      ...mapGetters(['mainMenu', 'pages', 'hostName'])
+      ...mapGetters(['mainMenu'])
     },
     methods: {
       toggleMenu () {
