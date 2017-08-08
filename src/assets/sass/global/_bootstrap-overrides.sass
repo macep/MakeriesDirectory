@@ -1,3 +1,35 @@
+$border-style: 2px solid $light-turqoise
 .row
   max-width: $container-large-desktop
   margin: 0 auto
+
+
+.panel
+  .panel-title
+    @extend %main-headings
+    border-top: $border-style
+    border-bottom: $border-style
+
+    &:hover
+      a
+        color: $white
+        background: $dark-turqoise
+
+    a
+      @extend .md-padding-top
+      @extend .sm-padding-bottom
+      @extend %fast-transitions
+      display: block
+
+  .panel-heading
+    @extend .text-center
+
+  .panel-body
+    font-style: italic
+    font-size: 12px
+    line-height: 2
+
+    a
+      &:hover
+        text-decoration: underline
+
