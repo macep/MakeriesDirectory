@@ -9,29 +9,17 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import apiService from '../../api/app.service'
+  import Config from '../../api/app.config'
 
   export default {
     name: 'signup-page',
-    data () {
-      return {
-        signupData: {
-          title: {
-            rendered: ''
-          },
-          content: {
-            rendered: ''
-          }
-        }
-      }
-    },
-    mounted () {
-      apiService.getPage(112).then((response) => {
-        this.signupData = response.data
-      })
-    },
     computed: {
-      ...mapGetters(['pages'])
+      ...mapGetters(['pages']),
+      signupData () {
+        return this.pages.find(item => {
+          return item.id === Config.pagesIDs.signup
+        })
+      }
     }
   }
 </script>

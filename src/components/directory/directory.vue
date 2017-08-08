@@ -13,6 +13,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import Config from '../../api/app.config'
 
   export default {
     name: 'directory-page',
@@ -23,7 +24,7 @@
       ...mapGetters(['pages', 'makeries']),
       directoryPageData () {
         return this.pages.find(item => {
-          return item.id === 5
+          return item.id === Config.pagesIDs.directory
         })
       }
     },

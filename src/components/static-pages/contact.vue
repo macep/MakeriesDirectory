@@ -9,29 +9,17 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import apiService from '../../api/app.service'
+  import Config from '../../api/app.config'
 
   export default {
     name: 'contact-page',
-    data () {
-      return {
-        contactData: {
-          title: {
-            rendered: ''
-          },
-          content: {
-            rendered: ''
-          }
-        }
-      }
-    },
-    mounted () {
-      apiService.getPage(23).then((response) => {
-        this.contactData = response.data
-      })
-    },
     computed: {
-      ...mapGetters(['pages'])
+      ...mapGetters(['pages']),
+      contactData () {
+        return this.pages.find(item => {
+          return item.id === Config.pagesIDs.contact
+        })
+      }
     }
   }
 </script>

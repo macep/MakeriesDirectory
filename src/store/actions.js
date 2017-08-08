@@ -1,6 +1,7 @@
 import apiService from '../api/app.service'
 import translations from '../modules/translations'
 import {friendlyMonth} from '../modules/utils'
+import Config from '../api/app.config'
 
 let actions = {
   loadProject: ({commit}) => {
@@ -11,13 +12,13 @@ let actions = {
       commit('mutateTranslations', translations)
 
       function getMainMenu () {
-        return apiService.getMenu(2).then((response) => {
+        return apiService.getMenu(Config.menusIDs.primary).then((response) => {
           commit('mutateMainMenu', response.items)
         })
       }
 
       function getSecondaryMenu () {
-        return apiService.getMenu(3).then((response) => {
+        return apiService.getMenu(Config.menusIDs.secondary).then((response) => {
           commit('mutateSecondaryMenu', response.items)
         })
       }
@@ -67,13 +68,13 @@ let actions = {
       }
 
       function getSliderPosts () {
-        apiService.getPostsByCategory(863).then(response => {
+        apiService.getPostsByCategory(Config.postsIDs.sliderPosts).then(response => {
           commit('mutateSliderPosts', response.posts)
         })
       }
 
       function getBannerPosts () {
-        apiService.getPostsByCategory(864).then(response => {
+        apiService.getPostsByCategory(Config.postsIDs.bannerPosts).then(response => {
           let bannerPosts = response.posts.reverse()
           bannerPosts.forEach((item, idx) => {
             switch (idx) {

@@ -9,29 +9,17 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import apiService from '../../api/app.service'
+  import Config from '../../api/app.config'
 
   export default {
     name: 'workwithus-page',
-    data () {
-      return {
-        workwithusData: {
-          title: {
-            rendered: ''
-          },
-          content: {
-            rendered: ''
-          }
-        }
-      }
-    },
-    mounted () {
-      apiService.getPage(11).then((response) => {
-        this.workwithusData = response.data
-      })
-    },
     computed: {
-      ...mapGetters(['pages'])
+      ...mapGetters(['pages']),
+      workwithusData () {
+        return this.pages.find(item => {
+          return item.id === Config.pagesIDs.workwithusData
+        })
+      }
     }
   }
 </script>

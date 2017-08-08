@@ -25,9 +25,9 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import Config from '../../api/app.config'
 
   const byCat = '/journal/category/'
-//  const byYear = '/journal/year/'
 
   export default {
     name: 'journal-page',
@@ -35,7 +35,7 @@
       ...mapGetters(['pages', 'posts', 'categories']),
       journalData () {
         return this.pages.find(item => {
-          return item.id === 7
+          return item.id === Config.pagesIDs.journal
         })
       },
       categoriesData () {

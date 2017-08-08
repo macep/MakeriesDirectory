@@ -13,10 +13,25 @@ const Config = {
   loadDbName: 'justGotMadeLocal',
   analyticsPath: '//www.google-analytics.com/analytics.js',
   genericCachingTime: 0, // 864e5,
+  postsIDs: {
+    sliderPosts: 863,
+    bannerPosts: 864
+  },
   pagesIDs: {
     about: 2,
+    directory: 5,
+    journal: 7,
+    workwithusData: 11,
+    privacy: 19,
+    disclaimer: 21,
+    contact: 23,
     aboutMore: 107,
+    signup: 112,
     aboutTitle: 3674
+  },
+  menusIDs: {
+    primary: 2,
+    secondary: 3
   }
 }
 
