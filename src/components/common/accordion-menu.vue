@@ -12,7 +12,7 @@
         <div class="panel-body">
           <ul>
             <li v-for="category in accData" :key="category.id">
-              <router-link :to="journalByCatIdRoute(category.id)">{{category.name}}</router-link> ({{category.count}})
+              <router-link :to="journalByCatIdRoute(category.slug, category.id)">{{category.name}}</router-link> ({{category.count}})
             </li>
           </ul>
         </div>
@@ -41,6 +41,7 @@
 
 <script>
   const byCat = '/journal/category/'
+
   export default {
     name: 'accordion-menu',
     props: {
@@ -60,8 +61,8 @@
       }
     },
     methods: {
-      journalByCatIdRoute (id) {
-        return byCat + id
+      journalByCatIdRoute (slug, id) {
+        return byCat + id + '/' + slug
       },
       panelStyle (val) {
         return {

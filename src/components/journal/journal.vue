@@ -9,7 +9,7 @@
           <span v-html="journalPageData.content.rendered"/>
         </div>
         <div class="col-xs-6 post-item" v-for="post in postsData" :key="post.id">
-          <router-link to="/">
+          <router-link :to="post.spa_route">
             <image-overlayed :url="post.images[0]" :overlayed="true" :escaped="false"/>
             <div class="info">
               <div class="info-wrapper">
@@ -40,9 +40,7 @@
     computed: {
       ...mapGetters(['pages', 'posts', 'categories']),
       journalPageData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.journal
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.journal)
       },
       postsData () {
         return this.posts

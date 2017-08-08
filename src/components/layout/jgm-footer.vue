@@ -3,22 +3,22 @@
     <ul class="footer-social list-inline">
       <li>
         <a href="https://instagram.com/justgotmade/" target="_new">
-          <i class="fa fa-instagram"/>
+          <i class="icon-instagram"/>
         </a>
       </li>
       <li>
         <a href="https://www.facebook.com/JustGotMade" target="_new">
-          <i class="fa fa-facebook"/>
+          <i class="icon-facebook"/>
         </a>
       </li>
       <li>
         <a href="https://twitter.com/Just_Got_Made" target="_new">
-          <i class="fa fa-twitter"/>
+          <i class="icon-twitter"/>
         </a>
       </li>
       <li>
         <a href="http://the-dots.co.uk/justgotmade" target="_new">
-          <i class="fa fa-snowflake-o"/>
+          <i class="icon-snowflake-o"/>
         </a>
       </li>
     </ul>

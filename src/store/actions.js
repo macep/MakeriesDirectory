@@ -38,7 +38,8 @@ let actions = {
               content: post.content.rendered,
               categories: post.categories,
               images: post.content.rendered.match(/<img[^>]*>/g),
-              featured_image: post.better_featured_image
+              featured_image: post.better_featured_image,
+              spa_route: '/journal/' + post.slug + '/' + post.id + '/'
             }
             if (postItem.images === null) {
               postItem.images = ['<img src="/static/no-img.png"/>']
