@@ -1,7 +1,7 @@
 <template>
   <span class="image-overlayed-wrapper">
     <img :src="url" class="image-overlayed"/>
-    <span class="image-overlay"/>
+    <span v-if="overlayed" class="image-overlay"/>
   </span>
 </template>
 
@@ -11,6 +11,10 @@
     props: {
       url: {
         type: String,
+        required: true
+      },
+      overlayed: {
+        type: Boolean,
         required: true
       }
     }

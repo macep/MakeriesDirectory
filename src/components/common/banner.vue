@@ -1,14 +1,14 @@
 <template>
-  <div class="home-banner-inner">
+  <div class="banner-inner">
     <template v-if="banner.routeTo">
       <router-link :to="banner.routeTo">
-        <image-overlayed :url="banner.better_featured_image.source_url"/>
+        <image-overlayed :url="banner.better_featured_image.source_url" :overlayed="overlayed"/>
       </router-link>
       <router-link :to="banner.routeTo" class="banner-title">{{banner.title.rendered}}</router-link>
     </template>
     <template v-else>
       <a href="http://eepurl.com/lobiL" target="_new">
-        <image-overlayed :url="banner.better_featured_image.source_url"/>
+        <image-overlayed :url="banner.better_featured_image.source_url" :overlayed="overlayed"/>
       </a>
       <a href="http://eepurl.com/lobiL" target="_new" class="banner-title">{{banner.title.rendered}}</a>
     </template>
@@ -25,6 +25,10 @@
     props: {
       banner: {
         type: Object,
+        required: true
+      },
+      overlayed: {
+        type: Boolean,
         required: true
       }
     }

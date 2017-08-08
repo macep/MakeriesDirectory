@@ -37,7 +37,7 @@
       </div>
       <div class="row small-gutter">
         <div class="col-xs-12 col-md-4 home-banner" v-for="banner in bannerPosts" :key="banner.id">
-          <banner :banner="banner"/>
+          <banner :banner="banner" :overlayed="true"/>
         </div>
       </div>
     </div>
