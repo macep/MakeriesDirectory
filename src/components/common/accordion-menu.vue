@@ -2,7 +2,7 @@
   <div class="panel-group" id="accordion" role="tablist" :aria-multiselectable="oneAtATime">
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="heading-1">
-        <h4 class="panel-title">
+        <h4 class="panel-title" :class="{'open': categoriesOpen}">
           <v-touch tag="a" @tap="categoriesOpen = !categoriesOpen" role="button" data-toggle="collapse" data-parent="#accordion" :aria-expanded="categoriesOpen" aria-controls="collapse-1">
             Categories
           </v-touch>
@@ -20,7 +20,7 @@
     </div>
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="heading-2">
-        <h4 class="panel-title">
+        <h4 class="panel-title" :class="{'open': archivesOpen}">
           <v-touch tag="a" @tap="archivesOpen = !archivesOpen" role="button" data-toggle="collapse" data-parent="#accordion" :aria-expanded="archivesOpen" aria-controls="collapse-2">
             Archives
           </v-touch>
