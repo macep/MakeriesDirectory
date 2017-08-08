@@ -36,16 +36,14 @@ let actions = {
               excerpt: post.excerpt.rendered,
               content: post.content.rendered,
               categories: post.categories,
-              images: post.content.rendered.match(/<img[^>]*>/g)
+              images: post.content.rendered.match(/<img[^>]*>/g),
+              featured_image: post.better_featured_image
             }
             if (postItem.images === null) {
               postItem.images = ['<img src="/static/no-img.png"/>']
             }
-            // console.log(post)
-            // console.log(postItem)
             posts.push(postItem)
           })
-
           commit('mutatePosts', posts)
         })
       }

@@ -9,6 +9,13 @@
   border-top: 2px solid $pink
   border-bottom: 2px solid $pink
 
+  .about-title
+    h1
+      @extend .xlg-margin-bottom
+      @extend .xlg-padding-bottom
+      border-bottom: 2px solid $pink
+      font-size: 70px
+
   .about-content
     @extend .xlg-margin-bottom
     @extend .xlg-padding-bottom
@@ -24,14 +31,6 @@
     img
       width: 80%
       margin: 0 10%
-
-  .text
-    span h1
-      &:first-child
-        @extend .xlg-margin-bottom
-        @extend .xlg-padding-bottom
-        border-bottom: 2px solid $pink
-        font-size: 60px
 
   .banner-title
     @extend .sm-padding-top

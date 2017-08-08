@@ -2,8 +2,11 @@
   <div id="about" class="row page">
     <div class="col-xs-10 col-xs-offset-1">
       <div class="row about-content">
+        <div class="col-xs-12 about-title">
+          <h1 v-html="aboutTitleData.title.rendered"/>
+        </div>
         <div class="col-xs-3 helen">
-          <img :src="helen"/>
+          <img :src="aboutData.better_featured_image.source_url"/>
         </div>
         <div class="col-xs-9 text">
           <span v-html="aboutData.content.rendered"/>
@@ -34,21 +37,21 @@
   export default {
     name: 'about-page',
     components: {banner},
-    data () {
-      return {
-        helen: `${Config.wpDomain}/wp-content/uploads/2013/11/helen.png`
-      }
-    },
     computed: {
       ...mapGetters(['pages', 'bannerPosts']),
       aboutData () {
         return this.pages.find(item => {
-          return item.id === 2
+          return item.id === Config.pagesIDs.about
+        })
+      },
+      aboutTitleData () {
+        return this.pages.find(item => {
+          return item.id === Config.pagesIDs.aboutTitle
         })
       },
       aboutMoreData () {
         return this.pages.find(item => {
-          return item.id === 107
+          return item.id === Config.pagesIDs.aboutMore
         })
       }
     }

@@ -12,7 +12,12 @@ const Config = {
   dotNetToken: 'MzM0N2NjYTItOTgwYy00YTE0LWExNGItNTlkMGZlYzZkMTc4OjQ2ZGU4MzI3LWM3ZDItNGVkMi1iYjFjLTBlMTExZmZhYzMyOQ==',
   loadDbName: 'justGotMadeLocal',
   analyticsPath: '//www.google-analytics.com/analytics.js',
-  genericCachingTime: 864e5
+  genericCachingTime: 0, // 864e5,
+  pagesIDs: {
+    about: 2,
+    aboutMore: 107,
+    aboutTitle: 3674
+  }
 }
 
 export default Config
