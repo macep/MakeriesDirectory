@@ -20,7 +20,7 @@
           <div class="row">
             <div class="col-xs-12 about-banner" v-for="banner in bannerPosts" :key="banner.id">
               <br>
-              <banner :banner="banner" :overlayed="false"/>
+              <banner :banner="banner" :overlayed="false" :escaped="true"/>
             </div>
           </div>
         </div>

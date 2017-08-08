@@ -1,6 +1,9 @@
 <template>
   <span class="image-overlayed-wrapper">
-    <img :src="url" class="image-overlayed"/>
+    <template v-if="escaped">
+      <img :src="url" class="image-overlayed"/>
+    </template>
+    <span v-else v-html="url" class="image-overlayed"/>
     <span v-if="overlayed" class="image-overlay"/>
   </span>
 </template>
@@ -14,6 +17,10 @@
         required: true
       },
       overlayed: {
+        type: Boolean,
+        required: true
+      },
+      escaped: {
         type: Boolean,
         required: true
       }
