@@ -7,7 +7,7 @@ import Journal from '@/components/journal/journal'
 import JournalByCat from '@/components/journal/journal-by-cat'
 import JournalSingle from '@/components/journal/journal-single'
 import SignUp from '@/components/static-pages/sign-up'
-import WorkWithUs from '@/components/static-pages/workwithus'
+import Weekender from '@/components/static-pages/weekender'
 import PrivacyPolicy from '@/components/static-pages/privacy-policy'
 import Disclaimer from '@/components/static-pages/disclaimer'
 import Contact from '@/components/static-pages/contact'
@@ -22,7 +22,7 @@ const routes = [
   {path: '/journal/category/:id/:slug', name: 'JournalByCat', component: JournalByCat},
   {path: '/journal/:id/:post', name: 'JournalSingle', component: JournalSingle},
   {path: '/sign-up', name: 'SignUp', component: SignUp},
-  {path: '/workwithus', name: 'WorkWithUs', component: WorkWithUs},
+  {path: '/justgotmade-weekender', name: 'Weekender', component: Weekender},
   {path: '/privacy-policy', name: 'PrivacyPolicy', component: PrivacyPolicy},
   {path: '/disclaimer', name: 'Disclaimer', component: Disclaimer},
   {path: '/contact', name: 'Contact', component: Contact}

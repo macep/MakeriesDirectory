@@ -16,9 +16,7 @@
     computed: {
       ...mapGetters(['pages']),
       workwithusData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.workwithusData
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.weekender)
       }
     }
   }

@@ -16,9 +16,7 @@
     computed: {
       ...mapGetters(['pages']),
       signupData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.signup
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.signup)
       }
     }
   }

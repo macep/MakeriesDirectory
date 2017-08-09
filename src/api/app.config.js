@@ -22,13 +22,13 @@ const Config = {
     about: 2,
     directory: 5,
     journal: 7,
-    workwithusData: 11,
     privacy: 19,
     disclaimer: 21,
     contact: 23,
     aboutMore: 107,
     signup: 112,
-    aboutTitle: 3674
+    aboutTitle: 3674,
+    weekender: 3677
   },
   menusIDs: {
     primary: 2,
