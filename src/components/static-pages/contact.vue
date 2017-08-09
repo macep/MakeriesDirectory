@@ -16,9 +16,7 @@
     computed: {
       ...mapGetters(['pages']),
       contactData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.contact
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.contact)
       }
     }
   }

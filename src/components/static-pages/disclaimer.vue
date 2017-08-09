@@ -16,9 +16,7 @@
     computed: {
       ...mapGetters(['pages']),
       disclaimerData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.disclaimer
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.disclaimer)
       }
     }
   }

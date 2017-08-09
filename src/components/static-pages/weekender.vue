@@ -1,8 +1,8 @@
 <template>
   <div id="workwithus" class="row page">
     <div class="col-xs-12">
-      <h1 v-html="workwithusData.title.rendered"/>
-      <span v-html="workwithusData.content.rendered"/>
+      <h1 v-html="weekenderData.title.rendered"/>
+      <span v-html="weekenderData.content.rendered"/>
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@
     name: 'workwithus-page',
     computed: {
       ...mapGetters(['pages']),
-      workwithusData () {
+      weekenderData () {
         return this.pages.find(item => item.id === Config.pagesIDs.weekender)
       }
     }

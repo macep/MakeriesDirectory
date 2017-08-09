@@ -23,9 +23,7 @@
     computed: {
       ...mapGetters(['pages', 'makeries']),
       directoryPageData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.directory
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.directory)
       }
     },
     methods: {

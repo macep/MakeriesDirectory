@@ -16,9 +16,7 @@
     computed: {
       ...mapGetters(['pages']),
       privacyData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.privacy
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.privacy)
       }
     }
   }

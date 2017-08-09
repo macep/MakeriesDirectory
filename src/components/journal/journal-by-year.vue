@@ -21,9 +21,7 @@
     computed: {
       ...mapGetters(['pages', 'categories']),
       journalData () {
-        return this.pages.find(item => {
-          return item.id === 7
-        })
+        return this.pages.find(item => item.id === 7)
       },
       categoriesData () {
         return this.categories

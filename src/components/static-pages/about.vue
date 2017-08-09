@@ -40,19 +40,13 @@
     computed: {
       ...mapGetters(['pages', 'bannerPosts']),
       aboutData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.about
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.about)
       },
       aboutTitleData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.aboutTitle
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.aboutTitle)
       },
       aboutMoreData () {
-        return this.pages.find(item => {
-          return item.id === Config.pagesIDs.aboutMore
-        })
+        return this.pages.find(item => item.id === Config.pagesIDs.aboutMore)
       }
     }
   }
