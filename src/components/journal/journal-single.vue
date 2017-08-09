@@ -31,9 +31,7 @@
     },
     methods: {
       categoryName (catId) {
-        return 'icon-cat-' + this.categories.find(cat => {
-          return cat.id === catId
-        }).name.toLowerCase()
+        return 'icon-cat-' + this.categories.find(cat => cat.id === catId).name.toLowerCase()
       }
     }
   }

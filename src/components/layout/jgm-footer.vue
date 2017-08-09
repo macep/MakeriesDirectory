@@ -27,20 +27,21 @@
         <router-link :to="makeRoute(link.url)">{{link.title}}</router-link>
       </li>
     </ul>
-    <p>&copy; JustGotMade.com {{year}}</p>
+    <p>&copy; {{copy}}</p>
   </footer>
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
   import {relativePath} from '../../modules/utils'
+  import Config from '../../api/app.config'
 
   export default {
     name: 'jgm-footer',
     computed: {
       ...mapGetters(['secondaryMenu', 'pages', 'hostName']),
-      year () {
-        return new Date().getFullYear()
+      copy () {
+        return Config.appTitle + ' ' + new Date().getFullYear()
       }
     },
     methods: {

@@ -16,8 +16,8 @@
     transform: rotate(360deg)
 
 .spinning
-  -webkit-animation: spin 1s linear infinite
-  animation: spin 1s linear infinite
+  -webkit-animation: spin 4s linear infinite
+  animation: spin 4s linear infinite
 
 
 // routes transitions
@@ -31,7 +31,6 @@
     opacity: 1
 
 
-
 @keyframes slide-out
   from
     transform: translateY(0)
@@ -42,6 +41,17 @@
     opacity: 0
 
 
+
+@keyframes fade-in
+  from
+    transform: scale(1.25, 1.25)
+    opacity: 0
+
+  to
+    transform: scale(1, 1)
+    opacity: 1
+
+
 .slide-enter-active
   animation-name: slide-in
   animation-duration: .125s
@@ -50,4 +60,10 @@
 .slide-leave-active
   animation-name: slide-out
   animation-duration: .125s
+  animation-duration: forwards
+
+
+.fade-enter-active
+  animation-name: fade-in
+  animation-duration: .25s
   animation-duration: forwards

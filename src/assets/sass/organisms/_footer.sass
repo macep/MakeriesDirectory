@@ -1,9 +1,13 @@
 footer
   @extend .xxlg-padding-top
+  @extend .xxlg-padding-bottom
   @extend .text-center
 
   .light-pink &
     border-top: 2px solid $pink
+
+  p
+    @extend %main-headings
 
 .footer-social
   font-size: 18px
@@ -11,6 +15,7 @@ footer
 .footer-menu
   @extend .inline-list
   @extend .no-margin
+
 
 .footer-menu-item
   @extend .md-padding

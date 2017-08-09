@@ -1,19 +1,27 @@
 #showActivityIndicator
-  @extend %slow-transitions
-  position: absolute
+  @extend %fast-transitions
+  position: fixed
   top: 0
   left: 0
   bottom: 0
   right: 0
   width: 100%
   height: 100%
-  background: rgba($white,.85)
+  background: rgba($white, .95)
   cursor: wait
 
-  .icon-circle-o-notch
+  svg
     @extend .spinning
     position: absolute
-    left: calc(50% - 20px)
-    top: 40%
+    left: calc(50% - #{$xlg-space * 2})
+    top: $xlg-space * 4
     font-size: 24px
-    color: $pink
+    fill: $dark-turqoise
+
+  .activityTag
+    @extend %main-headings
+    position: absolute
+    left: calc(50% - #{$sm-space * 5})
+    top: $xlg-space * 5.2
+    font-size: 28px
+    color: $dark-turqoise
