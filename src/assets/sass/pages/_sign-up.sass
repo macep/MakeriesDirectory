@@ -1,0 +1,24 @@
+#signup
+  .hereshow
+    h1
+      @extend %big-headings
+      @extend .col-xs-8
+
+    *
+      @extend .col-xs-12
+
+  .step
+    @extend .xlg-padding-top
+    @extend .xlg-padding-bottom
+    border-top: 2px solid $pink
+
+    .step-number
+      position: absolute
+      top: $xlg-space
+      left: $xxlg-space
+      font-size: $xlg-space
+
+  #fscf_captcha_image1,
+  .fscf-image-captcha-refresh
+    width: auto
+    height: auto

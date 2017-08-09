@@ -27,6 +27,10 @@ const Config = {
     contact: 23,
     aboutMore: 107,
     signup: 112,
+    step1: 114,
+    step2: 116,
+    step3: 117,
+    signupForm: 3688,
     aboutTitle: 3674,
     weekender: 3677
   },
