@@ -4,9 +4,21 @@
       <i :class="categoryName(singlePostData.categories[0])"/>
     </div>
     <div class="col-xs-8">
-      <h1 v-html="singlePostData.title"/>
-      <em>{{appTitle}} • {{singlePostData.date}}</em>
-      <div class="post-content" v-html="singlePostData.content"/>
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 v-html="singlePostData.title"/>
+          <em>{{appTitle}} • {{singlePostData.date}}</em>
+          <div class="post-content" v-html="singlePostData.content"/>
+        </div>
+        <div class="col-xs-12 share-post">
+          <div class='inner-wrapper'>
+            <h3 class='item heading'>Share this:</h3>
+            <span class="item facebook"><a target="_new" :href="facebookUrl"><i class="icon-facebook"></i></a></span>
+            <span class="item twitter"><a target="_new" :href="twitterUrl"><i class="icon-twitter"></i></a></span>
+            <span class="item pinterest"><a target="_new" :href="pinterestCode"><i class="icon-pinterest"></i></a></span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-xs-3 recent-posts-and-ads">
       <div class="col-xs-12">
@@ -53,6 +65,15 @@
         let currentPostPos = recentPosts.indexOf(currentPost)
         let takeOut = (currentPostPos > -1) ? currentPostPos : Config.recentPostsNumber
         return recentPosts.filter((item, i) => i !== takeOut)
+      },
+      facebookUrl () {
+        return Config.social.facebookUrl + window.location.protocol + '//' + window.location.host + this.$route.path
+      },
+      twitterUrl () {
+        return Config.social.twitterURl + window.location.protocol + '//' + window.location.host + this.$route.path
+      },
+      pinterestCode () {
+        return Config.social.pinterestCode
       }
     },
     methods: {

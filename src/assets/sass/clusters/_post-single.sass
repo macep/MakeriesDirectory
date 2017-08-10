@@ -28,3 +28,32 @@
       font-size: 12px
       font-style: italic
 
+
+  .share-post
+    background: $dark-turqoise
+
+    *
+      color: $white
+
+    .inner-wrapper
+      @extend .xxlg-padding-right
+      @extend .xxlg-padding-left
+
+    .item
+      display: inline-block
+
+      &.heading
+        @extend .no-margin
+        font-size: 18px
+        position: relative
+        top: -3px
+
+    i
+      @extend .lg-padding
+      @extend %fast-transitions
+      font-size: 21px
+      display: block
+
+      &:hover
+        background: lighten($dark-turqoise, 20%)
+
