@@ -1,6 +1,6 @@
 <template>
   <div id="privacy" class="row page">
-    <div class="col-xs-12">
+    <div class="col-xs-10 col-xs-offset-1">
       <h1 v-html="privacyData.title.rendered"/>
       <span v-html="privacyData.content.rendered"/>
     </div>

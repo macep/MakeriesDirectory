@@ -1,6 +1,6 @@
 import apiService from '../api/app.service'
 import translations from '../modules/translations'
-import {friendlyMonth} from '../modules/utils'
+import {friendlyMonth, relativePath} from '../modules/utils'
 import Config from '../api/app.config'
 
 let actions = {
@@ -10,15 +10,23 @@ let actions = {
       commit('mutateActivityIndicator', true)
       time.t0 = performance.now()
       commit('mutateTranslations', translations)
+      let prepareMenuUrl = (menu) => {
+        menu.forEach(item => {
+          item.url = relativePath(item.url).url
+          item.pathType = relativePath(item.url).flag
+        })
+      }
 
       function getMainMenu () {
         return apiService.getMenu(Config.menusIDs.primary).then((response) => {
+          prepareMenuUrl(response.items)
           commit('mutateMainMenu', response.items)
         })
       }
 
       function getSecondaryMenu () {
         return apiService.getMenu(Config.menusIDs.secondary).then((response) => {
+          prepareMenuUrl(response.items)
           commit('mutateSecondaryMenu', response.items)
         })
       }

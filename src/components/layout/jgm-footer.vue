@@ -24,7 +24,8 @@
     </ul>
     <ul class="footer-menu">
       <li v-for="link in secondaryMenu" :key="link.id" class="footer-menu-item">
-        <router-link :to="makeRoute(link.url)">{{link.title}}</router-link>
+        <router-link v-if="link.pathType === 'relative'" :to="link.url">{{link.title}}</router-link>
+        <a v-else :href="link.url" target="_new">{{link.title}}</a>
       </li>
     </ul>
     <p>&copy; {{copy}}</p>
@@ -33,7 +34,6 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import {relativePath} from '../../modules/utils'
   import Config from '../../api/app.config'
 
   export default {
@@ -42,11 +42,6 @@
       ...mapGetters(['secondaryMenu', 'pages', 'hostName']),
       copy () {
         return Config.appTitle + ' ' + new Date().getFullYear()
-      }
-    },
-    methods: {
-      makeRoute (url) {
-        return relativePath(url)
       }
     }
   }

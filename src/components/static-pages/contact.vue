@@ -1,6 +1,6 @@
 <template>
   <div id="contact" class="row page">
-    <div class="col-xs-12">
+    <div class="col-xs-10 col-xs-offset-1">
       <h1 v-html="contactData.title.rendered"/>
       <span v-html="contactData.content.rendered"/>
     </div>

@@ -1,3 +1,5 @@
+import Config from '../api/app.config'
+
 let isTouch = () => {
   try {
     document.createEvent('TouchEvent')
@@ -29,8 +31,11 @@ let stopZoomingWhenDoubleTapped = () => {
 }
 
 let relativePath = (url) => {
-  let domainLength = (window.location.protocol + window.location.hostname).length + 13
-  return url.slice(domainLength)
+  let domainUrl = Config.wpDomain
+  let domainLength = domainUrl.length
+  let internalLocation = '^' + domainUrl
+  let internalLocationRegExp = new RegExp(internalLocation)
+  return (url.match(internalLocationRegExp) === null) ? {url: url, flag: 'absolute'} : {url: url.slice(domainLength), flag: 'relative'}
 }
 
 let friendlyMonth = (month) => {

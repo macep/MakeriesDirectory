@@ -5,7 +5,7 @@
     </a>
     <div :class="{ 'nav-menu': true, 'is-active': isMenuActive }">
       <span @click="closeMenu" v-for="link in mainMenu" :key="link.id" class="nav-item">
-        <router-link :to="makeRoute(link.url)">{{link.title}}</router-link>
+        <router-link :to="link.url">{{link.title}}</router-link>
       </span>
     </div>
   </nav>
@@ -13,7 +13,6 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import {relativePath} from '../../modules/utils'
 
   export default {
     name: 'jgm-menu',
@@ -31,9 +30,6 @@
       },
       closeMenu () {
         this.isMenuActive = false
-      },
-      makeRoute (url) {
-        return relativePath(url)
       }
     }
   }

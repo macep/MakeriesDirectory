@@ -1,6 +1,6 @@
 <template>
   <div id="disclaimer" class="row page">
-    <div class="col-xs-12">
+    <div class="col-xs-10 col-xs-offset-1">
       <h1 v-html="disclaimerData.title.rendered"/>
       <span v-html="disclaimerData.content.rendered"/>
     </div>
