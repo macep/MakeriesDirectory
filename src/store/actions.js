@@ -35,7 +35,12 @@ let actions = {
       function getAllPosts () {
         let posts = []
         return apiService.getPosts(null, null, 100, 'desc').then((response) => {
-          response.posts.forEach((post) => {
+          let cleanPostsCollection = response.posts.filter(item => {
+            if (item.categories[0] !== Config.postsIDs.bannerPosts && item.categories[0] !== Config.postsIDs.sliderPosts) {
+              return item
+            }
+          })
+          cleanPostsCollection.forEach((post) => {
             let dateString = post.date.split('T')[0]
             let postItem = {
               id: post.id,
