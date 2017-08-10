@@ -13,7 +13,8 @@ const Config = {
   loadDbName: 'justGotMadeLocal',
   analyticsPath: '//www.google-analytics.com/analytics.js',
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
-  genericCachingTime: 0, // 864e5,
+  genericCachingTime: 864e5,
+  recentPostsNumber: 3,
   postsIDs: {
     sliderPosts: 863,
     bannerPosts: 864

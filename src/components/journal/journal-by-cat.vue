@@ -1,24 +1,12 @@
 <template>
     <div id="journal" class="row page">
       <div class="col-xs-2">
-        <accordion-menu :one-at-a-time="true" :acc-data="categories"/>
+        <blog-menu :one-at-a-time="true" :acc-data="categories"/>
       </div>
       <div class="col-xs-10">
         <div class="row">
           <div class="col-xs-6 post-item" v-for="post in categoryData" :key="post.id">
-            <router-link :to="post.spa_route">
-              <image-overlayed :url="post.images[0]" :overlayed="true" :escaped="false"/>
-              <div class="info">
-                <div class="info-wrapper">
-                  <div class="info-inner">
-                    <div class="inner">
-                      <h3 v-html="post.title"/>
-                      <div v-html="post.date"/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </router-link>
+            <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
           </div>
         </div>
       </div>
@@ -27,12 +15,12 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import accordionMenu from '../common/accordion-menu.vue'
-  import imageOverlayed from '../common/image-overlayed.vue'
+  import blogMenu from '../common/blog-menu.vue'
+  import post from './post.vue'
 
   export default {
     name: 'journal-by-cat-page',
-    components: {accordionMenu, imageOverlayed},
+    components: {blogMenu, post},
     computed: {
       ...mapGetters(['posts', 'categories']),
       categoryData () {

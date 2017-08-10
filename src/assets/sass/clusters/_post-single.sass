@@ -1,4 +1,30 @@
-.post-content
-  @extend .xlg-margin-top
-  @extend .xlg-padding-top
-  border-top: 2px solid $light-turqoise
+#journal-single
+  .post-content
+    @extend .xlg-margin-top
+    @extend .xlg-padding-top
+    border-top: $light-turqoise-divider
+
+  .recent-posts-and-ads
+    .recent-posts-title
+      &:last-child
+        @extend .lg-padding-top
+        border-top: $light-turqoise-divider
+
+      font-size: 16px
+
+    .image-overlayed-wrapper
+      @extend .sm-margin-bottom
+
+  .banner-content
+    display: none
+
+  .info
+    h3
+      @extend .no-margin
+      font-size: 14px
+
+    .post-date
+      @extend .lg-margin-bottom
+      font-size: 12px
+      font-style: italic
+
