@@ -30,12 +30,12 @@ let stopZoomingWhenDoubleTapped = () => {
   })
 }
 
-let relativePath = (url) => {
+let getRouteFromWpMenus = (url) => {
   let domainUrl = Config.wpDomain
   let domainLength = domainUrl.length
   let internalLocation = '^' + domainUrl
   let internalLocationRegExp = new RegExp(internalLocation)
-  return (url.match(internalLocationRegExp) === null) ? {url: url, flag: 'absolute'} : {url: url.slice(domainLength), flag: 'relative'}
+  return (url.match(internalLocationRegExp) === null) ? {url: url, flag: 'absolute'} : {url: url.slice(domainLength - 1), flag: 'relative'}
 }
 
 let friendlyMonth = (month) => {
@@ -46,6 +46,6 @@ let friendlyMonth = (month) => {
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
-  relativePath,
+  getRouteFromWpMenus,
   friendlyMonth
 }

@@ -1,6 +1,6 @@
 import apiService from '../api/app.service'
 import translations from '../modules/translations'
-import {friendlyMonth, relativePath} from '../modules/utils'
+import {friendlyMonth, getRouteFromWpMenus} from '../modules/utils'
 import Config from '../api/app.config'
 
 let actions = {
@@ -12,8 +12,9 @@ let actions = {
       commit('mutateTranslations', translations)
       let prepareMenuUrl = (menu) => {
         menu.forEach(item => {
-          item.url = relativePath(item.url).url
-          item.pathType = relativePath(item.url).flag
+          let relPath = getRouteFromWpMenus(item.url)
+          item.url = relPath.url
+          item.pathType = relPath.flag
         })
       }
 
