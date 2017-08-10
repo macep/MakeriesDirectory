@@ -1,0 +1,85 @@
+.fscf-required-indicator
+  color: $brand-danger
+  font-family: $font-family-serif
+  display: inline
+  font-size: 18px
+
+
+.fscf-required-text
+  font-style: italic
+
+
+.fscf-label
+  @extend %main-headings
+  @extend .xlg-margin-top
+  font-size: 18px
+
+
+.fscf-div-field-left
+  font-size: 13px
+
+[class^="fscf-div-captcha-"]
+  @extend .xlg-margin-top
+  width: 200px
+  display: inline-block
+
+  *
+    display: inline-block
+
+.fscf-input-captcha
+  @extend .xlg-margin-bottom
+  width: 135px
+  display: inline-block
+
+.fscf-div-field
+  [type="checkbox"]
+    display: inline-block
+    width: auto
+
+  label
+    @extend %main-headings
+    @extend %fast-transitions
+    width: 200px
+    cursor: pointer
+
+    &:hover
+      color: lighten($dark-turqoise, 20%)
+
+    #fscf_div_clear1_36 &
+      width: 320px
+
+// dddanger! this is very sensible, might need updates when the for is updated in the admin
+#fscf_div_clear1_29,
+#fscf_div_field1_33
+  .fscf-div-field span
+    width: 33%
+    display: inline-block
+
+fieldset
+  @extend .lg-margin-top
+
+legend
+  @extend %main-headings
+  font-size: 35px
+  color: $dark-turqoise
+  border-bottom: 2px solid $dark-turqoise
+
+
+input[type="submit"]
+  @extend %main-headings
+  @extend %fast-transitions
+  @extend .xlg-margin-top
+  @extend .lg-padding-top
+  @extend .md-padding-right
+  @extend .md-padding-bottom
+  @extend .md-padding-left
+  width: 100%
+  background: transparent
+  border: 2px solid $dark-turqoise
+  color: $dark-turqoise
+  font-size: 28px
+  letter-spacing: 2px
+
+  &:hover
+    color: $white
+    background: $dark-turqoise

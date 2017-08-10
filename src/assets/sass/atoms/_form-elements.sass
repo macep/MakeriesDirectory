@@ -1,0 +1,21 @@
+input,
+textarea
+  @extend .md-padding
+  width: 100%
+  display: block
+  border: 0
+  outline: 0
+  color: $monsoon
+  border-radius: 2px
+
+  &:not([type="file"])
+    background: $white
+
+input
+  @extend .no-margin
+  font: 13px $font-family-sans-serif
+
+
+textarea
+  @extend .md-margin-bottom
+  min-height: 60px

@@ -41,7 +41,7 @@
     </div>
 
     <div class="col-xs-10 col-xs-offset-1 step">
-      <span class="hereshow" v-html="signUpFormData.content.rendered"/>
+      <span class="sign-up-form" v-html="signUpFormData.content.rendered"/>
     </div>
 
   </div>
