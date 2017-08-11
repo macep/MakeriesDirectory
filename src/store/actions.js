@@ -34,8 +34,10 @@ let actions = {
 
       function getAllPosts () {
         let posts = []
+        let years = []
         return apiService.getPosts(null, null, 100, 'desc').then((response) => {
           let cleanPostsCollection = response.posts.filter(item => {
+            // TODO: could be improved
             if (item.categories[0] !== Config.postsIDs.bannerPosts && item.categories[0] !== Config.postsIDs.sliderPosts) {
               return item
             }
@@ -44,29 +46,33 @@ let actions = {
             let dateString = post.date.split('T')[0]
             let postItem = {
               id: post.id,
-              original_date: dateString,
-              date: dateString.split('-')[2] + ' ' + friendlyMonth(dateString.split('-')[1] - 1) + ' ' + dateString.split('-')[0],
-              time: post.date.split('T')[1],
               title: post.title.rendered,
               excerpt: post.excerpt.rendered,
               content: post.content.rendered,
               categories: post.categories,
               images: post.content.rendered.match(/<img[^>]*>/g),
               featured_image: post.better_featured_image,
+              original_date: dateString,
+              date: dateString.split('-')[2] + ' ' + friendlyMonth(dateString.split('-')[1] - 1) + ' ' + dateString.split('-')[0],
+              year: dateString.split('-')[0],
+              time: post.date.split('T')[1],
               spa_route: '/journal/' + post.slug + '/' + post.id + '/'
             }
             if (postItem.images === null) {
               postItem.images = ['<img src="/static/no-img.png"/>']
             }
             posts.push(postItem)
+            years.push(postItem.year)
           })
           commit('mutatePosts', posts)
+          commit('mutateArchivedYears', years)
         })
       }
 
       function getCategories () {
         return apiService.getCategories().then((response) => {
-          commit('mutateCategories', response.data)
+          let categories = response.data.filter(item => item.id !== Config.postsIDs.sliderPosts && item.id !== Config.postsIDs.bannerPosts)
+          commit('mutateCategories', categories)
         })
       }
 

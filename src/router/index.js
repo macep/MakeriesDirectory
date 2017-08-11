@@ -5,6 +5,7 @@ import About from '@/components/static-pages/about'
 import Directory from '@/components/directory/directory'
 import Journal from '@/components/journal/journal'
 import JournalByCat from '@/components/journal/journal-by-cat'
+import JournalByYear from '@/components/journal/journal-by-year'
 import JournalSingle from '@/components/journal/journal-single'
 import SignUp from '@/components/static-pages/sign-up'
 import Weekender from '@/components/static-pages/weekender'
@@ -20,6 +21,7 @@ const routes = [
   {path: '/directory', name: 'Directory', component: Directory},
   {path: '/journal', name: 'Journal', component: Journal},
   {path: '/journal/category/:id/:slug', name: 'JournalByCat', component: JournalByCat},
+  {path: '/journal/archive/:year', name: 'JournalByYear', component: JournalByYear},
   {path: '/journal/:id/:post', name: 'JournalSingle', component: JournalSingle},
   {path: '/sign-up', name: 'SignUp', component: SignUp},
   {path: '/justgotmade-weekender', name: 'Weekender', component: Weekender},

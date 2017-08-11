@@ -29,6 +29,9 @@ let mutations = {
   mutatePosts: (state, posts) => {
     state.posts = posts
   },
+  mutateArchivedYears: (state, archivedYears) => {
+    state.archivedYears = archivedYears
+  },
   mutateSliderPosts: (state, sliderPosts) => {
     state.sliderPosts = sliderPosts
   },

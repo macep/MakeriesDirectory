@@ -43,9 +43,40 @@ let friendlyMonth = (month) => {
   return arguments[0] === 'list' ? monthNames : monthNames[parseInt(month)]
 }
 
+let removeArrayDuplicates = (array) => {
+  return array.filter((elem, idx, self) => idx === self.indexOf(elem))
+}
+
+let findOccurences = (array) => {
+  let a = []
+  let b = []
+  let c = []
+  let prev
+
+  array.sort().forEach(el => {
+    if (el !== prev) {
+      a.push(el)
+      b.push(1)
+    } else {
+      b[b.length - 1]++
+    }
+    prev = el
+  })
+
+  a.forEach((el, i) => {
+    c.push({
+      el: el,
+      occurences: b[i]
+    })
+  })
+  return c
+}
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
   getRouteFromWpMenus,
-  friendlyMonth
+  friendlyMonth,
+  removeArrayDuplicates,
+  findOccurences
 }

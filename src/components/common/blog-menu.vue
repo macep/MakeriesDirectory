@@ -29,9 +29,9 @@
       <div id="collapse-2" class="panel-collapse collapse" :class="{'in': archivesOpen}" :style="panelStyle(archivesOpen)" role="tabpanel" aria-labelledby="heading-2">
         <div class="panel-body">
           <ul>
-            <li>2015</li>
-            <li>2016</li>
-            <li>2017</li>
+            <li v-for="year in archivedYearsCollection" :key="year.el">
+              <router-link :to="year.route">{{year.el}}</router-link> ({{year.occurences}})
+            </li>
           </ul>
         </div>
       </div>
@@ -40,24 +40,29 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import {findOccurences} from '../../modules/utils'
+
+  const byYear = '/journal/archive/'
   const byCat = '/journal/category/'
 
   export default {
     name: 'accordion-menu',
-    props: {
-      oneAtATime: {
-        type: Boolean,
-        required: true
-      },
-      accData: {
-        type: Array,
-        required: true
-      }
-    },
+    props: ['oneAtATime', 'accData'],
     data () {
       return {
         categoriesOpen: true,
         archivesOpen: false
+      }
+    },
+    computed: {
+      ...mapGetters(['archivedYears']),
+      archivedYearsCollection () {
+        let years = findOccurences(this.archivedYears)
+        years.forEach(year => {
+          year.route = byYear + year.el
+        })
+        return years
       }
     },
     methods: {

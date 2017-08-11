@@ -10,6 +10,7 @@ let getters = {
   categories: state => state.categories,
   pages: state => state.pages,
   posts: state => state.posts,
+  archivedYears: state => state.archivedYears,
   sliderPosts: state => state.sliderPosts,
   bannerPosts: state => state.bannerPosts,
   makeries: state => state.makeries

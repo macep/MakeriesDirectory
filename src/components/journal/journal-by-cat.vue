@@ -1,7 +1,7 @@
 <template>
     <div id="journal" class="row page">
       <div class="col-xs-2">
-        <blog-menu :one-at-a-time="true" :acc-data="categories"/>
+        <blog-menu :acc-data="categories"/>
       </div>
       <div class="col-xs-10">
         <div class="row">
