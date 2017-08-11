@@ -6,8 +6,7 @@
     <div class="col-xs-10">
       <div class="row">
         <div class="col-xs-12">
-          <h3 class="sm-margin-top"> {{archiveTitle}}</h3>
-          <hr>
+          <h3 class="posts-filter-title"> {{archiveTitle}}</h3>
         </div>
         <div class="col-xs-6 post-item" v-for="post in yearData" :key="post.id">
           <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
