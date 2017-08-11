@@ -15,6 +15,10 @@ const Config = {
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
   genericCachingTime: 864e5,
   recentPostsNumber: 3,
+  titles: {
+    archive: 'Achived posts:',
+    category: 'Category:'
+  },
   postsIDs: {
     sliderPosts: 863,
     bannerPosts: 864
