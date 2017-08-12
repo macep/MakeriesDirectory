@@ -12,6 +12,7 @@ import Weekender from '@/components/static-pages/weekender'
 import PrivacyPolicy from '@/components/static-pages/privacy-policy'
 import Disclaimer from '@/components/static-pages/disclaimer'
 import Contact from '@/components/static-pages/contact'
+import PageNotFound from '@/components/static-pages/page-not-found'
 
 Vue.use(Router)
 
@@ -27,7 +28,8 @@ const routes = [
   {path: '/justgotmade-weekender', name: 'Weekender', component: Weekender},
   {path: '/privacy-policy', name: 'PrivacyPolicy', component: PrivacyPolicy},
   {path: '/disclaimer', name: 'Disclaimer', component: Disclaimer},
-  {path: '/contact', name: 'Contact', component: Contact}
+  {path: '/contact', name: 'Contact', component: Contact},
+  {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]
 
 export default new Router({

@@ -43,6 +43,10 @@ const Config = {
     primary: 2,
     secondary: 3
   },
+  pageNotFound: {
+    title: '',
+    content: ''
+  },
   social: {
     facebookUrl: 'http://www.facebook.com/sharer.php?u=',
     twitterURl: 'http://twitter.com/?status=',
