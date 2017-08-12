@@ -4,9 +4,12 @@
       <span v-html="directoryPageData.content.rendered"/>
     </div>
     <div class="col-xs-4" v-for="maker in makeries" :key="maker.id">
-      <img :src="maker.images[0].url"/>
-      <span v-html="maker.name"/>
-      <span v-html="maker.briefDescription"/>
+      <banner :route="maker.routeTo"
+              :img="maker.images[0].url"
+              :title="maker.name"
+              :content="maker.briefDescription"
+              :overlayed="true"
+              :escaped="true"/>
     </div>
   </div>
 </template>
@@ -14,9 +17,11 @@
 <script>
   import {mapGetters, mapActions} from 'vuex'
   import Config from '../../api/app.config'
+  import banner from '../common/banner'
 
   export default {
     name: 'directory-page',
+    components: {banner},
     mounted () {
       this.loadDirectory()
     },

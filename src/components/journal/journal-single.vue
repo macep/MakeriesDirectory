@@ -32,7 +32,12 @@
       </div>
       <div class="col-xs-12 blog-banner" v-for="banner in bannerPosts" :key="banner.id">
         <br>
-        <banner :banner="banner" :overlayed="false" :escaped="true"/>
+        <banner :route="banner.routeTo"
+                :img="banner.better_featured_image.source_url"
+                :title="banner.title.rendered"
+                :content="banner.content.rendered"
+                :overlayed="false"
+                :escaped="true"/>
       </div>
     </div>
   </div>

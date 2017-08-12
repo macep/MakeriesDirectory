@@ -1,18 +1,18 @@
 <template>
   <div class="banner-inner">
-    <template v-if="banner.routeTo">
-      <router-link :to="banner.routeTo">
-        <image-overlayed :url="banner.better_featured_image.source_url" :overlayed="overlayed" :escaped="escaped"/>
+    <template v-if="route">
+      <router-link :to="route">
+        <image-overlayed :url="img" :overlayed="overlayed" :escaped="escaped"/>
       </router-link>
-      <router-link :to="banner.routeTo" class="banner-title">{{banner.title.rendered}}</router-link>
+      <router-link :to="route" class="banner-title">{{title}}</router-link>
     </template>
     <template v-else>
       <a href="http://eepurl.com/lobiL" target="_new">
-        <image-overlayed :url="banner.better_featured_image.source_url" :overlayed="overlayed" :escaped="escaped"/>
+        <image-overlayed :url="img" :overlayed="overlayed" :escaped="escaped"/>
       </a>
-      <a href="http://eepurl.com/lobiL" target="_new" class="banner-title">{{banner.title.rendered}}</a>
+      <a href="http://eepurl.com/lobiL" target="_new" class="banner-title">{{title}}</a>
     </template>
-    <span v-html="banner.content.rendered" class="banner-content"/>
+    <span v-html="content" class="banner-content"/>
   </div>
 </template>
 
@@ -23,8 +23,20 @@
     name: 'banner',
     components: {imageOverlayed},
     props: {
-      banner: {
-        type: Object,
+      route: {
+        type: String,
+        required: false
+      },
+      img: {
+        type: String,
+        required: true
+      },
+      title: {
+        type: String,
+        required: true
+      },
+      content: {
+        type: String,
         required: true
       },
       overlayed: {
