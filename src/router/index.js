@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Config from '../api/app.config'
+
 import Home from '@/components/static-pages/home'
 import About from '@/components/static-pages/about'
 import Directory from '@/components/directory/directory'
+import Maker from '@/components/directory/maker'
 import Journal from '@/components/journal/journal'
 import JournalByCat from '@/components/journal/journal-by-cat'
 import JournalByYear from '@/components/journal/journal-by-year'
@@ -18,17 +21,18 @@ Vue.use(Router)
 
 const routes = [
   {path: '/', name: 'Home', component: Home},
-  {path: '/about', name: 'About', component: About},
-  {path: '/directory', name: 'Directory', component: Directory},
-  {path: '/journal', name: 'Journal', component: Journal},
-  {path: '/journal/category/:id/:slug', name: 'JournalByCat', component: JournalByCat},
-  {path: '/journal/archive/:year', name: 'JournalByYear', component: JournalByYear},
-  {path: '/journal/:id/:post', name: 'JournalSingle', component: JournalSingle},
-  {path: '/sign-up', name: 'SignUp', component: SignUp},
-  {path: '/justgotmade-weekender', name: 'Weekender', component: Weekender},
-  {path: '/privacy-policy', name: 'PrivacyPolicy', component: PrivacyPolicy},
-  {path: '/disclaimer', name: 'Disclaimer', component: Disclaimer},
-  {path: '/contact', name: 'Contact', component: Contact},
+  {path: `${Config.routerSettings.about}`, name: 'About', component: About},
+  {path: `${Config.routerSettings.directory}`, name: 'Directory', component: Directory},
+  {path: `${Config.routerSettings.makerDetail}:id/:page`, name: 'Maker', component: Maker},
+  {path: `${Config.routerSettings.journal}`, name: 'Journal', component: Journal},
+  {path: `${Config.routerSettings.category}:id/:slug`, name: 'JournalByCat', component: JournalByCat},
+  {path: `${Config.routerSettings.archive}:year`, name: 'JournalByYear', component: JournalByYear},
+  {path: `${Config.routerSettings.journalSingle}:id/:post`, name: 'JournalSingle', component: JournalSingle},
+  {path: `${Config.routerSettings.signUp}`, name: 'SignUp', component: SignUp},
+  {path: `${Config.routerSettings.weekender}`, name: 'Weekender', component: Weekender},
+  {path: `${Config.routerSettings.privacy}`, name: 'PrivacyPolicy', component: PrivacyPolicy},
+  {path: `${Config.routerSettings.disclaimer}`, name: 'Disclaimer', component: Disclaimer},
+  {path: `${Config.routerSettings.contact}`, name: 'Contact', component: Contact},
   {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]
 

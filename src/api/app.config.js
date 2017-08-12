@@ -15,6 +15,21 @@ const Config = {
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
   genericCachingTime: 864e5,
   recentPostsNumber: 3,
+  routerSettings: {
+    about: '/about/',
+    directory: '/directory/',
+    makerDetail: '/supplier/details/',
+    journal: '/journal/',
+    category: '/journal/category/',
+    archive: '/journal/archive/',
+    journalSingle: '/journal/',
+    signUp: '/sign-up/',
+    weekender: '/justgotmade-weekender/',
+    privacy: '/privacy-policy/',
+    disclaimer: '/disclaimer/',
+    contact: '/contact/',
+    newsletter: 'http://eepurl.com/lobiL'
+  },
   titles: {
     archive: 'Achived posts:',
     category: 'Category:'

@@ -56,7 +56,7 @@ let actions = {
               date: dateString.split('-')[2] + ' ' + friendlyMonth(dateString.split('-')[1] - 1) + ' ' + dateString.split('-')[0],
               year: dateString.split('-')[0],
               time: post.date.split('T')[1],
-              spa_route: '/journal/' + post.slug + '/' + post.id + '/'
+              spa_route: `${Config.routerSettings.journalSingle}${post.slug}/${post.id}/`
             }
             if (postItem.images === null) {
               postItem.images = ['<img src="/static/no-img.png"/>']
@@ -100,13 +100,13 @@ let actions = {
           bannerPosts.forEach((item, idx) => {
             switch (idx) {
               case 0:
-                item.routeTo = '/directory'
+                item.routeTo = Config.routerSettings.directory
                 break
               case 1:
-                item.routeTo = '/sign-up'
+                item.routeTo = Config.routerSettings.signUp
                 break
               case 2:
-                item.linkTo = 'http://eepurl.com/lobiL'
+                item.linkTo = Config.routerSettings.newsletter
                 break
             }
           })
@@ -130,7 +130,11 @@ let actions = {
 
       function getDotNetData () {
         apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
-          commit('mutateMakeries', data.data)
+          let directory = data.data
+          directory.forEach(maker => {
+            maker.routeTo = `${Config.routerSettings.makerDetail}${maker.id}/${maker.name.split(' ').join('-')}`
+          })
+          commit('mutateMakeries', directory)
         })
       }
 

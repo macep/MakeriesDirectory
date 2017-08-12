@@ -1,0 +1,23 @@
+$image-height: 150px
+$wrapper-height: 275px
+
+.maker
+  .banner-inner
+    @extend .md-margin-bottom
+    background: $white
+    min-height: $wrapper-height
+
+  .image-overlayed-wrapper
+    max-height: $image-height
+    overflow: hidden
+
+  .banner-title,
+  .banner-content
+    @extend .md-padding-right
+    @extend .md-padding-bottom
+    @extend .md-padding-left
+    display: block
+
+  .banner-content
+    font-style: normal
+    font-size: 12px

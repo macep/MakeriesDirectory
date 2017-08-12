@@ -42,9 +42,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import {findOccurences} from '../../modules/utils'
-
-  const byYear = '/journal/archive/'
-  const byCat = '/journal/category/'
+  import Config from '../../api/app.config'
 
   export default {
     name: 'accordion-menu',
@@ -60,14 +58,14 @@
       archivedYearsCollection () {
         let years = findOccurences(this.archivedYears)
         years.forEach(year => {
-          year.route = byYear + year.el
+          year.route = `${Config.routerSettings.archive}${year.el}`
         })
         return years
       }
     },
     methods: {
       journalByCatIdRoute (slug, id) {
-        return byCat + id + '/' + slug
+        return `${Config.routerSettings.category}${id}/${slug}`
       },
       panelStyle (val) {
         return {
