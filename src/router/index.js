@@ -6,6 +6,7 @@ import Home from '@/components/static-pages/home'
 import About from '@/components/static-pages/about'
 import Directory from '@/components/directory/directory'
 import FilterBy from '@/components/directory/filter-by'
+import FilterAZ from '@/components/directory/filter-az'
 import Maker from '@/components/directory/maker'
 import Journal from '@/components/journal/journal'
 import JournalByCat from '@/components/journal/journal-by-cat'
@@ -28,6 +29,7 @@ const routes = [
   {path: `${Config.routerSettings.filterBy.products}:filter`, name: 'FilterBy', component: FilterBy},
   {path: `${Config.routerSettings.filterBy.businessTypes}:filter`, name: 'FilterBy', component: FilterBy},
   {path: `${Config.routerSettings.filterBy.serviceTypes}:filter`, name: 'FilterBy', component: FilterBy},
+  {path: `${Config.routerSettings.filterAZ}`, name: 'FilterAZ', component: FilterAZ},
   {path: `${Config.routerSettings.makerDetail}:id/:page`, name: 'Maker', component: Maker},
   {path: `${Config.routerSettings.journal}`, name: 'Journal', component: Journal},
   {path: `${Config.routerSettings.category}:id/:slug`, name: 'JournalByCat', component: JournalByCat},

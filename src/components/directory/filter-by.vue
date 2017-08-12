@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import banner from '../common/banner'
   import makeriesMenu from './makeries-menu.vue'
@@ -27,9 +27,6 @@
   export default {
     name: 'filter-by',
     components: {banner, makeriesMenu},
-    mounted () {
-      this.loadDirectory()
-    },
     computed: {
       ...mapGetters(['directory']),
       currentFilterType () {
@@ -57,9 +54,6 @@
           }
         })
       }
-    },
-    methods: {
-      ...mapActions(['loadDirectory'])
     }
   }
 </script>

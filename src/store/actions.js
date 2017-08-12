@@ -138,6 +138,11 @@ let actions = {
             products: {name: Config.filterData.products, data: []},
             serviceTypes: {name: Config.filterData.serviceTypes, data: []}
           }
+
+          let letter = ''
+          let azObject = {}
+          let azValNameNonAlpha = []
+
           directory.forEach(item => {
             item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${item.name.split(' ').join('-')}`
 
@@ -166,7 +171,34 @@ let actions = {
                 i.pretty = friendlyUrl(i.name)
               })
             }
+
+            // sort the collection by initial char, case insensitive
+            letter = item.name.charAt(0).toUpperCase()
+
+            if (azObject[letter] === undefined) {
+              azObject[letter] = []
+            }
+
+            azObject[letter].push(item)
           })
+
+          for (let prop in azObject) {
+            if (prop.match(/^[A-Za-z]+$/) === null) {
+              azValNameNonAlpha = azValNameNonAlpha.concat(azObject[prop])
+              if (prop !== '0-9') {
+                delete azObject[prop]
+              }
+            }
+          }
+
+          azObject['0-9'] = azValNameNonAlpha
+
+          // prepare the route property
+          for (let value in azObject) {
+            azObject[value].forEach((item) => {
+              item.pretty = friendlyUrl(item.name)
+            })
+          }
 
           filterData.regions.data = findOccurences(filterData.regions.data, true, Config.routerSettings.filterBy.region)
           filterData.products.data = findOccurences(filterData.products.data, true, Config.routerSettings.filterBy.products)
@@ -175,6 +207,7 @@ let actions = {
 
           commit('mutateDirectory', directory)
           commit('mutateDirectoryFilterData', filterData)
+          commit('mutateDirectoryAZ', azObject)
         })
       }
 

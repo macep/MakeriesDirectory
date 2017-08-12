@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters} from 'vuex'
   import banner from '../common/banner'
   import makeriesMenu from './makeries-menu.vue'
   import searchDirectory from './search-directory.vue'
@@ -25,14 +25,8 @@
   export default {
     name: 'directory-page',
     components: {banner, makeriesMenu, searchDirectory},
-    mounted () {
-      this.loadDirectory()
-    },
     computed: {
       ...mapGetters(['directory'])
-    },
-    methods: {
-      ...mapActions(['loadDirectory'])
     }
   }
 </script>

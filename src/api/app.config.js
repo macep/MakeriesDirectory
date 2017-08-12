@@ -41,7 +41,8 @@ const Config = {
   titles: {
     archive: 'Achived posts:',
     category: 'Category:',
-    directoryAll: 'SEARCH 272 SUPPLIERS',
+    searchAll: 'SEARCH ALL',
+    suppliers: 'suppliers',
     directoryAZ: 'DIRECTORY A-Z'
   },
   postsIDs: {

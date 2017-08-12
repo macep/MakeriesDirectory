@@ -14,7 +14,9 @@ let getters = {
   sliderPosts: state => state.sliderPosts,
   bannerPosts: state => state.bannerPosts,
   directory: state => state.directory,
-  directoryFilterData: state => state.directoryFilterData
+  directoryFilterData: state => state.directoryFilterData,
+  directoryAZ: state => state.directoryAZ
+
 }
 
 export default getters

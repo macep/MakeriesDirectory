@@ -24,7 +24,8 @@ export default new Vuex.Store({
     sliderPosts: [],
     bannerPosts: [],
     directory: [],
-    directoryFilterData: []
+    directoryFilterData: [],
+    directoryAZ: []
   },
   getters,
   mutations,

@@ -3,8 +3,8 @@
     <div class="panel panel-default">
       <div class="panel-heading" id="heading-all">
         <h4 class="panel-title" :class="">
-          <router-link to="/directory/">
-            Search all 272 suppliers
+          <router-link :to="searchAllRoute">
+            {{searchAllTitle}}
           </router-link>
         </h4>
       </div>
@@ -32,8 +32,8 @@
     <div class="panel panel-default">
       <div class="panel-heading" id="heading-az">
         <h4 class="panel-title" :class="">
-          <router-link to="/directory-az/">
-            Directory A-Z
+          <router-link :to="azRoute">
+            {{azTitle}}
           </router-link>
         </h4>
       </div>
@@ -41,7 +41,8 @@
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
+  import Config from '../../api/app.config'
 
   export default {
     name: 'makeries-menu',
@@ -49,13 +50,29 @@
     data () {
       return {}
     },
+    mounted () {
+      this.loadDirectory()
+    },
     computed: {
-      ...mapGetters(['directoryFilterData']),
+      ...mapGetters(['directoryFilterData', 'directory']),
       directoryFilterDataCollection () {
         return this.directoryFilterData
+      },
+      searchAllTitle () {
+        return `${Config.titles.searchAll} ${this.directory.length} ${Config.titles.suppliers}`
+      },
+      searchAllRoute () {
+        return Config.routerSettings.directory
+      },
+      azTitle () {
+        return Config.titles.directoryAZ
+      },
+      azRoute () {
+        return Config.routerSettings.filterAZ
       }
     },
     methods: {
+      ...mapActions(['loadDirectory']),
       panelStyle (val) {
         return {
           height: val ? '' : '0'
