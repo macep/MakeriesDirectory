@@ -56,7 +56,7 @@
     computed: {
       ...mapGetters(['archivedYears']),
       archivedYearsCollection () {
-        let years = findOccurences(this.archivedYears)
+        let years = findOccurences(this.archivedYears, false)
         years.forEach(year => {
           year.route = `${Config.routerSettings.archive}${year.el}`
         })

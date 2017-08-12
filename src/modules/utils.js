@@ -47,7 +47,7 @@ let removeArrayDuplicates = (array) => {
   return array.filter((elem, idx, self) => idx === self.indexOf(elem))
 }
 
-let findOccurences = (array) => {
+let findOccurences = (array, withUrl) => {
   let a = []
   let b = []
   let c = []
@@ -68,7 +68,12 @@ let findOccurences = (array) => {
       el: el,
       occurences: b[i]
     })
+
+    if (withUrl) {
+      c[i].url = a[i].split(' ').join('-').replace(/,/g, '')
+    }
   })
+
   return c
 }
 

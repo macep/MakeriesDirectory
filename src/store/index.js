@@ -23,7 +23,8 @@ export default new Vuex.Store({
     archivedYears: [],
     sliderPosts: [],
     bannerPosts: [],
-    makeries: []
+    directory: [],
+    directoryFilterData: []
   },
   getters,
   mutations,

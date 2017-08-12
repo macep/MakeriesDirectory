@@ -13,7 +13,8 @@ let getters = {
   archivedYears: state => state.archivedYears,
   sliderPosts: state => state.sliderPosts,
   bannerPosts: state => state.bannerPosts,
-  makeries: state => state.makeries
+  directory: state => state.directory,
+  directoryFilterData: state => state.directoryFilterData
 }
 
 export default getters

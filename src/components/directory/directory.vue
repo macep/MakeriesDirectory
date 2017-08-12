@@ -5,7 +5,12 @@
     </div>
     <div class="col-xs-9">
       <div class="row small-gutter">
-        <div class="col-xs-4 maker" v-for="maker in makeries" :key="maker.id">
+        <div class="col-xs-12">
+          <search-directory/>
+        </div>
+      </div>
+      <div class="row small-gutter">
+        <div class="col-xs-4 maker" v-for="maker in directory" :key="maker.id">
           <banner :route="maker.routeTo" :img="maker.images[0].url" :title="maker.name" :content="maker.briefDescription || ''" :overlayed="true" :escaped="true"/>
         </div>
       </div>
@@ -15,18 +20,18 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-//  import Config from '../../api/app.config'
   import banner from '../common/banner'
   import makeriesMenu from './makeries-menu.vue'
+  import searchDirectory from './search-directory.vue'
 
   export default {
     name: 'directory-page',
-    components: {banner, makeriesMenu},
+    components: {banner, makeriesMenu, searchDirectory},
     mounted () {
       this.loadDirectory()
     },
     computed: {
-      ...mapGetters(['makeries'])
+      ...mapGetters(['directory'])
     },
     methods: {
       ...mapActions(['loadDirectory'])

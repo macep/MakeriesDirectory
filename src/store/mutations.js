@@ -38,8 +38,11 @@ let mutations = {
   mutateBannerPosts: (state, bannerPosts) => {
     state.bannerPosts = bannerPosts
   },
-  mutateMakeries: (state, makeries) => {
-    state.makeries = makeries
+  mutateDirectory: (state, directory) => {
+    state.directory = directory
+  },
+  mutateDirectoryFilterData: (state, directoryFilterData) => {
+    state.directoryFilterData = directoryFilterData
   }
 }
 

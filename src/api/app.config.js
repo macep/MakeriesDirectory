@@ -18,6 +18,7 @@ const Config = {
   routerSettings: {
     about: '/about/',
     directory: '/directory/',
+    filterDirectory: '/directory/filterBy/',
     makerDetail: '/supplier/details/',
     journal: '/journal/',
     category: '/journal/category/',
@@ -32,7 +33,9 @@ const Config = {
   },
   titles: {
     archive: 'Achived posts:',
-    category: 'Category:'
+    category: 'Category:',
+    directoryAll: 'SEARCH 272 SUPPLIERS',
+    directoryAZ: 'DIRECTORY A-Z'
   },
   postsIDs: {
     sliderPosts: 863,
@@ -57,6 +60,15 @@ const Config = {
   menusIDs: {
     primary: 2,
     secondary: 3
+  },
+  filterData: {
+    regions: 'Location',
+    businessTypes: 'WHO DO YOU NEED?',
+    products: 'What are you making?',
+    projects: 'Projects',
+    customer: 'Customer',
+    serviceTypes: 'WHAT DO YOU NEED?',
+    suppliersNumber: 'Suppliers Number'
   },
   pageNotFound: {
     title: '',
