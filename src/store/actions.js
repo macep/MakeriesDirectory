@@ -1,6 +1,6 @@
 import apiService from '../api/app.service'
 import translations from '../modules/translations'
-import {friendlyMonth, getRouteFromWpMenus, findOccurences} from '../modules/utils'
+import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl} from '../modules/utils'
 import Config from '../api/app.config'
 
 let actions = {
@@ -130,48 +130,50 @@ let actions = {
 
       function getDotNetData () {
         apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
-          // build directory
           let directory = data.data
-          directory.forEach(maker => {
-            maker.routeTo = `${Config.routerSettings.makerDetail}${maker.id}/${maker.name.split(' ').join('-')}`
-          })
 
-          commit('mutateDirectory', directory)
-
-          // build filter data
           let filterData = {
             regions: {name: Config.filterData.regions, data: []},
             businessTypes: {name: Config.filterData.businessTypes, data: []},
             products: {name: Config.filterData.products, data: []},
             serviceTypes: {name: Config.filterData.serviceTypes, data: []}
           }
+          directory.forEach(item => {
+            item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${item.name.split(' ').join('-')}`
 
-          directory.forEach((item) => {
             if (item.region !== null) {
               filterData.regions.data.push(item.region.name)
+              item.region.pretty = friendlyUrl(item.region.name)
             }
+
             if (item.businessTypes !== null) {
               item.businessTypes.forEach((i) => {
                 filterData.businessTypes.data.push(i.name)
+                i.pretty = friendlyUrl(i.name)
               })
             }
+
             if (item.products !== null) {
               item.products.forEach((i) => {
                 filterData.products.data.push(i.name)
+                i.pretty = friendlyUrl(i.name)
               })
             }
+
             if (item.serviceTypes !== null) {
               item.serviceTypes.forEach((i) => {
                 filterData.serviceTypes.data.push(i.name)
+                i.pretty = friendlyUrl(i.name)
               })
             }
           })
 
-          filterData.regions.data = findOccurences(filterData.regions.data, true)
-          filterData.products.data = findOccurences(filterData.products.data, true)
-          filterData.businessTypes.data = findOccurences(filterData.businessTypes.data, true)
-          filterData.serviceTypes.data = findOccurences(filterData.serviceTypes.data, true)
+          filterData.regions.data = findOccurences(filterData.regions.data, true, Config.routerSettings.filterBy.region)
+          filterData.products.data = findOccurences(filterData.products.data, true, Config.routerSettings.filterBy.products)
+          filterData.businessTypes.data = findOccurences(filterData.businessTypes.data, true, Config.routerSettings.filterBy.businessTypes)
+          filterData.serviceTypes.data = findOccurences(filterData.serviceTypes.data, true, Config.routerSettings.filterBy.serviceTypes)
 
+          commit('mutateDirectory', directory)
           commit('mutateDirectoryFilterData', filterData)
         })
       }

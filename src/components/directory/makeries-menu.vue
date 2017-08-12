@@ -13,7 +13,7 @@
     <div class="panel panel-default" v-for="(filter, value) in directoryFilterDataCollection" v-if="filter.data.length > 0" :key="filter.el">
       <div class="panel-heading" role="tab" :id="'heading-' + value">
         <h4 class="panel-title" :class="{'open': 'item-' + value}">
-          <v-touch tag="a" role="button" data-toggle="collapse" data-parent="#accordion" :aria-expanded="'item-' + value" :aria-controls="'collapse-' + value">
+          <v-touch tag="a"role="button" data-toggle="collapse" data-parent="#accordion" :aria-expanded="'item-' + value" :aria-controls="'collapse-' + value">
             {{filter.name}}
           </v-touch>
         </h4>
@@ -42,7 +42,6 @@
 </template>
 <script>
   import {mapGetters} from 'vuex'
-  import Config from '../../api/app.config'
 
   export default {
     name: 'makeries-menu',
@@ -53,14 +52,10 @@
     computed: {
       ...mapGetters(['directoryFilterData']),
       directoryFilterDataCollection () {
-        console.log(this.directoryFilterData)
         return this.directoryFilterData
       }
     },
     methods: {
-      journalByCatIdRoute (slug, id) {
-        return `${Config.routerSettings.category}${id}/${slug}`
-      },
       panelStyle (val) {
         return {
           height: val ? '' : '0'

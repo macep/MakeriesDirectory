@@ -19,6 +19,13 @@ const Config = {
     about: '/about/',
     directory: '/directory/',
     filterDirectory: '/directory/filterBy/',
+    filterBy: {
+      region: '/directory/filter-by/location/',
+      products: '/directory/filter-by/products/',
+      businessTypes: '/directory/filter-by/business-types/',
+      serviceTypes: '/directory/filter-by/service-types/'
+    },
+    filterAZ: '/directory-A-Z/',
     makerDetail: '/supplier/details/',
     journal: '/journal/',
     category: '/journal/category/',

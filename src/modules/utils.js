@@ -47,11 +47,15 @@ let removeArrayDuplicates = (array) => {
   return array.filter((elem, idx, self) => idx === self.indexOf(elem))
 }
 
-let findOccurences = (array, withUrl) => {
+let findOccurences = (array, withUrl, urlPrefix) => {
   let a = []
   let b = []
   let c = []
   let prev
+
+  if (urlPrefix === null) {
+    urlPrefix = ''
+  }
 
   array.sort().forEach(el => {
     if (el !== prev) {
@@ -70,11 +74,15 @@ let findOccurences = (array, withUrl) => {
     })
 
     if (withUrl) {
-      c[i].url = a[i].split(' ').join('-').replace(/,/g, '')
+      c[i].url = urlPrefix + friendlyUrl(a[i])
     }
   })
 
   return c
+}
+
+let friendlyUrl = (val) => {
+  return val.split(' ').join('-').replace(/,/g, '')
 }
 
 export {
@@ -83,5 +91,6 @@ export {
   getRouteFromWpMenus,
   friendlyMonth,
   removeArrayDuplicates,
-  findOccurences
+  findOccurences,
+  friendlyUrl
 }

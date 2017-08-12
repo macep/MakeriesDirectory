@@ -8,8 +8,6 @@
         <div class="col-xs-12">
           <search-directory/>
         </div>
-      </div>
-      <div class="row small-gutter">
         <div class="col-xs-4 maker" v-for="maker in directory" :key="maker.id">
           <banner :route="maker.routeTo" :img="maker.images[0].url" :title="maker.name" :content="maker.briefDescription || ''" :overlayed="true" :escaped="true"/>
         </div>
