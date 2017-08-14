@@ -1,10 +1,10 @@
 <template>
   <div id="view-type" class="row no-gutter">
     <div class="col-xs-6">
-      <v-touch tag="i" :class="{'active': viewType === 'list'}" @tap="setViewType('list')" class="icon-list"/>
+      <v-touch tag="i" :class="{'active': viewType === 'list'}" @tap="setViewType('list')" title="list view" class="icon-list"/>
     </div>
     <div class="col-xs-6">
-      <v-touch tag="i" :class="{'active': viewType === 'grid'}" @tap="setViewType('grid')" class="icon-grid"/>
+      <v-touch tag="i" :class="{'active': viewType === 'grid'}" @tap="setViewType('grid')" title="grid view" class="icon-grid"/>
     </div>
   </div>
 </template>

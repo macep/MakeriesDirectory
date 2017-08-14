@@ -4,7 +4,7 @@
       <makeries-menu/>
     </div>
     <div class="col-xs-9">
-      <div class="row no-gutter">
+      <div class="row small-gutter">
         <div class="col-xs-12">
           <div class="row no-gutter">
             <div class="col-xs-10 lg-margin-bottom">
