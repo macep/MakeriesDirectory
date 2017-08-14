@@ -196,7 +196,6 @@ let actions = {
           // prepare the route property
           for (let value in azObject) {
             azObject[value].forEach((item) => {
-              console.log(`${Config.routerSettings.makerDetail}${item.id}/${friendlyUrl(item.name)}`)
               item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${friendlyUrl(item.name)}`
             })
           }

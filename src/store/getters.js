@@ -15,8 +15,8 @@ let getters = {
   bannerPosts: state => state.bannerPosts,
   directory: state => state.directory,
   directoryFilterData: state => state.directoryFilterData,
-  directoryAZ: state => state.directoryAZ
-
+  directoryAZ: state => state.directoryAZ,
+  route: state => state.route
 }
 
 export default getters
