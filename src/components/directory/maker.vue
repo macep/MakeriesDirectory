@@ -33,7 +33,7 @@
         </div>
 
         <div v-if="maker.serviceTypes !== undefined && maker.serviceTypes.length > 0" class="list-item">
-          <h6>SERVICES</h6>
+          <h6>SERVICE types</h6>
           <div class="item">
             <span v-for="(s, index) in maker.serviceTypes" :key="index">
               <router-link to="/"> {{s.name}}</router-link>
