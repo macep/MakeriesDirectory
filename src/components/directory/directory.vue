@@ -4,13 +4,13 @@
       <makeries-menu/>
     </div>
     <div class="col-xs-9">
-      <div class="row small-gutter">
+      <div class="row no-gutter">
         <div class="col-xs-12">
           <div class="row no-gutter">
-            <div class="col-xs-10">
+            <div class="col-xs-10 lg-margin-bottom">
               <search-directory/>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-2 lg-margin-bottom">
               <view-type/>
             </div>
           </div>

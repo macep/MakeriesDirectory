@@ -1,0 +1,21 @@
+#view-type
+  div
+    &:first-child
+      @extend .text-right
+
+  i
+    @extend %fast-transitions
+    @extend .md-padding-top
+    @extend .sm-padding-right
+    @extend .sm-padding-bottom
+    @extend .sm-padding-left
+    display: block
+    font-size: 24px
+    cursor: pointer
+    opacity: .25
+
+    &:hover
+      color: $black
+
+    &.active
+      opacity: .5
