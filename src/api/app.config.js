@@ -6,6 +6,7 @@ const Config = {
   appThemeColor: '#0D2B3B',
   appBgColor: '#EEC9C3',
   appIcon: 'assets/app-icon.png',
+  appLogo: '/static/images/logo.png',
   missingImageUrl: 'assets/app-icon.png',
   wpDomain: 'http://justgotmade.com:8888/',
   dotNetDomain: 'http://makeriesnew.azurewebsites.net/',
@@ -39,11 +40,29 @@ const Config = {
     newsletter: 'http://eepurl.com/lobiL'
   },
   titles: {
-    archive: 'Achived posts:',
+    archive: 'Archived posts:',
+    archivesTitle: 'Archives',
     category: 'Category:',
-    searchAll: 'SEARCH ALL',
-    suppliers: 'suppliers',
-    directoryAZ: 'DIRECTORY A-Z',
+    categoriesTitle: 'Categories',
+    youMightAlsoLike: 'You might also like:',
+    otherLinks: 'Other links:',
+    searchAll: 'Search all',
+    suppliers: 'Suppliers',
+    directory: {
+      region: 'Region',
+      businessTypes: 'Business Types',
+      productTypes: 'Product types',
+      serviceTypes: 'Service types',
+      description: 'Description',
+      tags: 'Tags',
+      contactDetails: 'Contact Details',
+      openingHours: 'Opening Hours',
+      socialNetworks: 'Social Networks',
+      website: 'Website',
+      map: 'Map',
+      customer: 'Customer',
+      directoryAZ: 'Directory A-Z'
+    },
     searchPlaceholder: 'Search supplier, products, services, region, tags...'
   },
   postsIDs: {
@@ -72,11 +91,11 @@ const Config = {
   },
   filterData: {
     regions: 'Location',
-    businessTypes: 'WHO DO YOU NEED?',
+    businessTypes: 'Who do you need?',
     products: 'What are you making?',
     projects: 'Projects',
     customer: 'Customer',
-    serviceTypes: 'WHAT DO YOU NEED?',
+    serviceTypes: 'What do you need?',
     suppliersNumber: 'Suppliers Number'
   },
   pageNotFound: {
@@ -84,9 +103,17 @@ const Config = {
     content: ''
   },
   social: {
-    facebookUrl: 'http://www.facebook.com/sharer.php?u=',
-    twitterURl: 'http://twitter.com/?status=',
-    pinterestCode: '<a href="javascript:void((function()%7Bvar%20e=document.createElement(&apos;script&apos;);e.setAttribute(&apos;type&apos;,&apos;text/javascript&apos;);e.setAttribute(&apos;charset&apos;,&apos;UTF-8&apos;);e.setAttribute(&apos;src&apos;,&apos;http://assets.pinterest.com/js/pinmarklet.js?r=&apos;+Math.random()*99999999);document.body.appendChild(e)%7D)());" data-icon="\\e004"></a>'
+    sharer: {
+      facebookUrl: 'http://www.facebook.com/sharer.php?u=',
+      twitterURl: 'http://twitter.com/?status=',
+      pinterestCode: '<a href="javascript:void((function()%7Bvar%20e=document.createElement(&apos;script&apos;);e.setAttribute(&apos;type&apos;,&apos;text/javascript&apos;);e.setAttribute(&apos;charset&apos;,&apos;UTF-8&apos;);e.setAttribute(&apos;src&apos;,&apos;http://assets.pinterest.com/js/pinmarklet.js?r=&apos;+Math.random()*99999999);document.body.appendChild(e)%7D)());" data-icon="\\e004"></a>'
+    },
+    links: {
+      facebook: 'https://www.facebook.com/JustGotMade',
+      twitter: 'https://twitter.com/Just_Got_Made',
+      instagram: 'https://instagram.com/justgotmade/',
+      theDots: 'http://the-dots.co.uk/justgotmade'
+    }
   }
 }
 

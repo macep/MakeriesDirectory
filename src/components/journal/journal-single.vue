@@ -22,13 +22,13 @@
     </div>
     <div class="col-xs-3 recent-posts-and-ads">
       <div class="col-xs-12">
-        <h3 class="recent-posts-title">YOU MIGHT ALSO LIKE:</h3>
+        <h3 class="recent-posts-title">{{youMightAlsoLike}}</h3>
       </div>
       <div class="col-xs-12 post-item" v-for="post in lastRecentPosts" :key="post.id">
         <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
       </div>
       <div class="col-xs-12">
-        <h3 class="recent-posts-title">OTHER LINKS:</h3>
+        <h3 class="recent-posts-title">{{otherLinks}}</h3>
       </div>
       <div class="col-xs-12 blog-banner" v-for="banner in bannerPosts" :key="banner.id">
         <br>
@@ -47,18 +47,19 @@
   export default {
     name: 'journal-single',
     components: {post, banner},
+    data () {
+      return {
+        appTitle: Config.appTitle,
+        youMightAlsoLike: Config.titles.youMightAlsoLike,
+        otherLinks: Config.titles.otherLinks,
+        facebookUrl: Config.social.sharer.facebookUrl + window.location.protocol + '//' + window.location.host + this.$route.path,
+        twitterUrl: Config.social.sharer.twitterURl + window.location.protocol + '//' + window.location.host + this.$route.path,
+        pinterestCode: Config.social.sharer.pinterestCode
+      }
+    },
     mounted () {},
     computed: {
-      ...mapGetters(['pages', 'posts', 'categories', 'bannerPosts']),
-      singlePostData () {
-        return this.posts.filter(item => item.id === this.postId)[0]
-      },
-      postId () {
-        return +this.$route.path.split('/')[3]
-      },
-      appTitle () {
-        return Config.appTitle
-      },
+      ...mapGetters(['posts', 'categories', 'bannerPosts']),
       lastRecentPosts () {
         let recentPosts = this.posts.slice(0, Config.recentPostsNumber + 1)
         let currentPost = this.posts.find((item) => item.id === +this.$route.path.split('/')[3])
@@ -66,14 +67,11 @@
         let takeOut = (currentPostPos > -1) ? currentPostPos : Config.recentPostsNumber
         return recentPosts.filter((item, i) => i !== takeOut)
       },
-      facebookUrl () {
-        return Config.social.facebookUrl + window.location.protocol + '//' + window.location.host + this.$route.path
+      postId () {
+        return +this.$route.path.split('/')[3]
       },
-      twitterUrl () {
-        return Config.social.twitterURl + window.location.protocol + '//' + window.location.host + this.$route.path
-      },
-      pinterestCode () {
-        return Config.social.pinterestCode
+      singlePostData () {
+        return this.posts.filter(item => item.id === this.postId)[0]
       }
     },
     methods: {

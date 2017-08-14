@@ -24,27 +24,27 @@
               <h3>{{maker.name}}</h3>
             </router-link>
 
-            <p>Region: {{maker.region.name}}</p>
+            <p>{{region}}: {{maker.region.name}}</p>
 
             <p v-if="maker.businessTypes !== undefined && maker.businessTypes.length > 0" class="list-item">
-              <span>Business Types: </span>
+              <span>{{businessTypes}}: </span>
               <span v-for="(bt, index) in maker.businessTypes" :key="index">{{bt.name}}<span v-if="index < maker.businessTypes.length - 1">, </span></span>
             </p>
 
             <p v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
-              <span>Product types: </span>
+              <span>{{productTypes}}: </span>
               <span v-for="(p, index) in maker.products" :key="index">{{p.name}}<span v-if="index < maker.products.length - 1">, </span></span>
             </p>
 
             <p v-if="maker.serviceTypes !== undefined && maker.serviceTypes.length > 0" class="list-item">
-              <span>Service types: </span>
+              <span>{{serviceTypes}}: </span>
               <span v-for="(s, index) in maker.serviceTypes" :key="index">{{s.name}}<span v-if="index < maker.serviceTypes.length - 1">, </span></span>
             </p>
 
-            <p class="brief">Description: {{maker.briefDescription}}</p>
+            <p class="brief">{{description}}: {{maker.briefDescription}}</p>
 
             <p v-if="maker.tags !== undefined && maker.tags.length > 0" class="list-item">
-              <span>Tags: </span>
+              <span>{{tags}}: </span>
               <span v-for="(t, index) in maker.tags" :key="index" class="tag">{{t}}<span v-if="index < maker.tags.length - 1">, </span> </span>
             </p>
           </template>
@@ -56,6 +56,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import Config from '../../api/app.config'
   import banner from '../common/banner'
   import makeriesMenu from './makeries-menu.vue'
   import searchDirectory from './search-directory.vue'
@@ -64,6 +65,16 @@
   export default {
     name: 'directory-page',
     components: {banner, makeriesMenu, searchDirectory, viewType},
+    data () {
+      return {
+        region: Config.titles.directory.region,
+        businessTypes: Config.titles.directory.businessTypes,
+        productTypes: Config.titles.directory.productTypes,
+        serviceTypes: Config.titles.directory.serviceTypes,
+        description: Config.titles.directory.description,
+        tags: Config.titles.directory.tags
+      }
+    },
     computed: {
       ...mapGetters(['directory', 'viewType'])
     }

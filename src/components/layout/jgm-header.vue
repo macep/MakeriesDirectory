@@ -1,17 +1,18 @@
 <template>
   <header>
     <router-link to="/">
-      <img id="jgm-logo" :src="logo"/>
+      <img id="jgm-logo" :src="appLogo"/>
     </router-link>
   </header>
 </template>
 
 <script>
+  import Config from '../../api/app.config'
   export default {
     name: 'jgm-header',
-    data () {
-      return {
-        logo: '/static/images/logo.png'
+    computed: {
+      appLogo () {
+        return Config.appLogo
       }
     }
   }

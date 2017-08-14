@@ -4,9 +4,9 @@
 @font-face {
   font-family: 'jgm';
   src:
-    url('#{$icomoon-font-path}/jgm.ttf?ywe16e') format('truetype'),
-    url('#{$icomoon-font-path}/jgm.woff?ywe16e') format('woff'),
-    url('#{$icomoon-font-path}/jgm.svg?ywe16e#jgm') format('svg');
+    url('#{$icomoon-font-path}/jgm.ttf?8xh4ac') format('truetype'),
+    url('#{$icomoon-font-path}/jgm.woff?8xh4ac') format('woff'),
+    url('#{$icomoon-font-path}/jgm.svg?8xh4ac#jgm') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -64,6 +64,11 @@ i {
 .icon-grid {
   &:before {
     content: $icon-grid;
+  }
+}
+.icon-the-dots {
+  &:before {
+    content: $icon-the-dots;
   }
 }
 .icon-home {

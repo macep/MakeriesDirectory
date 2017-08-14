@@ -12,6 +12,16 @@ footer
 .footer-social
   font-size: 18px
 
+  a
+    @extend %fast-transitions
+    display: block
+
+  i
+    @extend .md-padding
+
+    &:hover
+      color: lighten($dark-turqoise, 10%)
+
 .footer-menu
   @extend .inline-list
   @extend .no-margin

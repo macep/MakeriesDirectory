@@ -6,6 +6,7 @@
 
 <script>
   import Config from '../../api/app.config'
+
   export default {
     name: 'search-directory',
     data () {

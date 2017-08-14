@@ -13,7 +13,7 @@
     <div class="col-xs-3">
       <div class="box right">
         <div v-if="maker.businessTypes !== undefined && maker.businessTypes.length > 0" class="list-item">
-          <h6>Business Type</h6>
+          <h6>{{businessTypes}}</h6>
           <div class="item">
             <span v-for="(bt, index) in maker.businessTypes" :key="index">
               <router-link to="/"> {{bt.name}}</router-link>
@@ -23,7 +23,7 @@
         </div>
 
         <div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
-          <h6>Product types</h6>
+          <h6>{{productTypes}}</h6>
           <div class="item">
             <span v-for="(p, index) in maker.products" :key="index">
               <router-link to="/"> {{p.name}}</router-link>
@@ -33,7 +33,7 @@
         </div>
 
         <div v-if="maker.serviceTypes !== undefined && maker.serviceTypes.length > 0" class="list-item">
-          <h6>SERVICE types</h6>
+          <h6>{{serviceTypes}}</h6>
           <div class="item">
             <span v-for="(s, index) in maker.serviceTypes" :key="index">
               <router-link to="/"> {{s.name}}</router-link>
@@ -43,7 +43,7 @@
         </div>
 
         <div v-if="maker.processedTags !== undefined && maker.processedTags.length > 0" class="list-item">
-          <h6>TAGS</h6>
+          <h6>{{tags}}</h6>
           <div class="item">
             <span v-for="(t, index) in maker.processedTags" :key="index">
               <router-link to="/"> {{t.name}}</router-link>
@@ -53,14 +53,14 @@
         </div>
 
         <div v-if="maker.region" class="list-item">
-          <h6>Region </h6>
+          <h6>{{region}} </h6>
           <div class="item">
             <router-link to="/"> {{maker.region.name}}</router-link>
           </div>
         </div>
 
         <div v-if="maker.telephone || maker.email || maker.address" class="list-item">
-          <h6>CONTACT DETAILS</h6>
+          <h6>{{contactDetails}}</h6>
           <div class="item">
             <div v-if="maker.email"><a :mail='maker.mail' href="'mailto:' + maker.email">{{maker.email}}</a></div>
             <div v-if="maker.telephone">{{maker.telephone}}</div>
@@ -69,14 +69,14 @@
         </div>
 
         <div v-if="maker.openingHours" class="list-item">
-          <h6>OPENING HOURS</h6>
+          <h6>{{openingHours}}</h6>
           <div class="item">
             {{maker.openingHours}}
           </div>
         </div>
 
         <div v-if="maker.facebook || maker.instagram || maker.twitter" class="list-item">
-          <h6>SOCIAL NETWORKS</h6>
+          <h6>{{socialNetworks}}</h6>
           <div class="item">
             <div v-if="maker.facebook"><a :href="maker.facebook" target="_new">Join us on Facebook</a></div>
             <div v-if="maker.instagram"><a :href="maker.instagram" target="_new">Follow us on Instagram</a></div>
@@ -85,21 +85,21 @@
         </div>
 
         <div v-if="maker.website" class="list-item">
-          <h6>WEBSITE</h6>
+          <h6>{{website}}</h6>
           <div class="item">
             <a :href="maker.website" target="_new">{{maker.website}}</a>
           </div>
         </div>
 
         <div v-if="maker.mapURL" class="list-item">
-          <h6>MAP</h6>
+          <h6>{{map}}</h6>
           <div class="image-holder" id="embededMap">
             <google-map :pbcode="maker.mapURL"></google-map>
           </div>
         </div>
 
         <div v-if="maker.customer" class="list-item">
-          <h6>CUSTOMER</h6>
+          <h6>{{customer}}</h6>
           <div class="item">
             {{maker.customer}}
           </div>
@@ -112,11 +112,27 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import Config from '../../api/app.config'
   import googleMap from '../common/google-map'
 
   export default {
     name: 'maker',
     components: {googleMap},
+    data () {
+      return {
+        region: Config.titles.directory.region,
+        businessTypes: Config.titles.directory.businessTypes,
+        productTypes: Config.titles.directory.productTypes,
+        serviceTypes: Config.titles.directory.serviceTypes,
+        contactDetails: Config.titles.directory.contactDetails,
+        openingHours: Config.titles.directory.openingHours,
+        socialNetworks: Config.titles.directory.socialNetworks,
+        website: Config.titles.directory.website,
+        map: Config.titles.directory.map,
+        customer: Config.titles.directory.customer,
+        tags: Config.titles.directory.tags
+      }
+    },
     computed: {
       ...mapGetters(['directory', 'route']),
       maker () {

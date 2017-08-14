@@ -2,23 +2,23 @@
   <footer>
     <ul class="footer-social list-inline">
       <li>
-        <a href="https://instagram.com/justgotmade/" target="_new">
+        <a :href="instagram" target="_new">
           <i class="icon-instagram"/>
         </a>
       </li>
       <li>
-        <a href="https://www.facebook.com/JustGotMade" target="_new">
+        <a :href="facebook" target="_new">
           <i class="icon-facebook"/>
         </a>
       </li>
       <li>
-        <a href="https://twitter.com/Just_Got_Made" target="_new">
+        <a :href="twitter" target="_new">
           <i class="icon-twitter"/>
         </a>
       </li>
       <li>
-        <a href="http://the-dots.co.uk/justgotmade" target="_new">
-          <i class="icon-snowflake-o"/>
+        <a :href="theDots" target="_new">
+          <i class="icon-the-dots"/>
         </a>
       </li>
     </ul>
@@ -42,6 +42,18 @@
       ...mapGetters(['secondaryMenu', 'pages', 'hostName']),
       copy () {
         return Config.appTitle + ' ' + new Date().getFullYear()
+      },
+      instagram () {
+        return Config.social.links.instagram
+      },
+      facebook () {
+        return Config.social.links.facebook
+      },
+      twitter () {
+        return Config.social.links.twitter
+      },
+      theDots () {
+        return Config.social.links.theDots
       }
     }
   }

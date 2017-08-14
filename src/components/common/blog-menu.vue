@@ -4,7 +4,7 @@
       <div class="panel-heading" role="tab" id="heading-1">
         <h4 class="panel-title" :class="{'open': categoriesOpen}">
           <v-touch tag="a" @tap="categoriesOpen = !categoriesOpen" role="button" data-toggle="collapse" data-parent="#accordion" :aria-expanded="categoriesOpen" aria-controls="collapse-1">
-            Categories
+            {{categoriesTitle}}
           </v-touch>
         </h4>
       </div>
@@ -22,7 +22,7 @@
       <div class="panel-heading" role="tab" id="heading-2">
         <h4 class="panel-title" :class="{'open': archivesOpen}">
           <v-touch tag="a" @tap="archivesOpen = !archivesOpen" role="button" data-toggle="collapse" data-parent="#accordion" :aria-expanded="archivesOpen" aria-controls="collapse-2">
-            Archives
+            {{archivesTitle}}
           </v-touch>
         </h4>
       </div>
@@ -50,7 +50,9 @@
     data () {
       return {
         categoriesOpen: true,
-        archivesOpen: false
+        archivesOpen: false,
+        categoriesTitle: Config.titles.categoriesTitle,
+        archivesTitle: Config.titles.archivesTitle
       }
     },
     computed: {

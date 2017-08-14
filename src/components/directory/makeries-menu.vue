@@ -65,7 +65,7 @@
         return Config.routerSettings.directory
       },
       azTitle () {
-        return Config.titles.directoryAZ
+        return Config.titles.directory.directoryAZ
       },
       azRoute () {
         return Config.routerSettings.filterAZ
