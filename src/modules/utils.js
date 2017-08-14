@@ -85,6 +85,23 @@ let friendlyUrl = (val) => {
   return val.split(' ').join('-').replace(/,/g, '')
 }
 
+let sortObjectProperties = (object) => {
+  let sorted = {}
+  let key
+  let a = []
+
+  for (key in object) {
+    if (object.hasOwnProperty(key)) {
+      a.push(key)
+    }
+  }
+  a.sort()
+  for (key = 0; key < a.length; key++) {
+    sorted[a[key]] = object[a[key]]
+  }
+  return sorted
+}
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
@@ -92,5 +109,6 @@ export {
   friendlyMonth,
   removeArrayDuplicates,
   findOccurences,
-  friendlyUrl
+  friendlyUrl,
+  sortObjectProperties
 }

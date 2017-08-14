@@ -1,6 +1,6 @@
 import apiService from '../api/app.service'
 import translations from '../modules/translations'
-import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl} from '../modules/utils'
+import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl, sortObjectProperties} from '../modules/utils'
 import Config from '../api/app.config'
 
 let actions = {
@@ -196,7 +196,8 @@ let actions = {
           // prepare the route property
           for (let value in azObject) {
             azObject[value].forEach((item) => {
-              item.pretty = friendlyUrl(item.name)
+              console.log(`${Config.routerSettings.makerDetail}${item.id}/${friendlyUrl(item.name)}`)
+              item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${friendlyUrl(item.name)}`
             })
           }
 
@@ -207,7 +208,7 @@ let actions = {
 
           commit('mutateDirectory', directory)
           commit('mutateDirectoryFilterData', filterData)
-          commit('mutateDirectoryAZ', azObject)
+          commit('mutateDirectoryAZ', sortObjectProperties(azObject))
         })
       }
 

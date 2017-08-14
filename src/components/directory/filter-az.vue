@@ -1,5 +1,5 @@
 <template>
-  <div id="directory" class="row page">
+  <div id="directory-az" class="row page">
     <div class="col-xs-3">
       <makeries-menu/>
     </div>
@@ -10,15 +10,13 @@
             Filter AZ
           </h3>
         </div>
-        <div class="col-xs-12 az-list" v-for="(key, value) in listAZ" :key="key">
-          {{value}}
+        <div class="col-xs-12 az-list" v-for="(key, value) in directoryAZ" :key="value">
+          <h2>{{value}}</h2>
           <div class="row">
-            <div class="col-xs-4" v-for="item in listAZ[value]">
-              {{item.name}}
-              {{item}}
+            <div class="col-xs-4" v-for="item in directoryAZ[value]" :key="item.id">
+              <router-link :to="item.routeTo">{{item.name}}</router-link>
             </div>
           </div>
-          <!--<banner :route="maker.routeTo" :img="maker.images[0].url" :title="maker.name" :content="maker.briefDescription || ''" :overlayed="true" :escaped="true"/>-->
         </div>
       </div>
     </div>
@@ -27,18 +25,13 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import banner from '../common/banner'
   import makeriesMenu from './makeries-menu.vue'
 
   export default {
     name: 'filter-az',
-    components: {banner, makeriesMenu},
+    components: {makeriesMenu},
     computed: {
-      ...mapGetters(['directoryAZ']),
-      listAZ () {
-//        console.log(this.directoryAZ)
-        return this.directoryAZ
-      }
+      ...mapGetters(['directoryAZ'])
     }
   }
 </script>

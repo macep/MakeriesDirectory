@@ -1,5 +1,5 @@
 <template>
-  <div id="directory" class="row page">
+  <div id="directory-filter-by" class="row page">
     <div class="col-xs-3">
       <makeries-menu/>
     </div>
