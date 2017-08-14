@@ -46,6 +46,12 @@ let mutations = {
   },
   mutateDirectoryAZ: (state, directoryAZ) => {
     state.directoryAZ = directoryAZ
+  },
+  mutateViewType: (state, viewType) => {
+    state.viewType = viewType
+  },
+  mutateSearchCriteria: (state, searchCriteria) => {
+    state.searchCriteria = searchCriteria
   }
 }
 

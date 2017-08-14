@@ -43,7 +43,8 @@ const Config = {
     category: 'Category:',
     searchAll: 'SEARCH ALL',
     suppliers: 'suppliers',
-    directoryAZ: 'DIRECTORY A-Z'
+    directoryAZ: 'DIRECTORY A-Z',
+    searchPlaceholder: 'Search supplier, products, services, region, tags...'
   },
   postsIDs: {
     sliderPosts: 863,

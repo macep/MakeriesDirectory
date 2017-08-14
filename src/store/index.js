@@ -25,7 +25,9 @@ export default new Vuex.Store({
     bannerPosts: [],
     directory: [],
     directoryFilterData: [],
-    directoryAZ: []
+    directoryAZ: [],
+    viewType: 'grid',
+    searchCriteria: ''
   },
   getters,
   mutations,

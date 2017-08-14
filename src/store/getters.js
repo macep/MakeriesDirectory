@@ -16,6 +16,8 @@ let getters = {
   directory: state => state.directory,
   directoryFilterData: state => state.directoryFilterData,
   directoryAZ: state => state.directoryAZ,
+  viewType: state => state.viewType,
+  searchCriteria: state => state.searchCriteria,
   route: state => state.route
 }
 

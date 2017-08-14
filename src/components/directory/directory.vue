@@ -6,7 +6,14 @@
     <div class="col-xs-9">
       <div class="row small-gutter">
         <div class="col-xs-12">
-          <search-directory/>
+          <div class="row no-gutter">
+            <div class="col-xs-10">
+              <search-directory/>
+            </div>
+            <div class="col-xs-2">
+              <view-type/>
+            </div>
+          </div>
         </div>
         <div class="col-xs-4 maker" v-for="maker in directory" :key="maker.id">
           <banner :route="maker.routeTo" :img="maker.images[0].url" :title="maker.name" :content="maker.briefDescription || ''" :overlayed="true" :escaped="true"/>
@@ -21,10 +28,11 @@
   import banner from '../common/banner'
   import makeriesMenu from './makeries-menu.vue'
   import searchDirectory from './search-directory.vue'
+  import viewType from './view-type.vue'
 
   export default {
     name: 'directory-page',
-    components: {banner, makeriesMenu, searchDirectory},
+    components: {banner, makeriesMenu, searchDirectory, viewType},
     computed: {
       ...mapGetters(['directory'])
     }
