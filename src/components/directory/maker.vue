@@ -1,17 +1,17 @@
 <template>
-  <div id="maker" class="row small-gutter">
+  <div id="maker-details" class="row small-gutter">
     <div class="col-xs-9">
-      <div class="box">
-        <router-link v-if="back" :to="back">go back</router-link>
+      <div class="box left">
+        <router-link v-if="back" :to="back" class="back-link">go back</router-link>
         <h3>{{maker.name}}</h3>
-        <p>{{maker.briefDescription}}</p>
+        <p class="brief">{{maker.briefDescription}}</p>
         <img :src="maker.images[0].url" alt="">
-        <p>{{maker.longDescription}}</p>
-        <p>{{maker.address}}</p>
+        <p class="long">{{maker.longDescription}}</p>
+        <p class="address">{{maker.address}}</p>
       </div>
     </div>
     <div class="col-xs-3">
-      <div class="box">
+      <div class="box right">
         <div v-if="maker.businessTypes !== undefined && maker.businessTypes.length > 0" class="list-item">
           <h6>Business Type</h6>
           <div class="item">
@@ -62,9 +62,9 @@
         <div v-if="maker.telephone || maker.email || maker.address" class="list-item">
           <h6>CONTACT DETAILS</h6>
           <div class="item">
-            <span v-if="maker.email"><a :mail='maker.mail' href="'mailto:' + maker.email">{{maker.email}}</a></span><br>
-            <span v-if="maker.telephone">{{maker.telephone}}</span><br>
-            <span v-if="maker.address">{{maker.address}}</span><br>
+            <div v-if="maker.email"><a :mail='maker.mail' href="'mailto:' + maker.email">{{maker.email}}</a></div>
+            <div v-if="maker.telephone">{{maker.telephone}}</div>
+            <div v-if="maker.address">{{maker.address}}</div>
           </div>
         </div>
 
@@ -78,13 +78,9 @@
         <div v-if="maker.facebook || maker.instagram || maker.twitter" class="list-item">
           <h6>SOCIAL NETWORKS</h6>
           <div class="item">
-            <span v-if="maker.facebook"><a :href="maker.facebook" target="_new">Join us on Facebook</a></span>
-          </div>
-          <div class="item">
-            <span v-if="maker.instagram"><a :href="maker.instagram" target="_new">Follow us on Instagram</a></span>
-          </div>
-          <div class="item">
-            <span v-if="maker.twitter"><a :href="maker.twitter" target="_new">Follow us on Twitter</a></span>
+            <div v-if="maker.facebook"><a :href="maker.facebook" target="_new">Join us on Facebook</a></div>
+            <div v-if="maker.instagram"><a :href="maker.instagram" target="_new">Follow us on Instagram</a></div>
+            <div v-if="maker.twitter"><a :href="maker.twitter" target="_new">Follow us on Twitter</a></div>
           </div>
         </div>
 

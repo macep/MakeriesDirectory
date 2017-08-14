@@ -1,0 +1,56 @@
+#maker-details
+  .box
+    color: $dark-turqoise
+    background: $white
+
+    &.left
+      @extend .xlg-padding-top
+      @extend .xxlg-padding-right
+      @extend .xlg-padding-bottom
+      @extend .xxlg-padding-left
+
+      h3,
+      .brief
+        @extend .text-center
+
+    &.right
+      @extend .lg-padding
+
+      h6
+        @extend %main-headings
+
+      a
+        text-decoration: underline
+
+      .item
+        @extend .lg-padding-bottom
+        font-style: italic
+        font-size: 13px
+
+    p
+      font-size: 14px
+
+  .back-link
+    @extend .pull-left
+    @extend .md-padding-top
+    @extend .lg-padding-right
+    @extend .md-padding-bottom
+    @extend .lg-padding-left
+    @extend %main-headings
+    @extend %fast-transitions
+    position: absolute
+    left: 0
+    top: $xlg-space
+    background: $light-turqoise
+
+    &:hover
+      color: $white
+      background: $dark-turqoise
+
+  .brief
+    font-style: italic
+
+  .long,
+  .address
+    @extend .xlg-padding-top
+
