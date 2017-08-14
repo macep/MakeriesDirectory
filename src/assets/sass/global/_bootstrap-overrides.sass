@@ -5,7 +5,7 @@ $border-style: 2px solid $light-turqoise
 
 
 .panel-group .panel + .panel
-  margin: 0
+  margin: -4px
 
 .panel
   &:last-child
@@ -15,6 +15,9 @@ $border-style: 2px solid $light-turqoise
     .panel-collapse
       &.in
         border-bottom: $border-style
+
+      &.out
+        height: 0
 
   .panel-title
     @extend %main-headings

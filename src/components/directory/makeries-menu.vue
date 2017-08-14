@@ -13,12 +13,12 @@
     <div class="panel panel-default" v-for="(filter, value) in directoryFilterDataCollection" v-if="filter.data.length > 0" :key="filter.el">
       <div class="panel-heading" role="tab" :id="'heading-' + value">
         <h4 class="panel-title" :class="{'open': 'item-' + value}">
-          <v-touch tag="a"role="button" data-toggle="collapse" data-parent="#accordion" :aria-expanded="'item-' + value" :aria-controls="'collapse-' + value">
+          <v-touch tag="a"role="button" @tap="selectClickedElement" data-toggle="collapse" data-parent="#accordion" :aria-expanded="'item-' + value" :aria-controls="'collapse-' + value">
             {{filter.name}}
           </v-touch>
         </h4>
       </div>
-      <div :id="'collapse-' + value" class="panel-collapse collapse" :class="{'in': 'item-' + value}" :style="panelStyle('item-' + value)" role="tabpanel" :aria-labelledby="'heading-' + value">
+      <div :id="'collapse-' + value" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="'heading-' + value">
         <div class="panel-body">
           <ul>
             <li v-for="filterItem in filter.data" :key="filter.el">
@@ -76,6 +76,17 @@
       panelStyle (val) {
         return {
           height: val ? '' : '0'
+        }
+      },
+      selectClickedElement (event) {
+        let elID = event.target.attributes[3].nodeValue.split('-')[1]
+        this.toggleClass(document.querySelector('#collapse-' + elID))
+      },
+      toggleClass (el) {
+        if (el.classList[2] === 'in') {
+          el.classList.remove('in')
+        } else {
+          el.classList.add('in')
         }
       }
     }
