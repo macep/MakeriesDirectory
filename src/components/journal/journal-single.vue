@@ -41,6 +41,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import {getNthFragment} from '../../modules/utils'
   import post from './post.vue'
   import banner from '../common/banner'
 
@@ -52,8 +53,8 @@
         appTitle: Config.appTitle,
         youMightAlsoLike: Config.titles.youMightAlsoLike,
         otherLinks: Config.titles.otherLinks,
-        facebookUrl: Config.social.sharer.facebookUrl + window.location.protocol + '//' + window.location.host + this.$route.path,
-        twitterUrl: Config.social.sharer.twitterURl + window.location.protocol + '//' + window.location.host + this.$route.path,
+        facebookUrl: `${Config.social.sharer.facebookUrl}${window.location.protocol}//${window.location.host}${this.$route.path}`,
+        twitterUrl: `${Config.social.sharer.twitterURl}${window.location.protocol}//${window.location.host}${this.$route.path}`,
         pinterestCode: Config.social.sharer.pinterestCode
       }
     },
@@ -62,13 +63,13 @@
       ...mapGetters(['posts', 'categories', 'bannerPosts']),
       lastRecentPosts () {
         let recentPosts = this.posts.slice(0, Config.recentPostsNumber + 1)
-        let currentPost = this.posts.find((item) => item.id === +this.$route.path.split('/')[3])
+        let currentPost = this.posts.find((item) => item.id === +getNthFragment(this.$route.path, 3))
         let currentPostPos = recentPosts.indexOf(currentPost)
         let takeOut = (currentPostPos > -1) ? currentPostPos : Config.recentPostsNumber
         return recentPosts.filter((item, i) => i !== takeOut)
       },
       postId () {
-        return +this.$route.path.split('/')[3]
+        return +getNthFragment(this.$route.path, 3)
       },
       singlePostData () {
         return this.posts.filter(item => item.id === this.postId)[0]
@@ -76,7 +77,7 @@
     },
     methods: {
       categoryName (catId) {
-        return 'icon-cat-' + this.categories.find(cat => cat.id === catId).name.toLowerCase()
+        return `icon-cat-${this.categories.find(cat => cat.id === catId).name.toLowerCase()}`
       }
     }
   }

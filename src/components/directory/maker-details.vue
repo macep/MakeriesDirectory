@@ -113,6 +113,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import {getNthFragment} from '../../modules/utils'
   import googleMap from '../common/google-map'
 
   export default {
@@ -136,7 +137,7 @@
     computed: {
       ...mapGetters(['directory', 'route']),
       maker () {
-        return this.directory.filter(maker => maker.id === +this.$route.path.split('/')[3])[0]
+        return this.directory.filter(maker => maker.id === +getNthFragment(this.$route.path, 3))[0]
       },
       back () {
         let from = this.route.from.fullPath

@@ -19,6 +19,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import {getNthFragment} from '../../modules/utils'
   import blogMenu from '../common/blog-menu.vue'
   import post from './post.vue'
 
@@ -31,10 +32,10 @@
         return this.posts.filter(item => +item.year === this.selectedYear)
       },
       selectedYear () {
-        return +this.$route.path.split('/')[3]
+        return +getNthFragment(this.$route.path, 3)
       },
       archiveTitle () {
-        return Config.titles.archive + ' ' + this.selectedYear
+        return `${Config.titles.archive} ${this.selectedYear}`
       }
     }
   }

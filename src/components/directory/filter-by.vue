@@ -26,6 +26,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import {getNthFragment} from '../../modules/utils'
   import banner from '../common/banner'
   import makeriesMenu from './menu.vue'
   import makeriesList from './makeries-list.vue'
@@ -37,16 +38,16 @@
     computed: {
       ...mapGetters(['directory']),
       currentFilterType () {
-        let currentFilter = this.$route.path.split('/')[3]
+        let currentFilter = getNthFragment(this.$route.path, 3)
         let filterTypes = Config.routerSettings.filterBy
         let rev = {}
         for (let key in filterTypes) {
-          rev[filterTypes[key].split('/')[3]] = key
+          rev[getNthFragment(filterTypes[key], 3)] = key
         }
         return rev[currentFilter]
       },
       currentFilterTypeValue () {
-        return this.$route.path.split('/')[4]
+        return getNthFragment(this.$route.path, 4)
       },
       filteredData () {
         return this.directory.filter(item => {

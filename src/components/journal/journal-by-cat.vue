@@ -43,7 +43,7 @@
         return +this.$route.path.split('/')[3]
       },
       categoryTitle () {
-        return Config.titles.category + ' ' + this.category.name
+        return `${Config.titles.category} ${this.category.name}`
       }
     }
   }

@@ -43,9 +43,7 @@ let friendlyMonth = (month) => {
   return arguments[0] === 'list' ? monthNames : monthNames[parseInt(month)]
 }
 
-let removeArrayDuplicates = (array) => {
-  return array.filter((elem, idx, self) => idx === self.indexOf(elem))
-}
+let removeArrayDuplicates = (array) => array.filter((elem, idx, self) => idx === self.indexOf(elem))
 
 let findOccurences = (array, withUrl, urlPrefix) => {
   let a = []
@@ -81,9 +79,7 @@ let findOccurences = (array, withUrl, urlPrefix) => {
   return c
 }
 
-let friendlyUrl = (val) => {
-  return val.split(' ').join('-').replace(/,/g, '')
-}
+let friendlyUrl = (val) => val.split(' ').join('-').replace(/,/g, '')
 
 let sortObjectProperties = (object) => {
   let sorted = {}
@@ -102,6 +98,8 @@ let sortObjectProperties = (object) => {
   return sorted
 }
 
+let getNthFragment = (string, nth) => string.split('/')[nth]
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
@@ -110,5 +108,6 @@ export {
   removeArrayDuplicates,
   findOccurences,
   friendlyUrl,
-  sortObjectProperties
+  sortObjectProperties,
+  getNthFragment
 }

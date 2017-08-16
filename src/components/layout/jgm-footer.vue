@@ -41,7 +41,7 @@
     computed: {
       ...mapGetters(['secondaryMenu', 'pages', 'hostName']),
       copy () {
-        return Config.appTitle + ' ' + new Date().getFullYear()
+        return `${Config.appTitle} ${new Date().getFullYear()}`
       },
       instagram () {
         return Config.social.links.instagram
