@@ -15,20 +15,15 @@
 
   export default {
     name: 'jgm-menu',
-    data () {
-      return {
-        mobileMenuVisibile: false
-      }
-    },
     computed: {
-      ...mapGetters(['mainMenu'])
+      ...mapGetters(['mainMenu', 'mobileMenuVisibile'])
     },
     methods: {
       toggleMobileMenuVisibility () {
-        this.mobileMenuVisibile = !this.mobileMenuVisibile
+        this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
       },
       closeMobileMenu () {
-        this.mobileMenuVisibile = false
+        this.$store.commit('mutateMobileMenuVisibile', false)
       }
     }
   }

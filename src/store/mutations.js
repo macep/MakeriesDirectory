@@ -8,6 +8,9 @@ let mutations = {
   mutatePointerIsTouch: (state, isTouch) => {
     state.pointerIsTouch = !!isTouch
   },
+  mutateMobileMenuVisibile: (state, mobileMenuVisibile) => {
+    state.mobileMenuVisibile = mobileMenuVisibile
+  },
   mutateWindowSize: (state, windowSize) => {
     state.windowSize = windowSize
   },

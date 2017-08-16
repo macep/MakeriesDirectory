@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="row" :class="{'is-mobile': isMobile, 'is-touch': pointerIsTouch}">
+  <div id="app" class="row" :class="{'is-mobile': isMobile, 'is-touch': pointerIsTouch, 'no-scroll': mobileMenuVisibile}">
     <div class="col-xs-12">
       <jgm-header/>
       <jgm-menu v-if="!isMobile"/>
@@ -80,7 +80,7 @@
       makeBodyClass(this.$route)
     },
     computed: {
-      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator'])
+      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile'])
     },
     methods: {
       ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch'])

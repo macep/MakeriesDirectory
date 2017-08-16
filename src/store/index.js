@@ -13,6 +13,7 @@ export default new Vuex.Store({
     translations: {},
     isMobile: false,
     pointerIsTouch: false,
+    mobileMenuVisibile: false,
     windowSize: {},
     showActivityIndicator: false,
     mainMenu: '',
