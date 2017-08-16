@@ -1,19 +1,21 @@
 <template>
   <div id="directory-az" class="row page">
-    <div class="col-xs-3">
+    <div class="col-sm-3" v-if="!isMobile">
       <makeries-menu/>
     </div>
-    <div class="col-xs-9">
+    <div class="col-sm-9">
       <div class="row small-gutter">
         <div class="col-xs-12">
           <h3 class="no-margin-top">
-            Filter AZ
+            {{filterAZ}}
           </h3>
         </div>
         <div class="col-xs-12 az-list" v-for="(key, value) in directoryAZ" :key="value">
-          <h2>{{value}}</h2>
           <div class="row">
-            <div class="col-xs-4" v-for="item in directoryAZ[value]" :key="item.id">
+            <div class="col-xs-12">
+              <h2>{{value}}</h2>
+            </div>
+            <div class="col-xs-6 col-sm-4" v-for="item in directoryAZ[value]" :key="item.id">
               <router-link :to="item.routeTo">{{item.name}}</router-link>
             </div>
           </div>
@@ -25,13 +27,19 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import Config from '../../api/app.config'
   import makeriesMenu from './menu.vue'
 
   export default {
     name: 'filter-az',
     components: {makeriesMenu},
+    data () {
+      return {
+        filterAZ: Config.titles.directory.directoryAZ
+      }
+    },
     computed: {
-      ...mapGetters(['directoryAZ'])
+      ...mapGetters(['directoryAZ', 'isMobile'])
     }
   }
 </script>

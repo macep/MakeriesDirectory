@@ -1,16 +1,16 @@
 <template>
   <div id="directory-filter-by" class="row page">
-    <div class="col-xs-3">
+    <div class="col-sm-3" v-if="!isMobile">
       <makeries-menu/>
     </div>
-    <div class="col-xs-9">
+    <div class="col-sm-9">
       <div class="row no-gutter">
-        <div class="col-xs-10 lg-margin-bottom">
+        <div class="col-xs-10 col-sm-11 lg-margin-bottom">
           <h3 class="no-margin">
             {{currentFilterType}}: {{currentFilterTypeValue}}
           </h3>
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-2 col-sm-1">
           <view-type/>
         </div>
       </div>
@@ -36,7 +36,7 @@
     name: 'filter-by',
     components: {banner, makeriesMenu, makeriesList, viewType},
     computed: {
-      ...mapGetters(['directory']),
+      ...mapGetters(['directory', 'isMobile']),
       currentFilterType () {
         let currentFilter = getNthFragment(this.$route.path, 3)
         let filterTypes = Config.routerSettings.filterBy

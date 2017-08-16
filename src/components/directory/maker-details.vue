@@ -1,6 +1,6 @@
 <template>
   <div id="maker-details" class="row small-gutter">
-    <div class="col-xs-9">
+    <div class="col-sm-9 lg-margin-bottom">
       <div class="box left">
         <router-link v-if="back" :to="back" class="back-link">go back</router-link>
         <h3>{{maker.name}}</h3>
@@ -10,7 +10,7 @@
         <p class="address">{{maker.address}}</p>
       </div>
     </div>
-    <div class="col-xs-3">
+    <div class="col-sm-3">
       <div class="box right">
         <div v-if="maker.businessTypes !== undefined && maker.businessTypes.length > 0" class="list-item">
           <h6>{{businessTypes}}</h6>

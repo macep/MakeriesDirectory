@@ -1,12 +1,21 @@
+$fixed-logo-height: 110px
+
+%mobile-links
+  @extend .md-padding-top
+  @extend .md-padding-bottom
+  display: block
+  font-size: 24px
+
 #mobile-menu
   @extend %fast-transitions
-  @extend .lg-padding
+  padding: $fixed-logo-height $lg-space $lg-space
   position: fixed
   top: 0
   left: 0
   width: 100%
   height: 100%
   display: none
+  overflow-y: scroll
 
   &.open
     right: 0
@@ -16,6 +25,20 @@
 
     #mobile-menu-links
       display: block
+
+.fixed-logo
+  @extend .lg-padding
+  background: $white
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: $fixed-logo-height
+  box-shadow: 0 2px 3px rgba($black, .0625)
+
+.panel-title
+ a
+   @extend %mobile-links
 
 #mobile-menu-links
   @extend .xlg-margin-top
@@ -30,10 +53,7 @@
       border-top: $light-turqoise-divider
 
     a
-      @extend .md-padding-top
-      @extend .md-padding-bottom
-      display: block
-      font-size: 24px
+      @extend %mobile-links
 
 .icon-dehaze,
 .icon-close

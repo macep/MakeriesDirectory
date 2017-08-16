@@ -2,11 +2,11 @@
   <div class="panel-group" id="accordion" role="tablist" :aria-multiselectable="oneAtATime">
     <div class="panel panel-default">
       <div class="panel-heading" id="heading-all">
-        <h4 class="panel-title" :class="">
+        <v-touch @tap="closeMobileMenu" tag="h4" class="panel-title">
           <router-link :to="searchAllRoute">
             {{searchAllTitle}}
           </router-link>
-        </h4>
+        </v-touch>
       </div>
     </div>
 
@@ -21,9 +21,9 @@
       <div :id="'collapse-' + value" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="'heading-' + value">
         <div class="panel-body">
           <ul>
-            <li v-for="filterItem in filter.data" :key="filter.el">
+            <v-touch tag="li" @tap="closeMobileMenu" v-for="filterItem in filter.data" :key="filter.el">
               <router-link :to="filterItem.url">{{filterItem.el}}</router-link> ({{filterItem.occurences}})
-            </li>
+            </v-touch>
           </ul>
         </div>
       </div>
@@ -31,11 +31,11 @@
 
     <div class="panel panel-default">
       <div class="panel-heading" id="heading-az">
-        <h4 class="panel-title" :class="">
+        <v-touch @tap="closeMobileMenu" tag="h4" class="panel-title">
           <router-link :to="azRoute">
             {{azTitle}}
           </router-link>
-        </h4>
+        </v-touch>
       </div>
     </div>
   </div>
@@ -54,7 +54,7 @@
       this.loadDirectory()
     },
     computed: {
-      ...mapGetters(['directoryFilterData', 'directory']),
+      ...mapGetters(['directoryFilterData', 'directory', 'isMobile']),
       directoryFilterDataCollection () {
         return this.directoryFilterData
       },
@@ -87,6 +87,11 @@
           el.classList.remove('in')
         } else {
           el.classList.add('in')
+        }
+      },
+      closeMobileMenu () {
+        if (this.isMobile) {
+          this.$store.commit('mutateMobileMenuVisibile', false)
         }
       }
     }

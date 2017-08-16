@@ -1,0 +1,23 @@
+$mid-xs-breakpoint: 500px
+
+#maker-details
+  .box
+    &.left
+      @extend .lg-padding
+
+    &.right
+      @extend .text-center
+
+.maker
+  @media screen and (max-width: $mid-xs-breakpoint - 1px)
+    width: 100%
+
+    .image-overlayed-wrapper
+      max-height: 100%
+
+  @media screen and (min-width: $mid-xs-breakpoint)
+    .image-overlayed-wrapper
+      max-height: 220px
+
+    .banner-inner
+      min-height: 320px

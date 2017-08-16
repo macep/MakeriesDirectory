@@ -1,16 +1,16 @@
 <template>
   <div id="directory" class="row" :class="'view-' + viewType">
-    <div class="col-xs-3">
+    <div class="col-sm-3" v-if="!isMobile">
       <makeries-menu/>
     </div>
-    <div class="col-xs-9">
+    <div class="col-sm-9">
       <div class="row small-gutter">
         <div class="col-xs-12">
           <div class="row no-gutter">
-            <div class="col-xs-10 lg-margin-bottom">
+            <div class="col-xs-11 lg-margin-bottom">
               <search-directory/>
             </div>
-            <div class="col-xs-2 lg-margin-bottom">
+            <div class="col-xs-1 lg-margin-bottom">
               <view-type/>
             </div>
           </div>
@@ -25,7 +25,6 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import banner from '../common/banner'
   import makeriesMenu from './menu.vue'
   import makeriesList from './makeries-list.vue'
   import searchDirectory from './search.vue'
@@ -33,9 +32,9 @@
 
   export default {
     name: 'directory-page',
-    components: {banner, makeriesMenu, makeriesList, searchDirectory, viewType},
+    components: {makeriesMenu, makeriesList, searchDirectory, viewType},
     computed: {
-      ...mapGetters(['directory', 'viewType'])
+      ...mapGetters(['directory', 'viewType', 'isMobile'])
     }
   }
 </script>
