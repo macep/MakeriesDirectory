@@ -3,7 +3,6 @@
     <div class="col-xs-12">
       <jgm-header/>
       <jgm-menu v-if="!isMobile"/>
-      <jgm-mobile-menu v-if="isMobile"/>
       <transition name="slide" mode="out-in">
         <router-view/>
       </transition>
