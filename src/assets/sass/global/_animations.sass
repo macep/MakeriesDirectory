@@ -52,18 +52,27 @@
     opacity: 1
 
 
+
+@keyframes mobile-menu-animation
+  0%
+    transform: scale(.25, .25)
+    opacity: 0
+
+  75%
+    transform: scale(1.5, 1.125)
+    opacity: 1
+
+  100%
+    transform: scale(1, 1)
+    opacity: 1
+
+
 .slide-enter-active
-  animation-name: slide-in
-  animation-duration: .125s
-  animation-duration: forwards
+  animation: slide-in .125s forwards
 
 .slide-leave-active
-  animation-name: slide-out
-  animation-duration: .125s
-  animation-duration: forwards
+  animation: slide-out .125s forwards
 
 
 .fade-enter-active
-  animation-name: fade-in
-  animation-duration: .25s
-  animation-duration: forwards
+  animation: fade-in .25s forwards

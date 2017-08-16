@@ -12,7 +12,7 @@ let isTouch = () => {
 let stopZoomingWhenDoubleTapped = () => {
   let timeout
   let lastTap = 0
-  let wrapper = document.getElementById('wrapper')
+  let wrapper = document.getElementById('app')
 
   wrapper.addEventListener('touchend', function (e) {
     let currentTime = new Date().getTime()

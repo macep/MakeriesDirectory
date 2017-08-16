@@ -1,8 +1,9 @@
 <template>
-  <div id="app" class="row">
+  <div id="app" class="row" :class="{'is-mobile': isMobile, 'is-touch': pointerIsTouch}">
     <div class="col-xs-12">
       <jgm-header/>
-      <jgm-menu/>
+      <jgm-menu v-if="!isMobile"/>
+      <jgm-mobile-menu v-if="isMobile"/>
       <transition name="slide" mode="out-in">
         <router-view/>
       </transition>
@@ -32,6 +33,7 @@
   import {stopZoomingWhenDoubleTapped} from './modules/utils'
   import jgmHeader from './components/layout/jgm-header.vue'
   import jgmMenu from './components/layout/jgm-menu.vue'
+  import jgmMobileMenu from './components/layout/jgm-mobile-menu.vue'
   import jgmFooter from './components/layout/jgm-footer.vue'
   import jgmNotification from './components/layout/jgm-notification.vue'
   import gaAnalytics from './components/layout/ga-analytics.vue'
@@ -47,13 +49,7 @@
 
   export default {
     name: 'app',
-    components: {
-      'jgm-header': jgmHeader,
-      'jgm-menu': jgmMenu,
-      'jgm-footer': jgmFooter,
-      'jgm-notification': jgmNotification,
-      'ga-analytics': gaAnalytics
-    },
+    components: {jgmHeader, jgmMenu, jgmMobileMenu, jgmFooter, jgmNotification, gaAnalytics},
     data () {
       return {
         activityLoaderImg: Config.activityLoaderImg,
@@ -84,7 +80,7 @@
       makeBodyClass(this.$route)
     },
     computed: {
-      ...mapGetters(['translations', 'isMobile', 'showActivityIndicator'])
+      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator'])
     },
     methods: {
       ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch'])
