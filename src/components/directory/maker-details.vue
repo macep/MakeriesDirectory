@@ -116,7 +116,7 @@
   import googleMap from '../common/google-map'
 
   export default {
-    name: 'maker',
+    name: 'maker-details',
     components: {googleMap},
     data () {
       return {

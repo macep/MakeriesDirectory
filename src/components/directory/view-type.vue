@@ -13,7 +13,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: 'maker',
+    name: 'maker-details',
     computed: {
       ...mapGetters(['viewType']),
       activeViewType () {

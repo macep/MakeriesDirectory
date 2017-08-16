@@ -4,14 +4,19 @@
       <makeries-menu/>
     </div>
     <div class="col-xs-9">
-      <div class="row small-gutter">
-        <div class="col-xs-12">
-          <h3 class="no-margin-top">
+      <div class="row no-gutter">
+        <div class="col-xs-10 lg-margin-bottom">
+          <h3 class="no-margin">
             {{currentFilterType}}: {{currentFilterTypeValue}}
           </h3>
         </div>
-        <div class="col-xs-4 maker" v-for="maker in filteredData" :key="maker.id">
-          <banner :route="maker.routeTo" :img="maker.images[0].url" :title="maker.name" :content="maker.briefDescription || ''" :overlayed="true" :escaped="true"/>
+        <div class="col-xs-2">
+          <view-type/>
+        </div>
+      </div>
+      <div class="row small-gutter">
+        <div class="col-xs-12">
+          <makeries-list :makeries="filteredData"/>
         </div>
       </div>
     </div>
@@ -22,11 +27,13 @@
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import banner from '../common/banner'
-  import makeriesMenu from './makeries-menu.vue'
+  import makeriesMenu from './menu.vue'
+  import makeriesList from './makeries-list.vue'
+  import viewType from './view-type.vue'
 
   export default {
     name: 'filter-by',
-    components: {banner, makeriesMenu},
+    components: {banner, makeriesMenu, makeriesList, viewType},
     computed: {
       ...mapGetters(['directory']),
       currentFilterType () {
