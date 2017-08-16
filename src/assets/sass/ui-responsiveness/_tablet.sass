@@ -1,3 +1,10 @@
 @media only screen and (min-width: $screen-sm-min) and (max-width: $screen-md-max)
-  body
-    padding: 0
+  .home-banner
+
+    &:nth-child(3)
+      .image-overlayed-wrapper
+        img
+          top: -$md-space * 5
+
+    .image-overlayed-wrapper
+      height: 150px

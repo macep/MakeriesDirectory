@@ -3,9 +3,6 @@
   margin-bottom: $lg-space
   width: 220px
 
-.page
-  position: relative
-
 #home-slider
   .slide-caption
     @extend .lg-padding
@@ -15,3 +12,14 @@
 
   .slide-caption-title
     font-size: 20px
+
+.home-banner
+  @extend .lg-margin-bottom
+
+  &:nth-child(3)
+    .image-overlayed-wrapper
+      img
+        top: 0
+
+.image-overlayed-wrapper
+  height: auto

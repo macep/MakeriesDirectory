@@ -1,6 +1,6 @@
 <template>
   <router-link to="/">
-    <v-touch tag="img" @tap="closeMobileMenu" class="jgm-logo" :src="appLogo"/>
+    <v-touch tag="img" @tap="closeMobileMenu" class="jgm-logo not-responsive" :src="appLogo"/>
   </router-link>
 </template>
 
