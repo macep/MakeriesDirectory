@@ -4,43 +4,40 @@
       <span class="hereshow" v-html="signupData.content.rendered"/>
     </div>
 
-    <div class="col-xs-10 col-xs-offset-1 step">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 step">
       <div class="row">
-        <div class="col-xs-2">
-          <img src="/static/images/jgm-star-empty.svg">
-          <span class="step-number">1</span>
+        <div class="col-xs-3 col-sm-2">
+          <starred-item :text="1"/>
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-9 col-sm-10">
           <span class="hereshow" v-html="stepOneData.content.rendered"/>
         </div>
       </div>
     </div>
 
-    <div class="col-xs-10 col-xs-offset-1 step">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 step">
       <div class="row">
-        <div class="col-xs-2">
-          <img src="/static/images/jgm-star-empty.svg">
-          <span class="step-number">2</span>
+        <div class="col-xs-3 col-sm-2">
+          <starred-item :text="2"/>
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-9 col-sm-10">
           <span class="hereshow" v-html="stepTwoData.content.rendered"/>
         </div>
       </div>
     </div>
 
-    <div class="col-xs-10 col-xs-offset-1 step">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 step">
       <div class="row">
-        <div class="col-xs-2">
-          <img src="/static/images/jgm-star-empty.svg">
-          <span class="step-number">3</span>
+        <div class="col-xs-3 col-sm-2">
+          <starred-item :text="3"/>
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-9 col-sm-10">
           <span class="hereshow" v-html="stepThreeData.content.rendered"/>
         </div>
       </div>
     </div>
 
-    <div class="col-xs-10 col-xs-offset-1 step">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 step">
       <div class="sign-up-form" v-html="signUpFormData.content.rendered"/>
     </div>
 
@@ -50,9 +47,11 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import starredItem from '../common/starred-item.vue'
 
   export default {
     name: 'signup-page',
+    components: {starredItem},
     computed: {
       ...mapGetters(['pages']),
       signupData () {

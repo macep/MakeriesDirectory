@@ -1,6 +1,6 @@
 <template>
   <div id="workwithus" class="row page">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
       <h1 v-html="weekenderData.title.rendered"/>
       <span v-html="weekenderData.content.rendered"/>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div id="about" class="row page">
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
       <div class="row about-content">
         <div class="col-xs-12 about-title">
           <h1 v-html="aboutTitleData.title.rendered"/>
@@ -13,10 +13,10 @@
         </div>
       </div>
       <div class="row about-more-content">
-        <div class="col-xs-8">
+        <div class="col-xs-12 col-md-8">
           <span v-html="aboutMoreData.content.rendered"/>
         </div>
-        <div class="col-xs-3 pull-right">
+        <div class="col-xs-3 pull-right hidden-xs hidden-sm">
           <div class="row">
             <div class="col-xs-12 about-banner" v-for="banner in bannerPosts" :key="banner.id">
               <br>
