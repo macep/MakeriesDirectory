@@ -8,16 +8,29 @@ $mid-xs-breakpoint: 500px
     &.right
       @extend .text-center
 
-.maker
-  @media screen and (max-width: $mid-xs-breakpoint - 1px)
+@media screen and (max-width: $mid-xs-breakpoint - 1px)
+  .maker
     width: 100%
 
     .image-overlayed-wrapper
       max-height: 100%
 
-  @media screen and (min-width: $mid-xs-breakpoint)
+  .search-directory-wrapper
+    width: 9 / 12 * 100 + %
+
+  .view-type-wrapper
+    width: 3 / 12 * 100 + %
+
+@media screen and (min-width: $mid-xs-breakpoint)
+  .maker
     .image-overlayed-wrapper
       max-height: 220px
 
     .banner-inner
       min-height: 320px
+
+  .search-directory-wrapper
+    width: 10 / 12 * 100 + %
+
+  .view-type-wrapper
+    width: 2 / 12 * 100 + %

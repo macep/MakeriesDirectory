@@ -5,12 +5,12 @@
     </div>
     <div class="col-sm-9">
       <div class="row no-gutter">
-        <div class="col-xs-10 col-sm-11 lg-margin-bottom">
+        <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
           <h3 class="no-margin">
             {{currentFilterType}}: {{currentFilterTypeValue}}
           </h3>
         </div>
-        <div class="col-xs-2 col-sm-1">
+        <div class="col-sm-2 col-md-1 pull-left view-type-wrapper">
           <view-type/>
         </div>
       </div>
