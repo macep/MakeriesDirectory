@@ -1,7 +1,6 @@
 import apiService from '../api/app.service'
-import translations from '../modules/translations'
-import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl, sortObjectProperties} from '../modules/utils'
 import Config from '../api/app.config'
+import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl, sortObjectProperties} from '../modules/utils'
 
 let actions = {
   loadProject: ({commit}) => {
@@ -9,7 +8,7 @@ let actions = {
     return new Promise((resolve, reject) => {
       commit('mutateActivityIndicator', true)
       time.t0 = performance.now()
-      commit('mutateTranslations', translations)
+
       let prepareMenuUrl = (menu) => {
         menu.forEach(item => {
           let relPath = getRouteFromWpMenus(item.url)
@@ -59,7 +58,7 @@ let actions = {
               spa_route: `${Config.routerSettings.journalSingle}${post.slug}/${post.id}/`
             }
             if (postItem.images === null) {
-              postItem.images = ['<img src="/static/no-img.png"/>']
+              postItem.images = [`<img src="${Config.missingImageUrl}"/>`]
             }
             posts.push(postItem)
             years.push(postItem.year)
