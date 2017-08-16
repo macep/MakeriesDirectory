@@ -11,9 +11,9 @@
       <div id="collapse-1" class="panel-collapse collapse" :class="{'in': categoriesOpen}" :style="panelStyle(categoriesOpen)" role="tabpanel" aria-labelledby="heading-1">
         <div class="panel-body">
           <ul>
-            <li v-for="category in accData" :key="category.id">
+            <v-touch tag="li" @tap="closeMobileMenu" v-for="category in accData" :key="category.id">
               <router-link :to="journalByCatIdRoute(category.slug, category.id)">{{category.name}}</router-link> ({{category.count}})
-            </li>
+            </v-touch>
           </ul>
         </div>
       </div>
@@ -29,9 +29,9 @@
       <div id="collapse-2" class="panel-collapse collapse" :class="{'in': archivesOpen}" :style="panelStyle(archivesOpen)" role="tabpanel" aria-labelledby="heading-2">
         <div class="panel-body">
           <ul>
-            <li v-for="year in archivedYearsCollection" :key="year.el">
+            <v-touch tag="li" @tap="closeMobileMenu" v-for="year in archivedYearsCollection" :key="year.el">
               <router-link :to="year.route">{{year.el}}</router-link> ({{year.occurences}})
-            </li>
+            </v-touch>
           </ul>
         </div>
       </div>
@@ -56,7 +56,7 @@
       }
     },
     computed: {
-      ...mapGetters(['archivedYears']),
+      ...mapGetters(['archivedYears', 'isMobile']),
       archivedYearsCollection () {
         let years = findOccurences(this.archivedYears, false)
         years.forEach(year => {
@@ -72,6 +72,11 @@
       panelStyle (val) {
         return {
           height: val ? '' : '0'
+        }
+      },
+      closeMobileMenu () {
+        if (this.isMobile) {
+          this.$store.commit('mutateMobileMenuVisibile', false)
         }
       }
     }

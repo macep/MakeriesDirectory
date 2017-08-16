@@ -1,9 +1,9 @@
 <template>
     <div id="journal" class="row page">
-      <div class="col-xs-2">
+      <div class="col-sm-3 col-md-2" v-if="!isMobile">
         <blog-menu :acc-data="categories"/>
       </div>
-      <div class="col-xs-10">
+      <div class="col-sm-9 col-md-10">
         <div class="row">
           <div class="col-xs-12">
             <h3 class="posts-filter-title">{{categoryTitle}}</h3>
@@ -26,7 +26,7 @@
     name: 'journal-by-cat-page',
     components: {blogMenu, post},
     computed: {
-      ...mapGetters(['posts', 'categories']),
+      ...mapGetters(['posts', 'categories', 'isMobile']),
       categoryData () {
         return this.posts.filter(item => {
           return item.categories.find(cat => {

@@ -1,9 +1,9 @@
 <template>
   <div id="journal" class="row page">
-    <div class="col-xs-2">
+    <div class="col-sm-3 col-md-2" v-if="!isMobile">
       <blog-menu :one-at-a-time="true" :acc-data="categories"/>
     </div>
-    <div class="col-xs-10">
+    <div class="col-sm-9 col-md-10">
       <div class="row small-g">
         <div class="col-xs-6 post-item" v-for="post in posts" :key="post.id">
           <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
@@ -22,7 +22,7 @@
     name: 'journal-page',
     components: {blogMenu, post},
     computed: {
-      ...mapGetters(['posts', 'categories'])
+      ...mapGetters(['posts', 'categories', 'isMobile'])
     }
   }
 </script>

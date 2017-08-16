@@ -1,9 +1,9 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div id="journal" class="row page">
-    <div class="col-xs-2">
+    <div class="col-sm-3 col-md-2" v-if="!isMobile">
       <blog-menu :acc-data="categories"/>
     </div>
-    <div class="col-xs-10">
+    <div class="col-sm-9 col-md-10">
       <div class="row">
         <div class="col-xs-12">
           <h3 class="posts-filter-title"> {{archiveTitle}}</h3>
@@ -27,7 +27,7 @@
     name: 'journal-by-year-page',
     components: {blogMenu, post},
     computed: {
-      ...mapGetters(['posts', 'categories']),
+      ...mapGetters(['posts', 'categories', 'isMobile']),
       yearData () {
         return this.posts.filter(item => +item.year === this.selectedYear)
       },

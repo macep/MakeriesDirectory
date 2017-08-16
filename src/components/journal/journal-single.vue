@@ -3,7 +3,7 @@
     <div class="col-xs-1">
       <i :class="categoryName(singlePostData.categories[0])"/>
     </div>
-    <div class="col-xs-8">
+    <div class="col-sm-8">
       <div class="row">
         <div class="col-xs-12">
           <h1 v-html="singlePostData.title"/>
@@ -20,19 +20,27 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-3 recent-posts-and-ads">
-      <div class="col-xs-12">
-        <h3 class="recent-posts-title">{{youMightAlsoLike}}</h3>
-      </div>
-      <div class="col-xs-12 post-item" v-for="post in lastRecentPosts" :key="post.id">
-        <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
-      </div>
-      <div class="col-xs-12">
-        <h3 class="recent-posts-title">{{otherLinks}}</h3>
-      </div>
-      <div class="col-xs-12 blog-banner" v-for="banner in bannerPosts" :key="banner.id">
-        <br>
-        <banner :route="banner.routeTo" :img="banner.better_featured_image.source_url" :title="banner.title.rendered" :content="banner.content.rendered" :overlayed="false" :escaped="true"/>
+    <div class="col-sm-3 recent-posts-and-ads">
+      <div class="row">
+        <div class="col-xs-6 col-sm-12">
+          <div class="row">
+            <div class="col-xs-12">
+              <h3 class="recent-posts-title">{{youMightAlsoLike}}</h3>
+            </div>
+            <div class="col-xs-12 post-item" v-for="post in lastRecentPosts" :key="post.id">
+              <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-12">
+          <div class="col-xs-12">
+            <h3 class="recent-posts-title">{{otherLinks}}</h3>
+          </div>
+          <div class="col-xs-12 blog-banner" v-for="banner in bannerPosts" :key="banner.id">
+            <br>
+            <banner :route="banner.routeTo" :img="banner.better_featured_image.source_url" :title="banner.title.rendered" :content="banner.content.rendered" :overlayed="false" :escaped="true"/>
+          </div>
+        </div>
       </div>
     </div>
   </div>
