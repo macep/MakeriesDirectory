@@ -1,32 +1,21 @@
 #mobile-menu
   @extend %fast-transitions
+  @extend .lg-padding
   position: fixed
   top: 0
   left: 0
   width: 100%
   height: 100%
+  display: none
 
   &.open
     right: 0
     bottom: 0
-    padding: $xlg-space * 3 $lg-space
     background: $body-bg
+    display: block
 
     #mobile-menu-links
       display: block
-
-  i
-    @extend .md-padding
-    position: absolute
-    top: $lg-space * 2.75
-    right: $md-space
-    transform: scale(1.5)
-    color: rgba($dark-turqoise, .75)
-    line-height: .5
-    cursor: pointer
-
-    &:before
-      @extend %fast-transitions
 
 #mobile-menu-links
   @extend .xlg-margin-top
@@ -45,3 +34,16 @@
       @extend .md-padding-bottom
       display: block
       font-size: 24px
+
+.icon-dehaze,
+.icon-close
+  @extend .lg-padding
+  position: absolute
+  top: $lg-space * 2
+  right: 0
+  font-size: 24px
+  color: rgba($dark-turqoise, .75)
+  cursor: pointer
+
+  &:before
+    @extend %fast-transitions

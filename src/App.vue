@@ -3,6 +3,10 @@
     <div class="col-xs-12">
       <jgm-header/>
       <jgm-menu v-if="!isMobile"/>
+      <template v-if="isMobile">
+        <jgm-mobile-menu/>
+        <v-touch tag="i" @tap="toggleMobileMenuVisibility" :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"/>
+      </template>
       <transition name="slide" mode="out-in">
         <router-view/>
       </transition>
@@ -82,7 +86,10 @@
       ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile'])
     },
     methods: {
-      ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch'])
+      ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch']),
+      toggleMobileMenuVisibility () {
+        this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
+      }
     },
     watch: {
       '$route' (to) {
