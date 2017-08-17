@@ -23,12 +23,22 @@
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import jgmLogo from '../common/jgm-logo.vue'
-  import makeriesMenu from '../directory/menu.vue'
+  import makeriesMenu from '../directory/directory-menu.vue'
   import blogMenu from '../common/blog-menu.vue'
 
   export default {
     name: 'jgm-menu',
     components: {jgmLogo, makeriesMenu, blogMenu},
+    mounted () {
+      let mobileMenu = document.querySelector('#mobile-menu')
+      mobileMenu.addEventListener('scroll', () => {
+        if (this.$el.scrollTop > 20) {
+          mobileMenu.classList.add('shadowed')
+        } else {
+          mobileMenu.classList.remove('shadowed')
+        }
+      })
+    },
     computed: {
       ...mapGetters(['mainMenu', 'mobileMenuVisibile', 'route', 'categories']),
       appLogo () {

@@ -28,7 +28,7 @@
   import Config from '../../api/app.config'
   import {getNthFragment} from '../../modules/utils'
   import banner from '../common/banner'
-  import makeriesMenu from './menu.vue'
+  import makeriesMenu from './directory-menu.vue'
   import makeriesList from './makeries-list.vue'
   import viewType from './view-type.vue'
 

@@ -26,15 +26,20 @@ $fixed-logo-height: 110px
     #mobile-menu-links
       display: block
 
+  &.shadowed
+    .fixed-logo
+      box-shadow: 0 2px 5px 0 rgba($black, .125)
+
 .fixed-logo
   @extend .lg-padding
-  background: $white
+  @extend %slow-transitions
+  background: $body-bg
   position: fixed
   top: 0
   left: 0
   width: 100%
   height: $fixed-logo-height
-  box-shadow: 0 2px 3px rgba($black, .0625)
+
 
 .panel-title
  a

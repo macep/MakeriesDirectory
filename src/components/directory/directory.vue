@@ -25,7 +25,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import makeriesMenu from './menu.vue'
+  import makeriesMenu from './directory-menu.vue'
   import makeriesList from './makeries-list.vue'
   import searchDirectory from './search.vue'
   import viewType from './view-type.vue'

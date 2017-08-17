@@ -28,7 +28,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
-  import makeriesMenu from './menu.vue'
+  import makeriesMenu from './directory-menu.vue'
 
   export default {
     name: 'filter-az',
