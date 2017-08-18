@@ -8,9 +8,23 @@ import App from './App'
 import router from './router'
 import store from './store/index'
 import Meta from 'vue-meta'
+import VueAnalytics from 'vue-analytics'
 
 Vue.use(Meta)
 Vue.use(VueTouch)
+Vue.use(VueAnalytics, {
+  id: 'UA-49362824-1',
+  router,
+  autoTracking: {
+    pageviewTemplate (route) {
+      return {
+        page: route.path,
+        title: route.matched[0].name,
+        location: window.location.href
+      }
+    }
+  }
+})
 
 Vue.config.productionTip = false
 
