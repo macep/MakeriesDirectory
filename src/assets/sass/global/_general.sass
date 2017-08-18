@@ -39,6 +39,9 @@
   .col
     @extend %link-hoverings
 
+[class*='col-']
+  @extend %fast-transitions
+
 // margin-spacer generator, eg. sm-margin(-top|right|bottom|left)
 +spacer('no', $no-space, 'margin')
 +spacer('sm', $sm-space, 'margin')
