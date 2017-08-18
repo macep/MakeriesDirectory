@@ -69,6 +69,9 @@
       signUpFormData () {
         return this.pages.find(item => item.id === Config.pagesIDs.signupForm)
       }
+    },
+    metaInfo: {
+      title: Config.titles.signUp
     }
   }
 </script>

@@ -18,6 +18,9 @@
       disclaimerData () {
         return this.pages.find(item => item.id === Config.pagesIDs.disclaimer)
       }
+    },
+    metaInfo: {
+      title: Config.titles.disclaimer
     }
   }
 

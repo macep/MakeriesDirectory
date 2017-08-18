@@ -40,19 +40,39 @@ const Config = {
     newsletter: 'http://eepurl.com/lobiL'
   },
   titles: {
-    archive: 'Archived posts:',
+    defaultSalutation: 'Welcome to',
+    about: 'About',
+    journal: 'Journal',
+    archive: 'Archived posts',
     archivesTitle: 'Archives',
-    category: 'Category:',
+    category: 'Category',
     categoriesTitle: 'Categories',
-    youMightAlsoLike: 'You might also like:',
-    otherLinks: 'Other links:',
+    youMightAlsoLike: 'You might also like',
+    otherLinks: 'Other links',
+    signUp: 'Sign Up',
+    weekender: 'Weekender',
+    privacyPolicy: 'Privacy Policy',
+    disclaimer: 'Disclaimer',
+    contact: 'Contact',
     searchAll: 'Search all',
     suppliers: 'Suppliers',
+    back: 'Go back',
     directory: {
+      filterBy: 'Filter by',
+      directory: 'Directory',
       region: 'Region',
       businessTypes: 'Business Types',
-      productTypes: 'Product types',
+      products: 'Products',
       serviceTypes: 'Service types',
+      filterData: {
+        regions: 'Location',
+        businessTypes: 'Who do you need?',
+        products: 'What are you making?',
+        projects: 'Projects',
+        customer: 'Customer',
+        serviceTypes: 'What do you need?',
+        suppliersNumber: 'Suppliers Number'
+      },
       description: 'Description',
       tags: 'Tags',
       contactDetails: 'Contact Details',
@@ -61,6 +81,7 @@ const Config = {
       website: 'Website',
       map: 'Map',
       customer: 'Customer',
+      makerDetails: 'Maker details',
       directoryAZ: 'Directory A-Z'
     },
     searchPlaceholder: 'Search supplier, products, services, region, tags...'
@@ -88,15 +109,6 @@ const Config = {
   menusIDs: {
     primary: 2,
     secondary: 3
-  },
-  filterData: {
-    regions: 'Location',
-    businessTypes: 'Who do you need?',
-    products: 'What are you making?',
-    projects: 'Projects',
-    customer: 'Customer',
-    serviceTypes: 'What do you need?',
-    suppliersNumber: 'Suppliers Number'
   },
   pageNotFound: {
     title: '',

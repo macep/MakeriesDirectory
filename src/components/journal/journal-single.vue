@@ -80,12 +80,18 @@
         return +getNthFragment(this.$route.path, 3)
       },
       singlePostData () {
+        console.log(this.posts.filter(item => item.id === this.postId)[0].title)
         return this.posts.filter(item => item.id === this.postId)[0]
       }
     },
     methods: {
       categoryName (catId) {
         return `icon-cat-${this.categories.find(cat => cat.id === catId).name.toLowerCase()}`
+      }
+    },
+    metaInfo () {
+      return {
+        title: `${this.singlePostData.title} (from ${this.singlePostData.date})`
       }
     }
   }

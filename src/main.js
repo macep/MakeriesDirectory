@@ -7,7 +7,9 @@ import { sync } from 'vuex-router-sync'
 import App from './App'
 import router from './router'
 import store from './store/index'
+import Meta from 'vue-meta'
 
+Vue.use(Meta)
 Vue.use(VueTouch)
 
 Vue.config.productionTip = false

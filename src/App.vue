@@ -91,6 +91,10 @@
         this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
       }
     },
+    metaInfo: {
+      title: Config.titles.defaultSalutation,
+      titleTemplate: `%s | ${Config.appTitle}`
+    },
     watch: {
       '$route' (to) {
         makeBodyClass(to)

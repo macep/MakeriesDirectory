@@ -62,6 +62,11 @@
           }
         })
       }
+    },
+    metaInfo () {
+      return {
+        title: `${Config.titles.directory.filterBy} ${Config.titles.directory[this.currentFilterType].toLowerCase()}: ${this.currentFilterTypeValue.replace(/-/g, ' ')}`
+      }
     }
   }
 </script>

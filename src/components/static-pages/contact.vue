@@ -18,6 +18,9 @@
       contactData () {
         return this.pages.find(item => item.id === Config.pagesIDs.contact)
       }
+    },
+    metaInfo: {
+      title: Config.titles.contact
     }
   }
 </script>

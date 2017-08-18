@@ -8,11 +8,11 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
+var PrerenderSpaPlugin = require('prerender-spa-plugin')
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : config.build.env
-
+var routes = require('../src/router/routes-collections')
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -94,7 +94,22 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    // prerender the crawlable routes here
+    new PrerenderSpaPlugin(
+      path.join(__dirname, '../dist'),
+      routes,
+      {
+        // Instead of loudly failing on JS errors (the default), ignore them.
+        ignoreJSErrors: true,
+        // path of index file. By default it's index.html in static root.
+        indexPath: path.resolve('./index.html'),
+        // http://phantomjs.org/api/webpage/property/settings.html
+        phantomPageSettings: {
+          loadImages: true
+        }
+      }
+    )
   ]
 })
 
@@ -120,5 +135,5 @@ if (config.build.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
-
+console.log(routes)
 module.exports = webpackConfig

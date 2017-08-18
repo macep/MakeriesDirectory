@@ -15,6 +15,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import Config from '../../api/app.config'
   import blogMenu from '../common/blog-menu.vue'
   import post from './post.vue'
 
@@ -23,6 +24,9 @@
     components: {blogMenu, post},
     computed: {
       ...mapGetters(['posts', 'categories', 'isMobile'])
+    },
+    metaInfo: {
+      title: `${Config.titles.journal}`
     }
   }
 </script>

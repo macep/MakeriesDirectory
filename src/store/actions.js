@@ -132,10 +132,10 @@ let actions = {
           let directory = data.data
 
           let filterData = {
-            regions: {name: Config.filterData.regions, data: []},
-            businessTypes: {name: Config.filterData.businessTypes, data: []},
-            products: {name: Config.filterData.products, data: []},
-            serviceTypes: {name: Config.filterData.serviceTypes, data: []}
+            regions: {name: Config.titles.directory.filterData.regions, data: []},
+            businessTypes: {name: Config.titles.directory.filterData.businessTypes, data: []},
+            products: {name: Config.titles.directory.filterData.products, data: []},
+            serviceTypes: {name: Config.titles.directory.filterData.serviceTypes, data: []}
           }
 
           let letter = ''

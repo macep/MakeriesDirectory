@@ -48,6 +48,9 @@
       aboutMoreData () {
         return this.pages.find(item => item.id === Config.pagesIDs.aboutMore)
       }
+    },
+    metaInfo: {
+      title: Config.titles.about
     }
   }
 </script>

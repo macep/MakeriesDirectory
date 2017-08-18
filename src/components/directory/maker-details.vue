@@ -2,7 +2,7 @@
   <div id="maker-details" class="row small-gutter">
     <div class="col-sm-9 lg-margin-bottom">
       <div class="box left">
-        <router-link v-if="back" :to="back" class="back-link">go back</router-link>
+        <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
         <h3>{{maker.name}}</h3>
         <p class="brief">{{maker.briefDescription}}</p>
         <img :src="maker.images[0].url" alt="">
@@ -121,6 +121,7 @@
     components: {googleMap},
     data () {
       return {
+        backLink: Config.titles.back,
         region: Config.titles.directory.region,
         businessTypes: Config.titles.directory.businessTypes,
         productTypes: Config.titles.directory.productTypes,
@@ -142,6 +143,11 @@
       back () {
         let from = this.route.from.fullPath
         return from !== '/' ? from : null
+      }
+    },
+    metaInfo () {
+      return {
+        title: `${this.maker.name} : ${Config.titles.directory.makerDetails}`
       }
     }
   }

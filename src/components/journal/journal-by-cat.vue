@@ -43,7 +43,12 @@
         return +this.$route.path.split('/')[3]
       },
       categoryTitle () {
-        return `${Config.titles.category} ${this.category.name}`
+        return `${Config.titles.category}: ${this.category.name}`
+      }
+    },
+    metaInfo () {
+      return {
+        title: `${Config.titles.directory.filterBy} "${this.category.name}" ${Config.titles.category.toLowerCase()}`
       }
     }
   }

@@ -18,6 +18,9 @@
       privacyData () {
         return this.pages.find(item => item.id === Config.pagesIDs.privacy)
       }
+    },
+    metaInfo: {
+      title: Config.titles.privacyPolicy
     }
   }
 </script>

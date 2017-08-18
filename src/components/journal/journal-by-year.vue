@@ -35,7 +35,12 @@
         return +getNthFragment(this.$route.path, 3)
       },
       archiveTitle () {
-        return `${Config.titles.archive} ${this.selectedYear}`
+        return `${Config.titles.archive}: ${this.selectedYear}`
+      }
+    },
+    metaInfo () {
+      return {
+        title: `${Config.titles.archive} from ${this.selectedYear}`
       }
     }
   }

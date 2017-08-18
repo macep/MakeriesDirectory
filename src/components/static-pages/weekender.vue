@@ -18,6 +18,9 @@
       weekenderData () {
         return this.pages.find(item => item.id === Config.pagesIDs.weekender)
       }
+    },
+    metaInfo: {
+      title: Config.titles.weekender
     }
   }
 </script>

@@ -40,6 +40,11 @@
     },
     computed: {
       ...mapGetters(['directoryAZ', 'isMobile'])
+    },
+    metaInfo () {
+      return {
+        title: `${Config.titles.directory.directoryAZ}`
+      }
     }
   }
 </script>
