@@ -9,9 +9,11 @@ import router from './router'
 import store from './store/index'
 import Meta from 'vue-meta'
 import VueAnalytics from 'vue-analytics'
+import VueFuse from 'vue-fuse'
 
 Vue.use(Meta)
 Vue.use(VueTouch)
+Vue.use(VueFuse)
 Vue.use(VueAnalytics, {
   id: 'UA-49362824-1',
   router,
