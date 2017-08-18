@@ -5,6 +5,7 @@ import Config from '../api/app.config'
 import Home from '@/components/static-pages/home'
 import About from '@/components/static-pages/about'
 import Directory from '@/components/directory/directory'
+import DirectoryDisabled from '@/components/directory/directory-disabled'
 import FilterBy from '@/components/directory/filter-by'
 import FilterAZ from '@/components/directory/filter-az'
 import Maker from '@/components/directory/maker-details'
@@ -24,6 +25,7 @@ Vue.use(Router)
 const routes = [
   {path: '/', name: 'Home', component: Home},
   {path: `${Config.routerSettings.about}`, name: 'About', component: About},
+  {path: `${Config.routerSettings.directoryDisabled}`, name: 'DirectoryDisabled', component: DirectoryDisabled},
   {path: `${Config.routerSettings.directory}`, name: 'Directory', component: Directory},
   {path: `${Config.routerSettings.filterBy.region}:filter`, name: 'FilterBy', component: FilterBy},
   {path: `${Config.routerSettings.filterBy.products}:filter`, name: 'FilterBy', component: FilterBy},

@@ -136,9 +136,11 @@
       }
     },
     computed: {
-      ...mapGetters(['directory', 'route']),
+      ...mapGetters(['directory', 'directoryDisabled', 'route']),
       maker () {
-        return this.directory.filter(maker => maker.id === +getNthFragment(this.$route.path, 3))[0]
+        let activeMaker = this.directory.filter(maker => maker.id === +getNthFragment(this.$route.path, 3))[0]
+        let inactiveMaker = this.directoryDisabled.filter(maker => maker.id === +getNthFragment(this.$route.path, 3))[0]
+        return activeMaker || inactiveMaker
       },
       back () {
         let from = this.route.from.fullPath

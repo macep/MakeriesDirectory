@@ -19,6 +19,7 @@ const Config = {
   routerSettings: {
     about: '/about/',
     directory: '/directory/',
+    directoryDisabled: '/directory-disabled/',
     filterDirectory: '/directory/filterBy/',
     filterBy: {
       region: '/directory/filter-by/location/',

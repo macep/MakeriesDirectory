@@ -130,6 +130,7 @@ let actions = {
       function getDotNetData () {
         apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
           let directory = data.data
+          let directoryDisabled = []
 
           let filterData = {
             regions: {name: Config.titles.directory.filterData.regions, data: []},
@@ -181,6 +182,9 @@ let actions = {
             azObject[letter].push(item)
           })
 
+          directoryDisabled = directory.filter(maker => !maker.enabled)
+          directory = directory.filter(maker => maker.enabled)
+
           for (let prop in azObject) {
             if (prop.match(/^[A-Za-z]+$/) === null) {
               azValNameNonAlpha = azValNameNonAlpha.concat(azObject[prop])
@@ -205,6 +209,7 @@ let actions = {
           filterData.serviceTypes.data = findOccurences(filterData.serviceTypes.data, true, Config.routerSettings.filterBy.serviceTypes)
 
           commit('mutateDirectory', directory)
+          commit('mutatedirectoryDisabled', directoryDisabled)
           commit('mutateDirectoryFilterData', filterData)
           commit('mutateDirectoryAZ', sortObjectProperties(azObject))
         })

@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="col-xs-12">
-          <makeries-list :makeries="directoryEnabled"/>
+          <makeries-list :makeries="directoryDisabled"/>
         </div>
       </div>
     </div>
@@ -32,13 +32,10 @@
   import viewType from './view-type.vue'
 
   export default {
-    name: 'directory-page',
+    name: 'directory--disabled-page',
     components: {makeriesMenu, makeriesList, searchDirectory, viewType},
     computed: {
-      ...mapGetters(['directory', 'viewType', 'isMobile']),
-      directoryEnabled () {
-        return this.directory.filter(maker => maker.enabled)
-      }
+      ...mapGetters(['directoryDisabled', 'viewType', 'isMobile'])
     },
     metaInfo () {
       return {

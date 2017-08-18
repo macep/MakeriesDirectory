@@ -44,6 +44,9 @@ let mutations = {
   mutateDirectory: (state, directory) => {
     state.directory = directory
   },
+  mutatedirectoryDisabled: (state, directoryDisabled) => {
+    state.directoryDisabled = directoryDisabled
+  },
   mutateDirectoryFilterData: (state, directoryFilterData) => {
     state.directoryFilterData = directoryFilterData
   },
