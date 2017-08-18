@@ -52,10 +52,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
-      template: 'index.html',
+      filename: process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
+      template: path.join(__dirname, '../dist/index.html'),
       inject: true,
       minify: {
         removeComments: true,
@@ -92,6 +90,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
+        inject: 'head',
         ignore: ['.*']
       }
     ]),
@@ -102,8 +101,6 @@ var webpackConfig = merge(baseWebpackConfig, {
       {
         // Instead of loudly failing on JS errors (the default), ignore them.
         ignoreJSErrors: true,
-        // path of index file. By default it's index.html in static root.
-        indexPath: path.resolve('./index.html'),
         // http://phantomjs.org/api/webpage/property/settings.html
         phantomPageSettings: {
           loadImages: true
@@ -135,5 +132,4 @@ if (config.build.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
-console.log(routes)
 module.exports = webpackConfig
