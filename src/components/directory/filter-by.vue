@@ -7,7 +7,7 @@
       <div class="row no-gutter">
         <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
           <h3 class="no-margin">
-            {{currentFilterType}}: {{currentFilterTypeValue}}
+            {{currentFilterType}}: {{currentFilterTypeValuePretty}}
           </h3>
         </div>
         <div class="col-sm-2 col-md-1 pull-left view-type-wrapper">
@@ -49,6 +49,9 @@
       currentFilterTypeValue () {
         return getNthFragment(this.$route.path, 4)
       },
+      currentFilterTypeValuePretty () {
+        return this.currentFilterTypeValue.replace(/-/g, ' ')
+      },
       filteredData () {
         return this.directory.filter(item => {
           if (item[this.currentFilterType].length > 0) {
@@ -65,7 +68,7 @@
     },
     metaInfo () {
       return {
-        title: `${Config.titles.directory.filterBy} ${Config.titles.directory[this.currentFilterType].toLowerCase()}: ${this.currentFilterTypeValue.replace(/-/g, ' ')}`
+        title: `${Config.titles.directory.filterBy} ${Config.titles.directory[this.currentFilterType].toLowerCase()}: ${this.currentFilterTypeValuePretty}`
       }
     }
   }
