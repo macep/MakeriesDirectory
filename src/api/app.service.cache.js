@@ -18,7 +18,9 @@ const cacheService = {
           if (cacheService.isBrowser) {
             cacheService.storeCacheTime.setItem(requestOptions.url || requestOptions, cacheService.currentTime + cacheTime)
             cacheService.store.setItem(requestOptions.url || requestOptions, { data: response.data, headers: response.headers })
-            .then((response) => resolve(response))
+            .then((response) => {
+              resolve(response)
+            })
             .catch((err) => reject(err))
           } else {
             resolve(response)
@@ -26,7 +28,9 @@ const cacheService = {
         } else {
           if (cacheService.isBrowser) {
             cacheService.store.getItem(requestOptions.url)
-            .then((response) => resolve(response))
+            .then((response) => {
+              resolve(response)
+            })
             .catch((err) => reject(err))
           } else {
             reject('Cannot get ' + requestOptions.url)
@@ -43,7 +47,9 @@ const cacheService = {
         // Cache has expired
         if (timeLastCached < cacheService.currentTime) {
           cacheService.networkFirstStrategy(requestOptions, cacheTime)
-          .then((response) => { resolve(response) })
+          .then((response) => {
+            resolve(response)
+          })
           .catch((err) => reject(err))
         } else {
           // Get item from cache
@@ -55,7 +61,9 @@ const cacheService = {
             } else {
               // Doesn't exist in cache try network
               cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
-              .then((response) => resolve(response))
+              .then((response) => {
+                resolve(response)
+              })
               .catch((err) => reject(err))
             }
           })

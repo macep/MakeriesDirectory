@@ -79,7 +79,12 @@
       makeBodyClass(this.$route)
     },
     computed: {
-      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile'])
+      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'posts', 'pages']),
+      postsAndPages () {
+        this.posts
+        this.pages
+        return Date.now()
+      }
     },
     methods: {
       ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch']),
@@ -94,6 +99,11 @@
     watch: {
       '$route' (to) {
         makeBodyClass(to)
+      },
+      postsAndPages () {
+        if (this.posts.length > 0 && this.pages.length > 0) {
+          this.$store.commit('mutateActivityIndicator', false)
+        }
       }
     }
   }

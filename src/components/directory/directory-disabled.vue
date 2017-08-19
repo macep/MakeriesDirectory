@@ -8,7 +8,7 @@
         <div class="col-xs-12">
           <div class="row no-gutter">
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
-              <search-directory/>
+              <h3 class="no-margin">{{draftMakers}}</h3>
             </div>
             <div class="col-sm-2 col-md-1 pull-left view-type-wrapper lg-margin-bottom">
               <view-type/>
@@ -30,10 +30,17 @@
   import makeriesList from './makeries-list.vue'
   import searchDirectory from './search.vue'
   import viewType from './view-type.vue'
+  import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
     name: 'directory--disabled-page',
     components: {makeriesMenu, makeriesList, searchDirectory, viewType},
+    mixins: [waitDirectoryData],
+    data () {
+      return {
+        draftMakers: Config.titles.directory.draftMakers
+      }
+    },
     computed: {
       ...mapGetters(['directoryDisabled', 'viewType', 'isMobile'])
     },

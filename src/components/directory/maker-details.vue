@@ -115,10 +115,12 @@
   import Config from '../../api/app.config'
   import {getNthFragment} from '../../modules/utils'
   import googleMap from '../common/google-map'
+  import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
     name: 'maker-details',
     components: {googleMap},
+    mixins: [waitDirectoryData],
     data () {
       return {
         backLink: Config.titles.back,

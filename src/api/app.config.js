@@ -19,7 +19,7 @@ const Config = {
   routerSettings: {
     about: '/about/',
     directory: '/directory/',
-    directoryDisabled: '/directory-disabled/',
+    directoryDisabled: '/directory-draft-makers/',
     filterDirectory: '/directory/filterBy/',
     filterBy: {
       region: '/directory/filter-by/location/',
@@ -61,6 +61,7 @@ const Config = {
     directory: {
       filterBy: 'Filter by',
       directory: 'Directory',
+      draftMakers: 'Draft Makers',
       region: 'Region',
       businessTypes: 'Business Types',
       products: 'Products',

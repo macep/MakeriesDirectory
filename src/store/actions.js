@@ -17,21 +17,23 @@ let actions = {
         })
       }
 
-      function getMainMenu () {
+      let getMainMenu = () => {
         return apiService.getMenu(Config.menusIDs.primary).then((response) => {
           prepareMenuUrl(response.items)
+          // console.log('main menu', response.items)
           commit('mutateMainMenu', response.items)
         })
       }
 
-      function getSecondaryMenu () {
+      let getSecondaryMenu = () => {
         return apiService.getMenu(Config.menusIDs.secondary).then((response) => {
           prepareMenuUrl(response.items)
+          // console.log('second menu', response.items)
           commit('mutateSecondaryMenu', response.items)
         })
       }
 
-      function getAllPosts () {
+      let getAllPosts = () => {
         let posts = []
         let years = []
         return apiService.getPosts(null, null, 100, 'desc').then((response) => {
@@ -63,37 +65,36 @@ let actions = {
             posts.push(postItem)
             years.push(postItem.year)
           })
+          // console.log('posts', posts)
+          // console.log('years', years)
           commit('mutatePosts', posts)
           commit('mutateArchivedYears', years)
         })
       }
 
-      function getCategories () {
+      let getCategories = () => {
         return apiService.getCategories().then((response) => {
           let categories = response.data.filter(item => item.id !== Config.postsIDs.sliderPosts && item.id !== Config.postsIDs.bannerPosts)
+          // console.log('categories', categories)
           commit('mutateCategories', categories)
         })
       }
 
-      function getAllPages () {
+      let getAllPages = () => {
         return apiService.getPages().then((response) => {
+          // console.log('pages', response.data)
           commit('mutatePages', response.data)
         })
       }
 
-      function getDotNetData () {
-        apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
-          commit('mutateDirectory', data.data)
-        })
-      }
-
-      function getSliderPosts () {
+      let getSliderPosts = () => {
         apiService.getPostsByCategory(Config.postsIDs.sliderPosts).then(response => {
+          // console.log('sliderPosts', response.posts)
           commit('mutateSliderPosts', response.posts)
         })
       }
 
-      function getBannerPosts () {
+      let getBannerPosts = () => {
         apiService.getPostsByCategory(Config.postsIDs.bannerPosts).then(response => {
           let bannerPosts = response.posts.reverse()
           bannerPosts.forEach((item, idx) => {
@@ -109,13 +110,13 @@ let actions = {
                 break
             }
           })
+          // console.log('bannerPosts', bannerPosts)
           commit('mutateBannerPosts', bannerPosts)
         })
       }
 
-      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getCategories(), getAllPages(), getDotNetData(), getSliderPosts(), getBannerPosts()])
+      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getCategories(), getAllPages(), getSliderPosts(), getBannerPosts()])
         .then(() => {
-          commit('mutateActivityIndicator', false)
           time.t1 = performance.now()
           console.debug('[actions] api data received in ' + ((time.t1 - time.t0) / 1e3).toFixed(3) + 's')
         })
@@ -130,7 +131,6 @@ let actions = {
       function getDotNetData () {
         apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
           let directory = data.data
-          let directoryDisabled = []
 
           let filterData = {
             regions: {name: Config.titles.directory.filterData.regions, data: []},
@@ -182,7 +182,7 @@ let actions = {
             azObject[letter].push(item)
           })
 
-          directoryDisabled = directory.filter(maker => !maker.enabled)
+          let directoryDisabled = directory.filter(maker => !maker.enabled)
           directory = directory.filter(maker => maker.enabled)
 
           for (let prop in azObject) {
@@ -208,8 +208,13 @@ let actions = {
           filterData.businessTypes.data = findOccurences(filterData.businessTypes.data, true, Config.routerSettings.filterBy.businessTypes)
           filterData.serviceTypes.data = findOccurences(filterData.serviceTypes.data, true, Config.routerSettings.filterBy.serviceTypes)
 
+          // console.log('mutateDirectory', directory)
+          // console.log('mutateDirectoryDisabled', directoryDisabled)
+          // console.log('mutateDirectoryFilterData', filterData)
+          // console.log('mutateDirectoryAZ', sortObjectProperties(azObject))
+
           commit('mutateDirectory', directory)
-          commit('mutatedirectoryDisabled', directoryDisabled)
+          commit('mutateDirectoryDisabled', directoryDisabled)
           commit('mutateDirectoryFilterData', filterData)
           commit('mutateDirectoryAZ', sortObjectProperties(azObject))
         })
@@ -217,7 +222,6 @@ let actions = {
 
       Promise.all([getDotNetData()])
         .then(() => {
-          commit('mutateActivityIndicator', false)
           time.t1 = performance.now()
           console.debug('[actions] directory data received in ' + ((time.t1 - time.t0) / 1e3).toFixed(3) + 's')
         })

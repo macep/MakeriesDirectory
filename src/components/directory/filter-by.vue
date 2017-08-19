@@ -31,10 +31,12 @@
   import makeriesMenu from './directory-menu.vue'
   import makeriesList from './makeries-list.vue'
   import viewType from './view-type.vue'
+  import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
     name: 'filter-by',
     components: {banner, makeriesMenu, makeriesList, viewType},
+    mixins: [waitDirectoryData],
     computed: {
       ...mapGetters(['directory', 'isMobile']),
       currentFilterType () {

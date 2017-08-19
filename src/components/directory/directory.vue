@@ -9,7 +9,8 @@
           <div class="row no-gutter">
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
               <div id="search-engine">
-                <input type="search" v-model="term">
+                <input type="search" v-model="term" :placeholder="searchPlaceholder">
+                <span class="search-results" v-if="term.length > 0">{{methodResults.length}} search results</span>
               </div>
             </div>
             <div class="col-sm-2 col-md-1 pull-left view-type-wrapper lg-margin-bottom">
@@ -31,12 +32,15 @@
   import makeriesMenu from './directory-menu.vue'
   import makeriesList from './makeries-list.vue'
   import viewType from './view-type.vue'
+  import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
     name: 'directory-page',
+    mixins: [waitDirectoryData],
     data () {
       return {
         term: '',
+        searchPlaceholder: Config.titles.searchPlaceholder,
         defaultAllToggle: false,
         options: {
           keys: ['name', 'briefDescription']
