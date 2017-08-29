@@ -33,7 +33,7 @@
   import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
-    name: 'directory--disabled-page',
+    name: 'directory-disabled-page',
     components: {makeriesMenu, makeriesList, searchDirectory, viewType},
     mixins: [waitDirectoryData],
     data () {

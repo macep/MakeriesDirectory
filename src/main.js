@@ -21,7 +21,7 @@ Vue.use(VueAnalytics, {
     pageviewTemplate (route) {
       return {
         page: route.path,
-        title: route.matched[0].name,
+        title: route.matched !== undefined ? route.matched[0].name : '',
         location: window.location.href
       }
     }
