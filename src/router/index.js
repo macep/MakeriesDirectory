@@ -18,6 +18,7 @@ import Weekender from '@/components/static-pages/weekender'
 import PrivacyPolicy from '@/components/static-pages/privacy-policy'
 import Disclaimer from '@/components/static-pages/disclaimer'
 import Contact from '@/components/static-pages/contact'
+import Callback from '@/components/login/callback'
 // import PageNotFound from '@/components/static-pages/page-not-found'
 
 Vue.use(Router)
@@ -41,7 +42,8 @@ const routes = [
   {path: `${Config.routerSettings.weekender}`, name: 'Weekender', component: Weekender},
   {path: `${Config.routerSettings.privacy}`, name: 'PrivacyPolicy', component: PrivacyPolicy},
   {path: `${Config.routerSettings.disclaimer}`, name: 'Disclaimer', component: Disclaimer},
-  {path: `${Config.routerSettings.contact}`, name: 'Contact', component: Contact}
+  {path: `${Config.routerSettings.contact}`, name: 'Contact', component: Contact},
+  {path: '/callback', name: 'Callback', component: Callback}
   // {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]
 
