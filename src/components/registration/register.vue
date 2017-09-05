@@ -73,11 +73,11 @@
   import request from 'axios'
 
   const roles = [
-    {name: 'Subscriber', allowed: true},
-    {name: 'Contributor', allowed: true},
-    {name: 'Author', allowed: true},
-    {name: 'Editor', allowed: true},
-    {name: 'Administrator', allowed: false}
+    {name: 'subscriber', allowed: true},
+    {name: 'contributor', allowed: true},
+    {name: 'author', allowed: true},
+    {name: 'editor', allowed: true},
+    {name: 'administrator', allowed: false}
   ]
 
   export default {
@@ -106,27 +106,33 @@
       registerNewUser () {
         this.formIsValid = this.username.valid && this.email.valid && this.password.valid && this.password2.valid
         if (this.formIsValid) {
-          return new Promise((resolve, reject) => {
-            let path = `${Config.wpDomain}wp-json/wp/v2/posts?username=${this.username.value}&email=${this.email.value}&password=${this.password.value}`
-            if (this.firstName.value !== '') {
-              path += `&first_name=${this.firstName.value}`
-            }
-            if (this.lastName.value !== '') {
-              path += `&last_name=${this.lastName.value}`
-            }
-            if (this.website.value !== '') {
-              path += `&url=${this.website.value}`
-            }
-            if (this.role.value !== '') {
-              path += `&roles=${this.role.value}`
-            }
-            console.log(path)
-            request.post(path)
-              .then((response) => {
-                resolve(response)
-              })
-              .catch((err) => reject(err))
+          let addUserApi = `${Config.wpDomain}wp-json/wp/v2/users`
+          request.post(`${Config.wpDomain}wp-json/jwt-auth/v1/token`, {
+            username: 'webclient',
+            password: 'v8V#ghZ(zdu0NX9VAdJMIDJS'
           })
+            .then((response) => {
+              request.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+              request.defaults.headers.common['Content-Type'] = 'application/json'
+              request.post(addUserApi, {
+                username: this.username.value,
+                email: this.email.value,
+                password: this.password.value,
+                first_name: this.firstName.value,
+                last_name: this.lastName.value,
+                url: this.website.value,
+                roles: this.role.value
+              })
+                .then((response) => {
+                  console.log(response)
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }
       }
     },
