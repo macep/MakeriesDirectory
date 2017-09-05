@@ -8,7 +8,7 @@
         <v-touch tag="i" @tap="toggleMobileMenuVisibility" :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"/>
       </template>
       <transition name="slide" mode="out-in">
-        <router-view :auth="auth" :authenticated="authenticated"/>
+        <router-view/>
       </transition>
       <jgm-footer/>
       <transition name="fade" mode="out-in">
@@ -37,10 +37,6 @@
   import jgmMobileMenu from './components/layout/jgm-mobile-menu.vue'
   import jgmFooter from './components/layout/jgm-footer.vue'
   import Config from './api/app.config'
-  import AuthService from './services/AuthService'
-
-  const auth = new AuthService()
-  const {login, logout, authenticated, authNotifier} = auth
 
   const pageClassSuffix = '-page'
 
@@ -54,12 +50,7 @@
     name: 'app',
     components: {jgmHeader, jgmMenu, jgmMobileMenu, jgmFooter},
     data () {
-      authNotifier.on('authChange', authState => {
-        this.authenticated = authState.authenticated
-      })
       return {
-        auth,
-        authenticated,
         activityLoaderImg: Config.activityLoaderImg,
         activityTag: Config.appTitleShort
       }
@@ -99,9 +90,7 @@
       ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch']),
       toggleMobileMenuVisibility () {
         this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
-      },
-      login,
-      logout
+      }
     },
     metaInfo: {
       title: Config.titles.defaultSalutation,
