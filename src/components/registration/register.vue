@@ -69,6 +69,8 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import Config from '../../api/app.config'
+  import request from 'axios'
 
   const roles = [
     {name: 'Subscriber', allowed: true},
@@ -103,12 +105,35 @@
       ...mapActions([]),
       registerNewUser () {
         this.formIsValid = this.username.valid && this.email.valid && this.password.valid && this.password2.valid
+        if (this.formIsValid) {
+          return new Promise((resolve, reject) => {
+            let path = `${Config.wpDomain}wp-json/wp/v2/posts?username=${this.username.value}&email=${this.email.value}&password=${this.password.value}`
+            if (this.firstName.value !== '') {
+              path += `&first_name=${this.firstName.value}`
+            }
+            if (this.lastName.value !== '') {
+              path += `&last_name=${this.lastName.value}`
+            }
+            if (this.website.value !== '') {
+              path += `&url=${this.website.value}`
+            }
+            if (this.role.value !== '') {
+              path += `&roles=${this.role.value}`
+            }
+            console.log(path)
+            request.post(path)
+              .then((response) => {
+                resolve(response)
+              })
+              .catch((err) => reject(err))
+          })
+        }
       }
     },
     watch: {
       username: {
         handler () {
-          this.username.valid = this.username.value.length > 6 && this.username.value.length < 31
+          this.username.valid = this.username.value.length > 5 && this.username.value.length < 31
         },
         deep: true
       },
@@ -132,7 +157,7 @@
       },
       password2: {
         handler () {
-          this.password2.valid = this.password2.value.length > 8 && this.password2.value.length < 25
+          this.password2.valid = this.password2.value.length > 8 && this.password2.value.length < 25 && this.password2.value === this.password.value
         },
         deep: true
       }
