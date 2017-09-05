@@ -2,14 +2,16 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import './assets/sass/jgm.sass'
 import Vue from 'vue'
-import VueTouch from 'vue-touch'
 import { sync } from 'vuex-router-sync'
+
 import App from './App'
 import router from './router'
 import store from './store/index'
+
 import Meta from 'vue-meta'
-import VueAnalytics from 'vue-analytics'
+import VueTouch from 'vue-touch'
 import VueFuse from 'vue-fuse'
+import VueAnalytics from 'vue-analytics'
 
 Vue.use(Meta)
 Vue.use(VueTouch)

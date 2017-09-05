@@ -4,66 +4,138 @@
       <h3>Register New User</h3>
       <p>Create a brand new user and add them to this site.</p>
       <hr>
-      <form class="row form-horizontal small-gutter">
-        <div class="form-group required">
+      <div class="row form-horizontal small-gutter">
+        <div class="form-group required" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
           <label for="input-username" class="col-sm-4 control-label">Username</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="input-username" placeholder="Username">
+            <input type="text" class="form-control" id="input-username" v-model="username.value" placeholder="Username">
           </div>
         </div>
-        <div class="form-group required">
+        <div class="form-group required" :class="{'has-warning': !email.valid && email.value !=='', 'has-error': !formIsValid && !email.valid && email.value !==''}">
           <label for="input-email" class="col-sm-4 control-label">Email</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control" id="input-email" placeholder="Email">
+            <input type="email" class="form-control" id="input-email" v-model="email.value" placeholder="Email">
           </div>
         </div>
         <div class="form-group">
           <label for="input-first-name" class="col-sm-4 control-label">Full Name</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="input-first-name" placeholder="First Name">
+            <input type="text" class="form-control" id="input-first-name" v-model="firstName.value" placeholder="First Name">
           </div>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="input-last-name" placeholder="Last Name">
+            <input type="text" class="form-control" id="input-last-name" v-model="lastName.value" placeholder="Last Name">
           </div>
         </div>
         <div class="form-group">
           <label for="input-website" class="col-sm-4 control-label">Website</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="input-website" placeholder="Website">
+            <input type="text" class="form-control" id="input-website" v-model="website.value" placeholder="Website">
           </div>
         </div>
-        <div class="form-group required">
+        <div class="form-group required" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
           <label for="input-password" class="col-sm-4 control-label">Password</label>
           <div class="col-sm-8">
-            <input type="password" class="form-control" id="input-password" placeholder="Password">
+            <input type="password" class="form-control" id="input-password" v-model="password.value" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group required" :class="{'has-warning': !password2.valid && password2.value !=='', 'has-error': !formIsValid && !password2.valid && password2.value !==''}">
+          <label for="input-password2" class="col-sm-4 control-label">Password Again</label>
+          <div class="col-sm-8">
+            <input type="password" class="form-control" id="input-password2" v-model="password2.value"
+                   placeholder="Re-type password">
           </div>
         </div>
         <div class="form-group">
           <label for="user-role" class="col-sm-4 control-label">User Role</label>
           <div class="col-sm-4">
-            <select id="user-role" class="form-control">
-              <option>Subscriber</option>
-              <option>Contributor</option>
-              <option>Author</option>
-              <option>Editor</option>
-              <option disabled>Administrator</option>
+            <select id="user-role" v-model="role.value" class="form-control">
+              <option v-for="role in roles" :disabled="role.allowed === false">{{role.name}}</option>
             </select>
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-8">
             <div class="checkbox">
-              <button type="submit" class="btn btn-warning lg-margin-right">Register</button>
-              <label><input type="checkbox"> Remember my password</label>
+              <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn btn-warning lg-margin-right">Register</v-touch>
+              <label><input v-model="keepassa.value" type="checkbox"> Remember my password</label>
             </div>
           </div>
         </div>
-      </form>
+      </div>
       <hr>
     </div>
   </div>
 </template>
 
 <script>
+  import {mapGetters, mapActions} from 'vuex'
 
+  const roles = [
+    {name: 'Subscriber', allowed: true},
+    {name: 'Contributor', allowed: true},
+    {name: 'Author', allowed: true},
+    {name: 'Editor', allowed: true},
+    {name: 'Administrator', allowed: false}
+  ]
+
+  export default {
+    name: 'registration',
+    components: {},
+    data () {
+      return {
+        username: {value: '', required: true, valid: false},
+        email: {value: '', required: true, valid: false},
+        firstName: {value: '', required: false, valid: true},
+        lastName: {value: '', required: false, valid: true},
+        website: {value: '', required: false, valid: true},
+        password: {value: '', required: true, valid: false},
+        password2: {value: '', required: true, valid: false},
+        role: {value: roles[0].name, required: false, valid: true},
+        keepassa: {value: true, required: false, valid: true},
+        formIsValid: true,
+        roles
+      }
+    },
+    computed: {
+      ...mapGetters([])
+    },
+    methods: {
+      ...mapActions([]),
+      registerNewUser () {
+        this.formIsValid = this.username.valid && this.email.valid && this.password.valid && this.password2.valid
+      }
+    },
+    watch: {
+      username: {
+        handler () {
+          this.username.valid = this.username.value.length > 6 && this.username.value.length < 31
+        },
+        deep: true
+      },
+      email: {
+        handler () {
+          this.email.valid = /^(([^<>()[\]\\.,;:#\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/.test(this.email.value)
+        },
+        deep: true
+      },
+      website: {
+        handler () {
+          this.website.valid = this.website.value.length === '' ? true : /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(this.website.value)
+        },
+        deep: true
+      },
+      password: {
+        handler () {
+          this.password.valid = this.password.value.length > 8 && this.password.value.length < 25
+        },
+        deep: true
+      },
+      password2: {
+        handler () {
+          this.password2.valid = this.password2.value.length > 8 && this.password2.value.length < 25
+        },
+        deep: true
+      }
+    }
+  }
 </script>
