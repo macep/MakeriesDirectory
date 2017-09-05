@@ -29,12 +29,10 @@
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import makeriesMenu from './directory-menu.vue'
-  import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
     name: 'filter-az',
     components: {makeriesMenu},
-    mixins: [waitDirectoryData],
     data () {
       return {
         filterAZ: Config.titles.directory.directoryAZ
@@ -46,6 +44,16 @@
     metaInfo () {
       return {
         title: `${Config.titles.directory.directoryAZ}`
+      }
+    },
+    watch: {
+      directoryAZ () {
+        for (let prop in this.directoryAZ) {
+          if (this.directoryAZ.hasOwnProperty(prop)) {
+            this.$store.commit('mutateActivityIndicator', false)
+            break
+          }
+        }
       }
     }
   }

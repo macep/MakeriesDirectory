@@ -113,14 +113,12 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
-  import {getNthFragment} from '../../modules/utils'
+//  import {getNthFragment} from '../../modules/utils'
   import googleMap from '../common/google-map'
-  import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
     name: 'maker-details',
     components: {googleMap},
-    mixins: [waitDirectoryData],
     data () {
       return {
         backLink: Config.titles.back,
@@ -134,16 +132,12 @@
         website: Config.titles.directory.website,
         map: Config.titles.directory.map,
         customer: Config.titles.directory.customer,
-        tags: Config.titles.directory.tags
+        tags: Config.titles.directory.tags,
+        maker: {}
       }
     },
     computed: {
       ...mapGetters(['directory', 'directoryDisabled', 'route']),
-      maker () {
-        let activeMaker = this.directory.filter(maker => maker.id === +getNthFragment(this.$route.path, 3))[0]
-        let inactiveMaker = this.directoryDisabled.filter(maker => maker.id === +getNthFragment(this.$route.path, 3))[0]
-        return activeMaker || inactiveMaker
-      },
       back () {
         let from = this.route.from.fullPath
         return from !== '/' ? from : null

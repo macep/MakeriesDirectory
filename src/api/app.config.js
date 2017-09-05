@@ -35,6 +35,7 @@ const Config = {
     journalSingle: '/journal/',
     signUp: '/sign-up/',
     weekender: '/justgotmade-weekender/',
+    weekenderExternal: 'http://www.justgotmadeweekender.com/',
     privacy: '/privacy-policy/',
     disclaimer: '/disclaimer/',
     contact: '/contact/',
