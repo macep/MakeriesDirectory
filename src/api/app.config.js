@@ -99,6 +99,8 @@ const Config = {
       password2placeholder: 'Re-type password',
       userRole: 'User Role',
       keepPass: 'Remember my password',
+      registerError: 'Error:',
+      pleaseValidateRegisterForm: 'Please make sure the register form is valid in order to be able to create a new user',
       registerSubmit: 'Register'
     },
     searchPlaceholder: 'Search supplier, products, services, region, tags...'

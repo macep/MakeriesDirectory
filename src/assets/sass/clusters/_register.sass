@@ -1,0 +1,27 @@
+#register-form
+  label
+    @extend .din-web-cond
+    font-weight: normal
+
+  .invalid-form
+    @extend %slow-transitions
+
+    span
+      @extend .din-web-cond
+      line-height: 2.25
+      color: $state-danger-text
+
+.form-group
+  .is-valid,
+  .is-invalid
+    position: absolute
+    right: $lg-space
+    top: $md-space
+    pointer-events: none
+    opacity: .5
+
+  .is-valid
+    color: $state-success-text
+
+  .is-invalid
+    color: $state-danger-text
