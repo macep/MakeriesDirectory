@@ -4,6 +4,9 @@
       <a v-if="link.object_id === weekenderId" :href="weekenderExternal" target="_new">{{link.title}}</a>
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
+    <span class="nav-item">
+      <router-link to="/register">register</router-link>
+    </span>
   </nav>
 </template>
 

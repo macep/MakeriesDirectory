@@ -41,6 +41,27 @@
     opacity: 0
 
 
+// slider the errors
+@keyframes slide-errors-in
+  from
+    transform: translateX(-$xxlg-space)
+    opacity: 0
+
+  to
+    transform: translateX(0)
+    opacity: 1
+
+
+@keyframes slide-errors-out
+  from
+    transform: translateX(0)
+    opacity: 1
+
+  to
+    transform: translateX($xxlg-space)
+    opacity: 0
+
+
 
 @keyframes fade-in
   from
@@ -72,6 +93,13 @@
 
 .slide-leave-active
   animation: slide-out .125s forwards
+
+
+.slide-errors-enter-active
+  animation: slide-errors-in .125s forwards
+
+.slide-errors-leave-active
+  animation: slide-errors-out .25s forwards
 
 
 .fade-enter-active
