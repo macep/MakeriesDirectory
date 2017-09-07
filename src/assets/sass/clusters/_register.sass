@@ -1,7 +1,11 @@
 #register-form
+  @extend .xxlg-margin-bottom
+
   label
     @extend .din-web-cond
+    @extend .lg-padding-right
     font-weight: normal
+    cursor: pointer
 
   .invalid-form
     @extend %slow-transitions
@@ -11,17 +15,39 @@
       line-height: 2.25
       color: $state-danger-text
 
-.form-group
-  .is-valid,
-  .is-invalid
-    position: absolute
-    right: $lg-space
-    top: $md-space
-    pointer-events: none
-    opacity: .5
+  .form-group
+    position: relative
 
-  .is-valid
-    color: $state-success-text
+    &.required
+      label
+        &:after
+          content: '*'
+          color: $base
+          position: absolute
+          right: $sm-space
+          top: $sm-space
 
-  .is-invalid
-    color: $state-danger-text
+    &.legend
+      label
+        color: $base
+
+        &:after
+          right: auto
+          left: 0
+
+    .is-valid,
+    .is-invalid
+      position: absolute
+      right: $lg-space
+      top: $md-space
+      pointer-events: none
+      opacity: .5
+
+    .is-valid
+      color: $state-success-text
+
+    .is-invalid
+      color: $state-danger-text
+
+select
+  font-family: $font-family-sans-serif

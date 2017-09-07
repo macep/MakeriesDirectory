@@ -101,6 +101,7 @@ const Config = {
       keepPass: 'Remember my password',
       registerError: 'Error:',
       pleaseValidateRegisterForm: 'Please make sure the register form is valid in order to be able to create a new user',
+      markedFields: 'Marked fields are required',
       registerSubmit: 'Register'
     },
     searchPlaceholder: 'Search supplier, products, services, region, tags...'

@@ -1,10 +1,14 @@
 <template>
-  <div id="register-form" class="row xxlg-padding">
+  <div id="register-form" class="row xlg-padding-top">
     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-      <h3>{{title}}</h3>
-      <p>{{description}}</p>
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h3>{{title}}</h3>
+          <p>{{description}}</p>
+        </div>
+      </div>
       <hr>
-      <div class="row form-horizontal small-gutter">
+      <div class="row form-horizontal small-gutter lg-padding">
         <div class="form-group required" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
           <label for="input-username" class="col-sm-4 control-label">{{userNameLabel}}</label>
           <div class="col-sm-8">
@@ -90,6 +94,11 @@
         </div>
       </div>
       <hr>
+      <div class="form-group required legend">
+        <div class="col-sm-offset-4 col-sm-8">
+          <label>{{markedFieldsLabel}}</label>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -111,8 +120,8 @@
     name: 'registration',
     data () {
       return {
-        title: Config.titles.registerAndAuthentication.title,
-        description: Config.titles.registerAndAuthentication.description,
+        title: Config.titles.registerAndAuthentication.titleReg,
+        description: Config.titles.registerAndAuthentication.descriptionReg,
         userNameLabel: Config.titles.registerAndAuthentication.username,
         emailLabel: Config.titles.registerAndAuthentication.email,
         fullNameLabel: Config.titles.registerAndAuthentication.fullName,
@@ -126,6 +135,7 @@
         keepPassLabel: Config.titles.registerAndAuthentication.keepPass,
         registerErrorLabel: Config.titles.registerAndAuthentication.registerError,
         pleaseValidateRegisterFormLabel: Config.titles.registerAndAuthentication.pleaseValidateRegisterForm,
+        markedFieldsLabel: Config.titles.registerAndAuthentication.markedFields,
         registerSubmitLabel: Config.titles.registerAndAuthentication.registerSubmit,
         username: {value: '', required: true, valid: false},
         email: {value: '', required: true, valid: false},
