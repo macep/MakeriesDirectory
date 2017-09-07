@@ -3,8 +3,6 @@ const Config = {
   appTitle: 'Just Got Made',
   appTitleShort: 'JGM',
   appDescription: 'An ES6 Vue.js client consuming two APIs',
-  appThemeColor: '#0D2B3B',
-  appBgColor: '#EEC9C3',
   appIcon: 'assets/app-icon.png',
   appLogo: '/static/images/logo.png',
   missingImageUrl: '/static/no-img.png',
@@ -86,6 +84,22 @@ const Config = {
       customer: 'Customer',
       makerDetails: 'Maker details',
       directoryAZ: 'Directory A-Z'
+    },
+    registerAndAuthentication: {
+      titleReg: 'Register New User',
+      descriptionReg: 'Create a brand new user and add them to this site',
+      username: 'Username',
+      email: 'Email',
+      fullName: 'Full Name',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      website: 'Website',
+      password: 'Password',
+      password2: 'Password Again',
+      password2placeholder: 'Re-type password',
+      userRole: 'User Role',
+      keepPass: 'Remember my password',
+      registerSubmit: 'Register'
     },
     searchPlaceholder: 'Search supplier, products, services, region, tags...'
   },

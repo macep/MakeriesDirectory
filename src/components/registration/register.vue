@@ -1,63 +1,62 @@
 <template>
   <div class="row xxlg-padding">
     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-      <h3>Register New User</h3>
-      <p>Create a brand new user and add them to this site.</p>
+      <h3>{{title}}</h3>
+      <p>{{description}}</p>
       <hr>
       <div class="row form-horizontal small-gutter">
         <div class="form-group required" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
-          <label for="input-username" class="col-sm-4 control-label">Username</label>
+          <label for="input-username" class="col-sm-4 control-label">{{userNameLabel}}</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="input-username" v-model="username.value" placeholder="Username">
+            <input type="text" class="form-control" id="input-username" v-model="username.value" :placeholder="userNameLabel">
           </div>
         </div>
         <div class="form-group required" :class="{'has-warning': !email.valid && email.value !=='', 'has-error': !formIsValid && !email.valid && email.value !==''}">
-          <label for="input-email" class="col-sm-4 control-label">Email</label>
+          <label for="input-email" class="col-sm-4 control-label">{{emailLabel}}</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control" id="input-email" v-model="email.value" placeholder="Email">
+            <input type="email" class="form-control" id="input-email" v-model="email.value" :placeholder="emailLabel">
           </div>
         </div>
         <div class="form-group">
-          <label for="input-first-name" class="col-sm-4 control-label">Full Name</label>
+          <label for="input-first-name" class="col-sm-4 control-label">{{fullNameLabel}}</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="input-first-name" v-model="firstName.value" placeholder="First Name">
+            <input type="text" class="form-control" id="input-first-name" v-model="firstName.value" :placeholder="firstNameLabel">
           </div>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="input-last-name" v-model="lastName.value" placeholder="Last Name">
+            <input type="text" class="form-control" id="input-last-name" v-model="lastName.value" :placeholder="lastNameLabel">
           </div>
         </div>
         <div class="form-group">
-          <label for="input-website" class="col-sm-4 control-label">Website</label>
+          <label for="input-website" class="col-sm-4 control-label">{{websiteLabel}}</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="input-website" v-model="website.value" placeholder="Website">
+            <input type="text" class="form-control" id="input-website" v-model="website.value" :placeholder="websiteLabel">
           </div>
         </div>
         <div class="form-group required" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
-          <label for="input-password" class="col-sm-4 control-label">Password</label>
+          <label for="input-password" class="col-sm-4 control-label">{{passwordLabel}}</label>
           <div class="col-sm-8">
-            <input type="password" class="form-control" id="input-password" v-model="password.value" placeholder="Password">
+            <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
           </div>
         </div>
         <div class="form-group required" :class="{'has-warning': !password2.valid && password2.value !=='', 'has-error': !formIsValid && !password2.valid && password2.value !==''}">
-          <label for="input-password2" class="col-sm-4 control-label">Password Again</label>
+          <label for="input-password2" class="col-sm-4 control-label">{{passwordAgainLabel}}</label>
           <div class="col-sm-8">
-            <input type="password" class="form-control" id="input-password2" v-model="password2.value"
-                   placeholder="Re-type password">
+            <input type="password" class="form-control" id="input-password2" v-model="password2.value" :placeholder="passwordAgainPlaceholderLabel">
           </div>
         </div>
         <div class="form-group">
-          <label for="user-role" class="col-sm-4 control-label">User Role</label>
+          <label for="user-role" class="col-sm-4 control-label">{{userRoleLabel}}</label>
           <div class="col-sm-4">
             <select id="user-role" v-model="role.value" class="form-control">
-              <option v-for="role in roles" :disabled="role.allowed === false">{{role.name}}</option>
+              <option v-for="role in roles" :keys="role.name" :disabled="role.allowed === false">{{role.name}}</option>
             </select>
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-8">
             <div class="checkbox">
-              <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn btn-warning lg-margin-right">Register</v-touch>
-              <label><input v-model="keepassa.value" type="checkbox"> Remember my password</label>
+              <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn btn-warning lg-margin-right">{{registerSubmitLabel}}</v-touch>
+              <label><input v-model="keepassa.value" type="checkbox">{{keepPassLabel}}</label>
             </div>
           </div>
         </div>
@@ -85,6 +84,21 @@
     components: {},
     data () {
       return {
+        title: Config.titles.registerAndAuthentication.title,
+        description: Config.titles.registerAndAuthentication.description,
+        userNameLabel: Config.titles.registerAndAuthentication.username,
+        emailLabel: Config.titles.registerAndAuthentication.email,
+        fullNameLabel: Config.titles.registerAndAuthentication.fullName,
+        firstNameLabel: Config.titles.registerAndAuthentication.firstName,
+        lastNameLabel: Config.titles.registerAndAuthentication.lastName,
+        websiteLabel: Config.titles.registerAndAuthentication.website,
+        passwordLabel: Config.titles.registerAndAuthentication.password,
+        passwordAgainLabel: Config.titles.registerAndAuthentication.password2,
+        passwordAgainPlaceholderLabel: Config.titles.registerAndAuthentication.password2placeholder,
+        userRoleLabel: Config.titles.registerAndAuthentication.userRole,
+        keepPassLabel: Config.titles.registerAndAuthentication.keepPass,
+        registerSubmitLabel: Config.titles.registerAndAuthentication.registerSubmit,
+
         username: {value: '', required: true, valid: false},
         email: {value: '', required: true, valid: false},
         firstName: {value: '', required: false, valid: true},
@@ -94,6 +108,7 @@
         password2: {value: '', required: true, valid: false},
         role: {value: roles[0].name, required: false, valid: true},
         keepassa: {value: true, required: false, valid: true},
+
         formIsValid: true,
         roles
       }
