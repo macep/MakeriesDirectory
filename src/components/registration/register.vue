@@ -62,7 +62,7 @@
           <label for="input-password2" class="col-sm-4 control-label">{{passwordAgainLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formIsValid">
-              <i class="icon-close is-invalid" v-if="password2.value !== password.value"/>
+              <i class="icon-close is-invalid" v-if="password2.value.length === 0 || password2.value !== password.value"/>
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="password" class="form-control" id="input-password2" v-model="password2.value" :placeholder="passwordAgainPlaceholderLabel">
