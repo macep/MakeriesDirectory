@@ -16,7 +16,7 @@
               <i class="icon-close is-invalid" v-if="!username.valid"/>
               <i class="icon-done is-valid" v-else/>
             </template>
-            <input type="text" class="form-control" id="input-username" v-model="username.value" :placeholder="userNameLabel">
+            <input type="text" class="form-control" id="input-username" v-model="username.value" :placeholder="userNameLabel" autocorrect="off" autocomplete="off">
           </div>
         </div>
         <div class="form-group" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
@@ -26,7 +26,7 @@
               <i class="icon-close is-invalid" v-if="!password.valid || password.value === ''"/>
               <i class="icon-done is-valid" v-else/>
             </template>
-            <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
+            <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel" autocorrect="off" autocomplete="off">
           </div>
         </div>
         <transition name="slide-errors" mode="out-in">
@@ -103,6 +103,9 @@
         },
         deep: true
       }
+    },
+    metaInfo: {
+      title: `${Config.titles.registerAndAuthentication.titleAuth}`
     }
   }
 </script>

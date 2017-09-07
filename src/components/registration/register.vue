@@ -228,6 +228,9 @@
         },
         deep: true
       }
+    },
+    metaInfo: {
+      title: `${Config.titles.registerAndAuthentication.titleReg}`
     }
   }
 </script>
