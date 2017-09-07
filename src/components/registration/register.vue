@@ -87,7 +87,7 @@
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-8">
             <div class="checkbox">
-              <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn btn-warning lg-margin-right">{{registerSubmitLabel}}</v-touch>
+              <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn btn-warning lg-margin-right">{{loginSubmitLabel}}</v-touch>
               <label><input v-model="keepassa.value" type="checkbox">{{keepPassLabel}}</label>
             </div>
           </div>
@@ -136,7 +136,7 @@
         registerErrorLabel: Config.titles.registerAndAuthentication.registerError,
         pleaseValidateRegisterFormLabel: Config.titles.registerAndAuthentication.pleaseValidateRegisterForm,
         markedFieldsLabel: Config.titles.registerAndAuthentication.markedFields,
-        registerSubmitLabel: Config.titles.registerAndAuthentication.registerSubmit,
+        loginSubmitLabel: Config.titles.registerAndAuthentication.registerSubmit,
         username: {value: '', required: true, valid: false},
         email: {value: '', required: true, valid: false},
         firstName: {value: '', required: false, valid: true},

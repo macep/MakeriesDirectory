@@ -88,7 +88,10 @@ const Config = {
     registerAndAuthentication: {
       titleReg: 'Register New User',
       descriptionReg: 'Create a brand new user and add them to this site',
+      titleAuth: 'Login to your account',
+      descriptionAuth: 'Please authenticate for full access to JustGotMade directory data',
       username: 'Username',
+      usernameOrEmail: 'Username or Email Address',
       email: 'Email',
       fullName: 'Full Name',
       firstName: 'First Name',
@@ -101,7 +104,9 @@ const Config = {
       keepPass: 'Remember my password',
       registerError: 'Error:',
       pleaseValidateRegisterForm: 'Please make sure the register form is valid in order to be able to create a new user',
+      pleaseValidateLoginForm: 'Please make sure the login form fields are valid.',
       markedFields: 'Marked fields are required',
+      loginSubmit: 'Login',
       registerSubmit: 'Register'
     },
     searchPlaceholder: 'Search supplier, products, services, region, tags...'

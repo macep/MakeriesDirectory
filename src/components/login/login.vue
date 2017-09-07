@@ -1,0 +1,108 @@
+<template>
+  <div id="login-form" class="row xlg-padding-top">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h3>{{title}}</h3>
+          <p>{{description}}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row form-horizontal small-gutter lg-padding">
+        <div class="form-group" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
+          <label for="input-username" class="col-sm-4 control-label">{{userNameLabel}}</label>
+          <div class="col-sm-8">
+            <template v-if="!formIsValid">
+              <i class="icon-close is-invalid" v-if="!username.valid"/>
+              <i class="icon-done is-valid" v-else/>
+            </template>
+            <input type="text" class="form-control" id="input-username" v-model="username.value" :placeholder="userNameLabel">
+          </div>
+        </div>
+        <div class="form-group" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
+          <label for="input-password" class="col-sm-4 control-label">{{passwordLabel}}</label>
+          <div class="col-sm-8">
+            <template v-if="!formIsValid">
+              <i class="icon-close is-invalid" v-if="!password.valid || password.value === ''"/>
+              <i class="icon-done is-valid" v-else/>
+            </template>
+            <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
+          </div>
+        </div>
+        <transition name="slide-errors" mode="out-in">
+          <div v-if="showError" class="form-group invalid-form has-error">
+            <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
+            <div class="col-sm-8">
+              <span>{{pleaseValidateLoginFormLabel}}</span>
+            </div>
+          </div>
+        </transition>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+            <div class="checkbox">
+              <v-touch tag="button" @tap="loginUser" type="submit" class="btn btn-primary lg-margin-right">{{loginSubmitLabel}}</v-touch>
+              <label><input v-model="keepassa.value" type="checkbox">{{keepPassLabel}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-sm-offset-4 col-sm-8">
+        <a class="lost-password" href="http://uix.ro/wp-login.php?action=lostpassword" target="_new">Lost your password?</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import Config from '../../api/app.config'
+//  import request from 'axios'
+
+  export default {
+    name: 'registration',
+    data () {
+      return {
+        title: Config.titles.registerAndAuthentication.titleAuth,
+        description: Config.titles.registerAndAuthentication.descriptionAuth,
+        userNameLabel: Config.titles.registerAndAuthentication.username,
+        userNameOrEmailLabel: Config.titles.registerAndAuthentication.usernameOrEmail,
+        passwordLabel: Config.titles.registerAndAuthentication.password,
+        registerErrorLabel: Config.titles.registerAndAuthentication.registerError,
+        keepPassLabel: Config.titles.registerAndAuthentication.keepPass,
+        pleaseValidateLoginFormLabel: Config.titles.registerAndAuthentication.pleaseValidateLoginForm,
+        loginSubmitLabel: Config.titles.registerAndAuthentication.loginSubmit,
+        username: {value: '', required: true, valid: false},
+        password: {value: '', required: true, valid: false},
+        keepassa: {value: true, required: false, valid: true},
+        formIsValid: true,
+        showError: false
+      }
+    },
+    methods: {
+      loginUser () {
+        this.formIsValid = this.username.valid && this.password.valid
+
+        if (!this.formIsValid) {
+          this.showError = true
+          setTimeout(() => {
+            this.showError = false
+          }, 5e3)
+        }
+      }
+    },
+    watch: {
+      username: {
+        handler () {
+          this.username.valid = this.username.value.length !== '' && this.username.value.length > 5 && this.username.value.length < 31
+        },
+        deep: true
+      },
+      password: {
+        handler () {
+          this.password.valid = this.password.value.length > 8 && this.password.value.length < 25
+        },
+        deep: true
+      }
+    }
+  }
+</script>
