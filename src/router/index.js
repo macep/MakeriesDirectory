@@ -19,6 +19,7 @@ import PrivacyPolicy from '@/components/static-pages/privacy-policy'
 import Disclaimer from '@/components/static-pages/disclaimer'
 import Contact from '@/components/static-pages/contact'
 import Register from '@/components/registration/register'
+import UserInformation from '@/components/registration/user-information'
 import Login from '@/components/login/login'
 // import PageNotFound from '@/components/static-pages/page-not-found'
 
@@ -45,6 +46,7 @@ const routes = [
   {path: `${Config.routerSettings.disclaimer}`, name: 'Disclaimer', component: Disclaimer},
   {path: `${Config.routerSettings.contact}`, name: 'Contact', component: Contact},
   {path: '/register', name: 'Register', component: Register},
+  {path: '/user-information', name: 'UserInformation', component: UserInformation},
   {path: '/login', name: 'Login', component: Login}
   // {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]

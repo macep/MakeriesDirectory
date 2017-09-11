@@ -155,12 +155,17 @@
       }
     },
     computed: {
-      ...mapGetters([]),
+      ...mapGetters(['userInformationMissing']),
       formCanPass () {
         return this.username.valid && this.email.valid && this.password.valid && this.password2.valid
       },
       formIsValid () {
         return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.website.valid
+      }
+    },
+    mounted () {
+      if (this.userInformationMissing) {
+        this.$router.push('user-information')
       }
     },
     methods: {
@@ -192,7 +197,7 @@
                 roles: this.role.value
               })
                 .then((response) => {
-                  console.log(response)
+                  console.log('user created: ', response)
                 })
                 .catch((err) => {
                   console.log(err)

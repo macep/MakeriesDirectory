@@ -4,6 +4,7 @@
     color: $brand-primary
 
 #register-form,
+#user-information,
 #login-form
   @extend .xxlg-margin-bottom
 
@@ -70,3 +71,17 @@
 
 .login-register-alternatively a
   text-decoration: underline
+
+.user-scope-hats
+  img
+    max-width: 150px
+    cursor: pointer
+
+#business-use-modal,
+#personal-use-modal
+  .modal-dialog
+    width: 80%
+    max-width: 700px
+
+    @media (min-width: $screen-sm-min)
+      margin: 120px auto
