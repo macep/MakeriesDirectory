@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
       <div class="row">
         <div class="col-sm-12 text-center xlg-padding-bottom">
-          <h3>{{salutation}}, {{currentUser}}</h3>
+          <h3>{{salutation}}, {{currentUser.name}}</h3>
           <p>{{thanksForRegistering}}</p>
           <hr>
           <h3>{{businessOrPersonalUse}}</h3>
@@ -148,11 +148,10 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
   import {tooltip, modal} from 'vue-strap'
   import Config from '../../api/app.config'
   import countries from '../../modules/countries'
- // import request from 'axios'
+  import request from 'axios'
 
   export default {
     name: 'user-information',
@@ -160,7 +159,11 @@
     data () {
       return {
         salutation: Config.titles.registerAndAuthentication.salutation,
-        currentUser: 'Cristi',
+        currentUser: {
+          name: 'Cristi',
+          id: 7
+        },
+
         thanksForRegistering: Config.titles.registerAndAuthentication.thanksForRegistering,
         businessOrPersonalUse: Config.titles.registerAndAuthentication.businessOrPersonalUse,
 
@@ -203,17 +206,25 @@
         }
       }
     },
-    computed: {
-      ...mapGetters([])
-    },
     methods: {
-      ...mapActions([]),
       updateUserInformation () {
-        console.log(this.businessLocation, this.interest, this.areaOfBusiness)
+        let userInformation = {
+          company: this.showBusinessUseForm ? this.companyName.value !== '' ? this.companyName.value : null : null,
+          businessLocation: this.businessLocation !== Config.titles.registerAndAuthentication.chooseLocation ? this.businessLocation : null,
+          interest: this.interest !== Config.titles.registerAndAuthentication.interest ? this.interest : null,
+          areaOfBusiness: this.areaOfBusiness !== Config.titles.registerAndAuthentication.areaOfBusiness ? this.areaOfBusiness : null,
+          newsletter: this.newsletter,
+          offersAndInvites: this.offersAndInvites
+        }
+
+        request.post(`${Config.wpDomain}wp-json/wp/v2/users/${this.currentUser.id}`, {description: JSON.stringify(userInformation)}).then((response) => {
+          console.log('updated successfully', response)
+          this.showPersonalUseForm ? this.showPersonalUseForm = false : this.showBusinessUseForm = false
+        })
       }
     },
     metaInfo: {
-      title: `${Config.titles.registerAndAuthentication.thanksForRegisteringTitle}`
+      title: `${Config.titles.registerAndAuthentication.thanksForRegisteringTitle}, ${this.currentUser.name}`
     }
   }
 </script>

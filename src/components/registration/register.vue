@@ -163,11 +163,6 @@
         return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.website.valid
       }
     },
-    mounted () {
-      if (this.userInformationMissing) {
-        this.$router.push('user-information')
-      }
-    },
     methods: {
       ...mapActions([]),
       registerNewUser () {
@@ -198,6 +193,9 @@
               })
                 .then((response) => {
                   console.log('user created: ', response)
+                  if (this.userInformationMissing) {
+                    this.$router.push('user-information')
+                  }
                 })
                 .catch((err) => {
                   console.log(err)

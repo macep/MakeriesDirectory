@@ -111,7 +111,7 @@ const Config = {
       loginSubmit: 'Login',
       registerSubmit: 'Register',
       salutation: 'Hi',
-      thanksForRegisteringTitle: 'Thanks for registering with Just Got Made',
+      thanksForRegisteringTitle: 'Thanks for registering',
       thanksForRegistering: 'Thanks for registering with Just Got Made. It would really help us if you answered these simple questions (we\'re not making them public)',
       businessOrPersonalUse: 'Will you be using the Just Got Made Directory for Business or Personal uses?',
       partyHat: '/static/images/party-hat.png',
