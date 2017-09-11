@@ -90,6 +90,8 @@ const Config = {
       descriptionReg: 'Create a brand new user and add them to this site',
       titleAuth: 'Login to your account',
       descriptionAuth: 'Please authenticate for full access to JustGotMade directory data',
+      orRegisterHere: `If you don't have an account, you can easily`,
+      orLoginHere: `Already have an account? Please`,
       username: 'Username',
       usernameOrEmail: 'Username or Email Address',
       email: 'Email',

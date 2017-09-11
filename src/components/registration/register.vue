@@ -5,24 +5,25 @@
         <div class="col-sm-12 text-center">
           <h3>{{title}}</h3>
           <p>{{description}}</p>
+          <small class="login-register-alternatively">{{orLoginHere}} <router-link to="login">login here</router-link></small>
         </div>
       </div>
       <hr>
       <div class="row form-horizontal small-gutter lg-padding">
-        <div class="form-group required" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
+        <div class="form-group required" :class="{'has-error': !username.valid && username.value !==''}">
           <label for="input-username" class="col-sm-4 control-label">{{userNameLabel}}</label>
           <div class="col-sm-8">
-            <template v-if="!formIsValid">
+            <template v-if="!formCanPass && username.value !==''">
               <i class="icon-close is-invalid" v-if="!username.valid"/>
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="text" class="form-control" id="input-username" v-model="username.value" :placeholder="userNameLabel">
           </div>
         </div>
-        <div class="form-group required" :class="{'has-warning': !email.valid && email.value !=='', 'has-error': !formIsValid && !email.valid && email.value !==''}">
+        <div class="form-group required" :class="{'has-error': !email.valid && email.value !==''}">
           <label for="input-email" class="col-sm-4 control-label">{{emailLabel}}</label>
           <div class="col-sm-8">
-            <template v-if="!formIsValid">
+            <template v-if="!formCanPass && email.value !==''">
               <i class="icon-close is-invalid" v-if="!email.valid"/>
               <i class="icon-done is-valid" v-else/>
             </template>
@@ -38,31 +39,31 @@
             <input type="text" class="form-control" id="input-last-name" v-model="lastName.value" :placeholder="lastNameLabel">
           </div>
         </div>
-        <div class="form-group" :class="{'has-warning': !website.valid && website.value !=='', 'has-error': !formIsValid && !website.valid && website.value !==''}">
+        <div class="form-group" :class="{'has-warning': !website.valid}">
           <label for="input-website" class="col-sm-4 control-label">{{websiteLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formIsValid && website.value !== ''">
-              <i class="icon-close is-invalid" v-if="!website.valid "/>
+              <i v-if="!website.valid" class="icon-close is-invalid not-important"/>
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="text" class="form-control" id="input-website" v-model="website.value" :placeholder="websiteLabel">
           </div>
         </div>
-        <div class="form-group required" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
+        <div class="form-group required" :class="{'has-error': (!password.valid || !passwordMatch) && password.value !== ''}">
           <label for="input-password" class="col-sm-4 control-label">{{passwordLabel}}</label>
           <div class="col-sm-8">
-            <template v-if="!formIsValid">
-              <i class="icon-close is-invalid" v-if="!password.valid || password.value === ''"/>
+            <template v-if="!formCanPass && password.value !== ''">
+              <i class="icon-close is-invalid" v-if="!password.valid && !passwordMatch"/>
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
           </div>
         </div>
-        <div class="form-group required" :class="{'has-warning': !password2.valid && password2.value !=='', 'has-error': !formIsValid && !password2.valid && password2.value !==''}">
+        <div class="form-group required" :class="{'has-error': (!password2.valid || !passwordMatch) && password2.value !== ''}">
           <label for="input-password2" class="col-sm-4 control-label">{{passwordAgainLabel}}</label>
           <div class="col-sm-8">
-            <template v-if="!formIsValid">
-              <i class="icon-close is-invalid" v-if="password2.value.length === 0 || password2.value !== password.value"/>
+            <template v-if="!formCanPass && password2.value !== ''">
+              <i class="icon-close is-invalid" v-if="!password2.valid && !passwordMatch"/>
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="password" class="form-control" id="input-password2" v-model="password2.value" :placeholder="passwordAgainPlaceholderLabel">
@@ -87,7 +88,8 @@
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-8">
             <div class="checkbox">
-              <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn btn-warning lg-margin-right">{{loginSubmitLabel}}</v-touch>
+              <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn lg-margin-right"
+              :class="{'btn-warning': !formIsValid, 'btn-danger disabled': !formCanPass, 'btn-success': formCanPass}">{{loginSubmitLabel}}</v-touch>
               <label><input v-model="keepassa.value" type="checkbox">{{keepPassLabel}}</label>
             </div>
           </div>
@@ -122,6 +124,7 @@
       return {
         title: Config.titles.registerAndAuthentication.titleReg,
         description: Config.titles.registerAndAuthentication.descriptionReg,
+        orLoginHere: Config.titles.registerAndAuthentication.orLoginHere,
         userNameLabel: Config.titles.registerAndAuthentication.username,
         emailLabel: Config.titles.registerAndAuthentication.email,
         fullNameLabel: Config.titles.registerAndAuthentication.fullName,
@@ -144,38 +147,42 @@
         website: {value: '', required: false, valid: true},
         password: {value: '', required: true, valid: false},
         password2: {value: '', required: true, valid: false},
+        passwordMatch: true,
         role: {value: roles[0].name, required: false, valid: true},
         keepassa: {value: true, required: false, valid: true},
-        formIsValid: true,
         showError: false,
         roles
       }
     },
     computed: {
-      ...mapGetters([])
+      ...mapGetters([]),
+      formCanPass () {
+        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid
+      },
+      formIsValid () {
+        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.website.valid
+      }
     },
     methods: {
       ...mapActions([]),
       registerNewUser () {
-        this.formIsValid = this.username.valid && this.email.valid && this.password.valid && this.password2.valid
-
-        if (!this.formIsValid) {
+        if (!this.formCanPass) {
           this.showError = true
           setTimeout(() => {
             this.showError = false
           }, 5e3)
         }
 
-        if (this.formIsValid) {
-          let addUserApi = `${Config.wpDomain}wp-json/wp/v2/users`
+        if (this.formCanPass) {
           request.post(`${Config.wpDomain}wp-json/jwt-auth/v1/token`, {
             username: 'webclient',
             password: 'v8V#ghZ(zdu0NX9VAdJMIDJS'
           })
             .then((response) => {
+              console.log(response)
               request.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
               request.defaults.headers.common['Content-Type'] = 'application/json'
-              request.post(addUserApi, {
+              request.post(`${Config.wpDomain}wp-json/wp/v2/users`, {
                 username: this.username.value,
                 email: this.email.value,
                 password: this.password.value,
@@ -212,19 +219,21 @@
       },
       website: {
         handler () {
-          this.website.valid = this.website.value.length === '' ? true : /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(this.website.value)
+          this.website.valid = this.website.value === '' ? true : /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(this.website.value)
         },
         deep: true
       },
       password: {
         handler () {
           this.password.valid = this.password.value.length > 8 && this.password.value.length < 25
+          this.passwordMatch = this.password.value === this.password2.value
         },
         deep: true
       },
       password2: {
         handler () {
-          this.password2.valid = this.password2.value.length > 8 && this.password2.value.length < 25 && this.password2.value === this.password.value
+          this.password2.valid = this.password2.value.length > 8 && this.password2.value.length < 25
+          this.passwordMatch = this.password.value === this.password2.value
         },
         deep: true
       }

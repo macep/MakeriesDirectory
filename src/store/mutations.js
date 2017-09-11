@@ -1,4 +1,7 @@
 let mutations = {
+  mutateAuthenticated: (state, authenticated) => {
+    state.authenticated = authenticated
+  },
   mutateTranslations: (state, translations) => {
     state.translations = translations
   },

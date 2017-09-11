@@ -9,6 +9,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    authenticated: false,
     hostName: window.location,
     translations: {},
     isMobile: false,

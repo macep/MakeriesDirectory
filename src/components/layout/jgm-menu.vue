@@ -5,7 +5,8 @@
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
     <span class="nav-item">
-      <router-link to="/register">register</router-link>
+      <router-link to="/login" v-if="!authenticated">login</router-link>
+      <a href="#" v-else @click.prevent="logout">logout</a>
     </span>
   </nav>
 </template>
@@ -23,7 +24,12 @@
       }
     },
     computed: {
-      ...mapGetters(['mainMenu'])
+      ...mapGetters(['mainMenu', 'authenticated'])
+    },
+    methods: {
+      logout () {
+        this.$store.commit('mutateAuthenticated', false)
+      }
     }
   }
 </script>

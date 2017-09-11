@@ -1,4 +1,5 @@
 let getters = {
+  authenticated: state => state.authenticated,
   hostName: state => state.hostName,
   translations: state => state.translations,
   isMobile: state => state.isMobile,

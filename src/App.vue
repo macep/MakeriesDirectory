@@ -2,7 +2,7 @@
   <div id="app" class="row" :class="{'is-mobile': isMobile, 'is-touch': pointerIsTouch, 'no-scroll': mobileMenuVisibile}">
     <div class="col-xs-12">
       <jgm-header/>
-      <jgm-menu v-if="!isMobile"/>
+      <jgm-menu v-if="!isMobile" :authenticated="authenticated"/>
       <template v-if="isMobile">
         <jgm-mobile-menu/>
         <v-touch tag="i" @tap="toggleMobileMenuVisibility" :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"/>
@@ -79,7 +79,7 @@
       makeBodyClass(this.$route)
     },
     computed: {
-      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'posts', 'pages']),
+      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'posts', 'pages', 'authenticated']),
       postsAndPages () {
         this.posts
         this.pages

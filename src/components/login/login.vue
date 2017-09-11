@@ -5,6 +5,8 @@
         <div class="col-sm-12 text-center">
           <h3>{{title}}</h3>
           <p>{{description}}</p>
+          <small class="login-register-alternatively">{{orRegisterHere}} <router-link to="register">register here</router-link></small>
+
         </div>
       </div>
       <hr>
@@ -64,6 +66,7 @@
       return {
         title: Config.titles.registerAndAuthentication.titleAuth,
         description: Config.titles.registerAndAuthentication.descriptionAuth,
+        orRegisterHere: Config.titles.registerAndAuthentication.orRegisterHere,
         userNameLabel: Config.titles.registerAndAuthentication.username,
         userNameOrEmailLabel: Config.titles.registerAndAuthentication.usernameOrEmail,
         passwordLabel: Config.titles.registerAndAuthentication.password,

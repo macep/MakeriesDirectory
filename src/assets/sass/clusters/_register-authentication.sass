@@ -56,4 +56,17 @@
       color: $state-success-text
 
     .is-invalid
-      color: $state-danger-text
+      &:not(.not-important)
+        color: $state-danger-text
+
+      &.not-important
+        color: $state-warning-text
+
+.login-register-alternatively,
+.login-register-alternatively a
+  color: $jumbo
+  font-style: italic
+  font-size: 12px
+
+.login-register-alternatively a
+  text-decoration: underline
