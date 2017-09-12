@@ -8,7 +8,7 @@
         <v-touch tag="i" @tap="toggleMobileMenuVisibility" :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"/>
       </template>
       <transition name="slide" mode="out-in">
-        <router-view/>
+        <router-view :auth="auth" :authenticated="authenticated"/>
       </transition>
       <jgm-footer/>
       <transition name="fade" mode="out-in">
@@ -37,6 +37,10 @@
   import jgmMobileMenu from './components/layout/jgm-mobile-menu.vue'
   import jgmFooter from './components/layout/jgm-footer.vue'
   import Config from './api/app.config'
+  import AuthService from './api/auth.service'
+
+  const auth = new AuthService()
+  const {login, logout, authenticated, authNotifier} = auth
 
   const pageClassSuffix = '-page'
 
@@ -50,9 +54,19 @@
     name: 'app',
     components: {jgmHeader, jgmMenu, jgmMobileMenu, jgmFooter},
     data () {
+      authNotifier.on('authChange', authState => {
+        console.log(authState)
+        this.authenticated = authState.authenticated
+      })
       return {
         activityLoaderImg: Config.activityLoaderImg,
-        activityTag: Config.appTitleShort
+        activityTag: Config.appTitleShort,
+        currentUser: {
+          name: 'Cristi',
+          id: 7
+        },
+        auth,
+        authenticated
       }
     },
     mounted () {
@@ -79,7 +93,7 @@
       makeBodyClass(this.$route)
     },
     computed: {
-      ...mapGetters(['translations', 'isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'posts', 'pages', 'authenticated']),
+      ...mapGetters(['isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'posts', 'pages']),
       postsAndPages () {
         this.posts
         this.pages
@@ -90,7 +104,9 @@
       ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch']),
       toggleMobileMenuVisibility () {
         this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
-      }
+      },
+      login,
+      logout
     },
     metaInfo: {
       title: Config.titles.defaultSalutation,

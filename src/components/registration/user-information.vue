@@ -224,7 +224,7 @@
       }
     },
     metaInfo: {
-      title: `${Config.titles.registerAndAuthentication.thanksForRegisteringTitle}, ${this.currentUser.name}`
+      title: `${Config.titles.registerAndAuthentication.thanksForRegisteringTitle}`
     }
   }
 </script>

@@ -1,12 +1,6 @@
 let mutations = {
-  mutateAuthenticated: (state, authenticated) => {
-    state.authenticated = authenticated
-  },
   mutateUserInformationMissing: (state, userInformationMissing) => {
     state.userInformationMissing = userInformationMissing
-  },
-  mutateTranslations: (state, translations) => {
-    state.translations = translations
   },
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile

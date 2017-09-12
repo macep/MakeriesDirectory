@@ -5,7 +5,7 @@
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
     <span class="nav-item">
-      <router-link to="/login" v-if="!authenticated">login</router-link>
+      <a href="#" v-if="!authenticated" @click.prevent="login">login</a>
       <a href="#" v-else @click.prevent="logout">logout</a>
     </span>
   </nav>
@@ -14,22 +14,30 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import AuthService from '../../api/auth.service'
+
+  const auth = new AuthService()
+
+  const {login, logout, authenticated, authNotifier} = auth
 
   export default {
     name: 'jgm-menu',
     data () {
+      authNotifier.on('authChange', authState => {
+        this.authenticated = authState.authenticated
+      })
       return {
         weekenderId: Config.pagesIDs.weekender,
-        weekenderExternal: Config.routerSettings.weekenderExternal
+        weekenderExternal: Config.routerSettings.weekenderExternal,
+        authenticated
       }
     },
     computed: {
-      ...mapGetters(['mainMenu', 'authenticated'])
+      ...mapGetters(['mainMenu'])
     },
     methods: {
-      logout () {
-        this.$store.commit('mutateAuthenticated', false)
-      }
+      login,
+      logout
     }
   }
 </script>

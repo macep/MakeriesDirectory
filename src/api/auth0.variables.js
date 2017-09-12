@@ -1,8 +1,8 @@
-import Config from './app.config'
-
 export const AUTH_CONFIG = {
-  clientId: 'fqTWDoWMui4cHuyput1GA22Q0QPeeX',
-  domain: Config.wpDomain,
-  callbackUrl: `${Config.wpDomain}callback/`,
-  apiUrl: `${Config.wpDomain}wp-json/wp/v2/`
+  clientId: 'fxNdIR8JCFuI6mwYTNRE1hiDpunef9Rn',
+  domain: 'jgm.eu.auth0.com',
+  redirectUri: `http://localhost:8080/callback/`,
+  audience: 'https://jgm.eu.auth0.com/userinfo',
+  responseType: 'token id_token',
+  scope: 'openid'
 }

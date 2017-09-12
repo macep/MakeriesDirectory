@@ -1,8 +1,6 @@
 let getters = {
-  authenticated: state => state.authenticated,
   userInformationMissing: state => state.userInformationMissing,
   hostName: state => state.hostName,
-  translations: state => state.translations,
   isMobile: state => state.isMobile,
   pointerIsTouch: state => state.pointerIsTouch,
   mobileMenuVisibile: state => state.mobileMenuVisibile,

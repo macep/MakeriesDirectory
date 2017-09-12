@@ -9,10 +9,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    authenticated: false,
     userInformationMissing: true,
     hostName: window.location,
-    translations: {},
     isMobile: false,
     pointerIsTouch: false,
     mobileMenuVisibile: false,
