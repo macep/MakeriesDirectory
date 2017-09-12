@@ -36,7 +36,18 @@ const routes = [
   {path: `${Config.routerSettings.filterBy.businessTypes}:filter`, name: 'BusinessTypes', component: FilterBy},
   {path: `${Config.routerSettings.filterBy.serviceTypes}:filter`, name: 'ServiceTypes', component: FilterBy},
   {path: `${Config.routerSettings.filterAZ}`, name: 'FilterAZ', component: FilterAZ},
-  {path: `${Config.routerSettings.makerDetail}:id/:page`, name: 'Maker', component: Maker},
+  {
+    path: `${Config.routerSettings.makerDetail}:id/:page`,
+    name: 'Maker',
+    component: Maker,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('jgm_id_token')) {
+        next()
+      } else {
+        console.log(to, from, next)
+      }
+    }
+  },
   {path: `${Config.routerSettings.journal}`, name: 'Journal', component: Journal},
   {path: `${Config.routerSettings.category}:id/:slug`, name: 'JournalByCat', component: JournalByCat},
   {path: `${Config.routerSettings.archive}:year`, name: 'JournalByYear', component: JournalByYear},

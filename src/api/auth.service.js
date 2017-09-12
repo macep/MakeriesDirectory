@@ -3,6 +3,10 @@ import {AUTH_CONFIG} from './auth0.variables'
 import EventEmitter from 'EventEmitter'
 import router from '../router/index'
 
+let jgmAccessToken = 'jgm_access_token'
+let jgmIdToken = 'jgm_id_token'
+let jgmExpiresAt = 'jgm_expires_at'
+
 export default class AuthService {
   authenticated = this.isAuthenticated()
   authNotifier = new EventEmitter()
@@ -46,17 +50,17 @@ export default class AuthService {
     let expiresAt = JSON.stringify(
       authResult.expiresIn * 1e3 + new Date().getTime()
     )
-    localStorage.setItem('jgm_access_token', authResult.accessToken)
-    localStorage.setItem('jgm_id_token', authResult.idToken)
-    localStorage.setItem('jgm_expires_at', expiresAt)
+    localStorage.setItem(jgmAccessToken, authResult.accessToken)
+    localStorage.setItem(jgmIdToken, authResult.idToken)
+    localStorage.setItem(jgmExpiresAt, expiresAt)
     this.authNotifier.emit('authChange', { authenticated: true })
   }
 
   logout () {
     // Clear access token and ID token from local storage
-    localStorage.removeItem('jgm_access_token')
-    localStorage.removeItem('jgm_id_token')
-    localStorage.removeItem('jgm_expires_at')
+    localStorage.removeItem(jgmAccessToken)
+    localStorage.removeItem(jgmIdToken)
+    localStorage.removeItem(jgmExpiresAt)
     this.userProfile = null
     this.authNotifier.emit('authChange', false)
     // navigate to the home route
@@ -66,7 +70,7 @@ export default class AuthService {
 
   isAuthenticated () {
     // Check whether the current time is past the access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('jgm_expires_at'))
+    let expiresAt = JSON.parse(localStorage.getItem(jgmExpiresAt))
     return new Date().getTime() < expiresAt
   }
 }
