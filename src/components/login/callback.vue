@@ -16,18 +16,9 @@
   export default {
     name: 'callback',
     props: ['auth'],
-    data () {
-      this.auth.handleAuthentication()
-      return {}
-    },
     mounted () {
-      if (localStorage.getItem('jgm_desired_route')) {
-        console.log(localStorage.getItem('jgm_desired_route'))
-        this.$router.push(localStorage.getItem('jgm_desired_route'))
-        localStorage.setItem('jgm_desired_route', '')
-      } else {
-        this.$router.push('/')
-      }
+      this.auth.handleAuthentication()
+      this.$router.push(localStorage.getItem('jgm_desired_route') || '/')
     }
   }
 </script>

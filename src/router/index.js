@@ -72,6 +72,7 @@ const routes = [
         login()
       } else {
         console.log('all good, you can see it')
+        localStorage.setItem('jgm_desired_route', '')
         next()
       }
     }
