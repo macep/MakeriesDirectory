@@ -16,8 +16,8 @@
           <h6>{{businessTypes}}</h6>
           <div class="item">
             <span v-for="(bt, index) in maker.businessTypes" :key="index">
-              <router-link to="/"> {{bt.name}}</router-link>
-              <span v-if="index < maker.businessTypes.length - 1">, </span>
+              <router-link :to="filterBy.businessTypes + '' + friendlyName(bt.name)"> {{bt.name}}</router-link>
+              <template v-if="index < maker.businessTypes.length - 1">, </template>
             </span>
           </div>
         </div>
@@ -26,8 +26,8 @@
           <h6>{{productTypes}}</h6>
           <div class="item">
             <span v-for="(p, index) in maker.products" :key="index">
-              <router-link to="/"> {{p.name}}</router-link>
-              <span v-if="index < maker.products.length - 1">, </span>
+              <router-link :to="filterBy.products + '' + friendlyName(p.name)"> {{p.name}}</router-link>
+              <template v-if="index < maker.products.length - 1">, </template>
             </span>
           </div>
         </div>
@@ -36,8 +36,8 @@
           <h6>{{serviceTypes}}</h6>
           <div class="item">
             <span v-for="(s, index) in maker.serviceTypes" :key="index">
-              <router-link to="/"> {{s.name}}</router-link>
-              <span v-if="index < maker.serviceTypes.length - 1">, </span>
+              <router-link :to="filterBy.serviceTypes + '' + friendlyName(s.name)"> {{s.name}}</router-link>
+              <template v-if="index < maker.serviceTypes.length - 1">, </template>
             </span>
           </div>
         </div>
@@ -46,8 +46,8 @@
           <h6>{{tags}}</h6>
           <div class="item">
             <span v-for="(t, index) in maker.processedTags" :key="index">
-              <router-link to="/"> {{t.name}}</router-link>
-              <span v-if="index < maker.processedTags.length - 1">, </span>
+              {{t.name}}
+              <template v-if="index < maker.processedTags.length - 1">, </template>
             </span>
           </div>
         </div>
@@ -55,7 +55,7 @@
         <div v-if="maker.region" class="list-item">
           <h6>{{region}} </h6>
           <div class="item">
-            <router-link to="/"> {{maker.region.name}}</router-link>
+            <router-link :to="filterBy.region + '' + friendlyName(maker.region.name)"> {{maker.region.name}}</router-link>
           </div>
         </div>
 
@@ -104,7 +104,6 @@
             {{maker.customer}}
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -114,7 +113,7 @@
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import apiService from '../../api/api.service'
-  import {getNthFragment} from '../../modules/utils'
+  import {getNthFragment, friendlyUrl} from '../../modules/utils'
   import googleMap from '../common/google-map'
 
   export default {
@@ -127,6 +126,12 @@
         businessTypes: Config.titles.directory.businessTypes,
         productTypes: Config.titles.directory.productTypes,
         serviceTypes: Config.titles.directory.serviceTypes,
+        filterBy: {
+          region: Config.routerSettings.filterBy.region,
+          products: Config.routerSettings.filterBy.products,
+          businessTypes: Config.routerSettings.filterBy.businessTypes,
+          serviceTypes: Config.routerSettings.filterBy.serviceTypes
+        },
         contactDetails: Config.titles.directory.contactDetails,
         openingHours: Config.titles.directory.openingHours,
         socialNetworks: Config.titles.directory.socialNetworks,
@@ -144,7 +149,6 @@
       this.$store.commit('mutateActivityIndicator', true)
       apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 3)}`).then((data) => {
         this.maker = data.data
-        console.log(data)
       }).then(() => {
         this.img = this.maker.images[0].url || this.img
         this.draft = this.maker.enabled === false
@@ -152,10 +156,15 @@
       })
     },
     computed: {
-      ...mapGetters(['directory', 'directoryDisabled', 'route']),
+      ...mapGetters(['directory', 'directoryDisabled', 'directoryFilterData', 'route']),
       back () {
         let from = this.route.from.fullPath
         return from !== '/' ? from : null
+      }
+    },
+    methods: {
+      friendlyName (str) {
+        return friendlyUrl(str)
       }
     },
     metaInfo () {

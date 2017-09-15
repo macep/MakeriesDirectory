@@ -67,6 +67,7 @@ const Config = {
       draft: 'Draft',
       region: 'Region',
       businessTypes: 'Business Types',
+      productTypes: 'Product Types',
       products: 'Products',
       serviceTypes: 'Service types',
       filterData: {
