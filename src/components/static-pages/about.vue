@@ -31,23 +31,48 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import apiService from '../../api/api.service'
   import banner from '../common/banner'
   import Config from '../../api/app.config'
 
   export default {
     name: 'about-page',
     components: {banner},
-    computed: {
-      ...mapGetters(['pages', 'bannerPosts']),
-      aboutData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.about)
-      },
-      aboutTitleData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.aboutTitle)
-      },
-      aboutMoreData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.aboutMore)
+    data () {
+      return {
+        aboutTitleData: {
+          title: {
+            rendered: ''
+          }
+        },
+        aboutData: {
+          better_featured_image: {
+            source_url: ''
+          },
+          content: {
+            rendered: ''
+          }
+        },
+        aboutMoreData: {
+          content: {
+            rendered: ''
+          }
+        }
       }
+    },
+    computed: {
+      ...mapGetters(['pages', 'bannerPosts'])
+    },
+    mounted () {
+      apiService.getPage(Config.pagesIDs.aboutTitle).then((response) => {
+        this.aboutTitleData = response.data
+        apiService.getPage(Config.pagesIDs.about).then((response) => {
+          this.aboutData = response.data
+          apiService.getPage(Config.pagesIDs.about).then((response) => {
+            this.aboutMoreData = response.data
+          })
+        })
+      })
     },
     metaInfo: {
       title: Config.titles.about

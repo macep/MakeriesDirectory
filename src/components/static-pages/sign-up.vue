@@ -47,28 +47,60 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import apiService from '../../api/api.service'
   import starredItem from '../common/starred-item.vue'
 
   export default {
     name: 'signup-page',
     components: {starredItem},
-    computed: {
-      ...mapGetters(['pages']),
-      signupData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.signup)
-      },
-      stepOneData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.step1)
-      },
-      stepTwoData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.step2)
-      },
-      stepThreeData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.step3)
-      },
-      signUpFormData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.signupForm)
+    data () {
+      return {
+        signupData: {
+          content: {
+            rendered: ''
+          }
+        },
+        stepOneData: {
+          content: {
+            rendered: ''
+          }
+        },
+        stepTwoData: {
+          content: {
+            rendered: ''
+          }
+        },
+        stepThreeData: {
+          content: {
+            rendered: ''
+          }
+        },
+        signUpFormData: {
+          content: {
+            rendered: ''
+          }
+        }
       }
+    },
+    computed: {
+      ...mapGetters(['pages'])
+    },
+    mounted () {
+      apiService.getPage(Config.pagesIDs.signup).then((response) => {
+        this.signupData = response.data
+        apiService.getPage(Config.pagesIDs.step1).then((response) => {
+          this.stepOneData = response.data
+          apiService.getPage(Config.pagesIDs.step2).then((response) => {
+            this.stepTwoData = response.data
+            apiService.getPage(Config.pagesIDs.step3).then((response) => {
+              this.stepThreeData = response.data
+              apiService.getPage(Config.pagesIDs.signupForm).then((response) => {
+                this.signUpFormData = response.data
+              })
+            })
+          })
+        })
+      })
     },
     metaInfo: {
       title: Config.titles.signUp

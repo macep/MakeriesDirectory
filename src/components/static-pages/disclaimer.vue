@@ -9,15 +9,30 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import apiService from '../../api/api.service'
   import Config from '../../api/app.config'
 
   export default {
     name: 'disclaimer-page',
-    computed: {
-      ...mapGetters(['pages']),
-      disclaimerData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.disclaimer)
+    data () {
+      return {
+        disclaimerData: {
+          title: {
+            rendered: ''
+          },
+          content: {
+            rendered: ''
+          }
+        }
       }
+    },
+    computed: {
+      ...mapGetters(['pages'])
+    },
+    mounted () {
+      apiService.getPage(Config.pagesIDs.disclaimer).then((response) => {
+        this.disclaimerData = response.data
+      })
     },
     metaInfo: {
       title: Config.titles.disclaimer

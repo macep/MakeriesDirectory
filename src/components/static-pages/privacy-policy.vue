@@ -9,15 +9,30 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import apiService from '../../api/api.service'
   import Config from '../../api/app.config'
 
   export default {
     name: 'privacy-page',
-    computed: {
-      ...mapGetters(['pages']),
-      privacyData () {
-        return this.pages.find(item => item.id === Config.pagesIDs.privacy)
+    data () {
+      return {
+        privacyData: {
+          title: {
+            rendered: ''
+          },
+          content: {
+            rendered: ''
+          }
+        }
       }
+    },
+    computed: {
+      ...mapGetters(['pages'])
+    },
+    mounted () {
+      apiService.getPage(Config.pagesIDs.privacy).then((response) => {
+        this.privacyData = response.data
+      })
     },
     metaInfo: {
       title: Config.titles.privacyPolicy
