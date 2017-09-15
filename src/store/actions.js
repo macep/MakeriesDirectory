@@ -1,4 +1,4 @@
-import apiService from '../api/app.service'
+import apiService from '../api/api.service'
 import Config from '../api/app.config'
 import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl, sortObjectProperties} from '../modules/utils'
 

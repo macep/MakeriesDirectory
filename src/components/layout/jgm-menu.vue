@@ -23,7 +23,7 @@
   export default {
     name: 'jgm-menu',
     data () {
-      authNotifier.on('authChange', authState => {
+      authNotifier.$on('authChange', authState => {
         this.authenticated = authState.authenticated
       })
       return {

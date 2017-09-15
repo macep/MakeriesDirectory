@@ -1,5 +1,5 @@
 import Config from './app.config.js'
-import appCache from './app.service.cache.js'
+import appCache from './api.service.cache.js'
 
 let apiService = {
   cacheRequest (path, cacheTime) {

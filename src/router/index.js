@@ -14,7 +14,6 @@ import JournalByCat from '@/components/journal/journal-by-cat'
 import JournalByYear from '@/components/journal/journal-by-year'
 import JournalSingle from '@/components/journal/journal-single'
 import SignUp from '@/components/static-pages/sign-up'
-import Weekender from '@/components/static-pages/weekender'
 import PrivacyPolicy from '@/components/static-pages/privacy-policy'
 import Disclaimer from '@/components/static-pages/disclaimer'
 import Contact from '@/components/static-pages/contact'
@@ -23,6 +22,31 @@ import UserInformation from '@/components/registration/user-information'
 import Login from '@/components/login/login'
 import Callback from '@/components/login/callback'
 // import PageNotFound from '@/components/static-pages/page-not-found'
+
+import auth0 from 'auth0-js'
+import {AUTH_CONFIG} from '../api/auth.variables'
+
+export class LoginAction {
+  constructor () {
+    this.login = this.login.bind(this)
+  }
+
+  auth0 = new auth0.WebAuth({
+    domain: AUTH_CONFIG.domain,
+    clientID: AUTH_CONFIG.clientId,
+    redirectUri: AUTH_CONFIG.redirectUri,
+    audience: AUTH_CONFIG.audience,
+    responseType: AUTH_CONFIG.responseType,
+    scope: AUTH_CONFIG.scope
+  })
+
+  login () {
+    this.auth0.authorize()
+  }
+}
+
+let auth = new LoginAction()
+const {login} = auth
 
 Vue.use(Router)
 
@@ -41,10 +65,14 @@ const routes = [
     name: 'Maker',
     component: Maker,
     beforeEnter: (to, from, next) => {
-      if (localStorage.getItem('jgm_id_token')) {
-        next()
+      let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem('jgm_expires_at'))
+      if (tokenExpired) {
+        localStorage.setItem('jgm_desired_route', to.fullPath)
+        console.log(tokenExpired, to.fullPath)
+        login()
       } else {
-        console.log(to, from, next)
+        console.log('all good, you can see it')
+        next()
       }
     }
   },
@@ -53,7 +81,6 @@ const routes = [
   {path: `${Config.routerSettings.archive}:year`, name: 'JournalByYear', component: JournalByYear},
   {path: `${Config.routerSettings.journalSingle}:id/:post`, name: 'JournalSingle', component: JournalSingle},
   {path: `${Config.routerSettings.signUp}`, name: 'SignUp', component: SignUp},
-  {path: `${Config.routerSettings.weekender}`, name: 'Weekender', component: Weekender},
   {path: `${Config.routerSettings.privacy}`, name: 'PrivacyPolicy', component: PrivacyPolicy},
   {path: `${Config.routerSettings.disclaimer}`, name: 'Disclaimer', component: Disclaimer},
   {path: `${Config.routerSettings.contact}`, name: 'Contact', component: Contact},

@@ -4,7 +4,7 @@ const Config = {
   appTitleShort: 'JGM',
   appDescription: 'An ES6 Vue.js client consuming two APIs',
   appIcon: 'assets/app-icon.png',
-  appLogo: '/static/images/logo.png',
+  appLogo: '/static/images/logo.svg',
   missingImageUrl: '/static/no-img.png',
   wpDomain: 'http://justgotmade.com:8888/',
   dotNetDomain: 'http://makeriesnew.azurewebsites.net/',

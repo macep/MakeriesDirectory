@@ -54,7 +54,7 @@
     name: 'app',
     components: {jgmHeader, jgmMenu, jgmMobileMenu, jgmFooter},
     data () {
-      authNotifier.on('authChange', authState => {
+      authNotifier.$on('authChange', authState => {
         console.log(authState)
         this.authenticated = authState.authenticated
       })

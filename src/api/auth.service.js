@@ -1,6 +1,6 @@
+import Vue from 'vue'
 import auth0 from 'auth0-js'
-import {AUTH_CONFIG} from './auth0.variables'
-import EventEmitter from 'EventEmitter'
+import {AUTH_CONFIG} from './auth.variables'
 import router from '../router/index'
 
 let jgmAccessToken = 'jgm_access_token'
@@ -9,7 +9,7 @@ let jgmExpiresAt = 'jgm_expires_at'
 
 export default class AuthService {
   authenticated = this.isAuthenticated()
-  authNotifier = new EventEmitter()
+  authNotifier = new Vue()
 
   constructor () {
     this.login = this.login.bind(this)
@@ -39,8 +39,8 @@ export default class AuthService {
         console.log('Success', authResult)
       } else if (err) {
         router.replace('')
-        console.log(err)
         alert(`Error: ${err.error}. Check the console for further details.`)
+        console.log(err)
       }
     })
   }
@@ -53,7 +53,7 @@ export default class AuthService {
     localStorage.setItem(jgmAccessToken, authResult.accessToken)
     localStorage.setItem(jgmIdToken, authResult.idToken)
     localStorage.setItem(jgmExpiresAt, expiresAt)
-    this.authNotifier.emit('authChange', { authenticated: true })
+    this.authNotifier.$emit('authChange', { authenticated: true })
   }
 
   logout () {
@@ -62,7 +62,7 @@ export default class AuthService {
     localStorage.removeItem(jgmIdToken)
     localStorage.removeItem(jgmExpiresAt)
     this.userProfile = null
-    this.authNotifier.emit('authChange', false)
+    this.authNotifier.$emit('authChange', false)
     // navigate to the home route
     router.replace('')
     console.log(`Logged out`)

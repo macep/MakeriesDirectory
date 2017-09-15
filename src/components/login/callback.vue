@@ -1,6 +1,6 @@
 <template>
   <div class="spinner">
-    <span class="activityImg">
+    <span class="activityImg text-center">
       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
          width="110" height="110" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;" xml:space="preserve">
         <g>
@@ -19,22 +19,15 @@
     data () {
       this.auth.handleAuthentication()
       return {}
+    },
+    mounted () {
+      if (localStorage.getItem('jgm_desired_route')) {
+        console.log(localStorage.getItem('jgm_desired_route'))
+        this.$router.push(localStorage.getItem('jgm_desired_route'))
+        localStorage.setItem('jgm_desired_route', '')
+      } else {
+        this.$router.push('/')
+      }
     }
   }
 </script>
-
-<style>
-  .spinner {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: white;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-</style>
