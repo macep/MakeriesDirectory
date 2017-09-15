@@ -15,6 +15,16 @@ nav
     letter-spacing: 1px
     text-align: center
 
+    &.auth-nav-item
+      border-left: 1px solid $light-turqoise
+      background: rgba($light-turqoise, .25)
+
+      .logged-in
+        color: $brand-primary
+
+      .logged-out
+        color: $brand-danger
+
     a
       @extend %link-hoverings
       @extend .md-padding-top

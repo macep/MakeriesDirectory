@@ -4,9 +4,9 @@
       <a v-if="link.object_id === weekenderId" :href="weekenderExternal" target="_new">{{link.title}}</a>
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
-    <span class="nav-item">
-      <a href="#" v-if="!authenticated" @click.prevent="login">login</a>
-      <a href="#" v-else @click.prevent="logout">logout</a>
+    <span class="nav-item auth-nav-item">
+      <!--<a class="logged-in" href="#" v-if="!authenticated" @click.prevent="login">login</a>-->
+      <a class="logged-out" href="#" v-if="authenticated" @click.prevent="logout">logout</a>
     </span>
   </nav>
 </template>

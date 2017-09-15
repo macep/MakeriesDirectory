@@ -8,6 +8,7 @@
         <img :src="img" alt="">
         <p class="long">{{maker.longDescription}}</p>
         <p class="address">{{maker.address}}</p>
+        <span class="hidden">{{restricted}}</span>
       </div>
     </div>
     <div class="col-sm-3">
@@ -119,6 +120,10 @@
   export default {
     name: 'maker-details',
     components: {googleMap},
+    props: {
+      auth: Object,
+      authenticated: Boolean
+    },
     data () {
       return {
         backLink: Config.titles.back,
@@ -160,6 +165,9 @@
       back () {
         let from = this.route.from.fullPath
         return from !== '/' ? from : null
+      },
+      restricted () {
+        return !this.authenticated
       }
     },
     methods: {

@@ -68,10 +68,8 @@ const routes = [
       let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem('jgm_expires_at'))
       if (tokenExpired) {
         localStorage.setItem('jgm_desired_route', to.fullPath)
-        console.log(tokenExpired, to.fullPath)
         login()
       } else {
-        console.log('all good, you can see it')
         localStorage.setItem('jgm_desired_route', '')
         next()
       }

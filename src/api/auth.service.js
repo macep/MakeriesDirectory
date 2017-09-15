@@ -2,6 +2,7 @@ import Vue from 'vue'
 import auth0 from 'auth0-js'
 import {AUTH_CONFIG} from './auth.variables'
 import router from '../router/index'
+import Config from '../api/app.config'
 
 let jgmAccessToken = 'jgm_access_token'
 let jgmIdToken = 'jgm_id_token'
@@ -35,10 +36,8 @@ export default class AuthService {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
-        router.replace('')
-        console.log('Success', authResult)
       } else if (err) {
-        router.replace('')
+        router.replace('/')
         alert(`Error: ${err.error}. Check the console for further details.`)
         console.log(err)
       }
@@ -46,10 +45,7 @@ export default class AuthService {
   }
 
   setSession (authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify(
-      authResult.expiresIn * 1e3 + new Date().getTime()
-    )
+    let expiresAt = JSON.stringify(authResult.expiresIn * 1e3 + new Date().getTime())
     localStorage.setItem(jgmAccessToken, authResult.accessToken)
     localStorage.setItem(jgmIdToken, authResult.idToken)
     localStorage.setItem(jgmExpiresAt, expiresAt)
@@ -57,19 +53,15 @@ export default class AuthService {
   }
 
   logout () {
-    // Clear access token and ID token from local storage
     localStorage.removeItem(jgmAccessToken)
     localStorage.removeItem(jgmIdToken)
     localStorage.removeItem(jgmExpiresAt)
     this.userProfile = null
     this.authNotifier.$emit('authChange', false)
-    // navigate to the home route
-    router.replace('')
-    console.log(`Logged out`)
+    router.replace(router.history.current.matched[0].path === `${Config.routerSettings.makerDetail}:id/:page` ? '/directory' : '/')
   }
 
   isAuthenticated () {
-    // Check whether the current time is past the access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem(jgmExpiresAt))
     return new Date().getTime() < expiresAt
   }
