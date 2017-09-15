@@ -15,7 +15,7 @@
       <v-touch @tap="closeMobileMenu" v-for="(link, index) in mainMenu" :key="link.id" v-if="index > 0">
         <router-link class="mobile-nav-item" :to="link.url">{{link.title}}</router-link>
       </v-touch>
-      <v-touch @tap="closeMobileMenu" v-if="authenticated">
+      <v-touch @tap="closeAndSignOut" v-if="authenticated">
         <a class="mobile-nav-item auth-nav-item logged-in" href="#" @click.prevent="logout">logout</a>
       </v-touch>
     </div>
@@ -71,6 +71,10 @@
     methods: {
       closeMobileMenu () {
         this.$store.commit('mutateMobileMenuVisibile', false)
+      },
+      closeAndSignOut () {
+        this.closeMobileMenu()
+        this.logout()
       },
       login,
       logout
