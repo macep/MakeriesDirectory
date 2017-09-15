@@ -129,7 +129,7 @@ let actions = {
       time.t0 = performance.now()
 
       function getDotNetData () {
-        apiService.callDotNetApi('api/makers/GetByGroupId/3').then((data) => {
+        apiService.callDotNetApi(Config.getAllMakers).then((data) => {
           let directory = data.data
 
           let filterData = {

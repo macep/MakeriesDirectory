@@ -9,6 +9,8 @@ const Config = {
   wpDomain: 'http://justgotmade.com:8888/',
   dotNetDomain: 'http://makeriesnew.azurewebsites.net/',
   dotNetToken: 'MzM0N2NjYTItOTgwYy00YTE0LWExNGItNTlkMGZlYzZkMTc4OjQ2ZGU4MzI3LWM3ZDItNGVkMi1iYjFjLTBlMTExZmZhYzMyOQ==',
+  getAllMakers: 'api/makers/GetAllMakers',
+  getById: 'api/makers/GetById/',
   loadDbName: 'justGotMadeLocal',
   analyticsPath: '//www.google-analytics.com/analytics.js',
   activityLoaderImg: '/static/images/jgm-star-empty.svg',

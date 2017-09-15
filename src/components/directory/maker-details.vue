@@ -5,7 +5,7 @@
         <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
         <h3>{{maker.name}}</h3>
         <p class="brief">{{maker.briefDescription}}</p>
-        <img :src="maker.images[0].url" alt="">
+        <img :src="img" alt="">
         <p class="long">{{maker.longDescription}}</p>
         <p class="address">{{maker.address}}</p>
       </div>
@@ -113,7 +113,8 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
-//  import {getNthFragment} from '../../modules/utils'
+  import apiService from '../../api/api.service'
+  import {getNthFragment} from '../../modules/utils'
   import googleMap from '../common/google-map'
 
   export default {
@@ -133,8 +134,18 @@
         map: Config.titles.directory.map,
         customer: Config.titles.directory.customer,
         tags: Config.titles.directory.tags,
+        img: `http://via.placeholder.com/800x800?text=Maker's Image`,
         maker: {}
       }
+    },
+    mounted () {
+      this.$store.commit('mutateActivityIndicator', true)
+      apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 3)}`).then((data) => {
+        this.maker = data.data
+      }).then(() => {
+        this.$store.commit('mutateActivityIndicator', false)
+        this.img = this.maker.images[0].url || this.img
+      })
     },
     computed: {
       ...mapGetters(['directory', 'directoryDisabled', 'route']),
