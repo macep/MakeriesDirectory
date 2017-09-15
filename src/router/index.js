@@ -21,7 +21,7 @@ import Register from '@/components/registration/register'
 import UserInformation from '@/components/registration/user-information'
 import Login from '@/components/login/login'
 import Callback from '@/components/login/callback'
-// import PageNotFound from '@/components/static-pages/page-not-found'
+import PageNotFound from '@/components/static-pages/page-not-found'
 
 import auth0 from 'auth0-js'
 import {AUTH_CONFIG} from '../api/auth.variables'
@@ -88,8 +88,8 @@ const routes = [
   {path: '/register', name: 'Register', component: Register},
   {path: '/user-information', name: 'UserInformation', component: UserInformation},
   {path: '/login', name: 'Login', component: Login},
-  {path: '/callback', name: 'Callback', component: Callback}
-  // {path: '*', name: 'PageNotFound', component: PageNotFound}
+  {path: '/callback', name: 'Callback', component: Callback},
+  {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]
 
 export default new Router({

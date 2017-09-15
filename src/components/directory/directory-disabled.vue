@@ -28,25 +28,32 @@
   import Config from '../../api/app.config'
   import makeriesMenu from './directory-menu.vue'
   import makeriesList from './makeries-list.vue'
-  import searchDirectory from './search.vue'
   import viewType from './view-type.vue'
-  import waitDirectoryData from '../../mixins/waitDirectoryData'
 
   export default {
     name: 'directory-disabled-page',
-    components: {makeriesMenu, makeriesList, searchDirectory, viewType},
-    mixins: [waitDirectoryData],
+    components: {makeriesMenu, makeriesList, viewType},
     data () {
       return {
         draftMakers: Config.titles.directory.draftMakers
       }
+    },
+    mounted () {
+      this.$store.commit('mutateViewType', 'list')
     },
     computed: {
       ...mapGetters(['directoryDisabled', 'viewType', 'isMobile'])
     },
     metaInfo () {
       return {
-        title: `${Config.titles.searchAll} ${this.directory.length} ${Config.titles.suppliers}`
+        title: `${Config.titles.listAll} ${this.directoryDisabled.length} ${Config.titles.directory.draft} ${Config.titles.suppliers}`
+      }
+    },
+    watch: {
+      directoryDisabled () {
+        if (this.directoryDisabled.length > 0) {
+          this.$store.commit('mutateActivityIndicator', false)
+        }
       }
     }
   }

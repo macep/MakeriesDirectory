@@ -3,7 +3,7 @@
     <div class="col-sm-9 lg-margin-bottom">
       <div class="box left">
         <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
-        <h3>{{maker.name}}</h3>
+        <h3>{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
         <p class="brief">{{maker.briefDescription}}</p>
         <img :src="img" alt="">
         <p class="long">{{maker.longDescription}}</p>
@@ -135,6 +135,8 @@
         customer: Config.titles.directory.customer,
         tags: Config.titles.directory.tags,
         img: `http://via.placeholder.com/800x800?text=Maker's Image`,
+        draft: false,
+        draftMaker: Config.titles.directory.draft,
         maker: {}
       }
     },
@@ -142,9 +144,11 @@
       this.$store.commit('mutateActivityIndicator', true)
       apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 3)}`).then((data) => {
         this.maker = data.data
+        console.log(data)
       }).then(() => {
-        this.$store.commit('mutateActivityIndicator', false)
         this.img = this.maker.images[0].url || this.img
+        this.draft = this.maker.enabled === false
+        this.$store.commit('mutateActivityIndicator', false)
       })
     },
     computed: {
