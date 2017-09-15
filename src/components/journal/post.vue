@@ -20,7 +20,6 @@
   export default{
     name: 'post',
     components: {imageOverlayed},
-    mounted () {},
     props: {
       route: {
         type: String,

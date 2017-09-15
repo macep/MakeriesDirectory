@@ -20,7 +20,6 @@ let actions = {
       let getMainMenu = () => {
         return apiService.getMenu(Config.menusIDs.primary).then((response) => {
           prepareMenuUrl(response.items)
-          // console.log('main menu', response.items)
           commit('mutateMainMenu', response.items)
         })
       }
@@ -28,7 +27,6 @@ let actions = {
       let getSecondaryMenu = () => {
         return apiService.getMenu(Config.menusIDs.secondary).then((response) => {
           prepareMenuUrl(response.items)
-          // console.log('second menu', response.items)
           commit('mutateSecondaryMenu', response.items)
         })
       }
@@ -43,16 +41,39 @@ let actions = {
               return item
             }
           })
+
           cleanPostsCollection.forEach((post) => {
             let dateString = post.date.split('T')[0]
+            let imagesArrayFromContentString = post.content.rendered.match(/<img[^>]*>/g)
+
+            // TODO: this might be useless in production; it does the trick on dev tho
+            let fixImageUrl = (img) => {
+              let target = `/website/wp-content/`
+              let targetUpdated = `/wp-content/`
+              return img.indexOf(target) !== -1 ? img.replace(target, targetUpdated) : img
+            }
+
+            let frontCover = () => {
+              if (post.better_featured_image) {
+                let img1 = fixImageUrl(`<img src="${post.better_featured_image.source_url}"/>`)
+                return img1
+              } else if (imagesArrayFromContentString.length > 0) {
+                let img2 = fixImageUrl(imagesArrayFromContentString[0])
+                return img2
+              } else {
+                return `<img src="http://via.placeholder.com/600x600?text=Maker's Image"/>`
+              }
+            }
+
             let postItem = {
               id: post.id,
               title: post.title.rendered,
               excerpt: post.excerpt.rendered,
               content: post.content.rendered,
               categories: post.categories,
-              images: post.content.rendered.match(/<img[^>]*>/g),
+              images: imagesArrayFromContentString,
               featured_image: post.better_featured_image,
+              front_cover: frontCover(),
               original_date: dateString,
               date: dateString.split('-')[2] + ' ' + friendlyMonth(dateString.split('-')[1] - 1) + ' ' + dateString.split('-')[0],
               year: dateString.split('-')[0],
@@ -65,8 +86,6 @@ let actions = {
             posts.push(postItem)
             years.push(postItem.year)
           })
-          // console.log('posts', posts)
-          // console.log('years', years)
           commit('mutatePosts', posts)
           commit('mutateArchivedYears', years)
         })
@@ -75,21 +94,18 @@ let actions = {
       let getCategories = () => {
         return apiService.getCategories().then((response) => {
           let categories = response.data.filter(item => item.id !== Config.postsIDs.sliderPosts && item.id !== Config.postsIDs.bannerPosts)
-          // console.log('categories', categories)
           commit('mutateCategories', categories)
         })
       }
 
       let getAllPages = () => {
         return apiService.getPages().then((response) => {
-          // console.log('pages', response.data)
           commit('mutatePages', response.data)
         })
       }
 
       let getSliderPosts = () => {
         apiService.getPostsByCategory(Config.postsIDs.sliderPosts).then(response => {
-          // console.log('sliderPosts', response.posts)
           commit('mutateSliderPosts', response.posts)
         })
       }
@@ -110,7 +126,6 @@ let actions = {
                 break
             }
           })
-          // console.log('bannerPosts', bannerPosts)
           commit('mutateBannerPosts', bannerPosts)
         })
       }
@@ -207,11 +222,6 @@ let actions = {
           filterData.products.data = findOccurences(filterData.products.data, true, Config.routerSettings.filterBy.products)
           filterData.businessTypes.data = findOccurences(filterData.businessTypes.data, true, Config.routerSettings.filterBy.businessTypes)
           filterData.serviceTypes.data = findOccurences(filterData.serviceTypes.data, true, Config.routerSettings.filterBy.serviceTypes)
-
-          // console.log('mutateDirectory', directory)
-          // console.log('mutateDirectoryDisabled', directoryDisabled)
-          // console.log('mutateDirectoryFilterData', filterData)
-          // console.log('mutateDirectoryAZ', sortObjectProperties(azObject))
 
           commit('mutateDirectory', directory)
           commit('mutateDirectoryDisabled', directoryDisabled)
