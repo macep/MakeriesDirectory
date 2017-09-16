@@ -6,7 +6,7 @@ const Config = {
   appIcon: 'assets/app-icon.png',
   appLogo: '/static/images/logo.svg',
   missingImageUrl: '/static/no-img.png',
-  wpDomain: 'http://justgotmade.com:8888/',
+  wpDomain: 'http://uix.ro/wp/',
   dotNetDomain: 'http://makeriesnew.azurewebsites.net/',
   dotNetToken: 'MzM0N2NjYTItOTgwYy00YTE0LWExNGItNTlkMGZlYzZkMTc4OjQ2ZGU4MzI3LWM3ZDItNGVkMi1iYjFjLTBlMTExZmZhYzMyOQ==',
   getAllMakers: 'api/makers/GetAllMakers',

@@ -3,7 +3,8 @@
     name: 'page-not-found-page',
     template: '',
     created () {
-      window.location.href = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/static/404.html`
+      let port = window.location.port ? ':' + window.location.port : ''
+      window.location.href = `${window.location.protocol}//${window.location.hostname}${port}/static/404.html`
     }
   }
 </script>
