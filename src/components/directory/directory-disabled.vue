@@ -38,9 +38,6 @@
         draftMakers: Config.titles.directory.draftMakers
       }
     },
-    mounted () {
-      this.$store.commit('mutateViewType', 'list')
-    },
     computed: {
       ...mapGetters(['directoryDisabled', 'viewType', 'isMobile'])
     },

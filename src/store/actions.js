@@ -45,7 +45,6 @@ let actions = {
           cleanPostsCollection.forEach((post) => {
             let dateString = post.date.split('T')[0]
             let imagesArrayFromContentString = post.content.rendered.match(/<img[^>]*>/g)
-
             // TODO: this might be useless in production; it does the trick on dev tho
             let fixImageUrl = (img) => {
               let target = `/website/wp-content/`
@@ -198,6 +197,17 @@ let actions = {
           })
 
           let directoryDisabled = directory.filter(maker => !maker.enabled)
+          directoryDisabled.forEach(item => {
+            if (item.images.length === 0) {
+              item.images[0] = {
+                escription: '',
+                fileName: '',
+                imageName: '',
+                url: `http://via.placeholder.com/500x300?text=Maker's Image`
+              }
+            }
+            console.log(item.images)
+          })
           directory = directory.filter(maker => maker.enabled)
 
           for (let prop in azObject) {
