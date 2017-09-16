@@ -8,11 +8,9 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-// var PrerenderSpaPlugin = require('prerender-spa-plugin')
-var env = process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
-  : config.build.env
-var routes = require('../src/router/routes-collections')
+
+var env = config.build.env
+
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -52,8 +50,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
-      template: path.join(__dirname, '../dist/index.html'),
+      filename: config.build.index,
+      template: 'index.html',
       inject: true,
       minify: {
         removeComments: true,
@@ -65,6 +63,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    // keep module.id stable when vender modules does not change
+    new webpack.HashedModuleIdsPlugin(),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -90,23 +90,9 @@ var webpackConfig = merge(baseWebpackConfig, {
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
-        inject: 'head',
         ignore: ['.*']
       }
     ])
-    // prerender the crawlable routes here
-    // new PrerenderSpaPlugin(
-    //   path.join(__dirname, '../dist'),
-    //   routes,
-    //   {
-    //     // Instead of loudly failing on JS errors (the default), ignore them.
-    //     ignoreJSErrors: true,
-    //     // http://phantomjs.org/api/webpage/property/settings.html
-    //     phantomPageSettings: {
-    //       loadImages: true
-    //     }
-    //   }
-    // )
   ]
 })
 
@@ -132,4 +118,5 @@ if (config.build.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
+
 module.exports = webpackConfig
