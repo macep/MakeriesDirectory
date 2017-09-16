@@ -25,6 +25,7 @@ import PageNotFound from '@/components/static-pages/page-not-found'
 
 import auth0 from 'auth0-js'
 import AUTH_CONFIG from '../api/auth.variables'
+console.log(AUTH_CONFIG)
 
 export class LoginAction {
   constructor () {
@@ -33,7 +34,7 @@ export class LoginAction {
 
   auth0 = new auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
-    clientID: AUTH_CONFIG.clientId,
+    clientID: AUTH_CONFIG.clientID,
     redirectUri: AUTH_CONFIG.redirectUri,
     audience: AUTH_CONFIG.audience,
     responseType: AUTH_CONFIG.responseType,

@@ -7,7 +7,6 @@ import Config from '../api/app.config'
 let jgmAccessToken = 'jgm_access_token'
 let jgmIdToken = 'jgm_id_token'
 let jgmExpiresAt = 'jgm_expires_at'
-console.log(AUTH_CONFIG)
 
 export default class AuthService {
   authenticated = this.isAuthenticated()
@@ -22,7 +21,7 @@ export default class AuthService {
 
   auth0 = new auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
-    clientID: AUTH_CONFIG.clientId,
+    clientID: AUTH_CONFIG.clientID,
     redirectUri: AUTH_CONFIG.redirectUri,
     audience: AUTH_CONFIG.audience,
     responseType: AUTH_CONFIG.responseType,
