@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import auth0 from 'auth0-js'
-import {AUTH_CONFIG} from './auth.variables'
+import AUTH_CONFIG from '../api/auth.variables'
 import router from '../router/index'
 import Config from '../api/app.config'
 
 let jgmAccessToken = 'jgm_access_token'
 let jgmIdToken = 'jgm_id_token'
 let jgmExpiresAt = 'jgm_expires_at'
+console.log(AUTH_CONFIG)
 
 export default class AuthService {
   authenticated = this.isAuthenticated()

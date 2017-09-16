@@ -24,7 +24,7 @@ import Callback from '@/components/login/callback'
 import PageNotFound from '@/components/static-pages/page-not-found'
 
 import auth0 from 'auth0-js'
-import {AUTH_CONFIG} from '../api/auth.variables'
+import AUTH_CONFIG from '../api/auth.variables'
 
 export class LoginAction {
   constructor () {
