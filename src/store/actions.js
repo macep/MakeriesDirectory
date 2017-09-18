@@ -200,13 +200,12 @@ let actions = {
           directoryDisabled.forEach(item => {
             if (item.images.length === 0) {
               item.images[0] = {
-                escription: '',
+                description: '',
                 fileName: '',
                 imageName: '',
                 url: `http://via.placeholder.com/500x300?text=Maker's Image`
               }
             }
-            console.log(item.images)
           })
           directory = directory.filter(maker => maker.enabled)
 

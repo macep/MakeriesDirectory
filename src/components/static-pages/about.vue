@@ -31,7 +31,6 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import apiService from '../../api/api.service'
   import banner from '../common/banner'
   import Config from '../../api/app.config'
 
@@ -64,18 +63,23 @@
       ...mapGetters(['pages', 'bannerPosts'])
     },
     mounted () {
-      apiService.getPage(Config.pagesIDs.aboutTitle).then((response) => {
-        this.aboutTitleData = response.data
-        apiService.getPage(Config.pagesIDs.about).then((response) => {
-          this.aboutData = response.data
-          apiService.getPage(Config.pagesIDs.about).then((response) => {
-            this.aboutMoreData = response.data
-          })
-        })
-      })
+      if (this.pages.length > 0) {
+        this.aboutTitleData = this.pages.find(item => item.id === Config.pagesIDs.aboutTitle)
+        this.aboutData = this.pages.find(item => item.id === Config.pagesIDs.about)
+        this.aboutMoreData = this.pages.find(item => item.id === Config.pagesIDs.aboutMore)
+      }
     },
     metaInfo: {
       title: Config.titles.about
+    },
+    watch: {
+      pages () {
+        if (this.pages.length > 0) {
+          this.aboutTitleData = this.pages.find(item => item.id === Config.pagesIDs.aboutTitle)
+          this.aboutData = this.pages.find(item => item.id === Config.pagesIDs.about)
+          this.aboutMoreData = this.pages.find(item => item.id === Config.pagesIDs.aboutMore)
+        }
+      }
     }
   }
 </script>

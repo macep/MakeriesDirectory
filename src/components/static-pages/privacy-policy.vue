@@ -9,7 +9,6 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import apiService from '../../api/api.service'
   import Config from '../../api/app.config'
 
   export default {
@@ -30,12 +29,19 @@
       ...mapGetters(['pages'])
     },
     mounted () {
-      apiService.getPage(Config.pagesIDs.privacy).then((response) => {
-        this.privacyData = response.data
-      })
+      if (this.pages.length > 0) {
+        this.privacyData = this.pages.find(item => item.id === Config.pagesIDs.privacy)
+      }
     },
     metaInfo: {
       title: Config.titles.privacyPolicy
+    },
+    watch: {
+      pages () {
+        if (this.pages.length > 0) {
+          this.privacyData = this.pages.find(item => item.id === Config.pagesIDs.privacy)
+        }
+      }
     }
   }
 </script>

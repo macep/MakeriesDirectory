@@ -47,7 +47,6 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
-  import apiService from '../../api/api.service'
   import starredItem from '../common/starred-item.vue'
 
   export default {
@@ -86,24 +85,27 @@
       ...mapGetters(['pages'])
     },
     mounted () {
-      apiService.getPage(Config.pagesIDs.signup).then((response) => {
-        this.signupData = response.data
-        apiService.getPage(Config.pagesIDs.step1).then((response) => {
-          this.stepOneData = response.data
-          apiService.getPage(Config.pagesIDs.step2).then((response) => {
-            this.stepTwoData = response.data
-            apiService.getPage(Config.pagesIDs.step3).then((response) => {
-              this.stepThreeData = response.data
-              apiService.getPage(Config.pagesIDs.signupForm).then((response) => {
-                this.signUpFormData = response.data
-              })
-            })
-          })
-        })
-      })
+      if (this.pages.length > 0) {
+        this.signupData = this.pages.find(item => item.id === Config.pagesIDs.signup)
+        this.stepOneData = this.pages.find(item => item.id === Config.pagesIDs.step1)
+        this.stepTwoData = this.pages.find(item => item.id === Config.pagesIDs.step2)
+        this.stepThreeData = this.pages.find(item => item.id === Config.pagesIDs.step3)
+        this.signUpFormData = this.pages.find(item => item.id === Config.pagesIDs.signupForm)
+      }
     },
     metaInfo: {
       title: Config.titles.signUp
+    },
+    watch: {
+      pages () {
+        if (this.pages.length > 0) {
+          this.signupData = this.pages.find(item => item.id === Config.pagesIDs.signup)
+          this.stepOneData = this.pages.find(item => item.id === Config.pagesIDs.step1)
+          this.stepTwoData = this.pages.find(item => item.id === Config.pagesIDs.step2)
+          this.stepThreeData = this.pages.find(item => item.id === Config.pagesIDs.step3)
+          this.signUpFormData = this.pages.find(item => item.id === Config.pagesIDs.signupForm)
+        }
+      }
     }
   }
 </script>

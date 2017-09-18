@@ -5,7 +5,6 @@
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
     <span class="nav-item auth-nav-item">
-      <!--<a class="logged-in" href="#" v-if="!authenticated" @click.prevent="login">login</a>-->
       <a class="logged-out" href="#" v-if="authenticated" @click.prevent="logout">logout</a>
     </span>
   </nav>
@@ -17,7 +16,6 @@
   import AuthService from '../../api/auth.service'
 
   const auth = new AuthService()
-
   const {login, logout, authenticated, authNotifier} = auth
 
   export default {
