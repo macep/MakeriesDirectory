@@ -1,5 +1,5 @@
 <template>
-  <div id="directory-filter-by" class="row page">
+  <div id="directory-filter-by" class="row page" :class="'view-' + viewType">
     <div class="col-sm-3" v-if="!isMobile">
       <makeries-menu/>
     </div>
@@ -38,7 +38,7 @@
     components: {banner, makeriesMenu, makeriesList, viewType},
     mixins: [waitDirectoryData],
     computed: {
-      ...mapGetters(['directory', 'isMobile']),
+      ...mapGetters(['directory', 'isMobile', 'viewType']),
       currentFilterType () {
         let currentFilter = getNthFragment(this.$route.path, 3)
         let filterTypes = Config.routerSettings.filterBy

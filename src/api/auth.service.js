@@ -29,13 +29,16 @@ export default class AuthService {
   })
 
   login () {
-    this.auth0.authorize()
+    // this.auth0.authorize()
+    router.replace('/login')
+    console.assert('I will go to login')
   }
 
   handleAuthentication () {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
+        console.log(authResult)
       } else if (err) {
         router.replace('/')
         alert(`Error: ${err.error}. Check the console for further details.`)

@@ -47,10 +47,6 @@
       })
       return {
         activityLoaderImg: Config.activityLoaderImg,
-        currentUser: {
-          name: 'Cristi',
-          id: 7
-        },
         auth,
         authenticated
       }

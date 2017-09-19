@@ -1,5 +1,5 @@
 <template>
-  <div id="directory" class="row" :class="'view-' + viewType">
+  <div id="directory-draft-makers" class="row" :class="'view-' + viewType">
     <div class="col-sm-3" v-if="!isMobile">
       <makeries-menu/>
     </div>
