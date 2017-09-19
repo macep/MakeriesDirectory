@@ -68,6 +68,9 @@ const routes = [
       let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem('jgm_expires_at'))
       if (tokenExpired) {
         localStorage.setItem('jgm_desired_route', to.fullPath)
+        if (from.fullPath.split('/')[1] !== 'callback') {
+          localStorage.setItem('jgm_origin_of_desired_route', from.fullPath)
+        }
         login()
       } else {
         localStorage.setItem('jgm_desired_route', '')

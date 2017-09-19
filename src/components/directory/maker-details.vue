@@ -163,7 +163,7 @@
     computed: {
       ...mapGetters(['directory', 'directoryDisabled', 'directoryFilterData', 'route']),
       back () {
-        let from = this.route.from.fullPath
+        let from = localStorage.getItem('jgm_origin_of_desired_route') || this.route.from.fullPath
         return from !== '/' ? from : null
       },
       restricted () {
