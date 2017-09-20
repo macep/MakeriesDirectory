@@ -52,14 +52,19 @@ export default class AuthService {
     })
   }
 
-  signup (email, password) {
+  signup (username, email, password) {
     this.webAuth.signup({
       connection: 'Username-Password-Authentication',
-      email: email,
-      password: password
-    }, function (err) {
-      if (err) return alert('Something went wrong: ' + err.message)
-      return alert('success signup without login!')
+      username,
+      email,
+      password
+    }, (err) => {
+      if (err) {
+        console.error(err)
+        store.commit('mutateServerErrorMessage', `${err.original.response.body.statusCode}: ${err.original.response.body.message}`)
+        return false
+      }
+      return alert('Success signup without login!')
     })
   }
 

@@ -141,6 +141,18 @@ export default {
     },
     searchPlaceholder: 'Search supplier, products, services, region, tags...'
   },
+  username: {
+    length: {
+      min: 6, // this will reflect https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/settings
+      max: 18
+    }
+  },
+  password: {
+    length: {
+      min: 8, // this will reflect https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/security
+      max: 20
+    }
+  },
   postsIDs: {
     sliderPosts: 863,
     bannerPosts: 864

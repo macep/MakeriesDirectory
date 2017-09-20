@@ -5,6 +5,9 @@ let mutations = {
   mutateUserProfile: (state, userProfile) => {
     state.userProfile = userProfile
   },
+  mutateServerErrorMessage: (state, serverErrorMessage) => {
+    state.serverErrorMessage = serverErrorMessage
+  },
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile
   },

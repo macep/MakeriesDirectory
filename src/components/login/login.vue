@@ -99,7 +99,6 @@
             this.showError = false
           }, 5e3)
         } else {
-          console.log(this.auth)
           this.auth.login(this.username.value, this.password.value)
         }
       }

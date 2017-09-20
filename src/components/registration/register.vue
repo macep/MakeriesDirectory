@@ -49,32 +49,14 @@
             <input type="text" class="form-control" id="input-website" v-model="website.value" :placeholder="websiteLabel">
           </div>
         </div>
-        <div class="form-group required" :class="{'has-error': (!password.valid || !passwordMatch) && password.value !== ''}">
+        <div class="form-group required" :class="{'has-error': !password.valid && password.value !== ''}">
           <label for="input-password" class="col-sm-4 control-label">{{passwordLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && password.value !== ''">
-              <i class="icon-close is-invalid" v-if="!password.valid && !passwordMatch"/>
+              <i class="icon-close is-invalid" v-if="!password.valid"/>
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
-          </div>
-        </div>
-        <div class="form-group required" :class="{'has-error': (!password2.valid || !passwordMatch) && password2.value !== ''}">
-          <label for="input-password2" class="col-sm-4 control-label">{{passwordAgainLabel}}</label>
-          <div class="col-sm-8">
-            <template v-if="!formCanPass && password2.value !== ''">
-              <i class="icon-close is-invalid" v-if="!password2.valid && !passwordMatch"/>
-              <i class="icon-done is-valid" v-else/>
-            </template>
-            <input type="password" class="form-control" id="input-password2" v-model="password2.value" :placeholder="passwordAgainPlaceholderLabel">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="user-role" class="col-sm-4 control-label">{{userRoleLabel}}</label>
-          <div class="col-sm-4">
-            <select id="user-role" v-model="role.value" class="form-control">
-              <option v-for="role in roles" :keys="role.name" :disabled="role.allowed === false">{{role.name}}</option>
-            </select>
           </div>
         </div>
         <transition name="slide-errors" mode="out-in">
@@ -84,6 +66,12 @@
               <span>{{pleaseValidateRegisterFormLabel}}</span>
             </div>
           </div>
+          <v-touch @tap="closeServerMessage" v-if="showServerError" class="form-group invalid-form has-error">
+            <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
+            <div class="col-sm-8">
+              <span>{{serverErrorMessage}}</span>
+            </div>
+          </v-touch>
         </transition>
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-8">
@@ -108,18 +96,10 @@
 <script>
   import {mapGetters, mapActions} from 'vuex'
   import Config from '../../api/app.config'
-  import request from 'axios'
-
-  const roles = [
-    {name: 'subscriber', allowed: true},
-    {name: 'contributor', allowed: true},
-    {name: 'author', allowed: true},
-    {name: 'editor', allowed: true},
-    {name: 'administrator', allowed: false}
-  ]
 
   export default {
     name: 'registration',
+    props: ['auth', 'authenticated'],
     data () {
       return {
         title: Config.titles.registerAndAuthentication.titleReg,
@@ -134,7 +114,6 @@
         passwordLabel: Config.titles.registerAndAuthentication.password,
         passwordAgainLabel: Config.titles.registerAndAuthentication.password2,
         passwordAgainPlaceholderLabel: Config.titles.registerAndAuthentication.password2placeholder,
-        userRoleLabel: Config.titles.registerAndAuthentication.userRole,
         keepPassLabel: Config.titles.registerAndAuthentication.keepPass,
         registerErrorLabel: Config.titles.registerAndAuthentication.registerError,
         pleaseValidateRegisterFormLabel: Config.titles.registerAndAuthentication.pleaseValidateRegisterForm,
@@ -146,21 +125,18 @@
         lastName: {value: '', required: false, valid: true},
         website: {value: '', required: false, valid: true},
         password: {value: '', required: true, valid: false},
-        password2: {value: '', required: true, valid: false},
-        passwordMatch: true,
-        role: {value: roles[0].name, required: false, valid: true},
         keepassa: {value: true, required: false, valid: true},
         showError: false,
-        roles
+        showServerError: false
       }
     },
     computed: {
-      ...mapGetters(['userInformationMissing']),
+      ...mapGetters(['userInformationMissing', 'serverErrorMessage']),
       formCanPass () {
-        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid
+        return this.username.valid && this.email.valid && this.password.valid
       },
       formIsValid () {
-        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.website.valid
+        return this.username.valid && this.email.valid && this.password.valid && this.website.valid
       }
     },
     methods: {
@@ -171,40 +147,13 @@
           setTimeout(() => {
             this.showError = false
           }, 5e3)
+        } else {
+          this.auth.signup(this.username.value, this.email.value, this.password.value)
         }
-
-        if (this.formCanPass) {
-          request.post(`${Config.wpDomain}wp-json/jwt-auth/v1/token`, {
-            username: 'webclient',
-            password: 'v8V#ghZ(zdu0NX9VAdJMIDJS'
-          })
-            .then((response) => {
-              console.log(response)
-              request.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
-              request.defaults.headers.common['Content-Type'] = 'application/json'
-              request.post(`${Config.wpDomain}wp-json/wp/v2/users`, {
-                username: this.username.value,
-                email: this.email.value,
-                password: this.password.value,
-                first_name: this.firstName.value,
-                last_name: this.lastName.value,
-                url: this.website.value,
-                roles: this.role.value
-              })
-                .then((response) => {
-                  console.log('user created: ', response)
-                  if (this.userInformationMissing) {
-                    this.$router.push('user-information')
-                  }
-                })
-                .catch((err) => {
-                  console.log(err)
-                })
-            })
-            .catch((err) => {
-              console.log(err)
-            })
-        }
+      },
+      closeServerMessage () {
+        this.$store.commit('mutateServerErrorMessage', false)
+        this.showServerError = false
       }
     },
     watch: {
@@ -228,17 +177,14 @@
       },
       password: {
         handler () {
-          this.password.valid = this.password.value.length > 8 && this.password.value.length < 25
-          this.passwordMatch = this.password.value === this.password2.value
+          this.password.valid = this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
         },
         deep: true
       },
-      password2: {
-        handler () {
-          this.password2.valid = this.password2.value.length > 8 && this.password2.value.length < 25
-          this.passwordMatch = this.password.value === this.password2.value
-        },
-        deep: true
+      serverErrorMessage () {
+        if (this.serverErrorMessage) {
+          this.showServerError = true
+        }
       }
     },
     metaInfo: {

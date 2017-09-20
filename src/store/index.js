@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     userInformationMissing: true,
     userProfile: {},
+    serverErrorMessage: false,
     hostName: window.location,
     isMobile: false,
     pointerIsTouch: false,

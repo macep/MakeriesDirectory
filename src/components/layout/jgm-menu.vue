@@ -22,17 +22,16 @@
       return {
         weekenderId: Config.pagesIDs.weekender,
         weekenderExternal: Config.routerSettings.weekenderExternal,
-        avatar: JSON.parse(localStorage.getItem('jgm_current_user')).picture || Config.missingAvatar
+        avatar: Config.missingAvatar
       }
     },
     mounted () {
       if (this.userProfile.hasOwnProperty('picture')) {
         this.avatar = this.userProfile.picture
-      } else if (localStorage.getItem('jgm_current_user')) {
+      }
+      if (localStorage.getItem('jgm_current_user')) {
         this.avatar = JSON.parse(localStorage.getItem('jgm_current_user')).picture
         this.$store.commit('mutateUserProfile', JSON.parse(localStorage.getItem('jgm_current_user')))
-      } else {
-        this.avatar = Config.missingAvatar
       }
     },
     computed: {
