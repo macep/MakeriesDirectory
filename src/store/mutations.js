@@ -2,6 +2,9 @@ let mutations = {
   mutateUserInformationMissing: (state, userInformationMissing) => {
     state.userInformationMissing = userInformationMissing
   },
+  mutateUserProfile: (state, userProfile) => {
+    state.userProfile = userProfile
+  },
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile
   },

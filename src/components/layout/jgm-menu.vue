@@ -4,8 +4,9 @@
       <a v-if="link.object_id === weekenderId" :href="weekenderExternal" target="_new">{{link.title}}</a>
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
-    <span class="nav-item auth-nav-item">
-      <a class="logged-out" href="#" v-if="authenticated" @click.prevent="auth.logout">logout</a>
+    <span class="nav-item auth-nav-item" v-if="authenticated">
+      <img :src="avatar" id="profile-avatar">
+      <a class="logged-out" href="#" @click.prevent="auth.logout">logout</a>
     </span>
   </nav>
 </template>
@@ -20,11 +21,32 @@
     data () {
       return {
         weekenderId: Config.pagesIDs.weekender,
-        weekenderExternal: Config.routerSettings.weekenderExternal
+        weekenderExternal: Config.routerSettings.weekenderExternal,
+        avatar: JSON.parse(localStorage.getItem('jgm_current_user')).picture || Config.missingAvatar
+      }
+    },
+    mounted () {
+      if (this.userProfile.hasOwnProperty('picture')) {
+        this.avatar = this.userProfile.picture
+      } else if (localStorage.getItem('jgm_current_user')) {
+        this.avatar = JSON.parse(localStorage.getItem('jgm_current_user')).picture
+        this.$store.commit('mutateUserProfile', JSON.parse(localStorage.getItem('jgm_current_user')))
+      } else {
+        this.avatar = Config.missingAvatar
       }
     },
     computed: {
-      ...mapGetters(['mainMenu'])
+      ...mapGetters(['mainMenu', 'userProfile'])
+    },
+    watch: {
+      authenticated () {
+        if (this.authenticated) {
+          this.$store.commit('mutateUserProfile', localStorage.getItem('jgm_current_user'))
+        }
+      },
+      userProfile () {
+        this.avatar = this.userProfile.picture
+      }
     }
   }
 </script>

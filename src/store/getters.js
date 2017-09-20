@@ -1,5 +1,6 @@
 let getters = {
   userInformationMissing: state => state.userInformationMissing,
+  userProfile: state => state.userProfile,
   hostName: state => state.hostName,
   isMobile: state => state.isMobile,
   pointerIsTouch: state => state.pointerIsTouch,

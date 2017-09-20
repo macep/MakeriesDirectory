@@ -4,7 +4,7 @@ let AUTH_CONFIG = {
   redirectUri: 'http://uix.ro/callback',
   audience: 'https://jgm.eu.auth0.com/userinfo',
   responseType: 'token id_token',
-  scope: 'openid'
+  scope: 'openid email profile user_metadata'
 }
 
 if (process.env.NODE_ENV === 'development') {
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
     redirectUri: `http://localhost:8080/callback/`,
     audience: 'https://jgm.eu.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid email profile user_metadata'
   }
 }
 

@@ -10,6 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     userInformationMissing: true,
+    userProfile: {},
     hostName: window.location,
     isMobile: false,
     pointerIsTouch: false,

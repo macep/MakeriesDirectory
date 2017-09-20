@@ -1,12 +1,14 @@
 import Vue from 'vue'
-import auth0 from 'auth0-js'
+import Auth0 from 'auth0-js'
 import AUTH_CONFIG from '../api/auth.variables'
-import router from '../router/index'
 import Config from '../api/app.config'
+import router from '../router/index'
+import store from '../store/index'
 
 let jgmAccessToken = 'jgm_access_token'
 let jgmIdToken = 'jgm_id_token'
 let jgmExpiresAt = 'jgm_expires_at'
+let jgmCurrentUser = 'jgm_current_user'
 
 export default class AuthService {
   authenticated = this.isAuthenticated()
@@ -15,19 +17,23 @@ export default class AuthService {
   constructor () {
     this.login = this.login.bind(this)
     this.socialLogin = this.socialLogin.bind(this)
+    this.signup = this.signup.bind(this)
+    this.patchUserProfile = this.patchUserProfile.bind(this)
     this.setSession = this.setSession.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
     this.logout = this.logout.bind(this)
   }
 
-  webAuth = new auth0.WebAuth({
+  webAuth = new Auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
     clientID: AUTH_CONFIG.clientID,
     redirectUri: AUTH_CONFIG.redirectUri,
     responseType: AUTH_CONFIG.responseType,
     scope: AUTH_CONFIG.scope
   })
+
+  auth0Manage = {}
 
   login (username, password) {
     this.webAuth.redirect.loginWithCredentials({
@@ -46,14 +52,39 @@ export default class AuthService {
     })
   }
 
+  signup (email, password) {
+    this.webAuth.signup({
+      connection: 'Username-Password-Authentication',
+      email: email,
+      password: password
+    }, function (err) {
+      if (err) return alert('Something went wrong: ' + err.message)
+      return alert('success signup without login!')
+    })
+  }
+
+  patchUserProfile (userId, userMetadata) {
+    this.auth0Manage.patchUserMetadata(userId, userMetadata, data => console.log(data))
+  }
+
   handleAuthentication () {
     this.webAuth.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        this.webAuth.client.userInfo(authResult.accessToken, (err, user) => {
+          console.log(err, user)
+          localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
+          store.commit('mutateUserProfile', user)
+          this.auth0Manage = new Auth0.Management({
+            domain: AUTH_CONFIG.domain,
+            token: authResult.idToken
+          })
+        })
+
         this.setSession(authResult)
         router.replace(localStorage.getItem('jgm_desired_route') || Config.routerSettings.directory)
       } else if (err) {
         alert(`Error: ${err.error}. Check the console for further details.`)
-        console.log(err)
+        console.error(err)
         router.replace(localStorage.getItem('jgm_origin_of_desired_route'))
       }
     })
@@ -71,6 +102,7 @@ export default class AuthService {
     localStorage.removeItem(jgmAccessToken)
     localStorage.removeItem(jgmIdToken)
     localStorage.removeItem(jgmExpiresAt)
+    localStorage.removeItem(jgmCurrentUser)
     this.userProfile = null
     this.authNotifier.$emit('authChange', false)
     router.replace(router.history.current.matched[0].path === `${Config.routerSettings.makerDetail}:id/:page` ? '/directory' : '/')

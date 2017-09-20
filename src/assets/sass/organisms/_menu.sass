@@ -16,8 +16,13 @@ nav
     text-align: center
 
     &.auth-nav-item
+      position: relative
       border-left: 1px solid $light-turqoise
-      background: rgba($light-turqoise, .25)
+      background: #ebeced
+
+      &:hover
+        #profile-avatar
+          top: calc(50% - 75px)
 
       .logged-in
         color: $brand-primary
@@ -42,3 +47,12 @@ nav
 
       a
         color: $white
+
+#profile-avatar
+  @extend %fast-transitions
+  position: absolute
+  top: calc(50% - 60px)
+  right: calc(50% - 35px)
+  width: 70px
+  border-radius: 50%
+  z-index: -1
