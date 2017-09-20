@@ -11,9 +11,17 @@
       </div>
       <hr>
       <div class="row form-horizontal small-gutter lg-padding">
+        <div class="form-group">
+          <div class="col-xs-7 col-xs-offset-4 text-center">
+            <v-touch tag="button" @tap="auth.socialLogin('google-oauth2')" class="btn btn-block btn-danger btn-google">Sign in with Google</v-touch>
+            <v-touch tag="button" @tap="auth.socialLogin('linkedin')" class="btn btn-block btn-primary btn-linkedin">Sign in with LinkedIn</v-touch>
+            <v-touch tag="button" @tap="auth.socialLogin('facebook')" class="btn btn-block btn-info btn-facebook">Sign in with Facebook</v-touch>
+            <div class="lg-padding-top alternative-to-auth">OR</div>
+          </div>
+        </div>
         <div class="form-group" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
-          <label for="input-username" class="col-sm-4 control-label">{{userNameLabel}}</label>
-          <div class="col-sm-8">
+          <label for="input-username" class="col-sm-3 col-sm-offset-1 control-label">{{userNameLabel}}</label>
+          <div class="col-sm-7">
             <template v-if="!formIsValid">
               <i class="icon-close is-invalid" v-if="!username.valid"/>
               <i class="icon-done is-valid" v-else/>
@@ -22,8 +30,8 @@
           </div>
         </div>
         <div class="form-group" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
-          <label for="input-password" class="col-sm-4 control-label">{{passwordLabel}}</label>
-          <div class="col-sm-8">
+          <label for="input-password" class="col-sm-3 col-sm-offset-1 control-label">{{passwordLabel}}</label>
+          <div class="col-sm-7">
             <template v-if="!formIsValid">
               <i class="icon-close is-invalid" v-if="!password.valid || password.value === ''"/>
               <i class="icon-done is-valid" v-else/>
@@ -61,6 +69,7 @@
 
   export default {
     name: 'registration',
+    props: ['auth', 'authenticated'],
     data () {
       return {
         title: Config.titles.registerAndAuthentication.titleAuth,
@@ -89,6 +98,9 @@
           setTimeout(() => {
             this.showError = false
           }, 5e3)
+        } else {
+          console.log(this.auth)
+          this.auth.login(this.username.value, this.password.value)
         }
       }
     },

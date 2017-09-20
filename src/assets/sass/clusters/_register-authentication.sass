@@ -72,6 +72,25 @@
 .login-register-alternatively a
   text-decoration: underline
 
+.alternative-to-auth
+  color: $base
+  position: relative
+
+  &:before,
+  &:after
+    content: ''
+    position: absolute
+    top: $sm-space * 5
+    width: calc(50% - 1em)
+    height: 1px
+    background: $gainsboro
+
+  &:before
+    left: 0
+
+  &:after
+    right: 0
+
 .user-scope-hats
   img
     max-width: 150px

@@ -2,9 +2,9 @@
   <div id="app" class="row" :class="{'is-mobile': isMobile, 'is-touch': pointerIsTouch, 'no-scroll': mobileMenuVisibile}">
     <div class="col-xs-12">
       <jgm-header/>
-      <jgm-menu v-if="!isMobile" :authenticated="authenticated"/>
+      <jgm-menu v-if="!isMobile" :auth="auth" :authenticated="authenticated"/>
       <template v-if="isMobile">
-        <jgm-mobile-menu/>
+        <jgm-mobile-menu :auth="auth" :authenticated="authenticated"/>
         <v-touch tag="i" @tap="toggleMobileMenuVisibility" :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"/>
       </template>
       <transition name="slide" mode="out-in">
@@ -28,7 +28,7 @@
   import AuthService from './api/auth.service'
 
   const auth = new AuthService()
-  const {login, logout, authenticated, authNotifier} = auth
+  const {login, socialLogin, logout, authenticated, authNotifier} = auth
 
   const pageClassSuffix = '-page'
 
@@ -88,6 +88,7 @@
         this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
       },
       login,
+      socialLogin,
       logout
     },
     metaInfo: {

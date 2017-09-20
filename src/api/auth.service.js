@@ -14,33 +14,47 @@ export default class AuthService {
 
   constructor () {
     this.login = this.login.bind(this)
+    this.socialLogin = this.socialLogin.bind(this)
     this.setSession = this.setSession.bind(this)
-    this.logout = this.logout.bind(this)
+    this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
+    this.logout = this.logout.bind(this)
   }
 
-  auth0 = new auth0.WebAuth({
+  webAuth = new auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
     clientID: AUTH_CONFIG.clientID,
     redirectUri: AUTH_CONFIG.redirectUri,
-    audience: AUTH_CONFIG.audience,
     responseType: AUTH_CONFIG.responseType,
     scope: AUTH_CONFIG.scope
   })
 
-  login () {
-    // this.auth0.authorize()
-    router.replace('/login')
+  login (username, password) {
+    this.webAuth.redirect.loginWithCredentials({
+      connection: 'Username-Password-Authentication',
+      scope: AUTH_CONFIG.scope,
+      username: username,
+      password: password
+    }, (err, authResult) => {
+      console.error(err, authResult)
+    })
+  }
+
+  socialLogin (identifier) {
+    this.webAuth.authorize({connection: identifier}, (err, authResult) => {
+      console.error(err, authResult)
+    })
   }
 
   handleAuthentication () {
-    this.auth0.parseHash((err, authResult) => {
+    this.webAuth.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
+        router.replace(localStorage.getItem('jgm_desired_route') || Config.routerSettings.directory)
       } else if (err) {
-        router.replace('/')
         alert(`Error: ${err.error}. Check the console for further details.`)
         console.log(err)
+        router.replace(localStorage.getItem('jgm_origin_of_desired_route'))
       }
     })
   }

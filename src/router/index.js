@@ -23,31 +23,6 @@ import Login from '@/components/login/login'
 import Callback from '@/components/login/callback'
 import PageNotFound from '@/components/static-pages/page-not-found'
 
-import auth0 from 'auth0-js'
-import AUTH_CONFIG from '../api/auth.variables'
-
-export class LoginAction {
-  constructor () {
-    this.login = this.login.bind(this)
-  }
-
-  auth0 = new auth0.WebAuth({
-    domain: AUTH_CONFIG.domain,
-    clientID: AUTH_CONFIG.clientID,
-    redirectUri: AUTH_CONFIG.redirectUri,
-    audience: AUTH_CONFIG.audience,
-    responseType: AUTH_CONFIG.responseType,
-    scope: AUTH_CONFIG.scope
-  })
-
-  login () {
-    this.auth0.authorize()
-  }
-}
-
-let auth = new LoginAction()
-const {login} = auth
-
 Vue.use(Router)
 
 const routes = [
@@ -71,7 +46,7 @@ const routes = [
         if (from.fullPath.split('/')[1] !== 'callback') {
           localStorage.setItem('jgm_origin_of_desired_route', from.fullPath)
         }
-        login()
+        next({ path: '/login' })
       } else {
         localStorage.setItem('jgm_desired_route', '')
         next()

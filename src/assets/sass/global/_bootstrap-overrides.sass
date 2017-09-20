@@ -46,3 +46,23 @@ $border-style: 2px solid $light-turqoise
     a
       &:hover
         text-decoration: underline
+
+.btn
+  &.btn-google,
+  &.btn-linkedin,
+  &.btn-facebook
+    @extend %link-hoverings
+    border: 0
+
+    &:hover
+      opacity: .75
+
+  &.btn-google
+    background: $google-color
+
+  &.btn-linkedin
+    background: $linkedin-color
+
+  &.btn-facebook
+    background: $facebook-color
+
