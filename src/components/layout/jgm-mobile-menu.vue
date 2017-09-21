@@ -16,7 +16,7 @@
         <router-link class="mobile-nav-item" :to="link.url">{{link.title}}</router-link>
       </v-touch>
       <v-touch @tap="closeAndSignOut" v-if="authenticated">
-        <a class="mobile-nav-item auth-nav-item logged-in" href="#" @click.prevent="logout">logout</a>
+        <a class="mobile-nav-item auth-nav-item logged-in" href="#" @click.prevent="auth.logout">logout</a>
       </v-touch>
     </div>
   </nav>
@@ -28,22 +28,11 @@
   import jgmLogo from '../common/jgm-logo.vue'
   import makeriesMenu from '../directory/directory-menu.vue'
   import blogMenu from '../common/blog-menu.vue'
-  import AuthService from '../../api/auth.service'
-
-  const auth = new AuthService()
-  const {login, logout, authenticated, authNotifier} = auth
 
   export default {
     name: 'jgm-menu',
+    props: ['auth', 'authenticated'],
     components: {jgmLogo, makeriesMenu, blogMenu},
-    data () {
-      authNotifier.$on('authChange', authState => {
-        this.authenticated = authState.authenticated
-      })
-      return {
-        authenticated
-      }
-    },
     mounted () {
       let mobileMenu = document.querySelector('#mobile-menu')
       mobileMenu.addEventListener('scroll', () => {
@@ -75,9 +64,7 @@
       closeAndSignOut () {
         this.closeMobileMenu()
         this.logout()
-      },
-      login,
-      logout
+      }
     }
   }
 </script>

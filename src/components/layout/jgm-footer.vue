@@ -39,7 +39,7 @@
   export default {
     name: 'jgm-footer',
     computed: {
-      ...mapGetters(['secondaryMenu', 'pages', 'hostName']),
+      ...mapGetters(['secondaryMenu']),
       copy () {
         return `${Config.appTitle} ${new Date().getFullYear()}`
       },

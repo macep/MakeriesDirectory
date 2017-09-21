@@ -1,8 +1,6 @@
 <template>
   <header>
     <jgm-logo/>
-    <!--<button class="btn btn-primary pull-right" v-if="!authenticated" @click="login()"> Log In </button>-->
-    <!--<button class="btn btn-primary pull-right" v-if="authenticated" @click="logout()"> Log Out</button>-->
   </header>
 </template>
 
@@ -11,7 +9,6 @@
 
   export default {
     name: 'jgm-header',
-//    props: ['auth', 'authenticated'],
     components: {jgmLogo}
   }
 </script>

@@ -11,7 +11,7 @@
     components: {activityIndicator},
     mounted () {
       this.auth.handleAuthentication()
-      this.$router.push(localStorage.getItem('jgm_desired_route') || '/')
+      this.$router.push(localStorage.getItem('jgm_desired_route') || '/directory')
     }
   }
 </script>
