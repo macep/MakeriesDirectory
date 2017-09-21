@@ -1,3 +1,6 @@
+let wplocation = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : 'http://uix.ro/wp/'
+console.log(wplocation)
+
 export default {
   apiUrlBase: '/',
   appTitle: 'Just Got Made',
@@ -7,7 +10,7 @@ export default {
   appLogo: '/static/images/logo.svg',
   missingImageUrl: '/static/no-img.png',
   missingAvatar: 'http://via.placeholder.com/100x100?text=AVATAR',
-  wpDomain: 'http://justgotmade.com:8888/',
+  wpDomain: wplocation,
   dotNetDomain: 'http://makeriesnew.azurewebsites.net/',
   dotNetToken: 'MzM0N2NjYTItOTgwYy00YTE0LWExNGItNTlkMGZlYzZkMTc4OjQ2ZGU4MzI3LWM3ZDItNGVkMi1iYjFjLTBlMTExZmZhYzMyOQ==',
   getAllMakers: 'api/makers/GetAllMakers',
