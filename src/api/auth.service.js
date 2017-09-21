@@ -56,7 +56,6 @@ export default class AuthService {
   }
 
   socialLogin (identifier) {
-    console.log('socialLogin')
     let authResult = {}
     authResult.accessToken = localStorage.getItem(jgmAccessToken)
     this.webAuth.authorize({connection: identifier})

@@ -216,25 +216,18 @@
               metadata.company = this.companyName.value
             }
           }
-
           if (this.businessLocation !== Config.titles.registerAndAuthentication.chooseLocation) {
             metadata.businessLocation = this.businessLocation
           }
-
           if (this.interest !== Config.titles.registerAndAuthentication.chooseInterest) {
             metadata.interest = this.interest
           }
-
           if (this.areaOfBusiness !== Config.titles.registerAndAuthentication.chooseArea) {
             metadata.areaOfBusiness = this.areaOfBusiness
           }
-
           metadata.newsletter = this.newsletter
           metadata.offersAndInvites = this.offersAndInvites
         }
-        console.log(userID, metadata)
-        console.log(this.companyName.value, this.businessLocation, this.interest, this.areaOfBusiness, this.newsletter, this.offersAndInvites)
-
         this.auth.patchUserMetadata(userID, {user_metadata: metadata})
       }
     },
