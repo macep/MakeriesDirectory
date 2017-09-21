@@ -18,6 +18,7 @@ export default class AuthService {
     this.login = this.login.bind(this)
     this.socialLogin = this.socialLogin.bind(this)
     this.signup = this.signup.bind(this)
+    this.getUserProfile = this.getUserProfile.bind(this)
     this.patchUserProfile = this.patchUserProfile.bind(this)
     this.setSession = this.setSession.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
@@ -36,13 +37,17 @@ export default class AuthService {
   auth0Manage = {}
 
   login (username, password) {
-    this.webAuth.redirect.loginWithCredentials({
-      connection: 'Username-Password-Authentication',
-      scope: AUTH_CONFIG.scope,
+    this.webAuth.client.login({
+      connection: AUTH_CONFIG.connection,
+      realm: AUTH_CONFIG.connection,
       username: username,
       password: password
     }, (err, authResult) => {
-      console.error(err, authResult)
+      if (err) {
+        store.commit('mutateServerErrorMessage', `${err.statusCode} ${err.code}: ${err.description}`)
+      } else {
+        this.setSession(authResult)
+      }
     })
   }
 
@@ -52,24 +57,32 @@ export default class AuthService {
     })
   }
 
-  signup (username, email, password) {
+  signup (username, email, password, userMetadata) {
     this.webAuth.signup({
-      connection: 'Username-Password-Authentication',
+      connection: AUTH_CONFIG.connection,
       username,
       email,
-      password
+      password,
+      user_metadata: userMetadata
     }, (err) => {
       if (err) {
-        console.error(err)
-        store.commit('mutateServerErrorMessage', `${err.original.response.body.statusCode}: ${err.original.response.body.message}`)
-        return false
+        store.commit('mutateServerErrorMessage', `${err.original.response.body.statusCode}: ${err.original.response.body.message || err.original.response.body.description}`)
+      } else {
+        store.commit('mutateServerSuccessMessage', Config.titles.registerAndAuthentication.userCreatedMessage)
       }
-      return alert('Success signup without login!')
+    })
+  }
+
+  getUserProfile (userId) {
+    this.auth0Manage.getUser(userId, (err, authResult) => {
+      console.error(err, authResult)
     })
   }
 
   patchUserProfile (userId, userMetadata) {
-    this.auth0Manage.patchUserMetadata(userId, userMetadata, data => console.log(data))
+    this.auth0Manage.patchUserMetadata(userId, userMetadata, (err, authResult) => {
+      console.error(err, authResult)
+    })
   }
 
   handleAuthentication () {
@@ -84,9 +97,7 @@ export default class AuthService {
             token: authResult.idToken
           })
         })
-
         this.setSession(authResult)
-        router.replace(localStorage.getItem('jgm_desired_route') || Config.routerSettings.directory)
       } else if (err) {
         alert(`Error: ${err.error}. Check the console for further details.`)
         console.error(err)
@@ -101,6 +112,7 @@ export default class AuthService {
     localStorage.setItem(jgmIdToken, authResult.idToken)
     localStorage.setItem(jgmExpiresAt, expiresAt)
     this.authNotifier.$emit('authChange', { authenticated: true })
+    router.replace(localStorage.getItem('jgm_desired_route') || Config.routerSettings.directory)
   }
 
   logout () {

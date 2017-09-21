@@ -46,6 +46,12 @@
               <span>{{pleaseValidateLoginFormLabel}}</span>
             </div>
           </div>
+          <v-touch @tap="closeServerMessage('error')" v-if="showServerErrorMessage" class="form-group invalid-form has-error">
+            <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
+            <div class="col-sm-8">
+              <span>{{serverErrorMessage}}</span>
+            </div>
+          </v-touch>
         </transition>
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-8">
@@ -65,6 +71,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
 
   export default {
@@ -86,8 +93,12 @@
         password: {value: '', required: true, valid: false},
         keepassa: {value: true, required: false, valid: true},
         formIsValid: true,
-        showError: false
+        showError: false,
+        showServerErrorMessage: false
       }
+    },
+    computed: {
+      ...mapGetters(['serverErrorMessage'])
     },
     methods: {
       loginUser () {
@@ -101,6 +112,10 @@
         } else {
           this.auth.login(this.username.value, this.password.value)
         }
+      },
+      closeServerMessage () {
+        this.showServerErrorMessage = false
+        this.$store.commit('mutateServerErrorMessage', false)
       }
     },
     watch: {
@@ -115,6 +130,14 @@
           this.password.valid = this.password.value.length > 8 && this.password.value.length < 25
         },
         deep: true
+      },
+      serverErrorMessage () {
+        if (this.serverErrorMessage) {
+          this.showServerErrorMessage = true
+          setTimeout(() => {
+            this.showServerErrorMessage = false
+          }, 2e4)
+        }
       }
     },
     metaInfo: {

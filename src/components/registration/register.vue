@@ -66,10 +66,16 @@
               <span>{{pleaseValidateRegisterFormLabel}}</span>
             </div>
           </div>
-          <v-touch @tap="closeServerMessage" v-if="showServerError" class="form-group invalid-form has-error">
+          <v-touch @tap="closeServerMessage('error')" v-if="showServerErrorMessage" class="form-group invalid-form has-error">
             <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
             <div class="col-sm-8">
               <span>{{serverErrorMessage}}</span>
+            </div>
+          </v-touch>
+          <v-touch @tap="closeServerMessage('success')" v-if="showServerSuccessMessage" class="form-group valid-form has-success">
+            <label class="col-sm-4 control-label">{{registerSuccessLabel}}</label>
+            <div class="col-sm-8">
+              <span>{{serverSuccessMessage}}</span>
             </div>
           </v-touch>
         </transition>
@@ -116,6 +122,7 @@
         passwordAgainPlaceholderLabel: Config.titles.registerAndAuthentication.password2placeholder,
         keepPassLabel: Config.titles.registerAndAuthentication.keepPass,
         registerErrorLabel: Config.titles.registerAndAuthentication.registerError,
+        registerSuccessLabel: Config.titles.registerAndAuthentication.registerSuccess,
         pleaseValidateRegisterFormLabel: Config.titles.registerAndAuthentication.pleaseValidateRegisterForm,
         markedFieldsLabel: Config.titles.registerAndAuthentication.markedFields,
         loginSubmitLabel: Config.titles.registerAndAuthentication.registerSubmit,
@@ -127,11 +134,12 @@
         password: {value: '', required: true, valid: false},
         keepassa: {value: true, required: false, valid: true},
         showError: false,
-        showServerError: false
+        showServerErrorMessage: false,
+        showServerSuccessMessage: false
       }
     },
     computed: {
-      ...mapGetters(['userInformationMissing', 'serverErrorMessage']),
+      ...mapGetters(['userInformationMissing', 'serverErrorMessage', 'serverSuccessMessage']),
       formCanPass () {
         return this.username.valid && this.email.valid && this.password.valid
       },
@@ -148,12 +156,27 @@
             this.showError = false
           }, 5e3)
         } else {
-          this.auth.signup(this.username.value, this.email.value, this.password.value)
+          let metadata = {}
+          if (this.firstName.value !== '') {
+            metadata.firstName = this.firstName.value
+          }
+          if (this.lastName.value !== '') {
+            metadata.lastName = this.lastName.value
+          }
+          if (this.website.value !== '') {
+            metadata.website = this.website.value
+          }
+          this.auth.signup(this.username.value, this.email.value, this.password.value, metadata)
         }
       },
-      closeServerMessage () {
-        this.$store.commit('mutateServerErrorMessage', false)
-        this.showServerError = false
+      closeServerMessage (result) {
+        if (result === 'error') {
+          this.showServerErrorMessage = false
+          this.$store.commit('mutateServerErrorMessage', false)
+        } else {
+          this.showServerSuccessMessage = false
+          this.$store.commit('mutateServerSuccessMessage', false)
+        }
       }
     },
     watch: {
@@ -183,7 +206,22 @@
       },
       serverErrorMessage () {
         if (this.serverErrorMessage) {
-          this.showServerError = true
+          this.showServerErrorMessage = true
+          setTimeout(() => {
+            this.showServerErrorMessage = false
+          }, 5e3)
+        }
+      },
+      serverSuccessMessage () {
+        if (this.serverSuccessMessage) {
+          this.showServerSuccessMessage = true
+          this.username.value = ''
+          this.email.value = ''
+          this.website.value = ''
+          this.password.value = ''
+          setTimeout(() => {
+            this.showServerSuccessMessage = false
+          }, 5e3)
         }
       }
     },

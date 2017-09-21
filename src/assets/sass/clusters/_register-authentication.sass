@@ -17,13 +17,22 @@
   [type="checkbox"]
     width: auto
 
+  .valid-form,
   .invalid-form
     @extend %slow-transitions
+    cursor: pointer
 
     span
       @extend .din-web-cond
       line-height: 2.25
+
+  .invalid-form
+    span
       color: $state-danger-text
+
+  .valid-form
+    span
+      color: $state-success-text
 
   .form-group
     position: relative

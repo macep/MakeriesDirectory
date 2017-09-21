@@ -8,6 +8,9 @@ let mutations = {
   mutateServerErrorMessage: (state, serverErrorMessage) => {
     state.serverErrorMessage = serverErrorMessage
   },
+  mutateServerSuccessMessage: (state, serverSuccessMessage) => {
+    state.serverSuccessMessage = serverSuccessMessage
+  },
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile
   },

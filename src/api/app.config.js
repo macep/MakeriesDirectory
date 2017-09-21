@@ -111,6 +111,8 @@ export default {
       userRole: 'User Role',
       keepPass: 'Remember my password',
       registerError: 'Error:',
+      registerSuccess: 'Success:',
+      userCreatedMessage: 'User created! Please check the email you register with for user activation.',
       pleaseValidateRegisterForm: 'Please make sure the register form is valid in order to be able to create a new user',
       pleaseValidateLoginForm: 'Please make sure the login form fields are valid.',
       markedFields: 'Marked fields are required',

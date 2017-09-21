@@ -26,13 +26,15 @@
       }
     },
     mounted () {
-      if (this.userProfile.hasOwnProperty('picture')) {
-        this.avatar = this.userProfile.picture
-      }
-      if (localStorage.getItem('jgm_current_user')) {
-        this.avatar = JSON.parse(localStorage.getItem('jgm_current_user')).picture
-        this.$store.commit('mutateUserProfile', JSON.parse(localStorage.getItem('jgm_current_user')))
-      }
+      setTimeout(() => {
+        if (this.userProfile.hasOwnProperty('picture')) {
+          this.avatar = this.userProfile.picture
+        }
+        if (localStorage.getItem('jgm_current_user')) {
+          this.avatar = JSON.parse(localStorage.getItem('jgm_current_user')).picture
+          this.$store.commit('mutateUserProfile', JSON.parse(localStorage.getItem('jgm_current_user')))
+        }
+      }, 100)
     },
     computed: {
       ...mapGetters(['mainMenu', 'userProfile'])
@@ -44,7 +46,9 @@
         }
       },
       userProfile () {
-        this.avatar = this.userProfile.picture
+        if (this.userProfile.hasOwnProperty('picture')) {
+          this.avatar = this.userProfile.picture
+        }
       }
     }
   }
