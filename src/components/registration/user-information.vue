@@ -151,11 +151,11 @@
   import {tooltip, modal} from 'vue-strap'
   import Config from '../../api/app.config'
   import countries from '../../modules/countries'
-  import request from 'axios'
 
   export default {
     name: 'user-information',
     components: {tooltip, modal},
+    props: ['auth', 'authenticated'],
     data () {
       return {
         salutation: Config.titles.registerAndAuthentication.salutation,
@@ -208,19 +208,34 @@
     },
     methods: {
       updateUserInformation () {
-        let userInformation = {
-          company: this.showBusinessUseForm ? this.companyName.value !== '' ? this.companyName.value : null : null,
-          businessLocation: this.businessLocation !== Config.titles.registerAndAuthentication.chooseLocation ? this.businessLocation : null,
-          interest: this.interest !== Config.titles.registerAndAuthentication.interest ? this.interest : null,
-          areaOfBusiness: this.areaOfBusiness !== Config.titles.registerAndAuthentication.areaOfBusiness ? this.areaOfBusiness : null,
-          newsletter: this.newsletter,
-          offersAndInvites: this.offersAndInvites
-        }
+        let metadata = JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']
+        let userID = JSON.parse(localStorage.getItem('jgm_current_user')).sub
+        if (metadata.userInformationCollected === 'false') {
+          if (this.showBusinessUseForm) {
+            if (this.companyName.value !== '') {
+              metadata.company = this.companyName.value
+            }
+          }
 
-        request.post(`${Config.wpDomain}wp-json/wp/v2/users/${this.currentUser.id}`, {description: JSON.stringify(userInformation)}).then((response) => {
-          console.log('updated successfully', response)
-          this.showPersonalUseForm ? this.showPersonalUseForm = false : this.showBusinessUseForm = false
-        })
+          if (this.businessLocation !== Config.titles.registerAndAuthentication.chooseLocation) {
+            metadata.businessLocation = this.businessLocation
+          }
+
+          if (this.interest !== Config.titles.registerAndAuthentication.chooseInterest) {
+            metadata.interest = this.interest
+          }
+
+          if (this.areaOfBusiness !== Config.titles.registerAndAuthentication.chooseArea) {
+            metadata.areaOfBusiness = this.areaOfBusiness
+          }
+
+          metadata.newsletter = this.newsletter
+          metadata.offersAndInvites = this.offersAndInvites
+        }
+        console.log(userID, metadata)
+        console.log(this.companyName.value, this.businessLocation, this.interest, this.areaOfBusiness, this.newsletter, this.offersAndInvites)
+
+        this.auth.patchUserMetadata(userID, {user_metadata: metadata})
       }
     },
     metaInfo: {

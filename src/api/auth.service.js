@@ -56,8 +56,11 @@ export default class AuthService {
   }
 
   socialLogin (identifier) {
+    console.log('socialLogin')
+    let authResult = {}
+    authResult.accessToken = localStorage.getItem(jgmAccessToken)
     this.webAuth.authorize({connection: identifier})
-    this.handleUserProfile('social login', localStorage.getItem(jgmAccessToken))
+    this.handleUserProfile(authResult)
   }
 
   signup (username, email, password, userMetadata) {
@@ -76,14 +79,17 @@ export default class AuthService {
     })
   }
 
-  handleUserProfile (token) {
-    this.webAuth.client.userInfo(token.accessToken, (err, user) => {
+  handleUserProfile (authResult) {
+    this.webAuth.client.userInfo(authResult.accessToken, (err, user) => {
       if (err) {
         console.error(err)
       }
       localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
       store.commit('mutateUserProfile', user)
       let userMetadata = user['https://jgm:eu:auth0:com/user_metadata']
+      if (userMetadata === 'undefined') {
+        router.replace('/user-information')
+      }
       if (userMetadata.userInformationCollected === 'false') {
         let asked = +userMetadata.askedForUserInformation
         asked++
