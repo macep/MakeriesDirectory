@@ -4,11 +4,14 @@ import AUTH_CONFIG from '../api/auth.variables'
 import Config from '../api/app.config'
 import router from '../router/index'
 import store from '../store/index'
+import request from 'axios'
 
 let jgmAccessToken = 'jgm_access_token'
 let jgmIdToken = 'jgm_id_token'
 let jgmExpiresAt = 'jgm_expires_at'
 let jgmCurrentUser = 'jgm_current_user'
+let jgmOriginOfDesiredRoute = 'jgm_origin_of_desired_route'
+let jgmDesiredRoute = 'jgm_desired_route'
 
 export default class AuthService {
   authenticated = this.isAuthenticated()
@@ -18,8 +21,8 @@ export default class AuthService {
     this.login = this.login.bind(this)
     this.socialLogin = this.socialLogin.bind(this)
     this.signup = this.signup.bind(this)
-    this.getUserProfile = this.getUserProfile.bind(this)
-    this.patchUserProfile = this.patchUserProfile.bind(this)
+    this.handleUserProfile = this.handleUserProfile.bind(this)
+    this.patchUserMetadata = this.patchUserMetadata.bind(this)
     this.setSession = this.setSession.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
@@ -46,15 +49,15 @@ export default class AuthService {
       if (err) {
         store.commit('mutateServerErrorMessage', `${err.statusCode} ${err.code}: ${err.description}`)
       } else {
+        this.handleUserProfile(authResult)
         this.setSession(authResult)
       }
     })
   }
 
   socialLogin (identifier) {
-    this.webAuth.authorize({connection: identifier}, (err, authResult) => {
-      console.error(err, authResult)
-    })
+    this.webAuth.authorize({connection: identifier})
+    this.handleUserProfile('social login', localStorage.getItem(jgmAccessToken))
   }
 
   signup (username, email, password, userMetadata) {
@@ -73,35 +76,44 @@ export default class AuthService {
     })
   }
 
-  getUserProfile (userId) {
-    this.auth0Manage.getUser(userId, (err, authResult) => {
-      console.error(err, authResult)
+  handleUserProfile (token) {
+    this.webAuth.client.userInfo(token.accessToken, (err, user) => {
+      if (err) {
+        console.error(err)
+      }
+      localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
+      store.commit('mutateUserProfile', user)
+      let userMetadata = user['https://jgm:eu:auth0:com/user_metadata']
+      if (userMetadata.userInformationCollected === 'false') {
+        let asked = +userMetadata.askedForUserInformation
+        asked++
+        userMetadata.askedForUserInformation = asked.toString()
+        this.patchUserMetadata(user.sub, userMetadata)
+        router.replace('/user-information')
+      }
     })
   }
 
-  patchUserProfile (userId, userMetadata) {
-    this.auth0Manage.patchUserMetadata(userId, userMetadata, (err, authResult) => {
-      console.error(err, authResult)
-    })
+  patchUserMetadata (userId, userMetadata) {
+    let auth0UserUrl = 'https://' + AUTH_CONFIG.domain + '/api/v2/users/' + userId
+    request.patch(auth0UserUrl, { user_metadata: userMetadata }, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem(jgmIdToken)
+      }
+    }).then(response => console.log(response))
   }
 
   handleAuthentication () {
     this.webAuth.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.webAuth.client.userInfo(authResult.accessToken, (err, user) => {
-          console.log(err, user)
-          localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
-          store.commit('mutateUserProfile', user)
-          this.auth0Manage = new Auth0.Management({
-            domain: AUTH_CONFIG.domain,
-            token: authResult.idToken
-          })
-        })
+        this.handleUserProfile(authResult)
         this.setSession(authResult)
       } else if (err) {
         alert(`Error: ${err.error}. Check the console for further details.`)
         console.error(err)
-        router.replace(localStorage.getItem('jgm_origin_of_desired_route'))
+        router.replace(localStorage.getItem(jgmOriginOfDesiredRoute))
       }
     })
   }
@@ -112,7 +124,7 @@ export default class AuthService {
     localStorage.setItem(jgmIdToken, authResult.idToken)
     localStorage.setItem(jgmExpiresAt, expiresAt)
     this.authNotifier.$emit('authChange', { authenticated: true })
-    router.replace(localStorage.getItem('jgm_desired_route') || Config.routerSettings.directory)
+    router.replace(localStorage.getItem(jgmDesiredRoute) || Config.routerSettings.directory)
   }
 
   logout () {

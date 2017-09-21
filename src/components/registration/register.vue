@@ -156,7 +156,10 @@
             this.showError = false
           }, 5e3)
         } else {
-          let metadata = {}
+          let metadata = {
+            userInformationCollected: 'false',
+            askedForUserInformation: '0'
+          }
           if (this.firstName.value !== '') {
             metadata.firstName = this.firstName.value
           }
@@ -216,6 +219,8 @@
         if (this.serverSuccessMessage) {
           this.showServerSuccessMessage = true
           this.username.value = ''
+          this.firstName.value = ''
+          this.lastName.value = ''
           this.email.value = ''
           this.website.value = ''
           this.password.value = ''
