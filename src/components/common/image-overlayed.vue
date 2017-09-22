@@ -3,6 +3,9 @@
     <template v-if="escaped">
       <img :src="url" class="image-overlayed"/>
     </template>
+    <template v-else-if="background">
+      <div :style="img"></div>
+    </template>
     <span v-else v-html="url" class="image-overlayed"/>
     <span v-if="overlayed" class="image-overlay"/>
   </span>
@@ -23,6 +26,20 @@
       escaped: {
         type: Boolean,
         required: true
+      },
+      background: {
+        type: Boolean,
+        required: false
+      }
+    },
+    computed: {
+      img () {
+        return {
+          backgroundImage: `url("${this.url}")`,
+          width: '100%',
+          height: '250px',
+          backgroundSize: 'cover'
+        }
       }
     }
   }

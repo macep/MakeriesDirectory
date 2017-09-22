@@ -22,7 +22,7 @@
       return {
         weekenderId: Config.pagesIDs.weekender,
         weekenderExternal: Config.routerSettings.weekenderExternal,
-        avatar: ''
+        avatar: Config.missingAvatar
       }
     },
     mounted () {

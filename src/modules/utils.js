@@ -100,6 +100,8 @@ let sortObjectProperties = (object) => {
 
 let getNthFragment = (string, nth) => string.split('/')[nth]
 
+let getSubstringBetweenSubstrings = (str, first, second) => str.match(new RegExp(first + '(.*)' + second))
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
@@ -109,5 +111,6 @@ export {
   findOccurences,
   friendlyUrl,
   sortObjectProperties,
-  getNthFragment
+  getNthFragment,
+  getSubstringBetweenSubstrings
 }

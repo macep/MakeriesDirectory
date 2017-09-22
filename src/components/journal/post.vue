@@ -1,6 +1,6 @@
 <template>
   <router-link :to="route">
-    <image-overlayed :url="img" :overlayed="true" :escaped="false"/>
+    <image-overlayed :url="img" :overlayed="true" :escaped="false" :background="true"/>
     <div class="info">
       <div class="info-wrapper">
         <div class="info-inner">

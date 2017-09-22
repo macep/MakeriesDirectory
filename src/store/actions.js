@@ -1,6 +1,6 @@
 import apiService from '../api/api.service'
 import Config from '../api/app.config'
-import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl, sortObjectProperties} from '../modules/utils'
+import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl, sortObjectProperties, getSubstringBetweenSubstrings} from '../modules/utils'
 
 let actions = {
   loadProject: ({commit}) => {
@@ -41,24 +41,27 @@ let actions = {
               return item
             }
           })
+          // TODO: this might be useless in production; it does the trick on dev tho
+          let fixImageUrl = (img) => {
+            let target = `/website/wp-content/`
+            let targetUpdated = `/wp-content/`
+            return img.indexOf(target) !== -1 ? img.replace(target, targetUpdated) : img
+          }
 
           cleanPostsCollection.forEach((post) => {
             let dateString = post.date.split('T')[0]
             let imagesArrayFromContentString = post.content.rendered.match(/<img[^>]*>/g)
-            // TODO: this might be useless in production; it does the trick on dev tho
-            let fixImageUrl = (img) => {
-              let target = `/website/wp-content/`
-              let targetUpdated = `/wp-content/`
-              return img.indexOf(target) !== -1 ? img.replace(target, targetUpdated) : img
-            }
+            let imagesArrayFromContentStringProcessed = []
+            imagesArrayFromContentString.forEach(img => {
+              let urlResulted = getSubstringBetweenSubstrings(img, `" src="`, `" alt="`)
+              imagesArrayFromContentStringProcessed.push(urlResulted !== null ? fixImageUrl(urlResulted[1]) : Config.missingImageUrl)
+            })
 
             let frontCover = () => {
               if (post.better_featured_image) {
-                let img1 = fixImageUrl(`<img src="${post.better_featured_image.source_url}"/>`)
-                return img1
+                return fixImageUrl(`<img src="${post.better_featured_image.source_url}"/>`)
               } else if (imagesArrayFromContentString.length > 0) {
-                let img2 = fixImageUrl(imagesArrayFromContentString[0])
-                return img2
+                return fixImageUrl(imagesArrayFromContentString[0])
               } else {
                 return `<img src="http://via.placeholder.com/600x600?text=Maker's Image"/>`
               }
@@ -70,7 +73,7 @@ let actions = {
               excerpt: post.excerpt.rendered,
               content: post.content.rendered,
               categories: post.categories,
-              images: imagesArrayFromContentString,
+              images: imagesArrayFromContentStringProcessed,
               featured_image: post.better_featured_image,
               front_cover: frontCover(),
               original_date: dateString,
@@ -246,7 +249,7 @@ let actions = {
         })
     })
   },
-  setIsMobile: ({commit}, payload) => {
+  setIsMobile: ({commit}) => {
     let isMobile = window.matchMedia('only screen and (max-width: 767px)').matches
     commit('mutateIsMobile', isMobile)
   },
