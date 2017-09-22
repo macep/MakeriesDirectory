@@ -208,27 +208,32 @@
     },
     methods: {
       updateUserInformation () {
-        let metadata = JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']
+        let newMetadata = JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']
         let userID = JSON.parse(localStorage.getItem('jgm_current_user')).sub
-        if (metadata.userInformationCollected === 'false') {
+        if (newMetadata.userInformationCollected === 'false') {
           if (this.showBusinessUseForm) {
             if (this.companyName.value !== '') {
-              metadata.company = this.companyName.value
+              newMetadata.company = this.companyName.value
             }
           }
           if (this.businessLocation !== Config.titles.registerAndAuthentication.chooseLocation) {
-            metadata.businessLocation = this.businessLocation
+            newMetadata.businessLocation = this.businessLocation
           }
           if (this.interest !== Config.titles.registerAndAuthentication.chooseInterest) {
-            metadata.interest = this.interest
+            newMetadata.interest = this.interest
           }
           if (this.areaOfBusiness !== Config.titles.registerAndAuthentication.chooseArea) {
-            metadata.areaOfBusiness = this.areaOfBusiness
+            newMetadata.areaOfBusiness = this.areaOfBusiness
           }
-          metadata.newsletter = this.newsletter
-          metadata.offersAndInvites = this.offersAndInvites
+          newMetadata.newsletter = this.newsletter
+          newMetadata.offersAndInvites = this.offersAndInvites
         }
-        this.auth.patchUserMetadata(userID, {user_metadata: metadata})
+
+        if (JSON.stringify(JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']) !== JSON.stringify(newMetadata)) {
+          delete newMetadata.user_metadata
+          newMetadata.userInformationCollected = 'true'
+          this.auth.patchUserMetadata(userID, {user_metadata: newMetadata})
+        }
       }
     },
     metaInfo: {
