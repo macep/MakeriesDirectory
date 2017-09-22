@@ -148,13 +148,13 @@ export default {
   },
   username: {
     length: {
-      min: 6, // sync with https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/settings
+      min: 6, // sync with https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/settings - inclusive values
       max: 18
     }
   },
   password: {
     length: {
-      min: 8, // sync with https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/security
+      min: 8, // sync with https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/security - inclusive values
       max: 20
     }
   },

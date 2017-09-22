@@ -22,7 +22,7 @@
       return {
         weekenderId: Config.pagesIDs.weekender,
         weekenderExternal: Config.routerSettings.weekenderExternal,
-        avatar: Config.missingAvatar
+        avatar: ''
       }
     },
     mounted () {
@@ -32,6 +32,15 @@
     },
     computed: {
       ...mapGetters(['mainMenu'])
+    },
+    watch: {
+      authenticated () {
+        if (this.authenticated) {
+          setTimeout(() => {
+            this.avatar = JSON.parse(localStorage.getItem('jgm_current_user')).picture
+          }, 500)
+        }
+      }
     }
   }
 </script>

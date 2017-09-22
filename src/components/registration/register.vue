@@ -185,7 +185,7 @@
     watch: {
       username: {
         handler () {
-          this.username.valid = this.username.value.length !== '' && this.username.value.length > 5 && this.username.value.length < 31
+          this.username.valid = this.username.value.length !== '' && this.username.value.length >= Config.username.length.min && this.username.value.length <= Config.username.length.max
         },
         deep: true
       },

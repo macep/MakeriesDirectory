@@ -121,13 +121,13 @@
     watch: {
       username: {
         handler () {
-          this.username.valid = this.username.value.length !== '' && this.username.value.length > 5 && this.username.value.length < 31
+          this.username.valid = this.username.value.length !== '' && this.username.value.length >= Config.username.length.min && this.username.value.length <= Config.username.length.max
         },
         deep: true
       },
       password: {
         handler () {
-          this.password.valid = this.password.value.length > 8 && this.password.value.length < 25
+          this.password.valid = this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
         },
         deep: true
       },

@@ -209,6 +209,7 @@
     },
     mounted () {
       const currentUser = JSON.parse(localStorage.getItem(jgmCurrentUser))
+      console.log(currentUser)
       this.currentUserName = currentUser.nickname || currentUser.name
     },
     methods: {
