@@ -29,9 +29,9 @@ export default class AuthService {
     this.signup = this.signup.bind(this)
     this.login = this.login.bind(this)
     this.socialLogin = this.socialLogin.bind(this)
+    this.handleSocialAuthentication = this.handleSocialAuthentication.bind(this)
+    this.verifyUserProfile = this.verifyUserProfile.bind(this)
     this.updateUserProfile = this.updateUserProfile.bind(this)
-    this.handleUserProfile = this.handleUserProfile.bind(this)
-    this.handleAuthentication = this.handleAuthentication.bind(this)
     this.setSession = this.setSession.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
     this.logout = this.logout.bind(this)
@@ -44,11 +44,10 @@ export default class AuthService {
       email,
       password,
       user_metadata: userMetadata
-    }, (err, result) => {
+    }, (err) => {
       if (err) {
         store.commit('mutateServerErrorMessage', `${err.original.response.body.statusCode}: ${err.original.response.body.message || err.original.response.body.description}`)
       } else {
-        console.log(result)
         store.commit('mutateServerSuccessMessage', Config.titles.registerAndAuthentication.userCreatedMessage)
       }
     })
@@ -64,17 +63,50 @@ export default class AuthService {
       if (err) {
         store.commit('mutateServerErrorMessage', `${err.statusCode} ${err.code}: ${err.description}`)
       } else {
-        this.handleUserProfile(authResult)
-        this.setSession(authResult)
+        this.verifyUserProfile(authResult)
       }
     })
   }
 
   socialLogin (identifier) {
-    let authResult = {}
-    authResult.accessToken = localStorage.getItem(jgmAccessToken)
-    this.webAuth.authorize({connection: identifier})
-    this.handleUserProfile(authResult)
+    this.webAuth.authorize({connection: identifier}, (err, result) => console.error(err || result))
+  }
+
+  handleSocialAuthentication () {
+    this.webAuth.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        this.verifyUserProfile(authResult)
+      } else if (err) {
+        alert(`Error: ${err.error}. Check the console for further details.`)
+        console.error(err)
+        router.replace(localStorage.getItem(jgmOriginOfDesiredRoute))
+      }
+    })
+  }
+
+  verifyUserProfile (authResult) {
+    this.webAuth.client.userInfo(authResult.accessToken, (err, user) => {
+      if (err) {
+        console.error(err)
+      }
+      this.setSession(authResult)
+      let userMetadata = user[Config.routerSettings.userMetadataRetrievalUrl]
+      if (!userMetadata) {
+        this.updateUserProfile(user.sub, {user_metadata: {
+          userInformationCollected: 'false',
+          askedForUserInformation: '0'
+        }})
+        router.replace('/user-information')
+      } else if (userMetadata.userInformationCollected === 'false') {
+        let asked = +userMetadata.askedForUserInformation
+        asked++
+        userMetadata.askedForUserInformation = asked.toString()
+        this.updateUserProfile(user.sub, {user_metadata: userMetadata})
+        router.replace('/user-information')
+      } else {
+        localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
+      }
+    })
   }
 
   updateUserProfile (userId, userProfile) {
@@ -82,44 +114,9 @@ export default class AuthService {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem(jgmIdToken)
+        'Authorization': `Bearer ${localStorage.getItem(jgmIdToken)}`
       }
-    }).then(response => console.log(response))
-  }
-
-  handleUserProfile (authResult) {
-    console.log('handleUserProfile()', authResult)
-    this.webAuth.client.userInfo(authResult.accessToken, (err, user) => {
-      console.log('userInfo()', user)
-      if (err) {
-        console.error(err)
-      }
-      let userMetadata = user['https://jgm:eu:auth0:com/user_metadata']
-      if (userMetadata === 'undefined') {
-        router.replace('/user-information')
-      }
-      if (userMetadata.userInformationCollected === 'false') {
-        let asked = +userMetadata.askedForUserInformation
-        asked++
-        userMetadata.askedForUserInformation = asked.toString()
-        this.updateUserProfile(user.sub, {user_metadata: userMetadata})
-        router.replace('/user-information')
-      }
-      localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
-    })
-  }
-
-  handleAuthentication () {
-    this.webAuth.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.handleUserProfile(authResult)
-        this.setSession(authResult)
-      } else if (err) {
-        alert(`Error: ${err.error}. Check the console for further details.`)
-        console.error(err)
-        router.replace(localStorage.getItem(jgmOriginOfDesiredRoute))
-      }
-    })
+    }).then(response => localStorage.setItem(jgmCurrentUser, JSON.stringify(response.data)))
   }
 
   setSession (authResult) {
@@ -141,7 +138,6 @@ export default class AuthService {
     localStorage.removeItem(jgmIdToken)
     localStorage.removeItem(jgmExpiresAt)
     localStorage.removeItem(jgmCurrentUser)
-    this.userProfile = null
     this.authNotifier.$emit('authChange', false)
     router.replace(router.history.current.matched[0].path === `${Config.routerSettings.makerDetail}:id/:page` ? '/directory' : '/')
   }

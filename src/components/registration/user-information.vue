@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
       <div class="row">
         <div class="col-sm-12 text-center xlg-padding-bottom">
-          <h3>{{salutation}}, {{currentUser.name}}</h3>
+          <h3>{{salutation}}, {{currentUserName}}</h3>
           <p>{{thanksForRegistering}}</p>
           <hr>
           <h3>{{businessOrPersonalUse}}</h3>
@@ -152,6 +152,10 @@
   import Config from '../../api/app.config'
   import countries from '../../modules/countries'
 
+  const jgmCurrentUser = 'jgm_current_user'
+  const jgmOriginOfDesiredRoute = 'jgm_origin_of_desired_route'
+  const jgmDesiredRoute = 'jgm_desired_route'
+
   export default {
     name: 'user-information',
     components: {tooltip, modal},
@@ -159,10 +163,7 @@
     data () {
       return {
         salutation: Config.titles.registerAndAuthentication.salutation,
-        currentUser: {
-          name: 'Cristi',
-          id: 7
-        },
+        currentUserName: 'JGM User',
 
         thanksForRegistering: Config.titles.registerAndAuthentication.thanksForRegistering,
         businessOrPersonalUse: Config.titles.registerAndAuthentication.businessOrPersonalUse,
@@ -206,10 +207,17 @@
         }
       }
     },
+    mounted () {
+      const currentUser = JSON.parse(localStorage.getItem(jgmCurrentUser))
+      this.currentUserName = currentUser.nickname || currentUser.name
+    },
     methods: {
       updateUserInformation (scope) {
-        let newMetadata = JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']
-        let userID = JSON.parse(localStorage.getItem('jgm_current_user')).sub
+        const currentUser = Object.assign({}, JSON.parse(localStorage.getItem(jgmCurrentUser)))
+        const originOfDesiredRoute = localStorage.getItem(jgmOriginOfDesiredRoute)
+        const desiredRoute = localStorage.getItem(jgmDesiredRoute)
+        let newMetadata = currentUser.user_metadata
+        let userID = currentUser.sub || currentUser.user_id
 
         if (newMetadata.userInformationCollected === 'false') {
           if (this.showBusinessUseForm) {
@@ -234,9 +242,10 @@
           newMetadata.offersAndInvites = this.offersAndInvites
         }
 
-        if (JSON.stringify(JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']) !== JSON.stringify(newMetadata)) {
+        if (JSON.stringify(JSON.parse(localStorage.getItem(jgmCurrentUser)).user_metadata) !== JSON.stringify(newMetadata)) {
+          this.auth.updateUserProfile(userID, {user_metadata: newMetadata}, (err, result) => console.log(err, result))
           newMetadata.userInformationCollected = 'true'
-          this.auth.updateUserProfile(userID, {user_metadata: newMetadata})
+          this.$router.push({path: desiredRoute !== '' ? desiredRoute : originOfDesiredRoute})
         }
 
         if (scope === 'business') {

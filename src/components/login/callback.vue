@@ -10,7 +10,7 @@
     props: ['auth'],
     components: {activityIndicator},
     mounted () {
-      this.auth.handleAuthentication()
+      this.auth.handleSocialAuthentication()
       this.$router.push(localStorage.getItem('jgm_desired_route') || '/directory')
     }
   }

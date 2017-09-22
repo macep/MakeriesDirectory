@@ -20,6 +20,7 @@ export default {
   genericCachingTime: 864e5,
   recentPostsNumber: 3,
   routerSettings: {
+    userMetadataRetrievalUrl: 'https://jgm:eu:auth0:com/user_metadata', // sync this with https://manage.auth0.com/#/rules/rul_CQ7VKCGBHteUTP07
     about: '/about/',
     directory: '/directory/',
     directoryDisabled: '/directory-draft-makers/',
@@ -147,13 +148,13 @@ export default {
   },
   username: {
     length: {
-      min: 6, // this will reflect https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/settings
+      min: 6, // sync with https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/settings
       max: 18
     }
   },
   password: {
     length: {
-      min: 8, // this will reflect https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/security
+      min: 8, // sync with https://manage.auth0.com/#/connections/database/con_0OrF26QugqaycgOY/security
       max: 20
     }
   },
