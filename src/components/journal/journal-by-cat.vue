@@ -9,7 +9,7 @@
             <h3 class="posts-filter-title">{{categoryTitle}}</h3>
           </div>
           <div class="col-xs-6 post-item" v-for="post in categoryData" :key="post.id">
-            <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
+            <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date" :background="true"/>
           </div>
         </div>
       </div>

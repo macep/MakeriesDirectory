@@ -28,7 +28,7 @@
               <h3 class="recent-posts-title">{{youMightAlsoLike}}</h3>
             </div>
             <div class="col-xs-12 post-item" v-for="post in lastRecentPosts" :key="post.id">
-              <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date"/>
+              <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date" :forceEscaped="true" :background="false"/>
             </div>
           </div>
         </div>

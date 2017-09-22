@@ -1,6 +1,6 @@
 <template>
   <router-link :to="route">
-    <image-overlayed :url="img" :overlayed="true" :escaped="false" :background="true"/>
+    <image-overlayed :url="img" :overlayed="true" :escaped="forceEscaped || false" :background="background"/>
     <div class="info">
       <div class="info-wrapper">
         <div class="info-inner">
@@ -36,6 +36,14 @@
       date: {
         type: String,
         required: true
+      },
+      background: {
+        type: Boolean,
+        required: false
+      },
+      forceEscaped: {
+        type: Boolean,
+        required: false
       }
     }
   }
