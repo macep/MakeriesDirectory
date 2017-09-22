@@ -17,18 +17,6 @@ export default class AuthService {
   authenticated = this.isAuthenticated()
   authNotifier = new Vue()
 
-  constructor () {
-    this.login = this.login.bind(this)
-    this.socialLogin = this.socialLogin.bind(this)
-    this.signup = this.signup.bind(this)
-    this.handleUserProfile = this.handleUserProfile.bind(this)
-    this.patchUserMetadata = this.patchUserMetadata.bind(this)
-    this.setSession = this.setSession.bind(this)
-    this.handleAuthentication = this.handleAuthentication.bind(this)
-    this.isAuthenticated = this.isAuthenticated.bind(this)
-    this.logout = this.logout.bind(this)
-  }
-
   webAuth = new Auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
     clientID: AUTH_CONFIG.clientID,
@@ -37,7 +25,34 @@ export default class AuthService {
     scope: AUTH_CONFIG.scope
   })
 
-  auth0Manage = {}
+  constructor () {
+    this.signup = this.signup.bind(this)
+    this.login = this.login.bind(this)
+    this.socialLogin = this.socialLogin.bind(this)
+    this.updateUserProfile = this.updateUserProfile.bind(this)
+    this.handleUserProfile = this.handleUserProfile.bind(this)
+    this.handleAuthentication = this.handleAuthentication.bind(this)
+    this.setSession = this.setSession.bind(this)
+    this.isAuthenticated = this.isAuthenticated.bind(this)
+    this.logout = this.logout.bind(this)
+  }
+
+  signup (username, email, password, userMetadata) {
+    this.webAuth.signup({
+      connection: AUTH_CONFIG.connection,
+      username,
+      email,
+      password,
+      user_metadata: userMetadata
+    }, (err, result) => {
+      if (err) {
+        store.commit('mutateServerErrorMessage', `${err.original.response.body.statusCode}: ${err.original.response.body.message || err.original.response.body.description}`)
+      } else {
+        console.log(result)
+        store.commit('mutateServerSuccessMessage', Config.titles.registerAndAuthentication.userCreatedMessage)
+      }
+    })
+  }
 
   login (username, password) {
     this.webAuth.client.login({
@@ -62,29 +77,23 @@ export default class AuthService {
     this.handleUserProfile(authResult)
   }
 
-  signup (username, email, password, userMetadata) {
-    this.webAuth.signup({
-      connection: AUTH_CONFIG.connection,
-      username,
-      email,
-      password,
-      user_metadata: userMetadata
-    }, (err) => {
-      if (err) {
-        store.commit('mutateServerErrorMessage', `${err.original.response.body.statusCode}: ${err.original.response.body.message || err.original.response.body.description}`)
-      } else {
-        store.commit('mutateServerSuccessMessage', Config.titles.registerAndAuthentication.userCreatedMessage)
+  updateUserProfile (userId, userProfile) {
+    request.patch(`https://${AUTH_CONFIG.domain}/api/v2/users/${userId}`, userProfile, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem(jgmIdToken)
       }
-    })
+    }).then(response => console.log(response))
   }
 
   handleUserProfile (authResult) {
+    console.log('handleUserProfile()', authResult)
     this.webAuth.client.userInfo(authResult.accessToken, (err, user) => {
+      console.log('userInfo()', user)
       if (err) {
         console.error(err)
       }
-      localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
-      store.commit('mutateUserProfile', user)
       let userMetadata = user['https://jgm:eu:auth0:com/user_metadata']
       if (userMetadata === 'undefined') {
         router.replace('/user-information')
@@ -93,21 +102,11 @@ export default class AuthService {
         let asked = +userMetadata.askedForUserInformation
         asked++
         userMetadata.askedForUserInformation = asked.toString()
-        this.patchUserMetadata(user.sub, userMetadata)
+        this.updateUserProfile(user.sub, {user_metadata: userMetadata})
         router.replace('/user-information')
       }
+      localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
     })
-  }
-
-  patchUserMetadata (userId, userMetadata) {
-    let auth0UserUrl = 'https://' + AUTH_CONFIG.domain + '/api/v2/users/' + userId
-    request.patch(auth0UserUrl, { user_metadata: userMetadata }, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem(jgmIdToken)
-      }
-    }).then(response => console.log(response))
   }
 
   handleAuthentication () {
@@ -132,6 +131,11 @@ export default class AuthService {
     router.replace(localStorage.getItem(jgmDesiredRoute) || Config.routerSettings.directory)
   }
 
+  isAuthenticated () {
+    let expiresAt = JSON.parse(localStorage.getItem(jgmExpiresAt))
+    return new Date().getTime() < expiresAt
+  }
+
   logout () {
     localStorage.removeItem(jgmAccessToken)
     localStorage.removeItem(jgmIdToken)
@@ -140,10 +144,5 @@ export default class AuthService {
     this.userProfile = null
     this.authNotifier.$emit('authChange', false)
     router.replace(router.history.current.matched[0].path === `${Config.routerSettings.makerDetail}:id/:page` ? '/directory' : '/')
-  }
-
-  isAuthenticated () {
-    let expiresAt = JSON.parse(localStorage.getItem(jgmExpiresAt))
-    return new Date().getTime() < expiresAt
   }
 }

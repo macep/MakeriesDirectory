@@ -1,10 +1,4 @@
 let mutations = {
-  mutateUserInformationMissing: (state, userInformationMissing) => {
-    state.userInformationMissing = userInformationMissing
-  },
-  mutateUserProfile: (state, userProfile) => {
-    state.userProfile = userProfile
-  },
   mutateServerErrorMessage: (state, serverErrorMessage) => {
     state.serverErrorMessage = serverErrorMessage
   },

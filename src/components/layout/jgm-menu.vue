@@ -28,21 +28,10 @@
     mounted () {
       if (localStorage.getItem('jgm_current_user')) {
         this.avatar = JSON.parse(localStorage.getItem('jgm_current_user')).picture
-        this.$store.commit('mutateUserProfile', JSON.parse(localStorage.getItem('jgm_current_user')))
       }
     },
     computed: {
-      ...mapGetters(['mainMenu', 'userProfile'])
-    },
-    watch: {
-      authenticated () {
-        if (this.authenticated) {
-          this.$store.commit('mutateUserProfile', localStorage.getItem('jgm_current_user'))
-        }
-      },
-      userProfile () {
-        this.avatar = this.userProfile.picture
-      }
+      ...mapGetters(['mainMenu'])
     }
   }
 </script>

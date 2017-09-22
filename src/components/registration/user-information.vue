@@ -77,7 +77,7 @@
             </div>
             <div slot="modal-footer" class="modal-footer">
               <button type="button" class="btn btn-default" @click="showPersonalUseForm = false">{{quitDontSave}}</button>
-              <button type="button" class="btn btn-success" @click="updateUserInformation">{{save}}</button>
+              <button type="button" class="btn btn-success" @click="updateUserInformation('personal')">{{save}}</button>
             </div>
           </modal>
 
@@ -138,7 +138,7 @@
             </div>
             <div slot="modal-footer" class="modal-footer">
               <button type="button" class="btn btn-default" @click="showBusinessUseForm = false">{{quitDontSave}}</button>
-              <button type="button" class="btn btn-success" @click="updateUserInformation">{{save}}</button>
+              <button type="button" class="btn btn-success" @click="updateUserInformation('business')">{{save}}</button>
             </div>
           </modal>
         </div>
@@ -207,32 +207,42 @@
       }
     },
     methods: {
-      updateUserInformation () {
+      updateUserInformation (scope) {
         let newMetadata = JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']
         let userID = JSON.parse(localStorage.getItem('jgm_current_user')).sub
+
         if (newMetadata.userInformationCollected === 'false') {
           if (this.showBusinessUseForm) {
             if (this.companyName.value !== '') {
               newMetadata.company = this.companyName.value
             }
           }
+
           if (this.businessLocation !== Config.titles.registerAndAuthentication.chooseLocation) {
             newMetadata.businessLocation = this.businessLocation
           }
+
           if (this.interest !== Config.titles.registerAndAuthentication.chooseInterest) {
             newMetadata.interest = this.interest
           }
+
           if (this.areaOfBusiness !== Config.titles.registerAndAuthentication.chooseArea) {
             newMetadata.areaOfBusiness = this.areaOfBusiness
           }
+
           newMetadata.newsletter = this.newsletter
           newMetadata.offersAndInvites = this.offersAndInvites
         }
 
         if (JSON.stringify(JSON.parse(localStorage.getItem('jgm_current_user'))['https://jgm:eu:auth0:com/user_metadata']) !== JSON.stringify(newMetadata)) {
-          delete newMetadata.user_metadata
           newMetadata.userInformationCollected = 'true'
-          this.auth.patchUserMetadata(userID, {user_metadata: newMetadata})
+          this.auth.updateUserProfile(userID, {user_metadata: newMetadata})
+        }
+
+        if (scope === 'business') {
+          this.showBusinessUseForm = false
+        } else {
+          this.showPersonalUseForm = false
         }
       }
     },

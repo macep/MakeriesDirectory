@@ -1,6 +1,4 @@
 let getters = {
-  userInformationMissing: state => state.userInformationMissing,
-  userProfile: state => state.userProfile,
   serverErrorMessage: state => state.serverErrorMessage,
   serverSuccessMessage: state => state.serverSuccessMessage,
   hostName: state => state.hostName,

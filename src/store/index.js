@@ -9,8 +9,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInformationMissing: true,
-    userProfile: {},
     serverErrorMessage: false,
     serverSuccessMessage: false,
     hostName: window.location,
