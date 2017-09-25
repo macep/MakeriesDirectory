@@ -13,6 +13,7 @@ First off, you'll need to install the base environment. The rest of it is on Web
 ## Repository
 ##### Clone the repository for first time. It will create a directory containing the project in the current directory
   `git clone git@github.com:macep/MakeriesDirectory.git` SSH way
+  
   `git clone https://github.com/macep/MakeriesDirectory.git` HTTPS way
   
 ##### Update the repo just before every time you want to make changes (recommended)
@@ -20,7 +21,9 @@ First off, you'll need to install the base environment. The rest of it is on Web
 
 ##### Save made changes and update the remote repo as well
   `git add .` from project root - adds all changes to the stage for a new commit
+  
   `git commit -am "custom message here explaining the changes""` saves the changes
+  
   `git push` pushes the new commit/s to the remote origin
 
 ## Install dependencies
