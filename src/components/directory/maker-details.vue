@@ -63,7 +63,7 @@
         <div v-if="maker.telephone || maker.email || maker.address" class="list-item">
           <h6>{{contactDetails}}</h6>
           <div class="item">
-            <div v-if="maker.email"><a :mail='maker.mail' href="'mailto:' + maker.email">{{maker.email}}</a></div>
+            <div v-if="maker.email"><a :mail='maker.mail' :href="'mailto:' + maker.email">{{maker.email}}</a></div>
             <div v-if="maker.telephone">{{maker.telephone}}</div>
             <div v-if="maker.address">{{maker.address}}</div>
           </div>
