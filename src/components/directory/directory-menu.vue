@@ -88,6 +88,7 @@
       },
       showAllSuppliersOn () {
         this.$store.commit('mutateShowAllSuppliers', true)
+        this.$router.push('/directory')
       },
       closeMobileMenu () {
         if (this.isMobile) {
