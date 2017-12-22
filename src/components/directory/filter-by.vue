@@ -7,7 +7,7 @@
       <div class="row no-gutter">
         <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
           <h3 class="no-margin">
-            {{currentFilterType}}: {{currentFilterTypeValuePretty}}
+            {{currentFilterTypeValuePretty}}
           </h3>
         </div>
         <div class="col-sm-2 col-md-1 pull-left view-type-wrapper">
