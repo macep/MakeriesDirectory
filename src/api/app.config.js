@@ -110,7 +110,7 @@ export default {
       lastName: 'Last Name',
       website: 'Website',
       password: 'Password',
-      password2: 'Password Again',
+      password2: 'Verify Password',
       password2placeholder: 'Re-type password',
       userRole: 'User Role',
       keepPass: 'Remember my password',

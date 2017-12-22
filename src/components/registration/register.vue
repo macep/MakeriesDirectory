@@ -59,6 +59,16 @@
             <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
           </div>
         </div>
+        <div class="form-group required" :class="{'has-error': !password2.valid && password2.value !== ''}">
+          <label for="input-password" class="col-sm-4 control-label">{{passwordAgainLabel}}</label>
+          <div class="col-sm-8">
+            <template v-if="!formCanPass && password2.value !== ''">
+              <i class="icon-close is-invalid" v-if="!password2.valid"/>
+              <i class="icon-done is-valid" v-else/>
+            </template>
+            <input type="password" class="form-control" id="input-password2" v-model="password2.value" :placeholder="passwordAgainPlaceholderLabel">
+          </div>
+        </div>
         <transition name="slide-errors" mode="out-in">
           <div v-if="showError" class="form-group invalid-form has-error">
             <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
@@ -133,6 +143,7 @@
         lastName: {value: '', required: false, valid: true},
         website: {value: '', required: false, valid: true},
         password: {value: '', required: true, valid: false},
+        password2: {value: '', required: true, valid: false},
         keepassa: {value: true, required: false, valid: true},
         showError: false,
         showServerErrorMessage: false,
@@ -142,10 +153,10 @@
     computed: {
       ...mapGetters(['userInformationMissing', 'serverErrorMessage', 'serverSuccessMessage']),
       formCanPass () {
-        return this.username.valid && this.email.valid && this.password.valid
+        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid
       },
       formIsValid () {
-        return this.username.valid && this.email.valid && this.password.valid && this.website.valid
+        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.website.valid
       }
     },
     methods: {
@@ -226,6 +237,12 @@
       password: {
         handler () {
           this.password.valid = this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
+        },
+        deep: true
+      },
+      password2: {
+        handler () {
+          this.password2.valid = this.password.value === this.password2.value
         },
         deep: true
       },
