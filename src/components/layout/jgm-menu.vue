@@ -2,7 +2,7 @@
   <nav>
     <span v-for="link in mainMenu" :key="link.id" class="nav-item">
       <a v-if="link.object_id === weekenderId" :href="weekenderExternal" target="_new">{{link.title}}</a>
-      <router-link v-else-if="link.object_id === directory" :to="directoryRoute">
+      <router-link v-else-if="link.object_id === directory" :to="directoryRoute" class="featured-makers">
         <div @click="directoryFeatured">{{link.title}}</div>
       </router-link>
       <router-link v-else :to="link.url">{{link.title}}</router-link>

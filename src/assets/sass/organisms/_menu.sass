@@ -1,3 +1,10 @@
+%main-link-spacing
+  @extend %link-hoverings
+  @extend .md-padding-top
+  @extend .xlg-padding-right
+  @extend .md-padding-bottom
+  @extend .xlg-padding-left
+
 nav
   @extend .text-center
   @extend .xlg-padding-bottom
@@ -45,16 +52,18 @@ nav
             border: 1px solid transparent
 
     a
-      @extend %link-hoverings
-      @extend .md-padding-top
-      @extend .xlg-padding-right
-      @extend .md-padding-bottom
-      @extend .xlg-padding-left
+      @extend %main-link-spacing
       display: block
       border: 1px dashed transparent
 
       &.router-link-exact-active
         border: 1px solid rgba($dark-turqoise, 1/2)
+
+      &.featured-makers
+        @extend .no-padding
+
+        div
+          @extend %main-link-spacing
 
     &:hover
       background: $dark-turqoise
