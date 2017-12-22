@@ -3,9 +3,9 @@
     <div class="panel panel-default">
       <div class="panel-heading" id="heading-all">
         <v-touch @tap="closeMobileMenu" tag="h4" class="panel-title">
-          <router-link :to="searchAllRoute">
+          <v-touch tag="a" @tap="showAllSuppliersOn">
             {{searchAllTitle}}
-          </router-link>
+          </v-touch>
         </v-touch>
       </div>
     </div>
@@ -54,15 +54,12 @@
       this.loadDirectory()
     },
     computed: {
-      ...mapGetters(['directoryFilterData', 'directory', 'isMobile']),
+      ...mapGetters(['directoryFilterData', 'directory', 'isMobile', 'showAllSuppliers']),
       directoryFilterDataCollection () {
         return this.directoryFilterData
       },
       searchAllTitle () {
         return `${Config.titles.searchAll} ${this.directory.length} ${Config.titles.suppliers}`
-      },
-      searchAllRoute () {
-        return Config.routerSettings.directory
       },
       azTitle () {
         return Config.titles.directory.directoryAZ
@@ -88,6 +85,9 @@
         } else {
           el.classList.add('in')
         }
+      },
+      showAllSuppliersOn () {
+        this.$store.commit('mutateShowAllSuppliers', true)
       },
       closeMobileMenu () {
         if (this.isMobile) {

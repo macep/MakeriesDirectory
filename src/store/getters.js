@@ -16,6 +16,7 @@ let getters = {
   sliderPosts: state => state.sliderPosts,
   bannerPosts: state => state.bannerPosts,
   directory: state => state.directory,
+  showAllSuppliers: state => state.showAllSuppliers,
   directoryDisabled: state => state.directoryDisabled,
   directoryFilterData: state => state.directoryFilterData,
   directoryAZ: state => state.directoryAZ,

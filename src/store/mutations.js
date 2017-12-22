@@ -47,6 +47,9 @@ let mutations = {
   mutateDirectory: (state, directory) => {
     state.directory = directory
   },
+  mutateShowAllSuppliers: (state, showAllSuppliers) => {
+    state.showAllSuppliers = showAllSuppliers
+  },
   mutateDirectoryDisabled: (state, directoryDisabled) => {
     state.directoryDisabled = directoryDisabled
   },

@@ -23,6 +23,7 @@ export default {
     userMetadataRetrievalUrl: 'https://jgm:eu:auth0:com/user_metadata', // sync this with https://manage.auth0.com/#/rules/rul_CQ7VKCGBHteUTP07
     about: '/about/',
     directory: '/directory/',
+    directoryAll: '/directory/all',
     directoryDisabled: '/directory-draft-makers/',
     filterDirectory: '/directory/filterBy/',
     filterBy: {
@@ -144,7 +145,7 @@ export default {
       save: 'Save',
       quitDontSave: 'Quit without saving'
     },
-    searchPlaceholder: 'Search supplier, products, services, region, tags...'
+    searchPlaceholder: 'Search all suppliers, products, services, regions, tags…'
   },
   username: {
     length: {

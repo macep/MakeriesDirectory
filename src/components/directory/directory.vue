@@ -10,7 +10,7 @@
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
               <div id="search-engine">
                 <input type="search" v-model="term" :placeholder="searchPlaceholder">
-                <span class="search-results" v-if="term.length > 0">{{methodResults.length}} search results</span>
+                <span class="search-results" v-if="term.length > 0">{{methodResults.length}} Search results</span>
               </div>
             </div>
             <div class="col-sm-2 col-md-1 pull-left view-type-wrapper lg-margin-bottom">
@@ -19,7 +19,12 @@
           </div>
         </div>
         <div class="col-xs-12">
-          <makeries-list :makeries="term != '' ? methodResults : directoryEnabled"/>
+          <h1 v-if="term != ''">Search results</h1>
+          <h1 v-else-if="showAllSuppliers">All suppliers {{directoryEnabled.length}}</h1>
+          <h1 v-else>Featured Suppliers</h1>
+        </div>
+        <div class="col-xs-12">
+          <makeries-list :makeries="term != '' ? methodResults : showAllSuppliers ? directoryEnabled : directoryFeatured"/>
         </div>
       </div>
     </div>
@@ -52,9 +57,18 @@
     },
     components: {makeriesMenu, makeriesList, viewType},
     computed: {
-      ...mapGetters(['directory', 'viewType', 'isMobile']),
+      ...mapGetters(['directory', 'viewType', 'isMobile', 'showAllSuppliers']),
       directoryEnabled () {
         return this.directory.filter(maker => maker.enabled)
+      },
+      directoryFeatured () {
+        let featured = this.directory.filter(maker => {
+          return maker.featured
+        })
+
+        return featured.sort((a, b) => {
+          return new Date(b.created) - new Date(a.created)
+        })
       }
     },
     metaInfo () {
