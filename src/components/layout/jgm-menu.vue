@@ -9,7 +9,11 @@
     </span>
     <span class="nav-item auth-nav-item" v-if="authenticated">
       <img :src="avatar" id="profile-avatar">
-      <a class="logged-out" href="#" @click.prevent="auth.logout">logout</a>
+      <a class="logged-in" href="#" @click.prevent="auth.logout">logout</a>
+    </span>
+    <span class="nav-item auth-nav-item" v-if="!authenticated">
+      <router-link class="logged-out" to="/login">login</router-link>
+      <small><router-link to="/register">or register</router-link></small>
     </span>
   </nav>
 </template>

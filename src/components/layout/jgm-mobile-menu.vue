@@ -18,6 +18,10 @@
       <v-touch @tap="closeAndSignOut" v-if="authenticated">
         <a class="mobile-nav-item auth-nav-item logged-in" href="#" @click.prevent="auth.logout">logout</a>
       </v-touch>
+      <span class="nav-item auth-nav-item" v-if="!authenticated">
+        <router-link class="logged-out" to="/login">login</router-link>
+        <small><router-link to="/register">or register</router-link></small>
+      </span>
     </div>
   </nav>
 </template>

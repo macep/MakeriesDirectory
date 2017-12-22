@@ -25,10 +25,24 @@ nav
           top: calc(50% - 75px)
 
       .logged-in
-        color: $brand-primary
+        color: $brand-danger
 
       .logged-out
-        color: $brand-danger
+        color: $brand-primary
+
+      small
+        @extend .text-right
+        position: absolute
+        top: 4 * $md-space
+        right: $sm-space
+        font-size: 11px
+
+        a
+          @extend .no-padding
+          color: $gray-light
+
+          &.router-link-exact-active.is-active
+            border: 1px solid transparent
 
     a
       @extend %link-hoverings
