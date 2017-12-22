@@ -2,6 +2,9 @@
   <nav>
     <span v-for="link in mainMenu" :key="link.id" class="nav-item">
       <a v-if="link.object_id === weekenderId" :href="weekenderExternal" target="_new">{{link.title}}</a>
+      <router-link v-else-if="link.object_id === directory" :to="directoryRoute">
+        <div @click="directoryFeatured">{{link.title}}</div>
+      </router-link>
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
     <span class="nav-item auth-nav-item" v-if="authenticated">
@@ -21,6 +24,8 @@
     data () {
       return {
         weekenderId: Config.pagesIDs.weekender,
+        directory: Config.pagesIDs.directory,
+        directoryRoute: Config.routerSettings.directory,
         weekenderExternal: Config.routerSettings.weekenderExternal,
         avatar: Config.missingAvatar
       }
@@ -32,6 +37,11 @@
     },
     computed: {
       ...mapGetters(['mainMenu'])
+    },
+    methods: {
+      directoryFeatured () {
+        this.$store.commit('mutateShowAllSuppliers', false)
+      }
     },
     watch: {
       authenticated () {
