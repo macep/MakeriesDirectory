@@ -112,7 +112,7 @@
 <script>
   import {mapGetters, mapActions} from 'vuex'
   import Config from '../../api/app.config'
-  import request from 'axios'
+  import cookieService from '../../api/cookie.service'
 
   export default {
     name: 'registration',
@@ -183,26 +183,9 @@
           }
           this.auth.signup(this.username.value, this.email.value, this.password.value, metadata)
 
-          request({
-            method: 'POST',
-            url: 'https://us17.api.mailchimp.com/3.0/lists/44801b695f/members/',
-            headers: {
-              'Authorization': 'anystring:a48b6b7a069e205acac0764976a81e67-us17',
-              'Content-Type': 'application/json'
-            },
-            data: {
-              'email_address': this.email.value,
-              'status': 'subscribed',
-              'merge_fields': {
-                'FNAME': this.firstName.value,
-                'LNAME': this.lastName.value
-              }
-            }
-          }).then((response) => {
-            console.log(response)
-          }).catch((error) => {
-            console.log(error)
-          })
+          let cookieValue = JSON.stringify(Object.assign({username: this.username.value}, metadata))
+          console.log(cookieValue)
+          cookieService.setCookie(this.email.value, cookieValue)
         }
       },
       closeServerMessage (result) {
@@ -214,6 +197,7 @@
           this.$store.commit('mutateServerSuccessMessage', false)
         }
       }
+      // {"username":"cristiii","userInformationCollected":"false","askedForUserInformation":"0","firstName":"cristii","lastName":"maghiar"}
     },
     watch: {
       username: {

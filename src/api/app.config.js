@@ -18,6 +18,7 @@ export default {
   analyticsPath: '//www.google-analytics.com/analytics.js',
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
   genericCachingTime: 864e5,
+  verificationURLLifetime: 5, // time [days] for the verification URL Lifetime, sync with https://manage.auth0.com/#/emails -- URL Lifetime
   recentPostsNumber: 3,
   routerSettings: {
     userMetadataRetrievalUrl: 'https://jgm:eu:auth0:com/user_metadata', // sync this with https://manage.auth0.com/#/rules/rul_CQ7VKCGBHteUTP07
@@ -43,6 +44,7 @@ export default {
     weekenderExternal: 'http://www.justgotmadeweekender.com/',
     privacy: '/privacy-policy/',
     disclaimer: '/disclaimer/',
+    userActivation: '/user-activation/',
     contact: '/contact/',
     newsletter: 'http://eepurl.com/lobiL'
   },
@@ -60,6 +62,11 @@ export default {
     weekender: 'Weekender',
     privacyPolicy: 'Privacy Policy',
     disclaimer: 'Disclaimer',
+    userActivationTitle: 'User Activation',
+    userActivationSuccessMessage: 'Your email was verified.',
+    userActivationSuccessMessage2: 'Now you\'re redirected to the login page where you can authenticate using your newly created credentials.',
+    userActivationFailureMessage: 'User activation failed.',
+    userActivationFailureMessage2: 'Please try to create a valid user.',
     contact: 'Contact',
     searchAll: 'Search all',
     listAll: 'List all',
