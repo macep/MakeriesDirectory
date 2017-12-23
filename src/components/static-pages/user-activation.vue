@@ -18,7 +18,6 @@
 <script>
   import Config from '../../api/app.config'
   import cookieService from '../../api/cookie.service'
-  import Mailchimp from '../../api/mailchimp.service'
 
   export default {
     name: 'user-activation-page',
@@ -43,7 +42,6 @@
         let userInfo = cookieService.getCookie(userEmail)
         userInfo = cookieService.decodeCookieValue(userInfo)
 
-        const mailchimp = new Mailchimp('anystring', 'a48b6b7a069e205acac0764976a81e67-us17')
         const listID = '44801b695f'
         const body = {
           'email_address': userEmail,
@@ -53,11 +51,7 @@
             'LASTNAME': userInfo.lastName
           }
         }
-
         console.log(listID, body)
-        mailchimp.members.add(listID, body).then((res) => {
-          console.log(res)
-        })
       }
       setTimeout(() => {
         this.$router.push(this.success === true ? '/login' : '/register')

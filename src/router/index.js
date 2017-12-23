@@ -16,7 +16,6 @@ import JournalSingle from '@/components/journal/journal-single'
 import SignUp from '@/components/static-pages/sign-up'
 import PrivacyPolicy from '@/components/static-pages/privacy-policy'
 import Disclaimer from '@/components/static-pages/disclaimer'
-import userActivation from '@/components/static-pages/user-activation'
 import Contact from '@/components/static-pages/contact'
 import Register from '@/components/registration/register'
 import UserInformation from '@/components/registration/user-information'
@@ -61,12 +60,12 @@ const routes = [
   {path: `${Config.routerSettings.signUp}`, name: 'SignUp', component: SignUp},
   {path: `${Config.routerSettings.privacy}`, name: 'PrivacyPolicy', component: PrivacyPolicy},
   {path: `${Config.routerSettings.disclaimer}`, name: 'Disclaimer', component: Disclaimer},
-  {path: `${Config.routerSettings.userActivation}`, name: 'userActivation', component: userActivation},
   {path: `${Config.routerSettings.contact}`, name: 'Contact', component: Contact},
   {path: '/register', name: 'Register', component: Register},
   {path: '/user-information', name: 'UserInformation', component: UserInformation},
   {path: '/login', name: 'Login', component: Login},
   {path: '/callback', name: 'Callback', component: Callback},
+  {path: `/user-validation-and-subscription.php`},
   {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]
 
