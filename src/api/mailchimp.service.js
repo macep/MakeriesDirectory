@@ -1,4 +1,4 @@
-import request from 'superagent'
+import request from 'axios'
 import Members from './mailchimp.members'
 
 export default class Mailchimp {

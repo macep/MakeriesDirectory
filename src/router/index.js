@@ -65,7 +65,7 @@ const routes = [
   {path: '/user-information', name: 'UserInformation', component: UserInformation},
   {path: '/login', name: 'Login', component: Login},
   {path: '/callback', name: 'Callback', component: Callback},
-  {path: `/user-validation-and-subscription.php`},
+  {path: '/user-validation-and-subscription.php'},
   {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]
 

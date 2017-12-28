@@ -197,7 +197,6 @@
           this.$store.commit('mutateServerSuccessMessage', false)
         }
       }
-      // {"username":"cristiii","userInformationCollected":"false","askedForUserInformation":"0","firstName":"cristii","lastName":"maghiar"}
     },
     watch: {
       username: {
