@@ -10,6 +10,7 @@
       </div>
       <hr>
       <div class="row form-horizontal small-gutter lg-padding">
+
         <div class="form-group required" :class="{'has-error': !username.valid && username.value !==''}">
           <label for="input-username" class="col-sm-4 control-label">{{userNameLabel}}</label>
           <div class="col-sm-8">
@@ -20,6 +21,7 @@
             <input type="text" class="form-control" id="input-username" v-model="username.value" :placeholder="userNameLabel">
           </div>
         </div>
+
         <div class="form-group required" :class="{'has-error': !email.valid && email.value !==''}">
           <label for="input-email" class="col-sm-4 control-label">{{emailLabel}}</label>
           <div class="col-sm-8">
@@ -30,6 +32,7 @@
             <input type="email" class="form-control" id="input-email" v-model="email.value" :placeholder="emailLabel">
           </div>
         </div>
+
         <div class="form-group">
           <label for="input-first-name" class="col-sm-4 control-label">{{fullNameLabel}}</label>
           <div class="col-sm-4">
@@ -39,6 +42,7 @@
             <input type="text" class="form-control" id="input-last-name" v-model="lastName.value" :placeholder="lastNameLabel">
           </div>
         </div>
+
         <div class="form-group" :class="{'has-warning': !website.valid}">
           <label for="input-website" class="col-sm-4 control-label">{{websiteLabel}}</label>
           <div class="col-sm-8">
@@ -49,7 +53,8 @@
             <input type="text" class="form-control" id="input-website" v-model="website.value" :placeholder="websiteLabel">
           </div>
         </div>
-        <div class="form-group required" :class="{'has-error': !password.valid && password.value !== ''}">
+
+        <div class="form-group required" :class="{'has-error': (!password.valid && password.value !== '') || !passwordsAreEqual}">
           <label for="input-password" class="col-sm-4 control-label">{{passwordLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && password.value !== ''">
@@ -59,7 +64,8 @@
             <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
           </div>
         </div>
-        <div class="form-group required" :class="{'has-error': !password2.valid && password2.value !== ''}">
+
+        <div class="form-group required" :class="{'has-error': (!password2.valid && password2.value !== '') || !passwordsAreEqual}">
           <label for="input-password" class="col-sm-4 control-label">{{passwordAgainLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && password2.value !== ''">
@@ -144,6 +150,7 @@
         website: {value: '', required: false, valid: true},
         password: {value: '', required: true, valid: false},
         password2: {value: '', required: true, valid: false},
+        passwordsAreEqual: true,
         keepassa: {value: true, required: false, valid: true},
         showError: false,
         showServerErrorMessage: false,
@@ -165,10 +172,10 @@
     computed: {
       ...mapGetters(['userInformationMissing', 'serverErrorMessage', 'serverSuccessMessage']),
       formCanPass () {
-        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid
+        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.passwordsAreEqual
       },
       formIsValid () {
-        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.website.valid
+        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.passwordsAreEqual && this.website.valid
       }
     },
     methods: {
@@ -231,12 +238,14 @@
       password: {
         handler () {
           this.password.valid = this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
+          this.passwordsAreEqual = this.password.value === this.password2.value
         },
         deep: true
       },
       password2: {
         handler () {
-          this.password2.valid = this.password.value === this.password2.value
+          this.password2.valid = this.password2.value.length >= Config.password.length.min && this.password2.value.length <= Config.password.length.max
+          this.passwordsAreEqual = this.password.value === this.password2.value
         },
         deep: true
       },
