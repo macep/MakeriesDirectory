@@ -150,6 +150,18 @@
         showServerSuccessMessage: false
       }
     },
+    mounted () {
+      let email = {}
+      email.result = cookieService.checkIfEmailIsVerified()
+      if (email.result.length > 3) {
+        email.verified = email.result[2].split('=')[1].replace(/%2540/g, '@')
+        this.title = Config.titles.registerAndAuthentication.registerAgain
+        this.description = email.result[3].split('=')[1]
+        this.orLoginHere = Config.titles.registerAndAuthentication.orLoginHere
+        cookieService.deleteCookie(email.verified)
+        cookieService.deleteCookie(`${email.verified}-verified`)
+      }
+    },
     computed: {
       ...mapGetters(['userInformationMissing', 'serverErrorMessage', 'serverSuccessMessage']),
       formCanPass () {
@@ -184,7 +196,6 @@
           this.auth.signup(this.username.value, this.email.value, this.password.value, metadata)
 
           let cookieValue = JSON.stringify(Object.assign({username: this.username.value}, metadata))
-          console.log(cookieValue)
           cookieService.setCookie(this.email.value, cookieValue)
         }
       },

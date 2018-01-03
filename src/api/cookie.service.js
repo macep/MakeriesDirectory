@@ -25,5 +25,24 @@ export default {
 
   decodeCookieValue (val) {
     return JSON.parse(val)
+  },
+
+  checkIfEmailIsVerified () {
+    let result = []
+    let cookies = document.cookie.split('; ')
+    cookies.forEach(cookie => {
+      let cookieNameSplitByDashes = cookie.split('=')[0].split('-')
+      if (cookieNameSplitByDashes[cookieNameSplitByDashes.length - 1] === 'verified') {
+        result = cookie.split('=')[1].replace(/%2520/g, ' ').replace(/%3D/g, '=').replace(/%26/g, ';').split(';')
+        result.push(
+          cookie.split('=')[0]
+        )
+      }
+    })
+    return result
+  },
+
+  deleteCookie (cname) {
+    document.cookie = cname + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
   }
 }

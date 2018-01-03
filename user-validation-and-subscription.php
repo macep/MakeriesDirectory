@@ -2,29 +2,21 @@
 session_start();
 
 $query_url = $_SERVER['QUERY_STRING'];
-// echo '<pre>'.print_r($query_url, TRUE).'</pre>';
 parse_str($query_url);
-// echo '<pre>' . print_r($_COOKIE, TRUE) . '</pre>';
 
-$user_info = '';
-$fname = '';
-$lname = '';
+$user_info = json_decode($_COOKIE[str_replace('.', '_', $email)], TRUE);
 
-if(isset($_COOKIE[$email])) {
-    $user_info = $_COOKIE[$email];
-    $user_info = json_decode($user_info, true);
-	$fname = $user_info['firstName'];
-	$lname = $user_info['lastName'];
-}
+$fname = isset($user_info['firstName']) ? $user_info['firstName'] : '';
+$lname = isset($user_info['lastName']) ? $user_info['lastName'] : '';
 
-setcookie($email, $query_url, time() + 300, "/"); // 5min
+setcookie($email . '-verified', $query_url, time() + 60 * 60 * 24, "/"); // 1day
 
 // MailChimp API credentials
 $apiKey = 'a48b6b7a069e205acac0764976a81e67-us17';
 $listID = '44801b695f';
 
 // MailChimp API URL
-$dataCenter = substr($apiKey,strpos($apiKey,'-')+1);
+$dataCenter = substr($apiKey, strpos($apiKey, '-') + 1);
 $url = 'https://' . $dataCenter . '.api.mailchimp.com/3.0/lists/' . $listID . '/members/';
 
 // member information
@@ -52,7 +44,7 @@ curl_close($ch);
 
 // store the status message based on response code
 if ($httpCode == 200) {
-    header('location:http://localhost:8080/login');
+    header('location:http://uix.ro/login');
 } else {
-    header('location:http://localhost:8080/register');
+    header('location:http://uix.ro/register');
 }

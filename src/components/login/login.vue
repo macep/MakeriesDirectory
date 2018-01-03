@@ -73,6 +73,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
+  import cookieService from '../../api/cookie.service'
 
   export default {
     name: 'registration',
@@ -95,6 +96,19 @@
         formIsValid: true,
         showError: false,
         showServerErrorMessage: false
+      }
+    },
+    mounted () {
+      let email = {}
+      email.result = cookieService.checkIfEmailIsVerified()
+      if (email.result.length > 3) {
+        email.verified = email.result[2].split('=')[1].replace(/%2540/g, '@')
+        email.cookie = cookieService.decodeCookieValue(cookieService.getCookie(email.verified))
+        this.title = `Welcome ${email.cookie.firstName}!`
+        this.description = email.result[3].split('=')[1]
+        this.orRegisterHere = Config.titles.registerAndAuthentication.orRegisterNewHere
+        cookieService.deleteCookie(email.verified)
+        cookieService.deleteCookie(`${email.verified}-verified`)
       }
     },
     computed: {

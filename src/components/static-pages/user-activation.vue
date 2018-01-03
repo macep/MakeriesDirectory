@@ -33,7 +33,6 @@
     },
     mounted () {
       let messageFromUrl = this.$router.history.current.fullPath.split('/user-activation?')[1].split('&')
-      console.log(messageFromUrl)
       if (messageFromUrl[4] === 'success=true') {
         this.success = true
 

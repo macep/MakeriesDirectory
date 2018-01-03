@@ -79,7 +79,7 @@ let findOccurences = (array, withUrl, urlPrefix) => {
   return c
 }
 
-let friendlyUrl = (val) => val.split(' ').join('-').replace(/,/g, '')
+let friendlyUrl = (str) => str.split(' ').join('-').replace(/,/g, '')
 
 let sortObjectProperties = (object) => {
   let sorted = {}
@@ -98,7 +98,7 @@ let sortObjectProperties = (object) => {
   return sorted
 }
 
-let getNthFragment = (string, nth) => string.split('/')[nth]
+let getNthFragment = (str, nth) => str.split('/')[nth]
 
 let getSubstringBetweenSubstrings = (str, first, second) => str.match(new RegExp(first + '(.*)' + second))
 
