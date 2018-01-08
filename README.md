@@ -1,6 +1,6 @@
 # JustGotMade
 > A pure Vue.js client aggregating data from JustGotMade API and WordPress backend (via WP REST API) for modern style progressive single-page app.
-It also manages the users with Auth0 from custom made login/registration components.
+It also manages the users with Auth0 from custom made login/registration components and pushes user information to MailChimp
 
 ## Prerequisites
 To get this application up and running on a local environment there are a few things that you need, some of which only once.
