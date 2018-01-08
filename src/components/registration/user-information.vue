@@ -76,7 +76,7 @@
               </div>
             </div>
             <div slot="modal-footer" class="modal-footer">
-              <button type="button" class="btn btn-default" @click="showPersonalUseForm = false">{{quitDontSave}}</button>
+              <button type="button" class="btn btn-default" @click="closeModal('personal')">{{quitDontSave}}</button>
               <button type="button" class="btn btn-success" @click="updateUserInformation('personal')">{{save}}</button>
             </div>
           </modal>
@@ -137,7 +137,7 @@
               </div>
             </div>
             <div slot="modal-footer" class="modal-footer">
-              <button type="button" class="btn btn-default" @click="showBusinessUseForm = false">{{quitDontSave}}</button>
+              <button type="button" class="btn btn-default" @click="closeModal('business')">{{quitDontSave}}</button>
               <button type="button" class="btn btn-success" @click="updateUserInformation('business')">{{save}}</button>
             </div>
           </modal>
@@ -214,8 +214,6 @@
     methods: {
       updateUserInformation (scope) {
         const currentUser = Object.assign({}, JSON.parse(localStorage.getItem(jgmCurrentUser)))
-        const originOfDesiredRoute = localStorage.getItem(jgmOriginOfDesiredRoute)
-        const desiredRoute = localStorage.getItem(jgmDesiredRoute)
         let newMetadata = currentUser.user_metadata
         let userID = currentUser.sub || currentUser.user_id
 
@@ -245,14 +243,21 @@
         if (JSON.stringify(JSON.parse(localStorage.getItem(jgmCurrentUser)).user_metadata) !== JSON.stringify(newMetadata)) {
           this.auth.updateUserProfile(userID, {user_metadata: newMetadata}, (err, result) => console.log(err, result))
           newMetadata.userInformationCollected = 'true'
-          this.$router.push({path: desiredRoute !== '' ? desiredRoute : originOfDesiredRoute})
         }
-
+        this.closeModal(scope)
+      },
+      closeModal (scope) {
         if (scope === 'business') {
           this.showBusinessUseForm = false
         } else {
           this.showPersonalUseForm = false
         }
+        this.goToDesired()
+      },
+      goToDesired () {
+        this.$router.push(localStorage.getItem(jgmDesiredRoute) || localStorage.getItem(jgmOriginOfDesiredRoute) || Config.routerSettings.directory)
+        localStorage.removeItem(jgmDesiredRoute)
+        localStorage.removeItem(jgmOriginOfDesiredRoute)
       }
     },
     metaInfo: {

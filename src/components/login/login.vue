@@ -6,13 +6,12 @@
           <h3>{{title}}</h3>
           <p>{{description}}</p>
           <small class="login-register-alternatively">{{orRegisterHere}} <router-link to="register">register here</router-link></small>
-
         </div>
       </div>
       <hr>
       <div class="row form-horizontal small-gutter lg-padding">
         <div class="form-group">
-          <div class="col-xs-7 col-xs-offset-4 text-center">
+          <div class="col-sm-7 col-sm-offset-3 text-center">
             <v-touch tag="button" @tap="auth.socialLogin('google-oauth2')" class="btn btn-block btn-danger btn-google">Sign in with Google</v-touch>
             <v-touch tag="button" @tap="auth.socialLogin('linkedin')" class="btn btn-block btn-primary btn-linkedin">Sign in with LinkedIn</v-touch>
             <v-touch tag="button" @tap="auth.socialLogin('facebook')" class="btn btn-block btn-info btn-facebook">Sign in with Facebook</v-touch>
@@ -20,7 +19,7 @@
           </div>
         </div>
         <div class="form-group" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
-          <label for="input-username" class="col-sm-3 col-sm-offset-1 control-label">{{userNameLabel}}</label>
+          <label for="input-username" class="col-sm-3 control-label">{{userNameLabel}}</label>
           <div class="col-sm-7">
             <template v-if="!formIsValid">
               <i class="icon-close is-invalid" v-if="!username.valid"/>
@@ -30,7 +29,7 @@
           </div>
         </div>
         <div class="form-group" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
-          <label for="input-password" class="col-sm-3 col-sm-offset-1 control-label">{{passwordLabel}}</label>
+          <label for="input-password" class="col-sm-3 control-label">{{passwordLabel}}</label>
           <div class="col-sm-7">
             <template v-if="!formIsValid">
               <i class="icon-close is-invalid" v-if="!password.valid || password.value === ''"/>
@@ -54,18 +53,12 @@
           </v-touch>
         </transition>
         <div class="form-group">
-          <div class="col-sm-offset-4 col-sm-8">
-            <div class="checkbox">
-              <v-touch tag="button" @tap="loginUser" type="submit" class="btn btn-primary lg-margin-right">{{loginSubmitLabel}}</v-touch>
-              <label><input v-model="keepassa.value" type="checkbox">{{keepPassLabel}}</label>
-            </div>
+          <div class="col-sm-offset-3 col-sm-8">
+            <v-touch tag="button" @tap="loginUser" type="submit" class="btn btn-primary">{{loginSubmitLabel}}</v-touch>
           </div>
         </div>
       </div>
       <hr>
-      <div class="col-sm-offset-4 col-sm-8">
-        <a class="lost-password" href="http://uix.ro/wp-login.php?action=lostpassword" target="_new">Lost your password?</a>
-      </div>
     </div>
   </div>
 </template>
@@ -74,6 +67,7 @@
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import cookieService from '../../api/cookie.service'
+  import {cleanupAuthCanceledSessions} from '../../modules/utils'
 
   export default {
     name: 'registration',
@@ -110,6 +104,7 @@
         cookieService.deleteCookie(email.verified)
         cookieService.deleteCookie(`${email.verified}-verified`)
       }
+      cleanupAuthCanceledSessions()
     },
     computed: {
       ...mapGetters(['serverErrorMessage'])

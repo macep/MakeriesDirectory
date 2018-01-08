@@ -102,6 +102,14 @@ let getNthFragment = (str, nth) => str.split('/')[nth]
 
 let getSubstringBetweenSubstrings = (str, first, second) => str.match(new RegExp(first + '(.*)' + second))
 
+let cleanupAuthCanceledSessions = () => {
+  for (let key in localStorage) {
+    if (key.split('.')[0] === 'com' && key.split('.')[1] === 'auth0' && key.split('.')[2] === 'auth') {
+      localStorage.removeItem(key)
+    }
+  }
+}
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
@@ -112,5 +120,6 @@ export {
   friendlyUrl,
   sortObjectProperties,
   getNthFragment,
-  getSubstringBetweenSubstrings
+  getSubstringBetweenSubstrings,
+  cleanupAuthCanceledSessions
 }

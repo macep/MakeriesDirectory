@@ -25,6 +25,10 @@ import PageNotFound from '@/components/static-pages/page-not-found'
 
 Vue.use(Router)
 
+const jgmExpiresAt = 'jgm_expires_at'
+const jgmOriginOfDesiredRoute = 'jgm_origin_of_desired_route'
+const jgmDesiredRoute = 'jgm_desired_route'
+
 const routes = [
   {path: '/', name: 'Home', component: Home},
   {path: `${Config.routerSettings.about}`, name: 'About', component: About},
@@ -40,15 +44,15 @@ const routes = [
     name: 'Maker',
     component: Maker,
     beforeEnter: (to, from, next) => {
-      let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem('jgm_expires_at'))
+      let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem(jgmExpiresAt))
       if (tokenExpired) {
-        localStorage.setItem('jgm_desired_route', to.fullPath)
+        localStorage.setItem(jgmDesiredRoute, to.fullPath)
         if (from.fullPath.split('/')[1] !== 'callback') {
-          localStorage.setItem('jgm_origin_of_desired_route', from.fullPath)
+          localStorage.setItem(jgmOriginOfDesiredRoute, from.fullPath)
         }
         next({ path: '/login' })
       } else {
-        localStorage.setItem('jgm_desired_route', '')
+        localStorage.setItem(jgmDesiredRoute, '')
         next()
       }
     }
@@ -62,7 +66,19 @@ const routes = [
   {path: `${Config.routerSettings.disclaimer}`, name: 'Disclaimer', component: Disclaimer},
   {path: `${Config.routerSettings.contact}`, name: 'Contact', component: Contact},
   {path: '/register', name: 'Register', component: Register},
-  {path: '/user-information', name: 'UserInformation', component: UserInformation},
+  {
+    path: '/user-information',
+    name: 'UserInformation',
+    component: UserInformation,
+    beforeEnter: (to, from, next) => {
+      let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem(jgmExpiresAt))
+      if (tokenExpired) {
+        next({ path: '/login' })
+      } else {
+        next()
+      }
+    }
+  },
   {path: '/login', name: 'Login', component: Login},
   {path: '/callback', name: 'Callback', component: Callback},
   {path: '*', name: 'PageNotFound', component: PageNotFound}

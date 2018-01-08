@@ -9,9 +9,9 @@
     name: 'callback',
     props: ['auth'],
     components: {activityIndicator},
-    mounted () {
+    data () {
       this.auth.handleSocialAuthentication()
-      this.$router.push(localStorage.getItem('jgm_desired_route') || '/directory')
+      return {}
     }
   }
 </script>

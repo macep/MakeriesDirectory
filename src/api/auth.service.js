@@ -6,12 +6,12 @@ import router from '../router/index'
 import store from '../store/index'
 import request from 'axios'
 
-let jgmAccessToken = 'jgm_access_token'
-let jgmIdToken = 'jgm_id_token'
-let jgmExpiresAt = 'jgm_expires_at'
-let jgmCurrentUser = 'jgm_current_user'
-let jgmOriginOfDesiredRoute = 'jgm_origin_of_desired_route'
-let jgmDesiredRoute = 'jgm_desired_route'
+const jgmAccessToken = 'jgm_access_token'
+const jgmIdToken = 'jgm_id_token'
+const jgmExpiresAt = 'jgm_expires_at'
+const jgmCurrentUser = 'jgm_current_user'
+const jgmOriginOfDesiredRoute = 'jgm_origin_of_desired_route'
+const jgmDesiredRoute = 'jgm_desired_route'
 
 export default class AuthService {
   authenticated = this.isAuthenticated()
@@ -77,9 +77,8 @@ export default class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.verifyUserProfile(authResult)
       } else if (err) {
-        alert(`Error: ${err.error}. Check the console for further details.`)
         console.error(err)
-        router.replace(localStorage.getItem(jgmOriginOfDesiredRoute))
+        router.replace(Config.routerSettings.directory)
       }
     })
   }
@@ -105,6 +104,7 @@ export default class AuthService {
         router.replace('/user-information')
       } else {
         localStorage.setItem(jgmCurrentUser, JSON.stringify(user))
+        router.replace(localStorage.getItem(jgmDesiredRoute) || localStorage.getItem(jgmOriginOfDesiredRoute))
       }
     })
   }
@@ -125,7 +125,6 @@ export default class AuthService {
     localStorage.setItem(jgmIdToken, authResult.idToken)
     localStorage.setItem(jgmExpiresAt, expiresAt)
     this.authNotifier.$emit('authChange', { authenticated: true })
-    router.replace(localStorage.getItem(jgmDesiredRoute) || Config.routerSettings.directory)
   }
 
   isAuthenticated () {
@@ -138,7 +137,9 @@ export default class AuthService {
     localStorage.removeItem(jgmIdToken)
     localStorage.removeItem(jgmExpiresAt)
     localStorage.removeItem(jgmCurrentUser)
+    localStorage.removeItem(jgmDesiredRoute)
+    localStorage.removeItem(jgmOriginOfDesiredRoute)
     this.authNotifier.$emit('authChange', false)
-    router.replace(router.history.current.matched[0].path === `${Config.routerSettings.makerDetail}:id/:page` ? '/directory' : '/')
+    router.replace('/directory')
   }
 }
