@@ -287,6 +287,7 @@
           this.email.value = ''
           this.website.value = ''
           this.password.value = ''
+          this.password2.value = ''
         }
       }
     },
