@@ -18,26 +18,29 @@
             <div class="lg-padding-top alternative-to-auth">OR</div>
           </div>
         </div>
-        <div class="form-group" :class="{'has-warning': !username.valid && username.value !=='', 'has-error': !formIsValid && !username.valid && username.value !==''}">
-          <label for="input-username" class="col-sm-3 control-label">{{userNameLabel}}</label>
+
+        <div class="form-group" :class="{'has-error': !email.valid && email.value !==''}">
+          <label for="input-username" class="col-sm-3 control-label">{{emailLabel}}</label>
           <div class="col-sm-7">
-            <template v-if="!formIsValid">
-              <i class="icon-close is-invalid" v-if="!username.valid"/>
+            <template v-if="!formIsValid && email.value !==''">
+              <i class="icon-close is-invalid" v-if="!email.valid"/>
               <i class="icon-done is-valid" v-else/>
             </template>
-            <input type="text" class="form-control" id="input-username" ref="inputUsername" v-model="username.value" :placeholder="userNameLabel" autocorrect="off" autocomplete="off">
+            <input type="text" class="form-control" id="input-username" ref="inputUsername" v-model="email.value" :placeholder="emailLabel" autocorrect="off" autocomplete="off">
           </div>
         </div>
-        <div class="form-group" :class="{'has-warning': !password.valid && password.value !=='', 'has-error': !formIsValid && !password.valid && password.value !==''}">
+
+        <div class="form-group" :class="{'has-error': !password.valid && password.value !==''}">
           <label for="input-password" class="col-sm-3 control-label">{{passwordLabel}}</label>
           <div class="col-sm-7">
-            <template v-if="!formIsValid">
+            <template v-if="!formIsValid && password.value !== ''">
               <i class="icon-close is-invalid" v-if="!password.valid || password.value === ''"/>
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="password" class="form-control" id="input-password" ref="inputPassword" v-model="password.value" :placeholder="passwordLabel" autocorrect="off" autocomplete="off">
           </div>
         </div>
+
         <transition name="slide-errors" mode="out-in">
           <div v-if="showLoginValidationError" class="form-group invalid-form has-error">
             <label class="col-sm-3 control-label">{{registerErrorLabel}}</label>
@@ -58,7 +61,9 @@
         </transition>
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-8">
-            <v-touch tag="button" @tap="loginUser" type="submit" class="btn btn-primary">{{loginSubmitLabel}}</v-touch>
+            <v-touch tag="button" @tap="loginUser" type="submit" class="btn"
+                     :class="{'btn-danger disabled': !formIsValid, 'btn-primary': formIsValid}">{{loginSubmitLabel}}</v-touch>
+            <small class="lg-margin-left login-register-alternatively">{{resetPass}} <router-link to="reset-password">here</router-link></small>
           </div>
         </div>
       </div>
@@ -71,7 +76,7 @@
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import cookieService from '../../api/cookie.service'
-  import {cleanupAuthCanceledSessions} from '../../modules/utils'
+  import {cleanupAuthCanceledSessions, isEmail} from '../../modules/utils'
   import megaAlert from '../overrides/megaAlert.vue'
 
   export default {
@@ -82,18 +87,17 @@
       return {
         title: Config.titles.registerAndAuthentication.titleAuth,
         description: Config.titles.registerAndAuthentication.descriptionAuth,
+        resetPass: Config.titles.registerAndAuthentication.titleResetPass,
         orRegisterHere: Config.titles.registerAndAuthentication.orRegisterHere,
-        userNameLabel: Config.titles.registerAndAuthentication.username,
-        userNameOrEmailLabel: Config.titles.registerAndAuthentication.usernameOrEmail,
+        emailLabel: Config.titles.registerAndAuthentication.email,
         passwordLabel: Config.titles.registerAndAuthentication.password,
         registerErrorLabel: Config.titles.registerAndAuthentication.registerError,
         keepPassLabel: Config.titles.registerAndAuthentication.keepPass,
         pleaseValidateLoginFormLabel: Config.titles.registerAndAuthentication.pleaseValidateLoginForm,
         loginSubmitLabel: Config.titles.registerAndAuthentication.loginSubmit,
-        username: {value: '', required: true, valid: false},
+        email: {value: '', required: true, valid: false},
         password: {value: '', required: true, valid: false},
         keepassa: {value: true, required: false, valid: true},
-        formIsValid: true,
         showLoginValidationError: false,
         showLoginServerErrorMessage: false
       }
@@ -107,25 +111,34 @@
         this.title = `Welcome ${email.cookie.firstName}!`
         this.description = email.result[3].split('=')[1]
         this.orRegisterHere = Config.titles.registerAndAuthentication.orRegisterNewHere
-        this.username.value = email.verified
+        this.email.value = email.verified
         this.$refs.inputPassword.focus()
         cookieService.deleteCookie(email.verified)
         cookieService.deleteCookie(`${email.verified}-verified`)
       }
       cleanupAuthCanceledSessions()
+
+      if (this.passwordResetResult !== {}) {
+        if (this.passwordResetResult.success === 'true') {
+          this.description = this.passwordResetResult.message
+          this.email.value = this.passwordResetResult.email
+          this.$refs.inputPassword.focus()
+        }
+      }
     },
     computed: {
-      ...mapGetters(['serverLoginErrorMessage'])
+      ...mapGetters(['serverLoginErrorMessage', 'passwordResetResult']),
+      formIsValid () {
+        return this.email.valid && this.password.valid
+      }
     },
     methods: {
       loginUser () {
-        this.formIsValid = this.username.valid && this.password.valid
-
         if (!this.formIsValid) {
           this.showLoginValidationError = true
         } else {
           this.showLoginValidationError = false
-          this.auth.login(this.username.value, this.password.value)
+          this.auth.login(this.email.value, this.password.value)
         }
       },
       closeClientMessage () {
@@ -140,9 +153,9 @@
       }
     },
     watch: {
-      username: {
+      email: {
         handler () {
-          this.username.valid = this.username.value.length !== '' && this.username.value.length >= Config.username.length.min && this.username.value.length <= Config.username.length.max
+          this.email.valid = isEmail(this.email.value)
         },
         deep: true
       },

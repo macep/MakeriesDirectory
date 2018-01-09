@@ -1,7 +1,10 @@
-let getters = {
+export default {
   serverRegistrationErrorMessage: state => state.serverRegistrationErrorMessage,
   serverRegistrationSuccessMessage: state => state.serverRegistrationSuccessMessage,
   serverLoginErrorMessage: state => state.serverLoginErrorMessage,
+  serverResetPassErrorMessage: state => state.serverResetPassErrorMessage,
+  serverResetPassSuccessMessage: state => state.serverResetPassSuccessMessage,
+  passwordResetResult: state => state.passwordResetResult,
   hostName: state => state.hostName,
   isMobile: state => state.isMobile,
   pointerIsTouch: state => state.pointerIsTouch,
@@ -25,5 +28,3 @@ let getters = {
   searchCriteria: state => state.searchCriteria,
   route: state => state.route
 }
-
-export default getters

@@ -1,4 +1,4 @@
-let mutations = {
+export default {
   mutateServerRegistrationErrorMessage: (state, serverRegistrationErrorMessage) => {
     state.serverRegistrationErrorMessage = serverRegistrationErrorMessage
   },
@@ -7,6 +7,15 @@ let mutations = {
   },
   mutateServerLoginErrorMessage: (state, serverLoginErrorMessage) => {
     state.serverLoginErrorMessage = serverLoginErrorMessage
+  },
+  mutateServerResetPassErrorMessage: (state, serverResetPassErrorMessage) => {
+    state.serverResetPassErrorMessage = serverResetPassErrorMessage
+  },
+  mutateServerResetPassSuccessMessage: (state, serverResetPassSuccessMessage) => {
+    state.serverResetPassSuccessMessage = serverResetPassSuccessMessage
+  },
+  mutatePasswordResetResult: (state, passwordResetResult) => {
+    state.passwordResetResult = passwordResetResult
   },
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile
@@ -69,5 +78,3 @@ let mutations = {
     state.searchCriteria = searchCriteria
   }
 }
-
-export default mutations

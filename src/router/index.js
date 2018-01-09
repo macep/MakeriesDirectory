@@ -20,6 +20,8 @@ import Contact from '@/components/static-pages/contact'
 import Register from '@/components/registration/register'
 import UserInformation from '@/components/registration/user-information'
 import Login from '@/components/login/login'
+import ResetPassword from '@/components/login/reset-password'
+import ChangePassword from '@/components/login/change-password'
 import Callback from '@/components/login/callback'
 import PageNotFound from '@/components/static-pages/page-not-found'
 
@@ -80,6 +82,8 @@ const routes = [
     }
   },
   {path: '/login', name: 'Login', component: Login},
+  {path: '/reset-password', name: 'ResetPassword', component: ResetPassword},
+  {path: '/change-password', name: 'ChangePassword', component: ChangePassword},
   {path: '/callback', name: 'Callback', component: Callback},
   {path: '*', name: 'PageNotFound', component: PageNotFound}
 ]

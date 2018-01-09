@@ -34,6 +34,7 @@ export default class AuthService {
     this.updateUserProfile = this.updateUserProfile.bind(this)
     this.setSession = this.setSession.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
+    this.resetPassword = this.resetPassword.bind(this)
     this.logout = this.logout.bind(this)
   }
 
@@ -44,7 +45,8 @@ export default class AuthService {
       email,
       password,
       user_metadata: userMetadata
-    }, (err) => {
+    }, (err, resp) => {
+      console.log(err, resp)
       if (err) {
         store.commit('mutateServerRegistrationErrorMessage', {
           message: `${err.original.response.body.message || err.original.response.body.description}`,
@@ -63,8 +65,8 @@ export default class AuthService {
     this.webAuth.client.login({
       connection: AUTH_CONFIG.connection,
       realm: AUTH_CONFIG.connection,
-      username: username,
-      password: password
+      username,
+      password
     }, (err, authResult) => {
       if (err) {
         store.commit('mutateServerLoginErrorMessage', {
@@ -139,6 +141,26 @@ export default class AuthService {
   isAuthenticated () {
     let expiresAt = JSON.parse(localStorage.getItem(jgmExpiresAt))
     return new Date().getTime() < expiresAt
+  }
+
+  resetPassword (email) {
+    this.webAuth.changePassword({
+      connection: AUTH_CONFIG.connection,
+      client_id: AUTH_CONFIG.clientID,
+      email
+    }, (err, authResult) => {
+      if (err) {
+        store.commit('mutateServerResetPassErrorMessage', {
+          message: `${err.data}`,
+          visible: true
+        })
+      } else {
+        store.commit('mutateServerResetPassSuccessMessage', {
+          message: `${authResult} ${Config.titles.registerAndAuthentication.ifIsntYou}`,
+          visible: true
+        })
+      }
+    })
   }
 
   logout () {

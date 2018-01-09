@@ -110,6 +110,14 @@ let cleanupAuthCanceledSessions = () => {
   }
 }
 
+let isEmail = (str) => {
+  return /^(([^<>()[\]\\.,;:#\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/.test(str)
+}
+
+let isWebsite = (str) => {
+  return /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(str)
+}
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
@@ -121,5 +129,7 @@ export {
   sortObjectProperties,
   getNthFragment,
   getSubstringBetweenSubstrings,
-  cleanupAuthCanceledSessions
+  cleanupAuthCanceledSessions,
+  isEmail,
+  isWebsite
 }

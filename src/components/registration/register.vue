@@ -78,7 +78,7 @@
 
         <transition name="slide-errors" mode="out-in">
           <div v-if="showRegistrationValidationError" class="form-group invalid-form has-error">
-            <label class="col-sm-3 control-label">{{registerErrorLabel}}</label>
+            <label class="col-sm-3 control-label">{{errorLabel}}</label>
             <div class="col-sm-8">
               <mega-alert v-model="showRegistrationValidationError" :closeAction="closeRegistrationClientMessages" duration="0" type="danger" width="100%" dismissable>
                 {{pleaseValidateRegisterFormLabel}}
@@ -87,7 +87,7 @@
           </div>
 
           <div v-if="showServerRegistrationErrorMessage" class="form-group invalid-form has-error">
-            <label class="col-sm-3 control-label">{{registerErrorLabel}}</label>
+            <label class="col-sm-3 control-label">{{errorLabel}}</label>
             <div class="col-sm-8">
               <mega-alert v-model="showServerRegistrationErrorMessage" :closeAction="closeRegistrationServerErrorMessage" duration="0" type="danger" width="100%" dismissable>
                 {{serverRegistrationErrorMessage.message}}
@@ -96,9 +96,9 @@
           </div>
 
           <div v-if="showServerRegistrationSuccessMessage" class="form-group valid-form has-success">
-            <label class="col-sm-3 control-label">{{registerSuccessLabel}}</label>
+            <label class="col-sm-3 control-label">{{successLabel}}</label>
             <div class="col-sm-8">
-              <mega-alert v-model="showServerRegistrationSuccessMessage" :closeAction="closeRegistrationServerSuccessMessage" duration="0" type="success" width="100%" dismissable>
+              <mega-alert v-model="showServerRegistrationSuccessMessage" :closeAction="closeRegistrationServerSuccessMessage" duration="5000" type="success" width="100%" dismissable>
                 {{serverRegistrationSuccessMessage.message}}
               </mega-alert>
             </div>
@@ -130,6 +130,7 @@
   import Config from '../../api/app.config'
   import cookieService from '../../api/cookie.service'
   import megaAlert from '../overrides/megaAlert.vue'
+  import {isEmail, isWebsite} from '../../modules/utils'
 
   export default {
     name: 'registration',
@@ -150,8 +151,8 @@
         passwordAgainLabel: Config.titles.registerAndAuthentication.password2,
         passwordAgainPlaceholderLabel: Config.titles.registerAndAuthentication.password2placeholder,
         keepPassLabel: Config.titles.registerAndAuthentication.keepPass,
-        registerErrorLabel: Config.titles.registerAndAuthentication.registerError,
-        registerSuccessLabel: Config.titles.registerAndAuthentication.registerSuccess,
+        errorLabel: Config.titles.registerAndAuthentication.error,
+        successLabel: Config.titles.registerAndAuthentication.success,
         pleaseValidateRegisterFormLabel: Config.titles.registerAndAuthentication.pleaseValidateRegisterForm,
         markedFieldsLabel: Config.titles.registerAndAuthentication.markedFields,
         loginSubmitLabel: Config.titles.registerAndAuthentication.registerSubmit,
@@ -243,14 +244,14 @@
       email: {
         handler () {
           this.closeNotificationsAny()
-          this.email.valid = /^(([^<>()[\]\\.,;:#\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/.test(this.email.value)
+          this.email.valid = isEmail(this.email.value)
         },
         deep: true
       },
       website: {
         handler () {
           this.closeNotificationsAny()
-          this.website.valid = this.website.value === '' ? true : /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(this.website.value)
+          this.website.valid = this.website.value === '' ? true : isWebsite(this.website.value)
         },
         deep: true
       },
