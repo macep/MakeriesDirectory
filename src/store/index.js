@@ -9,8 +9,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    serverErrorMessage: false,
-    serverSuccessMessage: false,
+    serverRegistrationErrorMessage: {
+      message: '',
+      visible: false
+    },
+    serverRegistrationSuccessMessage: {
+      message: '',
+      visible: false
+    },
+    serverLoginErrorMessage: {
+      message: '',
+      visible: false
+    },
     hostName: window.location,
     isMobile: false,
     pointerIsTouch: false,

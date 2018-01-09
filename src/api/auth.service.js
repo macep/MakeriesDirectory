@@ -46,9 +46,15 @@ export default class AuthService {
       user_metadata: userMetadata
     }, (err) => {
       if (err) {
-        store.commit('mutateServerErrorMessage', `${err.original.response.body.statusCode}: ${err.original.response.body.message || err.original.response.body.description}`)
+        store.commit('mutateServerRegistrationErrorMessage', {
+          message: `${err.original.response.body.message || err.original.response.body.description}`,
+          visible: true
+        })
       } else {
-        store.commit('mutateServerSuccessMessage', Config.titles.registerAndAuthentication.userCreatedMessage)
+        store.commit('mutateServerRegistrationSuccessMessage', {
+          message: Config.titles.registerAndAuthentication.userCreatedMessage,
+          visible: true
+        })
       }
     })
   }
@@ -61,7 +67,10 @@ export default class AuthService {
       password: password
     }, (err, authResult) => {
       if (err) {
-        store.commit('mutateServerErrorMessage', `${err.statusCode} ${err.code}: ${err.description}`)
+        store.commit('mutateServerLoginErrorMessage', {
+          message: `${err.description}`,
+          visible: true
+        })
       } else {
         this.verifyUserProfile(authResult)
       }

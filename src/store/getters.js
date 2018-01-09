@@ -1,6 +1,7 @@
 let getters = {
-  serverErrorMessage: state => state.serverErrorMessage,
-  serverSuccessMessage: state => state.serverSuccessMessage,
+  serverRegistrationErrorMessage: state => state.serverRegistrationErrorMessage,
+  serverRegistrationSuccessMessage: state => state.serverRegistrationSuccessMessage,
+  serverLoginErrorMessage: state => state.serverLoginErrorMessage,
   hostName: state => state.hostName,
   isMobile: state => state.isMobile,
   pointerIsTouch: state => state.pointerIsTouch,

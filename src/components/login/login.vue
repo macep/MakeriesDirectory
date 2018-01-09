@@ -39,18 +39,22 @@
           </div>
         </div>
         <transition name="slide-errors" mode="out-in">
-          <div v-if="showError" class="form-group invalid-form has-error">
-            <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
-            <div class="col-sm-8">
-              <span>{{pleaseValidateLoginFormLabel}}</span>
+          <div v-if="showLoginValidationError" class="form-group invalid-form has-error">
+            <label class="col-sm-3 control-label">{{registerErrorLabel}}</label>
+            <div class="col-sm-7">
+              <mega-alert v-model="showLoginValidationError" :closeAction="closeClientMessage" duration="0" type="danger" width="100%" dismissable>
+                {{pleaseValidateLoginFormLabel}}
+              </mega-alert>
             </div>
           </div>
-          <v-touch @tap="closeServerMessage('error')" v-if="showServerErrorMessage" class="form-group invalid-form has-error">
-            <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
-            <div class="col-sm-8">
-              <span>{{serverErrorMessage}}</span>
+          <div v-if="showLoginServerErrorMessage" class="form-group invalid-form has-error">
+            <label class="col-sm-3 control-label">{{registerErrorLabel}}</label>
+            <div class="col-sm-7">
+              <mega-alert id="server-error-login-messages" v-model="showLoginServerErrorMessage" :closeAction="closeServerMessage" duration="0" type="danger" closeFunc="closeServerMessage" width="100%" dismissable>
+                {{serverLoginErrorMessage.message}}
+              </mega-alert>
             </div>
-          </v-touch>
+          </div>
         </transition>
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-8">
@@ -68,10 +72,12 @@
   import Config from '../../api/app.config'
   import cookieService from '../../api/cookie.service'
   import {cleanupAuthCanceledSessions} from '../../modules/utils'
+  import megaAlert from '../overrides/megaAlert.vue'
 
   export default {
     name: 'registration',
     props: ['auth', 'authenticated'],
+    components: {megaAlert},
     data () {
       return {
         title: Config.titles.registerAndAuthentication.titleAuth,
@@ -88,8 +94,8 @@
         password: {value: '', required: true, valid: false},
         keepassa: {value: true, required: false, valid: true},
         formIsValid: true,
-        showError: false,
-        showServerErrorMessage: false
+        showLoginValidationError: false,
+        showLoginServerErrorMessage: false
       }
     },
     mounted () {
@@ -109,24 +115,28 @@
       cleanupAuthCanceledSessions()
     },
     computed: {
-      ...mapGetters(['serverErrorMessage'])
+      ...mapGetters(['serverLoginErrorMessage'])
     },
     methods: {
       loginUser () {
         this.formIsValid = this.username.valid && this.password.valid
 
         if (!this.formIsValid) {
-          this.showError = true
-          setTimeout(() => {
-            this.showError = false
-          }, 5e3)
+          this.showLoginValidationError = true
         } else {
+          this.showLoginValidationError = false
           this.auth.login(this.username.value, this.password.value)
         }
       },
+      closeClientMessage () {
+        this.showLoginValidationError = false
+      },
       closeServerMessage () {
-        this.showServerErrorMessage = false
-        this.$store.commit('mutateServerErrorMessage', false)
+        this.showLoginServerErrorMessage = false
+        this.$store.commit('mutateServerLoginErrorMessage', {
+          message: this.serverLoginErrorMessage.message,
+          visible: false
+        })
       }
     },
     watch: {
@@ -142,12 +152,10 @@
         },
         deep: true
       },
-      serverErrorMessage () {
-        if (this.serverErrorMessage) {
-          this.showServerErrorMessage = true
-          setTimeout(() => {
-            this.showServerErrorMessage = false
-          }, 2e4)
+      serverLoginErrorMessage () {
+        if (this.serverLoginErrorMessage.visible) {
+          this.showLoginServerErrorMessage = true
+          this.showLoginValidationError = false
         }
       }
     },

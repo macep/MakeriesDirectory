@@ -1,9 +1,12 @@
 let mutations = {
-  mutateServerErrorMessage: (state, serverErrorMessage) => {
-    state.serverErrorMessage = serverErrorMessage
+  mutateServerRegistrationErrorMessage: (state, serverRegistrationErrorMessage) => {
+    state.serverRegistrationErrorMessage = serverRegistrationErrorMessage
   },
-  mutateServerSuccessMessage: (state, serverSuccessMessage) => {
-    state.serverSuccessMessage = serverSuccessMessage
+  mutateServerRegistrationSuccessMessage: (state, serverRegistrationSuccessMessage) => {
+    state.serverRegistrationSuccessMessage = serverRegistrationSuccessMessage
+  },
+  mutateServerLoginErrorMessage: (state, serverLoginErrorMessage) => {
+    state.serverLoginErrorMessage = serverLoginErrorMessage
   },
   mutateIsMobile: (state, isMobile) => {
     state.isMobile = !!isMobile

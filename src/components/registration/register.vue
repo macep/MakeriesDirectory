@@ -12,7 +12,7 @@
       <div class="row form-horizontal small-gutter lg-padding">
 
         <div class="form-group required" :class="{'has-error': !username.valid && username.value !==''}">
-          <label for="input-username" class="col-sm-4 control-label">{{userNameLabel}}</label>
+          <label for="input-username" class="col-sm-3 control-label">{{userNameLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && username.value !==''">
               <i class="icon-close is-invalid" v-if="!username.valid"/>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group required" :class="{'has-error': !email.valid && email.value !==''}">
-          <label for="input-email" class="col-sm-4 control-label">{{emailLabel}}</label>
+          <label for="input-email" class="col-sm-3 control-label">{{emailLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && email.value !==''">
               <i class="icon-close is-invalid" v-if="!email.valid"/>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-          <label for="input-first-name" class="col-sm-4 control-label">{{fullNameLabel}}</label>
+          <label for="input-first-name" class="col-sm-3 control-label">{{fullNameLabel}}</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="input-first-name" v-model="firstName.value" :placeholder="firstNameLabel">
           </div>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group" :class="{'has-warning': !website.valid}">
-          <label for="input-website" class="col-sm-4 control-label">{{websiteLabel}}</label>
+          <label for="input-website" class="col-sm-3 control-label">{{websiteLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formIsValid && website.value !== ''">
               <i v-if="!website.valid" class="icon-close is-invalid not-important"/>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="form-group required" :class="{'has-error': (!password.valid && password.value !== '') || !passwordsAreEqual}">
-          <label for="input-password" class="col-sm-4 control-label">{{passwordLabel}}</label>
+          <label for="input-password" class="col-sm-3 control-label">{{passwordLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && password.value !== ''">
               <i class="icon-close is-invalid" v-if="!password.valid"/>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="form-group required" :class="{'has-error': (!password2.valid && password2.value !== '') || !passwordsAreEqual}">
-          <label for="input-password" class="col-sm-4 control-label">{{passwordAgainLabel}}</label>
+          <label for="input-password" class="col-sm-3 control-label">{{passwordAgainLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && password2.value !== ''">
               <i class="icon-close is-invalid" v-if="!password2.valid"/>
@@ -75,39 +75,49 @@
             <input type="password" class="form-control" id="input-password2" v-model="password2.value" :placeholder="passwordAgainPlaceholderLabel">
           </div>
         </div>
+
         <transition name="slide-errors" mode="out-in">
-          <div v-if="showError" class="form-group invalid-form has-error">
-            <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
+          <div v-if="showRegistrationValidationError" class="form-group invalid-form has-error">
+            <label class="col-sm-3 control-label">{{registerErrorLabel}}</label>
             <div class="col-sm-8">
-              <span>{{pleaseValidateRegisterFormLabel}}</span>
+              <mega-alert v-model="showRegistrationValidationError" :closeAction="closeRegistrationClientMessages" duration="0" type="danger" width="100%" dismissable>
+                {{pleaseValidateRegisterFormLabel}}
+              </mega-alert>
             </div>
           </div>
-          <v-touch @tap="closeServerMessage('error')" v-if="showServerErrorMessage" class="form-group invalid-form has-error">
-            <label class="col-sm-4 control-label">{{registerErrorLabel}}</label>
+
+          <div v-if="showServerRegistrationErrorMessage" class="form-group invalid-form has-error">
+            <label class="col-sm-3 control-label">{{registerErrorLabel}}</label>
             <div class="col-sm-8">
-              <span>{{serverErrorMessage}}</span>
+              <mega-alert v-model="showServerRegistrationErrorMessage" :closeAction="closeRegistrationServerErrorMessage" duration="0" type="danger" width="100%" dismissable>
+                {{serverRegistrationErrorMessage.message}}
+              </mega-alert>
             </div>
-          </v-touch>
-          <v-touch @tap="closeServerMessage('success')" v-if="showServerSuccessMessage" class="form-group valid-form has-success">
-            <label class="col-sm-4 control-label">{{registerSuccessLabel}}</label>
+          </div>
+
+          <div v-if="showServerRegistrationSuccessMessage" class="form-group valid-form has-success">
+            <label class="col-sm-3 control-label">{{registerSuccessLabel}}</label>
             <div class="col-sm-8">
-              <span>{{serverSuccessMessage}}</span>
+              <mega-alert v-model="showServerRegistrationSuccessMessage" :closeAction="closeRegistrationServerSuccessMessage" duration="0" type="success" width="100%" dismissable>
+                {{serverRegistrationSuccessMessage.message}}
+              </mega-alert>
             </div>
-          </v-touch>
+          </div>
         </transition>
+
         <div class="form-group">
-          <div class="col-sm-offset-4 col-sm-8">
+          <div class="col-sm-offset-3 col-sm-8">
             <div class="checkbox">
               <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn lg-margin-right"
               :class="{'btn-warning': !formIsValid, 'btn-danger disabled': !formCanPass, 'btn-success': formCanPass}">{{loginSubmitLabel}}</v-touch>
-              <label><input v-model="keepassa.value" type="checkbox">{{keepPassLabel}}</label>
             </div>
           </div>
         </div>
       </div>
       <hr>
+
       <div class="form-group required legend">
-        <div class="col-sm-offset-4 col-sm-8">
+        <div class="col-sm-offset-3 col-sm-8">
           <label>{{markedFieldsLabel}}</label>
         </div>
       </div>
@@ -116,13 +126,15 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import cookieService from '../../api/cookie.service'
+  import megaAlert from '../overrides/megaAlert.vue'
 
   export default {
     name: 'registration',
     props: ['auth', 'authenticated'],
+    components: {megaAlert},
     data () {
       return {
         title: Config.titles.registerAndAuthentication.titleReg,
@@ -152,13 +164,13 @@
         password2: {value: '', required: true, valid: false},
         passwordsAreEqual: true,
         keepassa: {value: true, required: false, valid: true},
-        showError: false,
-        showServerErrorMessage: false,
-        showServerSuccessMessage: false
+        showRegistrationValidationError: false,
+        showServerRegistrationErrorMessage: false,
+        showServerRegistrationSuccessMessage: false
       }
     },
     computed: {
-      ...mapGetters(['userInformationMissing', 'serverErrorMessage', 'serverSuccessMessage']),
+      ...mapGetters(['serverRegistrationErrorMessage', 'serverRegistrationSuccessMessage']),
       formCanPass () {
         return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.passwordsAreEqual
       },
@@ -167,14 +179,11 @@
       }
     },
     methods: {
-      ...mapActions([]),
       registerNewUser () {
         if (!this.formCanPass) {
-          this.showError = true
-          setTimeout(() => {
-            this.showError = false
-          }, 5e3)
+          this.showRegistrationValidationError = true
         } else {
+          this.showRegistrationValidationError = false
           let metadata = {
             userInformationCollected: 'false',
             askedForUserInformation: '0'
@@ -194,37 +203,60 @@
           cookieService.setCookie(this.email.value, cookieValue)
         }
       },
-      closeServerMessage (result) {
-        if (result === 'error') {
-          this.showServerErrorMessage = false
-          this.$store.commit('mutateServerErrorMessage', false)
-        } else {
-          this.showServerSuccessMessage = false
-          this.$store.commit('mutateServerSuccessMessage', false)
+      closeRegistrationClientMessages () {
+        this.showRegistrationValidationError = false
+      },
+      closeRegistrationServerErrorMessage () {
+        this.showServerRegistrationErrorMessage = false
+        this.$store.commit('mutateServerRegistrationErrorMessage', {
+          message: this.serverRegistrationErrorMessage.message,
+          visible: false
+        })
+      },
+      closeRegistrationServerSuccessMessage () {
+        this.showServerRegistrationSuccessMessage = false
+        this.$store.commit('mutateServerRegistrationSuccessMessage', {
+          message: this.serverRegistrationSuccessMessage.message,
+          visible: false
+        })
+      },
+      closeNotificationsAny () {
+        if (this.showRegistrationValidationError === true) {
+          this.showRegistrationValidationError = false
+        }
+        if (this.showServerRegistrationErrorMessage === true) {
+          this.closeRegistrationServerErrorMessage()
+        }
+        if (this.showServerRegistrationSuccessMessage === true) {
+          this.closeRegistrationServerSuccessMessage()
         }
       }
     },
     watch: {
       username: {
         handler () {
+          this.closeNotificationsAny()
           this.username.valid = this.username.value.length !== '' && this.username.value.length >= Config.username.length.min && this.username.value.length <= Config.username.length.max
         },
         deep: true
       },
       email: {
         handler () {
+          this.closeNotificationsAny()
           this.email.valid = /^(([^<>()[\]\\.,;:#\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/.test(this.email.value)
         },
         deep: true
       },
       website: {
         handler () {
+          this.closeNotificationsAny()
           this.website.valid = this.website.value === '' ? true : /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(this.website.value)
         },
         deep: true
       },
       password: {
         handler () {
+          this.closeNotificationsAny()
           this.password.valid = this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
           this.passwordsAreEqual = this.password.value === this.password2.value
         },
@@ -232,31 +264,28 @@
       },
       password2: {
         handler () {
+          this.closeNotificationsAny()
           this.password2.valid = this.password2.value.length >= Config.password.length.min && this.password2.value.length <= Config.password.length.max
           this.passwordsAreEqual = this.password.value === this.password2.value
         },
         deep: true
       },
-      serverErrorMessage () {
-        if (this.serverErrorMessage) {
-          this.showServerErrorMessage = true
-          setTimeout(() => {
-            this.showServerErrorMessage = false
-          }, 5e3)
+      serverRegistrationErrorMessage () {
+        if (this.serverRegistrationErrorMessage.visible) {
+          this.showServerRegistrationErrorMessage = true
+          this.showRegistrationValidationError = false
         }
       },
-      serverSuccessMessage () {
-        if (this.serverSuccessMessage) {
-          this.showServerSuccessMessage = true
+      serverRegistrationSuccessMessage () {
+        if (this.serverRegistrationSuccessMessage.visible) {
+          this.showServerRegistrationSuccessMessage = true
+          this.showRegistrationValidationError = false
           this.username.value = ''
           this.firstName.value = ''
           this.lastName.value = ''
           this.email.value = ''
           this.website.value = ''
           this.password.value = ''
-          setTimeout(() => {
-            this.showServerSuccessMessage = false
-          }, 5e3)
         }
       }
     },

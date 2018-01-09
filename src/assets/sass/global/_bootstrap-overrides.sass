@@ -1,5 +1,18 @@
 $border-style: 2px solid $light-turqoise
 
+.alert
+  @extend .din-web-cond
+  @extend .no-margin
+
+  .close
+    @extend %fast-transitions
+    font-size: 20px
+    position: relative
+    top: -3px
+
+    span
+      line-height: 1 !important
+
 .panel-group
   .panel,
   .panel + .panel
