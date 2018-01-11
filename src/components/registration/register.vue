@@ -221,43 +221,40 @@
           visible: false
         })
       },
-      closeNotificationsAny () {
+      closeNotificationsWhenEditting () {
         if (this.showRegistrationValidationError === true) {
           this.showRegistrationValidationError = false
         }
         if (this.showServerRegistrationErrorMessage === true) {
           this.closeRegistrationServerErrorMessage()
         }
-        if (this.showServerRegistrationSuccessMessage === true) {
-          this.closeRegistrationServerSuccessMessage()
-        }
       }
     },
     watch: {
       username: {
         handler () {
-          this.closeNotificationsAny()
+          this.closeNotificationsWhenEditting()
           this.username.valid = this.username.value.length !== '' && this.username.value.length >= Config.username.length.min && this.username.value.length <= Config.username.length.max
         },
         deep: true
       },
       email: {
         handler () {
-          this.closeNotificationsAny()
+          this.closeNotificationsWhenEditting()
           this.email.valid = isEmail(this.email.value)
         },
         deep: true
       },
       website: {
         handler () {
-          this.closeNotificationsAny()
+          this.closeNotificationsWhenEditting()
           this.website.valid = this.website.value === '' ? true : isWebsite(this.website.value)
         },
         deep: true
       },
       password: {
         handler () {
-          this.closeNotificationsAny()
+          this.closeNotificationsWhenEditting()
           this.password.valid = this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
           this.passwordsAreEqual = this.password.value === this.password2.value
         },
@@ -265,7 +262,7 @@
       },
       password2: {
         handler () {
-          this.closeNotificationsAny()
+          this.closeNotificationsWhenEditting()
           this.password2.valid = this.password2.value.length >= Config.password.length.min && this.password2.value.length <= Config.password.length.max
           this.passwordsAreEqual = this.password.value === this.password2.value
         },

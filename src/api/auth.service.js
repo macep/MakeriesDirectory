@@ -46,7 +46,6 @@ export default class AuthService {
       password,
       user_metadata: userMetadata
     }, (err, resp) => {
-      console.log(err, resp)
       if (err) {
         store.commit('mutateServerRegistrationErrorMessage', {
           message: `${err.original.response.body.message || err.original.response.body.description}`,
