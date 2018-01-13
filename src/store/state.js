@@ -34,6 +34,7 @@ export default {
   archivedYears: [],
   sliderPosts: [],
   bannerPosts: [],
+  directoryBannersPosts: [],
   directory: [],
   showAllSuppliers: false,
   directoryDisabled: [],

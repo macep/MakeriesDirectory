@@ -112,6 +112,12 @@ let actions = {
         })
       }
 
+      let getDirectoryBannersPosts = () => {
+        apiService.getPostsByCategory(Config.postsIDs.directoryBanners).then(response => {
+          commit('mutateDirectoryBannersPosts', response.posts)
+        })
+      }
+
       let getBannerPosts = () => {
         apiService.getPostsByCategory(Config.postsIDs.bannerPosts).then(response => {
           let bannerPosts = response.posts.reverse()
@@ -132,7 +138,7 @@ let actions = {
         })
       }
 
-      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getCategories(), getAllPages(), getSliderPosts(), getBannerPosts()])
+      Promise.all([getMainMenu(), getSecondaryMenu(), getAllPosts(), getCategories(), getAllPages(), getSliderPosts(), getDirectoryBannersPosts(), getBannerPosts()])
         .then(() => {
           time.t1 = performance.now()
           console.debug('[actions] api data received in ' + ((time.t1 - time.t0) / 1e3).toFixed(3) + 's')

@@ -19,6 +19,7 @@ export default {
   archivedYears: state => state.archivedYears,
   sliderPosts: state => state.sliderPosts,
   bannerPosts: state => state.bannerPosts,
+  directoryBannersPosts: state => state.directoryBannersPosts,
   directory: state => state.directory,
   showAllSuppliers: state => state.showAllSuppliers,
   directoryDisabled: state => state.directoryDisabled,

@@ -56,6 +56,9 @@ export default {
   mutateBannerPosts: (state, bannerPosts) => {
     state.bannerPosts = bannerPosts
   },
+  mutateDirectoryBannersPosts: (state, directoryBannersPosts) => {
+    state.directoryBannersPosts = directoryBannersPosts
+  },
   mutateDirectory: (state, directory) => {
     state.directory = directory
   },

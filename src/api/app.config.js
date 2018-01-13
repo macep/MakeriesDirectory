@@ -176,7 +176,8 @@ export default {
   },
   postsIDs: {
     sliderPosts: 863,
-    bannerPosts: 864
+    bannerPosts: 864,
+    directoryBanners: 865
   },
   pagesIDs: {
     about: 2,

@@ -1,0 +1,26 @@
+// home slider: a single slide for now
+.posts-slider
+  @extend .text-center
+
+  .slide
+    position: relative
+
+    a
+      display: block
+
+  .slide-caption
+    @extend .xlg-padding
+    color: $white
+    background: rgba($dark-turqoise, .9)
+    position: absolute
+    top: calc(50% - 130px)
+    left: 25%
+    width: 50%
+
+  .slide-caption-logo
+    display: block
+    margin: 0 auto
+    fill: $white
+
+  .slide-caption-title
+    font-size: 28px

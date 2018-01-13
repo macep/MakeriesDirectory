@@ -6,6 +6,10 @@
     <div class="col-sm-9">
       <div class="row small-gutter">
         <div class="col-xs-12">
+          <posts-slider :data="directoryBannersPosts"/>
+        </div>
+
+        <div class="col-xs-12">
           <div class="row no-gutter">
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
               <div id="search-engine">
@@ -38,6 +42,7 @@
   import makeriesList from './makeries-list.vue'
   import viewType from './view-type.vue'
   import waitDirectoryData from '../../mixins/waitDirectoryData'
+  import postsSlider from '../common/posts-slider.vue'
 
   export default {
     name: 'directory-page',
@@ -55,9 +60,12 @@
         keys: ['name', 'briefDescription', 'region', 'products', 'businessTypes', 'serviceTypes']
       }
     },
-    components: {makeriesMenu, makeriesList, viewType},
+    components: {makeriesMenu, makeriesList, viewType, postsSlider},
     computed: {
-      ...mapGetters(['directory', 'viewType', 'isMobile', 'showAllSuppliers']),
+      ...mapGetters(['directory', 'viewType', 'isMobile', 'showAllSuppliers', 'directoryBannersPosts']),
+      directoryBanner () {
+        return this.posts.find(item => item.id === Config.pagesIDs.directoryBanner)
+      },
       directoryEnabled () {
         return this.directory.filter(maker => maker.enabled)
       },
