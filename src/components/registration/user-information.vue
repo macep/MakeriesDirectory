@@ -13,12 +13,12 @@
           <div class="row">
             <div class="col-xs-6 xlg-padding text-right">
               <tooltip effect="scale" placement="bottom" :content="personalUse">
-                <img @click="showPersonalUseForm = true" :src="partyHat">
+                <v-touch tag="img" @tap="showPersonalUseForm = true" :src="partyHat"/>
               </tooltip>
             </div>
             <div class="col-xs-6 xlg-padding">
               <tooltip effect="scale" placement="bottom" :content="businessUse">
-                <img @click="showBusinessUseForm = true" :src="topHat">
+                <v-touch tag="img" @tap="showBusinessUseForm = true" :src="topHat"/>
               </tooltip>
             </div>
           </div>
@@ -76,8 +76,8 @@
               </div>
             </div>
             <div slot="modal-footer" class="modal-footer">
-              <button type="button" class="btn btn-default" @click="closeModal('personal')">{{quitDontSave}}</button>
-              <button type="button" class="btn btn-success" @click="updateUserInformation('personal')">{{save}}</button>
+              <v-touch tag="button" type="button" class="btn btn-default" @tap="closeModal('personal')">{{quitDontSave}}</v-touch>
+              <v-touch tag="button" type="button" class="btn btn-success" @tap="updateUserInformation('personal')">{{save}}</v-touch>
             </div>
           </modal>
 
@@ -137,8 +137,8 @@
               </div>
             </div>
             <div slot="modal-footer" class="modal-footer">
-              <button type="button" class="btn btn-default" @click="closeModal('business')">{{quitDontSave}}</button>
-              <button type="button" class="btn btn-success" @click="updateUserInformation('business')">{{save}}</button>
+              <v-touch tag="button" type="button" class="btn btn-default" @tap="closeModal('business')">{{quitDontSave}}</v-touch>
+              <v-touch tag="button" type="button" class="btn btn-success" @tap="updateUserInformation('business')">{{save}}</v-touch>
             </div>
           </modal>
         </div>

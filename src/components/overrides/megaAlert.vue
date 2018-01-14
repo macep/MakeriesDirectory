@@ -1,9 +1,9 @@
 <template>
   <transition name="fade">
     <div v-show="val" :class="['alert', 'alert-'+type, placement]" :style="{width}" role="alert">
-      <button v-show="dismissable" type="button" class="close" @click="closeAction">
+      <v-touch tag="button" v-show="dismissable" type="button" class="close" @tap="closeAction">
         <span>&times;</span>
-      </button>
+      </v-touch>
       <slot/>
     </div>
   </transition>

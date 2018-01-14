@@ -4,19 +4,17 @@
       <jgm-logo/>
     </div>
     <div id="mobile-directory-menu-links" v-if="isDirectoryLocation">
-      <makeries-menu/>
-      <hr>
+      <makeries-menu/><hr>
     </div>
     <div id="mobile-journal-menu-links" v-if="isJournalLocation">
-      <blog-menu :one-at-a-time="true" :acc-data="categories"/>
-      <hr>
+      <blog-menu :one-at-a-time="true" :acc-data="categories"/><hr>
     </div>
     <div id="mobile-menu-links">
       <v-touch @tap="closeMobileMenu" v-for="(link, index) in mainMenu" :key="link.id" v-if="index > 0">
         <router-link class="mobile-nav-item" :to="link.url">{{link.title}}</router-link>
       </v-touch>
       <v-touch @tap="closeAndSignOut" v-if="authenticated">
-        <a class="mobile-nav-item auth-nav-item logged-in" href="#" @click.prevent="auth.logout">logout</a>
+        <div class="mobile-nav-item auth-nav-item logged-in">logout</div>
       </v-touch>
       <span class="nav-item auth-nav-item" v-if="!authenticated">
         <router-link class="logged-out" to="/login">login</router-link>
@@ -66,8 +64,8 @@
         this.$store.commit('mutateMobileMenuVisibile', false)
       },
       closeAndSignOut () {
+        this.auth.logout()
         this.closeMobileMenu()
-        this.logout()
       }
     }
   }
