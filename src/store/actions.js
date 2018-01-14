@@ -37,7 +37,11 @@ let actions = {
         return apiService.getPosts(null, null, 100, 'desc').then((response) => {
           let cleanPostsCollection = response.posts.filter(item => {
             // TODO: could be improved
-            if (item.categories[0] !== Config.postsIDs.bannerPosts && item.categories[0] !== Config.postsIDs.sliderPosts) {
+            if (
+              item.categories[0] !== Config.postsIDs.bannerPosts &&
+              item.categories[0] !== Config.postsIDs.sliderPosts &&
+              item.categories[0] !== Config.postsIDs.directoryBanners
+            ) {
               return item
             }
           })
@@ -50,7 +54,7 @@ let actions = {
 
           cleanPostsCollection.forEach((post) => {
             let dateString = post.date.split('T')[0]
-            let imagesArrayFromContentString = post.content.rendered.match(/<img[^>]*>/g)
+            let imagesArrayFromContentString = post.content.rendered.match(/<img[^>]*>/g) || []
             let imagesArrayFromContentStringProcessed = []
             imagesArrayFromContentString.forEach(img => {
               let urlResulted = getSubstringBetweenSubstrings(img, `" src="`, `" alt="`)
