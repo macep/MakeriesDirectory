@@ -47,11 +47,10 @@
   export default {
     name: 'makeries-menu',
     props: ['oneAtATime', 'accData'],
-    data () {
-      return {}
-    },
     mounted () {
-      this.loadDirectory()
+      if (this.directory.length < 1) {
+        this.loadDirectory()
+      }
     },
     computed: {
       ...mapGetters(['directoryFilterData', 'directory', 'isMobile', 'showAllSuppliers']),
