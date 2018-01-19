@@ -1,6 +1,13 @@
 import apiService from '../api/api.service'
 import Config from '../api/app.config'
-import {friendlyMonth, getRouteFromWpMenus, findOccurences, friendlyUrl, sortObjectProperties, getSubstringBetweenSubstrings} from '../modules/utils'
+import {
+  friendlyMonth,
+  getRouteFromWpMenus,
+  findOccurences,
+  friendlyUrl,
+  sortObjectProperties,
+  getSubstringBetweenSubstrings
+} from '../modules/utils'
 
 let actions = {
   loadProject: ({commit}) => {

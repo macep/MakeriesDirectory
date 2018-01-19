@@ -3,13 +3,13 @@
     <span v-for="link in mainMenu" :key="link.id" class="nav-item">
       <a v-if="link.object_id === weekenderId" :href="weekenderExternal" target="_new">{{link.title}}</a>
       <router-link v-else-if="link.object_id === directory" :to="directoryRoute" class="featured-makers">
-        <div @click="directoryFeatured">{{link.title}}</div>
+        <v-touch @tap="directoryFeatured">{{link.title}}</v-touch>
       </router-link>
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
     <span class="nav-item auth-nav-item" v-if="authenticated">
       <img :src="avatar" id="profile-avatar">
-      <a class="logged-in" href="#" @click.prevent="auth.logout">logout</a>
+      <v-touch class="logged-in" href="#" @tap.prevent="auth.logout">logout</v-touch>
     </span>
     <span class="nav-item auth-nav-item" v-if="!authenticated">
       <router-link class="logged-out" to="/login">login</router-link>

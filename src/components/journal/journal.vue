@@ -5,7 +5,7 @@
     </div>
     <div class="col-sm-9 col-md-10">
       <div class="row small-gutter">
-        <div class="col-xs-6 post-item" v-for="post in posts" :key="post.id">
+        <div class="col-xs-12 col-sm-6 post-item" v-for="post in posts" :key="post.id">
           <post :route="post.spa_route" :img="post.images[0]" :title="post.title" :date="post.date" :background="true"/>
         </div>
       </div>

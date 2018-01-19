@@ -1,27 +1,34 @@
 <template>
-  <nav id="mobile-menu" :class="{'open': mobileMenuVisibile}">
+  <nav id="mobile-menu" ref="mobileMenu" :class="{'open': mobileMenuVisibile}">
     <div class="fixed-logo">
       <jgm-logo/>
     </div>
+
     <div id="mobile-directory-menu-links" v-if="isDirectoryLocation">
-      <makeries-menu/>
-      <hr>
+      <makeries-menu/><br>
     </div>
+
     <div id="mobile-journal-menu-links" v-if="isJournalLocation">
-      <blog-menu :one-at-a-time="true" :acc-data="categories"/>
-      <hr>
+      <blog-menu :one-at-a-time="true" :acc-data="categories"/><br>
     </div>
+
     <div id="mobile-menu-links">
-      <v-touch @tap="closeMobileMenu" v-for="(link, index) in mainMenu" :key="link.id" v-if="index > 0">
-        <router-link class="mobile-nav-item" :to="link.url">{{link.title}}</router-link>
+      <v-touch @tap="closeMobileMenuAndGotoRoute(link.url)" v-for="(link, index) in mainMenu" :key="link.id" v-if="index > 0">
+        <div class="mobile-nav-item">{{link.title}}</div>
       </v-touch>
+
       <v-touch @tap="closeAndSignOut" v-if="authenticated">
-        <a class="mobile-nav-item auth-nav-item logged-in" href="#" @click.prevent="auth.logout">logout</a>
+        <div class="mobile-nav-item auth-nav-item logged-in">logout</div>
       </v-touch>
-      <span class="nav-item auth-nav-item" v-if="!authenticated">
-        <router-link class="logged-out" to="/login">login</router-link>
-        <small><router-link to="/register">or register</router-link></small>
-      </span>
+
+      <v-touch @tap="closeMobileMenuAndGotoRoute('/login')" v-if="!authenticated">
+        <div class="mobile-nav-item auth-nav-item login">Login</div>
+      </v-touch>
+
+      <v-touch @tap="closeMobileMenuAndGotoRoute('/register')" v-if="!authenticated">
+        <small>or</small>
+        <div class="mobile-nav-item auth-nav-item register">register</div>
+      </v-touch>
     </div>
   </nav>
 </template>
@@ -38,13 +45,9 @@
     props: ['auth', 'authenticated'],
     components: {jgmLogo, makeriesMenu, blogMenu},
     mounted () {
-      let mobileMenu = document.querySelector('#mobile-menu')
+      let mobileMenu = this.$refs.mobileMenu
       mobileMenu.addEventListener('scroll', () => {
-        if (this.$el.scrollTop > 20) {
-          mobileMenu.classList.add('shadowed')
-        } else {
-          mobileMenu.classList.remove('shadowed')
-        }
+        mobileMenu.classList[(this.$el.scrollTop > 20) ? 'add' : 'remove']('shadowed')
       })
     },
     computed: {
@@ -62,12 +65,13 @@
       }
     },
     methods: {
-      closeMobileMenu () {
+      closeMobileMenuAndGotoRoute (url) {
         this.$store.commit('mutateMobileMenuVisibile', false)
+        this.$router.push(url)
       },
       closeAndSignOut () {
-        this.closeMobileMenu()
-        this.logout()
+        this.auth.logout()
+        this.closeMobileMenuAndGotoRoute()
       }
     }
   }

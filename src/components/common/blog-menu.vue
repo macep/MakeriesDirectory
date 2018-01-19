@@ -11,8 +11,8 @@
       <div id="collapse-1" class="panel-collapse collapse" :class="{'in': categoriesOpen}" :style="panelStyle(categoriesOpen)" role="tabpanel" aria-labelledby="heading-1">
         <div class="panel-body">
           <ul>
-            <v-touch tag="li" @tap="closeMobileMenu" v-for="category in accData" :key="category.id">
-              <router-link :to="journalByCatIdRoute(category.slug, category.id)">{{category.name}}</router-link> ({{category.count}})
+            <v-touch tag="li" @tap="gotoRoute(`category`, `${category.id}/${category.slug}`)" v-for="category in accData" :key="category.id">
+              <span>{{category.name}} ({{category.count}})</span>
             </v-touch>
           </ul>
         </div>
@@ -29,8 +29,8 @@
       <div id="collapse-2" class="panel-collapse collapse" :class="{'in': archivesOpen}" :style="panelStyle(archivesOpen)" role="tabpanel" aria-labelledby="heading-2">
         <div class="panel-body">
           <ul>
-            <v-touch tag="li" @tap="closeMobileMenu" v-for="year in archivedYearsCollection" :key="year.el">
-              <router-link :to="year.route">{{year.el}}</router-link> ({{year.occurences}})
+            <v-touch tag="li" @tap="gotoRoute(`archive`, year.route)" v-for="year in archivedYearsCollection" :key="year.el">
+              <span>{{year.el}} ({{year.occurences}})</span>
             </v-touch>
           </ul>
         </div>
@@ -66,8 +66,9 @@
       }
     },
     methods: {
-      journalByCatIdRoute (slug, id) {
-        return `${Config.routerSettings.category}${id}/${slug}`
+      gotoRoute (type, url) {
+        this.closeMobileMenu()
+        this.$router.push((type === 'archive') ? url : `${Config.routerSettings.category}${url}`)
       },
       panelStyle (val) {
         return {
