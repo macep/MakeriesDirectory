@@ -1,7 +1,13 @@
 $fixed-logo-height: 110px
 
 %mobile-links
-  @extend .md-padding-top
+  @extend .sm-padding-top
+  @extend .sm-padding-bottom
+  display: block
+  font-size: 24px
+
+%mobile-links2
+  @extend .lg-padding-top
   @extend .md-padding-bottom
   display: block
   font-size: 24px
@@ -42,8 +48,8 @@ $fixed-logo-height: 110px
 
 
 .panel-title
- a
-   @extend %mobile-links
+   a
+     @extend %mobile-links2
 
 #mobile-directory-menu-links,
 #mobile-journal-menu-links
@@ -54,19 +60,38 @@ $fixed-logo-height: 110px
   @extend .xlg-margin-top
   display: none
 
-  div
+  > div
     @extend %menu-animation
     @extend %main-headings
+    @extend %mobile-links
     border-bottom: $light-turqoise-divider
 
     &:first-child
       border-top: $light-turqoise-divider
 
-    a
-      @extend %mobile-links
+    > div
+      @extend .sm-padding-top
+
+    .auth-nav-item
+      &.login
+        color: $brand-primary
+        background: rgba($state-info-bg, .5)
+
+      &.register
+        color: $brand-success
+        background: rgba($state-success-bg, .5)
 
       &.logged-in
         color: $brand-danger
+        background: rgba($state-danger-bg, .5)
+
+    small
+      @extend .sm-padding
+      position: absolute
+      left: calc(50% - #{$xxlg-space})
+      top: $sm-space
+      font-size: 13px
+      color: rgba($brand-success, .5)
 
 
 .icon-dehaze,
@@ -76,7 +101,7 @@ $fixed-logo-height: 110px
   top: $lg-space * 2
   right: 0
   font-size: 24px
-  color: rgba($dark-turqoise, .75)
+  color: rgba($dark-turqoise, .5)
   cursor: pointer
 
   &:before
