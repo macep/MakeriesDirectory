@@ -2,27 +2,25 @@
   <div class="panel-group" id="accordion" role="tablist" :aria-multiselectable="oneAtATime">
     <div class="panel panel-default">
       <div class="panel-heading" id="heading-all">
-        <v-touch @tap="closeMobileMenu" tag="h4" class="panel-title">
-          <v-touch tag="a" @tap="showAllSuppliersOn">
-            {{searchAllTitle}}
-          </v-touch>
-        </v-touch>
+        <h4 class="panel-title">
+          <v-touch tag="a" @tap="showAllSuppliersOn">{{searchAllTitle}}</v-touch>
+        </h4>
       </div>
     </div>
 
     <div class="panel panel-default" v-for="(filter, value) in directoryFilterDataCollection" v-if="filter.data.length > 0" :key="filter.el">
-      <div class="panel-heading" role="tab" :id="'heading-' + value">
-        <h4 class="panel-title" :class="{'open': 'item-' + value}">
-          <v-touch tag="a"role="button" @tap="selectClickedElement" data-toggle="collapse" data-parent="#accordion" :aria-expanded="'item-' + value" :aria-controls="'collapse-' + value">
+      <div class="panel-heading" role="tab" :id="`heading-${value}`">
+        <h4 class="panel-title" :class="{'open': `item-${value}`}">
+          <v-touch tag="a"role="button" @tap="selectClickedElement(`collapse-${value}`)" data-toggle="collapse" data-parent="#accordion" :aria-expanded="`item-${value}`" :aria-controls="`collapse-${value}`">
             {{filter.name}}
           </v-touch>
         </h4>
       </div>
-      <div :id="'collapse-' + value" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="'heading-' + value">
+      <div :id="`collapse-${value}`" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="`heading-${value}`">
         <div class="panel-body">
           <ul>
-            <v-touch tag="li" @tap="closeMobileMenu" v-for="filterItem in filter.data" :key="filter.el">
-              <router-link :to="filterItem.url">{{filterItem.el}}</router-link> ({{filterItem.occurences}})
+            <v-touch tag="li" @tap="gotoRoute(filterItem.url)" v-for="filterItem in filter.data" :key="filter.el">
+              <span>{{filterItem.el}} ({{filterItem.occurences}})</span>
             </v-touch>
           </ul>
         </div>
@@ -31,11 +29,9 @@
 
     <div class="panel panel-default">
       <div class="panel-heading" id="heading-az">
-        <v-touch @tap="closeMobileMenu" tag="h4" class="panel-title">
-          <router-link :to="azRoute">
-            {{azTitle}}
-          </router-link>
-        </v-touch>
+        <h4 class="panel-title">
+          <v-touch @tap="gotoRoute(azRoute)">{{azTitle}}</v-touch>
+        </h4>
       </div>
     </div>
   </div>
@@ -74,20 +70,18 @@
           height: val ? '' : '0'
         }
       },
-      selectClickedElement (event) {
-        let elID = event.target.attributes[3].nodeValue.split('-')[1]
-        this.toggleClass(document.querySelector('#collapse-' + elID))
-      },
-      toggleClass (el) {
-        if (el.classList[2] === 'in') {
-          el.classList.remove('in')
-        } else {
-          el.classList.add('in')
-        }
+      selectClickedElement (ref) {
+        const el = document.getElementById(ref)
+        el.classList[(el.classList[2] === 'in') ? 'remove' : 'add']('in')
       },
       showAllSuppliersOn () {
         this.$store.commit('mutateShowAllSuppliers', true)
         this.$router.push('/directory')
+        this.closeMobileMenu()
+      },
+      gotoRoute (url) {
+        this.$router.push(url)
+        this.closeMobileMenu()
       },
       closeMobileMenu () {
         if (this.isMobile) {

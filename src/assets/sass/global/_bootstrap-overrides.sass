@@ -42,7 +42,7 @@ $border-style: 2px solid $light-turqoise
         color: $white
         background: $dark-turqoise
 
-    a
+    a, div
       @extend .md-padding-top
       @extend .sm-padding-bottom
       @extend %fast-transitions
@@ -57,7 +57,14 @@ $border-style: 2px solid $light-turqoise
     font-size: 12px
     line-height: 2
 
-    a
+    li
+      cursor: pointer
+
+      &:hover
+        span
+          background: rgba($white, .75)
+
+    span
       &:hover
         text-decoration: underline
 
