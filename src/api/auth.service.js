@@ -89,7 +89,7 @@ export default class AuthService {
         if (authResult.idTokenPayload.email !== 'underfined') {
           // we build a form dynamically and post its data to the php file
           let socialUserHiddenForm = document.createElement('form')
-          socialUserHiddenForm.action = 'social-user-to-mailchimp.php'
+          socialUserHiddenForm.action = '/social-user-to-mailchimp.php'
           socialUserHiddenForm.method = 'post'
 
           let email = document.createElement('input')
