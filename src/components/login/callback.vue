@@ -1,5 +1,8 @@
 <template>
-  <activity-indicator :show="true"/>
+  <div>
+    <activity-indicator :show="true"/>
+    <div id="social-user-hidden-form-wrapper"/>
+  </div>
 </template>
 
 <script>
