@@ -1,4 +1,4 @@
-let wpLocation = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : 'http://uix.ro/wp/'
+let wpLocation = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : `${window.location.origin}/wp/`
 
 export default {
   apiUrlBase: '/',
