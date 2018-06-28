@@ -17,18 +17,18 @@
         <div class="mobile-nav-item">{{link.title}}</div>
       </v-touch>
 
-      <v-touch @tap="closeAndSignOut" v-if="authenticated">
-        <div class="mobile-nav-item auth-nav-item logged-in">logout</div>
-      </v-touch>
+      <!--<v-touch @tap="closeAndSignOut" v-if="authenticated">-->
+        <!--<div class="mobile-nav-item auth-nav-item logged-in">logout</div>-->
+      <!--</v-touch>-->
 
-      <v-touch @tap="closeMobileMenuAndGotoRoute('/login')" v-if="!authenticated">
-        <div class="mobile-nav-item auth-nav-item login">Login</div>
-      </v-touch>
+      <!--<v-touch @tap="closeMobileMenuAndGotoRoute('/login')" v-if="!authenticated">-->
+        <!--<div class="mobile-nav-item auth-nav-item login">Login</div>-->
+      <!--</v-touch>-->
 
-      <v-touch @tap="closeMobileMenuAndGotoRoute('/register')" v-if="!authenticated">
-        <small>or</small>
-        <div class="mobile-nav-item auth-nav-item register">register</div>
-      </v-touch>
+      <!--<v-touch @tap="closeMobileMenuAndGotoRoute('/register')" v-if="!authenticated">-->
+        <!--<small>or</small>-->
+        <!--<div class="mobile-nav-item auth-nav-item register">register</div>-->
+      <!--</v-touch>-->
     </div>
   </nav>
 </template>
