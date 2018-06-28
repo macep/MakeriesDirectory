@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import Config from '../../api/app.config'
   import blogMenu from '../common/blog-menu.vue'
   import post from './post.vue'
@@ -22,11 +22,29 @@
   export default {
     name: 'journal-page',
     components: {blogMenu, post},
+    mounted () {
+      if (this.posts.length < 1) {
+        this.loadPosts()
+      }
+    },
     computed: {
       ...mapGetters(['posts', 'categories', 'isMobile'])
     },
+    methods: {
+      ...mapActions(['loadPosts']),
+      stopActivityIndicator () {
+        if (this.posts.length > 0) {
+          this.$store.commit('mutateActivityIndicator', false)
+        }
+      }
+    },
     metaInfo: {
       title: `${Config.titles.journal}`
+    },
+    watch: {
+      posts () {
+        this.stopActivityIndicator()
+      }
     }
   }
 </script>

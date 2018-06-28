@@ -54,7 +54,7 @@
     mounted () {
       this.setIsMobile()
       this.setPointerIsTouch('ontouchstart' in window)
-      if (this.posts.length < 1 || this.pages.length < 1) {
+      if (this.pages.length < 1) {
         this.loadProject()
       }
       if (this.pointerIsTouch) {
@@ -77,7 +77,7 @@
       makeBodyClass(this.$route)
     },
     computed: {
-      ...mapGetters(['isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'posts', 'pages'])
+      ...mapGetters(['isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'pages'])
     },
     methods: {
       ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch']),
@@ -85,7 +85,7 @@
         this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
       },
       stopActivityIndicator () {
-        if (this.posts.length > 0 && this.pages.length > 0) {
+        if (this.pages.length > 0) {
           this.$store.commit('mutateActivityIndicator', false)
         }
       },
