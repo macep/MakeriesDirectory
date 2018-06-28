@@ -2,7 +2,7 @@ let AUTH_CONFIG = {
   domain: 'jgm.eu.auth0.com',
   connection: 'Username-Password-Authentication',
   clientID: 'dGM6YqpS8kCIHb2B7pDjWXj6Jx4dC7Oe',
-  redirectUri: 'http://uix.ro/callback',
+  redirectUri: `${window.location.origin}/callback`,
   audience: 'https://jgm.eu.auth0.com/userinfo',
   responseType: 'token id_token',
   scope: 'openid email profile user_metadata'

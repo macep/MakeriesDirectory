@@ -7,14 +7,14 @@
       </router-link>
       <router-link v-else :to="link.url">{{link.title}}</router-link>
     </span>
-    <span class="nav-item auth-nav-item" v-if="authenticated">
-      <img :src="avatar" id="profile-avatar">
-      <v-touch class="logged-in" href="#" @tap.prevent="auth.logout">logout</v-touch>
-    </span>
-    <span class="nav-item auth-nav-item" v-if="!authenticated">
-      <router-link class="logged-out" to="/login">login</router-link>
-      <small><router-link to="/register">or register</router-link></small>
-    </span>
+    <!--<span class="nav-item auth-nav-item" v-if="authenticated">-->
+      <!--<img :src="avatar" id="profile-avatar">-->
+      <!--<v-touch class="logged-in" href="#" @tap.prevent="auth.logout">logout</v-touch>-->
+    <!--</span>-->
+    <!--<span class="nav-item auth-nav-item" v-if="!authenticated">-->
+      <!--<router-link class="logged-out" to="/login">login</router-link>-->
+      <!--<small><router-link to="/register">or register</router-link></small>-->
+    <!--</span>-->
   </nav>
 </template>
 
