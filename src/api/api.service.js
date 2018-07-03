@@ -1,30 +1,26 @@
 import Config from './app.config.js'
 import appCache from './api.service.cache.js'
 
+let wpRESTApiRoot = Config.wpDomain + (process.env.NODE_ENV === 'development' ? '' : 'index.php/')
+
 let apiService = {
   cacheRequest (path, cacheTime) {
     return new Promise((resolve, reject) => {
       appCache.get(path, cacheTime)
-        .then(response => {
-          resolve(response)
-        })
-        .catch(err => {
-          reject(err)
-        })
+        .then(response => resolve(response))
+        .catch(err => reject(err))
     })
   },
   getMenu (id) {
     return new Promise((resolve, reject) => {
-      this.cacheRequest(`${Config.wpDomain}wp-json/wp-api-menus/v2/menus/${id}`, Config.genericCachingTime)
-        .then(response => {
-          resolve(response.data)
-        })
+      this.cacheRequest(`${wpRESTApiRoot}wp-json/wp-api-menus/v2/menus/${id}`, Config.genericCachingTime)
+        .then(response => resolve(response.data))
         .catch(error => reject(error))
     })
   },
   getPosts (categoryId, page, perPage, order) {
     return new Promise((resolve, reject) => {
-      let path = `${Config.wpDomain}wp-json/wp/v2/posts`
+      let path = `${wpRESTApiRoot}wp-json/wp/v2/posts`
       let postsQuery = '?'
       if (categoryId !== null) {
         postsQuery += `categories=${categoryId}&`
@@ -55,7 +51,7 @@ let apiService = {
   },
   getPostsByCategory (categoryId) {
     return new Promise((resolve, reject) => {
-      let path = `${Config.wpDomain}wp-json/wp/v2/posts?categories=${categoryId}`
+      let path = `${wpRESTApiRoot}wp-json/wp/v2/posts?categories=${categoryId}`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => {
           let totalPages = (response.headers.hasOwnProperty('X-WP-TotalPages')) ? response.headers['X-WP-TotalPages'][0] : 0
@@ -70,7 +66,7 @@ let apiService = {
   },
   getPost (postId) {
     return new Promise((resolve, reject) => {
-      let path = `${Config.wpDomain}wp-json/wp/v2/posts/${postId}?fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
+      let path = `${wpRESTApiRoot}wp-json/wp/v2/posts/${postId}?fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response.data))
         .catch(error => reject(error))
@@ -78,7 +74,7 @@ let apiService = {
   },
   getPages () {
     return new Promise((resolve, reject) => {
-      let path = `${Config.wpDomain}wp-json/wp/v2/pages/?per_page=100&fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
+      let path = `${wpRESTApiRoot}wp-json/wp/v2/pages/?per_page=100&fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
@@ -86,7 +82,7 @@ let apiService = {
   },
   getPage (pageId) {
     return new Promise((resolve, reject) => {
-      let path = `${Config.wpDomain}wp-json/wp/v2/pages/${pageId}`
+      let path = `${wpRESTApiRoot}wp-json/wp/v2/pages/${pageId}`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
@@ -94,7 +90,7 @@ let apiService = {
   },
   getCategories () {
     return new Promise((resolve, reject) => {
-      let path = `${Config.wpDomain}wp-json/wp/v2/categories`
+      let path = `${wpRESTApiRoot}wp-json/wp/v2/categories`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))

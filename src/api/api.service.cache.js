@@ -12,33 +12,30 @@ const cacheService = {
   networkFirstStrategy: (requestOptions, cacheTime) => {
     return new Promise((resolve, reject) => {
       request(requestOptions)
-      .then((response) => {
-        // Response returned, cache it and return it
-        if (response.status === 200) {
-          if (cacheService.isBrowser) {
-            cacheService.storeCacheTime.setItem(requestOptions.url || requestOptions, cacheService.currentTime + cacheTime)
-            cacheService.store.setItem(requestOptions.url || requestOptions, { data: response.data, headers: response.headers })
-            .then((response) => {
+        .then((response) => {
+          // Response returned, cache it and return it
+          if (response.status === 200) {
+            if (cacheService.isBrowser) {
+              cacheService.storeCacheTime.setItem(requestOptions.url || requestOptions, cacheService.currentTime + cacheTime)
+              cacheService.store.setItem(requestOptions.url || requestOptions, {
+                data: response.data,
+                headers: response.headers
+              })
+                .then((response) => resolve(response))
+                .catch((err) => reject(err))
+            } else {
               resolve(response)
-            })
-            .catch((err) => reject(err))
+            }
           } else {
-            resolve(response)
+            if (cacheService.isBrowser) {
+              cacheService.store.getItem(requestOptions.url)
+                .then((response) => resolve(response))
+                .catch((err) => reject(err))
+            } else {
+              reject('Cannot get ' + requestOptions.url)
+            }
           }
-        } else {
-          if (cacheService.isBrowser) {
-            cacheService.store.getItem(requestOptions.url)
-            .then((response) => {
-              resolve(response)
-            })
-            .catch((err) => reject(err))
-          } else {
-            reject('Cannot get ' + requestOptions.url)
-          }
-        }
-      }).catch(error => {
-        console.log(error)
-      })
+        }).catch(error => console.log(error))
     })
   },
   offlineFirstStrategy: (requestOptions, cacheTime) => {
@@ -47,40 +44,36 @@ const cacheService = {
         // Cache has expired
         if (timeLastCached < cacheService.currentTime) {
           cacheService.networkFirstStrategy(requestOptions, cacheTime)
-          .then((response) => {
-            resolve(response)
-          })
-          .catch((err) => reject(err))
+            .then((response) => resolve(response))
+            .catch((err) => reject(err))
         } else {
           // Get item from cache
           cacheService.store.getItem(requestOptions.url || requestOptions)
-          .then((response) => {
-            if (response) {
+            .then((response) => {
               // Is in cache perfect!
-              resolve(response)
-            } else {
+              if (response) {
+                resolve(response)
+              } else {
+                // Doesn't exist in cache try network
+                cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
+                  .then((response) => resolve(response))
+                  .catch((err) => reject(err))
+              }
+            })
+            .catch((error) => {
+              console.log(error)
               // Doesn't exist in cache try network
               cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
-              .then((response) => {
-                resolve(response)
-              })
-              .catch((err) => reject(err))
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-            // Doesn't exist in cache try network
-            cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
-            .then((response) => resolve(response))
-            .catch((err) => reject(err))
-          })
+                .then((response) => resolve(response))
+                .catch((err) => reject(err))
+            })
         }
       }).catch((error) => {
         console.log(error)
         // Doesn't exist in cache timeouts try network
         cacheService.networkFirstStrategy(requestOptions.url, cacheTime)
-        .then((response) => resolve(response))
-        .catch((err) => reject(err))
+          .then((response) => resolve(response))
+          .catch((err) => reject(err))
       })
     })
   },
@@ -98,15 +91,11 @@ const cacheService = {
       }
       if (!cacheTime || cacheTime === 0) {
         cacheService.networkFirstStrategy(requestOptions, 0)
-          .then(response => {
-            resolve(response || '')
-          })
-          .catch((err) => { reject(err) })
+          .then(response => resolve(response || ''))
+          .catch((err) => reject(err))
       } else {
         cacheService.offlineFirstStrategy(requestOptions, cacheTime)
-          .then(response => {
-            resolve(response || '')
-          })
+          .then(response => resolve(response || ''))
           .catch((err) => reject(err))
       }
     })

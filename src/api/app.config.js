@@ -1,4 +1,4 @@
-let wpLocation = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : `${window.location.origin}/website/`
+const wpDomain = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : `${window.location.origin}/website/`
 
 export default {
   apiUrlBase: '/',
@@ -9,7 +9,7 @@ export default {
   appLogo: '/static/images/logo.svg',
   missingImageUrl: '/static/no-img.png',
   missingAvatar: 'http://via.placeholder.com/100x100?text=AVATAR',
-  wpDomain: wpLocation,
+  wpDomain,
   dotNetDomain: 'http://makeriesnew.azurewebsites.net/',
   dotNetToken: 'MzM0N2NjYTItOTgwYy00YTE0LWExNGItNTlkMGZlYzZkMTc4OjQ2ZGU4MzI3LWM3ZDItNGVkMi1iYjFjLTBlMTExZmZhYzMyOQ==',
   getAllMakers: 'api/makers/GetAllMakers',
