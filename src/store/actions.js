@@ -93,6 +93,8 @@ let actions = {
   loadPosts: ({commit}) => {
     let posts = []
     let years = []
+    commit('mutateActivityIndicator', true)
+
     return apiService.getPosts(null, null, 100, 'desc').then((response) => {
       let cleanPostsCollection = response.posts.filter(item => {
         // TODO: could be improved

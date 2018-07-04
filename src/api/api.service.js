@@ -1,9 +1,9 @@
 import Config from './app.config.js'
 import appCache from './api.service.cache.js'
 
-let wpRESTApiRoot = Config.wpDomain + (process.env.NODE_ENV === 'development' ? '' : 'index.php/')
+const wpRESTApiRoot = Config.wpDomain + (process.env.NODE_ENV === 'development' ? '' : 'index.php/')
 
-let apiService = {
+const apiService = {
   cacheRequest (path, cacheTime) {
     return new Promise((resolve, reject) => {
       appCache.get(path, cacheTime)

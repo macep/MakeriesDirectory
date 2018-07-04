@@ -101,9 +101,6 @@
       '$route' (to) {
         makeBodyClass(to)
       },
-      posts () {
-        this.stopActivityIndicator()
-      },
       pages () {
         this.stopActivityIndicator()
       }
