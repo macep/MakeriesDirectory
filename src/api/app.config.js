@@ -69,6 +69,7 @@ export default {
     userActivationFailureMessage2: 'Please try to create a valid user.',
     contact: 'Contact',
     searchAll: 'Search all',
+    searchResults: 'Search results',
     listAll: 'List all',
     suppliers: 'Suppliers',
     back: 'Go back',

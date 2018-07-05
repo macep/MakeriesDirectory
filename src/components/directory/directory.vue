@@ -14,7 +14,7 @@
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
               <div id="search-engine">
                 <input type="search" v-model="term" :placeholder="searchPlaceholder">
-                <span class="search-results" v-if="term.length > 0">{{methodResults.length}} Search results</span>
+                <span class="search-results" v-if="term.length > 0">{{methodResults.length}} {{searchResults}}</span>
               </div>
             </div>
             <div class="col-sm-2 col-md-1 pull-left view-type-wrapper lg-margin-bottom">
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="col-xs-12">
-          <h1 v-if="term != ''">Search results</h1>
+          <h1 v-if="term != ''">{{searchResults}}</h1>
           <h1 v-else-if="showAllSuppliers">All suppliers {{directoryEnabled.length}}</h1>
           <h1 v-else>Featured Suppliers</h1>
         </div>
@@ -51,6 +51,7 @@
       return {
         term: '',
         searchPlaceholder: Config.titles.searchPlaceholder,
+        searchResults: Config.titles.searchResults,
         defaultAllToggle: false,
         options: {
           keys: ['name', 'briefDescription']

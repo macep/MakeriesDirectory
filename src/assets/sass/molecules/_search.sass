@@ -1,10 +1,13 @@
 [type="search"]
   @extend .text-center
+  @extend .lg-padding
   font-size: 13px
-  transition: all .5s ease
-  border: 2px solid transparent
+  border: $light-turqoise-divider
 
   &:focus
     @extend .text-left
-    border: $light-turqoise-divider
+    border: $pink-divider
     outline: 0
+
+.search-results
+  @extend .sm-padding
