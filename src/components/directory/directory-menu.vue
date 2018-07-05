@@ -9,14 +9,16 @@
     </div>
 
     <div class="panel panel-default" v-for="(filter, value) in directoryFilterDataCollection" v-if="filter.data.length > 0" :key="filter.el">
-      <div class="panel-heading" role="tab" :id="`heading-${value}`">
+      <!-- FIXME temp hiding everything but regions-->
+      <div class="panel-heading" role="tab" :id="`heading-${value}`" v-if="value==='regions'">
         <h4 class="panel-title" :class="{'open': `item-${value}`}">
           <v-touch tag="a"role="button" @tap="selectClickedElement(`collapse-${value}`)" data-toggle="collapse" data-parent="#accordion" :aria-expanded="`item-${value}`" :aria-controls="`collapse-${value}`">
             {{filter.name}}
           </v-touch>
         </h4>
       </div>
-      <div :id="`collapse-${value}`" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="`heading-${value}`">
+      <!-- FIXME temp hiding everything but regions-->
+      <div :id="`collapse-${value}`" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="`heading-${value}`" v-if="value==='regions'">
         <div class="panel-body">
           <ul>
             <v-touch tag="li" @tap="gotoRoute(filterItem.url)" v-for="filterItem in filter.data" :key="filter.el">
@@ -91,3 +93,9 @@
     }
   }
 </script>
+
+<!-- FIXME temp hiding everything but regions-->
+<style scoped lang="sass">
+  #heading-regions
+    margin-bottom: 6px
+</style>

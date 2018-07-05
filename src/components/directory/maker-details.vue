@@ -5,7 +5,14 @@
         <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
         <h3>{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
         <p class="brief">{{maker.briefDescription}}</p>
-        <img :src="img" alt="">
+
+        <carousel v-if="imgs.length > 1">
+          <slider v-for="slide in imgs" :key="slide.url" class="slide">
+            <img :src="slide.url" class="slide-image"/>
+          </slider>
+        </carousel>
+        <img v-else :src="img" class="slide-image"/>
+
         <p class="long">{{maker.longDescription}}</p>
         <p class="address">{{maker.address}}</p>
         <span class="hidden">{{restricted}}</span>
@@ -116,10 +123,11 @@
   import apiService from '../../api/api.service'
   import {getNthFragment, friendlyUrl} from '../../modules/utils'
   import googleMap from '../common/google-map'
+  import { carousel, slider } from 'vue-strap'
 
   export default {
     name: 'maker-details',
-    components: {googleMap},
+    components: {googleMap, carousel, slider},
     props: {
       auth: Object,
       authenticated: Boolean
@@ -145,6 +153,7 @@
         customer: Config.titles.directory.customer,
         tags: Config.titles.directory.tags,
         img: `http://via.placeholder.com/800x800?text=Maker's Image`,
+        imgs: [],
         draft: false,
         draftMaker: Config.titles.directory.draft,
         maker: {}
@@ -156,6 +165,7 @@
         this.maker = data.data
       }).then(() => {
         this.img = this.maker.images[0].url || this.img
+        this.imgs = this.maker.images
         this.draft = this.maker.enabled === false
         this.$store.commit('mutateActivityIndicator', false)
       })

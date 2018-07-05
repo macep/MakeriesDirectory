@@ -9,7 +9,7 @@ import {
   getSubstringBetweenSubstrings
 } from '../modules/utils'
 
-let actions = {
+const actions = {
   loadProject: ({commit}) => {
     let time = {}
     return new Promise((resolve, reject) => {
@@ -86,7 +86,7 @@ let actions = {
       Promise.all([getMainMenu(), getSecondaryMenu(), getCategories(), getAllPages(), getSliderPosts(), getDirectoryBannersPosts(), getBannerPosts()])
         .then(() => {
           time.t1 = performance.now()
-          console.debug('[actions] api data received in ' + ((time.t1 - time.t0) / 1e3).toFixed(3) + 's')
+          console.debug(`[actions] directory data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
         })
     })
   },
@@ -163,7 +163,7 @@ let actions = {
       commit('mutateActivityIndicator', true)
       time.t0 = performance.now()
 
-      function getDotNetData () {
+      let getDotNetData = () => {
         apiService.callDotNetApi(Config.getAllMakers).then((data) => {
           let directory = data.data
 
@@ -263,7 +263,7 @@ let actions = {
       Promise.all([getDotNetData()])
         .then(() => {
           time.t1 = performance.now()
-          console.debug('[actions] directory data received in ' + ((time.t1 - time.t0) / 1e3).toFixed(3) + 's')
+          console.debug(`[actions] directory data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
         })
     })
   },
