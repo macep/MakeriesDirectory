@@ -13,7 +13,7 @@
         </carousel>
         <img v-else :src="img" class="slide-image"/>
 
-        <p class="long">{{maker.longDescription}}</p>
+        <pre class="long">{{maker.longDescription}}</pre>
         <p class="address">{{maker.address}}</p>
         <span class="hidden">{{restricted}}</span>
       </div>
@@ -70,7 +70,7 @@
         <div v-if="maker.telephone || maker.email || maker.address" class="list-item">
           <h6>{{contactDetails}}</h6>
           <div class="item">
-            <div v-if="maker.email"><a :mail='maker.mail' :href="'mailto:' + maker.email">{{maker.email}}</a></div>
+            <div v-if="maker.email"><a :mail='maker.mail' :href="'mailto:' + maker.email" @click="trackEmail(maker.email)">{{maker.email}}</a></div>
             <div v-if="maker.telephone">{{maker.telephone}}</div>
             <div v-if="maker.address">{{maker.address}}</div>
           </div>
@@ -123,7 +123,7 @@
   import apiService from '../../api/api.service'
   import {getNthFragment, friendlyUrl} from '../../modules/utils'
   import googleMap from '../common/google-map'
-  import { carousel, slider } from 'vue-strap'
+  import {carousel, slider} from 'vue-strap'
 
   export default {
     name: 'maker-details',
@@ -160,6 +160,7 @@
       }
     },
     mounted () {
+      console.log(this.$ga)
       this.$store.commit('mutateActivityIndicator', true)
       apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 3)}`).then((data) => {
         this.maker = data.data
@@ -183,6 +184,14 @@
     methods: {
       friendlyName (str) {
         return friendlyUrl(str)
+      },
+      trackEmail (email) {
+        this.$ga.event({
+          eventCategory: 'eventTracking',
+          eventAction: 'trackEmail',
+          eventLabel: 'makerDetailEmailAnchor',
+          eventValue: email
+        })
       }
     },
     metaInfo () {
