@@ -83,14 +83,14 @@
           </div>
         </div>
 
-        <div v-if="maker.facebook || maker.instagram || maker.twitter" class="list-item">
-          <h6>{{socialNetworks}}</h6>
-          <div class="item">
-            <div v-if="maker.facebook"><a :href="maker.facebook" target="_new">Join us on Facebook</a></div>
-            <div v-if="maker.instagram"><a :href="maker.instagram" target="_new">Follow us on Instagram</a></div>
-            <div v-if="maker.twitter"><a :href="maker.twitter" target="_new">Follow us on Twitter</a></div>
-          </div>
-        </div>
+        <!--<div v-if="maker.facebook || maker.instagram || maker.twitter" class="list-item">-->
+          <!--<h6>{{socialNetworks}}</h6>-->
+          <!--<div class="item">-->
+            <!--<div v-if="maker.facebook"><a :href="maker.facebook" target="_new">Join us on Facebook</a></div>-->
+            <!--<div v-if="maker.instagram"><a :href="maker.instagram" target="_new">Follow us on Instagram</a></div>-->
+            <!--<div v-if="maker.twitter"><a :href="maker.twitter" target="_new">Follow us on Twitter</a></div>-->
+          <!--</div>-->
+        <!--</div>-->
 
         <div v-if="maker.website" class="list-item">
           <h6>{{website}}</h6>
