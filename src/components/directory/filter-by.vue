@@ -56,14 +56,14 @@
       },
       filteredData () {
         return this.directory.filter(item => {
-          if (item[this.currentFilterType].length > 0) {
+          if (Array.isArray(item[this.currentFilterType])) {
             for (let i = 0; i < item[this.currentFilterType].length; i++) {
               if (this.currentFilterTypeValue === item[this.currentFilterType][i].pretty) {
                 return item
               }
             }
           } else {
-            return this.currentFilterTypeValue === item[this.currentFilterType].pretty
+            return item[this.currentFilterType] !== null && this.currentFilterTypeValue === item[this.currentFilterType].pretty
           }
         })
       }
