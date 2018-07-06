@@ -159,8 +159,7 @@
         maker: {}
       }
     },
-    mounted () {
-      console.log(this.$ga)
+    created () {
       this.$store.commit('mutateActivityIndicator', true)
       apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 3)}`).then((data) => {
         this.maker = data.data
