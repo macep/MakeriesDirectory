@@ -1,9 +1,10 @@
 <template>
   <div id="directory-az" class="row page">
-    <div class="col-sm-3" v-if="!isMobile">
+    <div class="col-xs-12" v-if="!isMobile">
       <makeries-menu/>
     </div>
-    <div class="col-sm-9">
+
+    <div class="col-xs-12">
       <div class="row small-gutter">
         <div class="col-xs-12">
           <h3 class="no-margin-top">

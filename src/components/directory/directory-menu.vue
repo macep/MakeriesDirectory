@@ -8,28 +8,27 @@
       </div>
     </div>
 
-    <div class="panel panel-default" v-for="(filter, value) in directoryFilterDataCollection" v-if="filter.data.length > 0" :key="filter.el">
-      <!-- FIXME temp hiding everything but regions-->
-      <div class="panel-heading" role="tab" :id="`heading-${value}`" v-if="value==='regions'">
-        <h4 class="panel-title" :class="{'open': `item-${value}`}">
-          <v-touch tag="a"role="button" @tap="selectClickedElement(`collapse-${value}`)" data-toggle="collapse" data-parent="#accordion" :aria-expanded="`item-${value}`" :aria-controls="`collapse-${value}`">
-            {{filter.name}}
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="heading-location">
+        <h4 class="panel-title">
+          <v-touch tag="a"role="button" @tap="selectClickedElement(`collapse-location`)" data-toggle="collapse" data-parent="#accordion" aria-expanded="item-location" aria-controls="collapse-location">
+            Regions
           </v-touch>
         </h4>
       </div>
-      <!-- FIXME temp hiding everything but regions-->
-      <div :id="`collapse-${value}`" class="panel-collapse collapse" role="tabpanel" :aria-labelledby="`heading-${value}`" v-if="value==='regions'">
+
+      <div id="collapse-location" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-location">
         <div class="panel-body">
           <ul>
-            <v-touch tag="li" @tap="gotoRoute(filterItem.url)" v-for="filterItem in filter.data" :key="filter.el">
-              <span>{{filterItem.el}} ({{filterItem.occurences}})</span>
+            <v-touch tag="li" @tap="gotoRoute(filter.url)" v-for="filter in directoryFilterDataCollection" :key="filter.el">
+              <span>{{filter.el}} ({{filter.occurences}})</span>
             </v-touch>
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" v-if="route.name !== 'FilterAZ'">
       <div class="panel-heading" id="heading-az">
         <h4 class="panel-title">
           <v-touch @tap="gotoRoute(azRoute)">{{azTitle}}</v-touch>
@@ -50,19 +49,22 @@
         this.loadDirectory()
       }
     },
+    data () {
+      return {
+        azTitle: Config.titles.directory.directoryAZ,
+        azRoute: Config.routerSettings.filterAZ,
+        featuredSuppliers: Config.titles.directory.featuredSuppliers
+      }
+    },
     computed: {
-      ...mapGetters(['directoryFilterData', 'directory', 'isMobile', 'showAllSuppliers']),
+      ...mapGetters(['directoryFilterData', 'directory', 'isMobile', 'showAllSuppliers', 'route']),
       directoryFilterDataCollection () {
-        return this.directoryFilterData
+        if (this.directoryFilterData.regions !== undefined && this.directoryFilterData.regions.data.length > 0) {
+          return this.directoryFilterData.regions.data
+        }
       },
       searchAllTitle () {
         return `${Config.titles.searchAll} ${this.directory.length} ${Config.titles.suppliers}`
-      },
-      azTitle () {
-        return Config.titles.directory.directoryAZ
-      },
-      azRoute () {
-        return Config.routerSettings.filterAZ
       }
     },
     methods: {
@@ -82,6 +84,7 @@
         this.closeMobileMenu()
       },
       gotoRoute (url) {
+        console.log(url)
         this.$router.push(url)
         this.closeMobileMenu()
       },
@@ -94,7 +97,6 @@
   }
 </script>
 
-<!-- FIXME temp hiding everything but regions-->
 <style scoped lang="sass">
   #heading-regions
     margin-bottom: 6px

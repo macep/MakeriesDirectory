@@ -166,6 +166,26 @@
       }).then(() => {
         this.img = this.maker.images[0].url || this.img
         this.imgs = this.maker.images
+        // demo
+        this.imgs.push(
+          {
+            description: '',
+            fileName: 'Cutlist-Services-justgotmade-cnc-wood-cut-southwest.jpg',
+            imageName: 'Cutlist-Services-justgotmade-cnc-wood-cut-southwest',
+            url: 'https://teammakeries.blob.core.windows.net/images/c30bdde6-3deb-48ba-8f1e-dd7b3256f1c2'
+          },
+          {
+            description: '',
+            fileName: 'Minerva-crafts-just-got-made-sewing-stitching-supplies.jpg',
+            imageName: 'Minerva-crafts-just-got-made-sewing-stitching-supplies',
+            url: 'https://teammakeries.blob.core.windows.net/images/4204708f-6285-436e-ba3a-2e9748240443'
+          },
+          {
+            description: '',
+            fileName: 'printandpress-custom-fabric-printing-london-profile.jpg',
+            imageName: 'Print & Press, London',
+            url: 'https://teammakeries.blob.core.windows.net/images/6def8e23-dd27-4b95-8397-b3aea81737fd'
+          })
         this.draft = this.maker.enabled === false
         this.$store.commit('mutateActivityIndicator', false)
       })

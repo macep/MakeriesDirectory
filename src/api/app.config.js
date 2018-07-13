@@ -18,6 +18,7 @@ export default {
   analyticsPath: '//www.google-analytics.com/analytics.js',
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
   genericCachingTime: 864e5,
+  // genericCachingTime: 864e5,
   verificationURLLifetime: 5, // time [days] for the verification URL Lifetime, sync with https://manage.auth0.com/#/emails -- URL Lifetime
   recentPostsNumber: 3,
   routerSettings: {
@@ -72,6 +73,7 @@ export default {
     searchResults: 'Search results',
     listAll: 'List all',
     suppliers: 'Suppliers',
+    featuredSuppliers: 'Featured Suppliers',
     back: 'Go back',
     directory: {
       filterBy: 'Filter by',
