@@ -42,12 +42,12 @@
         </div>
 
         <div class="col-xs-12">
-          <h1 v-if="term != ''">{{searchResults}}</h1>
+          <h1 v-if="term !== ''">{{searchResults}}</h1>
           <h1 v-else-if="showAllSuppliers">All suppliers {{directoryEnabled.length}}</h1>
           <h1 v-else>Featured Suppliers</h1>
         </div>
         <div class="col-xs-12">
-          <makeries-list :makeries="term != '' ? methodResults : showAllSuppliers ? directoryEnabled : directoryFeatured"/>
+          <makeries-list :makeries="term !== '' ? methodResults : showAllSuppliers ? directoryEnabled : directoryFeatured"/>
         </div>
       </div>
     </div>

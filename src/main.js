@@ -35,8 +35,8 @@ Vue.config.productionTip = false
 sync(store, router)
 
 /* eslint-disable no-new */
-let root = new Vue(Vue.util.extend({ router, store }, App))
+const root = new Vue(Vue.util.extend({ router, store }, App))
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   root.$mount('#app')
 })
