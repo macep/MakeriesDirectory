@@ -35,7 +35,7 @@ export default {
       serviceTypes: '/directory/filter-by/service-types/'
     },
     filterAZ: '/directory-A-Z/',
-    makerDetail: '/supplier/details/',
+    makerDetail: '/directory/',
     journal: '/journal/',
     category: '/journal/category/',
     archive: '/journal/archive/',

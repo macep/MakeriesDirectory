@@ -161,7 +161,7 @@
     },
     created () {
       this.$store.commit('mutateActivityIndicator', true)
-      apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 3)}`).then((data) => {
+      apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 2)}`).then((data) => {
         this.maker = data.data
       }).then(() => {
         this.img = this.maker.images[0].url || this.img
