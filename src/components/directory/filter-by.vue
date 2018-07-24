@@ -1,7 +1,12 @@
 <template>
   <div id="directory-filter-by" class="row page" :class="'view-' + viewType">
     <div class="col-sm-3" v-if="!isMobile">
-      <makeries-menu/>
+      <h3 class="no-margin-top">Regions</h3>
+      <ul>
+        <v-touch tag="li" @tap="gotoRoute(filter.url)" v-for="filter in directoryFilterDataCollection" :key="filter.el">
+          <div class="btn-link sm-padding-top sm-padding-bottom">{{filter.el}} ({{filter.occurences}})</div>
+        </v-touch>
+      </ul>
     </div>
     <div class="col-sm-9">
       <div class="row no-gutter">
@@ -38,7 +43,12 @@
     components: {banner, makeriesMenu, makeriesList, viewType},
     mixins: [waitDirectoryData],
     computed: {
-      ...mapGetters(['directory', 'isMobile', 'viewType']),
+      ...mapGetters(['directoryFilterData', 'directory', 'isMobile', 'viewType']),
+      directoryFilterDataCollection () {
+        if (this.directoryFilterData.regions !== undefined && this.directoryFilterData.regions.data.length > 0) {
+          return this.directoryFilterData.regions.data
+        }
+      },
       currentFilterType () {
         let currentFilter = getNthFragment(this.$route.path, 3)
         let filterTypes = Config.routerSettings.filterBy
@@ -66,6 +76,11 @@
             return item[this.currentFilterType] !== null && this.currentFilterTypeValue === item[this.currentFilterType].pretty
           }
         })
+      }
+    },
+    methods: {
+      gotoRoute (url) {
+        this.$router.push(url)
       }
     },
     metaInfo () {

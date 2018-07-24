@@ -84,7 +84,6 @@
         this.closeMobileMenu()
       },
       gotoRoute (url) {
-        console.log(url)
         this.$router.push(url)
         this.closeMobileMenu()
       },

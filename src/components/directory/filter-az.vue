@@ -1,9 +1,5 @@
 <template>
   <div id="directory-az" class="row page">
-    <div class="col-xs-12" v-if="!isMobile">
-      <makeries-menu/>
-    </div>
-
     <div class="col-xs-12">
       <div class="row small-gutter">
         <div class="col-xs-12">
