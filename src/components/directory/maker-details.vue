@@ -16,6 +16,10 @@
         <pre class="long">{{maker.longDescription}}</pre>
         <p class="address">{{maker.address}}</p>
         <span class="hidden">{{restricted}}</span>
+
+        <br>
+        <strong class="text-left">Recommendations</strong>
+        <p class="recommendations">{{maker.recommendations}}</p>
       </div>
     </div>
     <div class="col-sm-3">
