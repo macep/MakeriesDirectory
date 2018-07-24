@@ -2,7 +2,7 @@
   <div id="directory" class="row" :class="'view-' + viewType">
     <div class="col-xs-12">
       <div class="row small-gutter">
-        <div class="col-xs-12">
+        <div class="col-xs-12" :style="sliderStyle">
           <posts-slider :data="directoryBannersPosts"/>
         </div>
 
@@ -106,6 +106,17 @@
       directoryFilterDataCollection () {
         if (this.directoryFilterData.regions !== undefined && this.directoryFilterData.regions.data.length > 0) {
           return this.directoryFilterData.regions.data
+        }
+      },
+      sliderStyle () {
+        if (!this.isMobile) {
+          return {
+            maxHeight: Config.directoryBannerHeight,
+            overflowY: 'hidden',
+            marginBottom: '20px'
+          }
+        } else {
+          return null
         }
       },
       searchAllTitle () {

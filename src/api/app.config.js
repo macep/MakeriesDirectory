@@ -15,6 +15,7 @@ export default {
   getAllMakers: 'api/makers/GetAllMakers',
   getById: 'api/makers/GetById/',
   loadDbName: 'justGotMadeLocal',
+  directoryBannerHeight: '300px',
   analyticsPath: '//www.google-analytics.com/analytics.js',
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
   genericCachingTime: 6e5,
