@@ -18,7 +18,7 @@
         <span class="hidden">{{restricted}}</span>
 
         <br>
-        <template v-if="maker.recommendations !== null || maker.recommendations !== undefined || maker.recommendations !== ''">
+        <template v-if="maker.recommendations !== null">
           <strong class="text-left">Recommendations</strong>
           <p class="recommendations">"{{maker.recommendations}}"</p>
         </template>
