@@ -32,7 +32,7 @@
 
   const pageClassSuffix = '-page'
 
-  let makeBodyClass = (fromRoute) => {
+  const makeBodyClass = (fromRoute) => {
     let currentRoute = fromRoute.path.replace(/\//g, '')
     currentRoute += (currentRoute !== '') ? pageClassSuffix : ''
     document.querySelector('body').classList = currentRoute
@@ -77,10 +77,21 @@
       makeBodyClass(this.$route)
     },
     computed: {
-      ...mapGetters(['isMobile', 'pointerIsTouch', 'showActivityIndicator', 'mobileMenuVisibile', 'pages'])
+      ...mapGetters([
+        'isMobile',
+        'pointerIsTouch',
+        'showActivityIndicator',
+        'mobileMenuVisibile',
+        'pages'
+      ])
     },
     methods: {
-      ...mapActions(['loadProject', 'setIsMobile', 'setWindowSize', 'setPointerIsTouch']),
+      ...mapActions([
+        'loadProject',
+        'setIsMobile',
+        'setWindowSize',
+        'setPointerIsTouch'
+      ]),
       toggleMobileMenuVisibility () {
         this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
       },
