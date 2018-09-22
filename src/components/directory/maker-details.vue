@@ -14,8 +14,7 @@
         <img v-else :src="img" class="slide-image"/>
 
         <pre class="long">{{maker.longDescription}}</pre>
-        <p class="address">{{maker.address}}</p>
-        <span class="hidden">{{restricted}}</span>
+        <!--<p class="address">{{maker.address}}</p>-->
 
         <br>
         <template v-if="maker.recommendations !== null">
@@ -134,10 +133,6 @@
   export default {
     name: 'maker-details',
     components: {googleMap, carousel, slider},
-    props: {
-      auth: Object,
-      authenticated: Boolean
-    },
     data () {
       return {
         backLink: Config.titles.back,
@@ -181,9 +176,6 @@
       back () {
         let from = localStorage.getItem('jgm_origin_of_desired_route') || this.route.from.fullPath
         return from !== '/' ? from : null
-      },
-      restricted () {
-        return !this.authenticated
       }
     },
     methods: {
