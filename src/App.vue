@@ -26,7 +26,6 @@
   import jgmFooter from './components/layout/jgm-footer.vue'
   import Config from './api/app.config'
   import AuthService from './api/auth.service'
-//  import axios from 'axios'
 
   const auth = new AuthService()
   const {login, socialLogin, logout, authenticated, authNotifier} = auth
@@ -76,15 +75,6 @@
         }, 500)
       })
       makeBodyClass(this.$route)
-//      axios({
-//        method: 'get',
-//        url: 'http://makeries.datatechrom.com/doc/v2/#/maker',
-//        headers: {
-//          'content-type': 'application/json',
-//          'accept': 'application/json',
-//          'access-control-allow-origin': '*'
-//        }
-//      }).then((res, err) => console.log(res, err))
     },
     computed: {
       ...mapGetters([
