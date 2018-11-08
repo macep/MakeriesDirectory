@@ -3,7 +3,7 @@ import Config from '../api/app.config'
 import {
   friendlyMonth,
   getRouteFromWpMenus,
-  findOccurences,
+  // findOccurences,
   friendlyUrl,
   sortObjectProperties,
   getSubstringBetweenSubstrings
@@ -163,49 +163,16 @@ const actions = {
       commit('mutateActivityIndicator', true)
       time.t0 = performance.now()
 
-      let getDotNetData = () => {
-        apiService.callDotNetApi(Config.getAllMakers).then((data) => {
+      const getDotNetData = () => {
+        apiService.callApi('maker', {per_page: 25}).then((data) => {
+          console.log(data.data)
           let directory = data.data
-
-          let filterData = {
-            regions: {name: Config.titles.directory.filterData.regions, data: []},
-            businessTypes: {name: Config.titles.directory.filterData.businessTypes, data: []},
-            products: {name: Config.titles.directory.filterData.products, data: []},
-            serviceTypes: {name: Config.titles.directory.filterData.serviceTypes, data: []}
-          }
-
           let letter = ''
           let azObject = {}
           let azValNameNonAlpha = []
 
           directory.forEach(item => {
             item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${item.name.split(' ').join('-')}`
-
-            if (item.region !== null) {
-              filterData.regions.data.push(item.region.name)
-              item.region.pretty = friendlyUrl(item.region.name)
-            }
-
-            if (item.businessTypes !== null) {
-              item.businessTypes.forEach((i) => {
-                filterData.businessTypes.data.push(i.name)
-                i.pretty = friendlyUrl(i.name)
-              })
-            }
-
-            if (item.products !== null) {
-              item.products.forEach((i) => {
-                filterData.products.data.push(i.name)
-                i.pretty = friendlyUrl(i.name)
-              })
-            }
-
-            if (item.serviceTypes !== null) {
-              item.serviceTypes.forEach((i) => {
-                filterData.serviceTypes.data.push(i.name)
-                i.pretty = friendlyUrl(i.name)
-              })
-            }
 
             // sort the collection by initial char, case insensitive
             letter = item.name.charAt(0).toUpperCase()
@@ -216,19 +183,6 @@ const actions = {
 
             azObject[letter].push(item)
           })
-
-          let directoryDisabled = directory.filter(maker => !maker.enabled)
-          directoryDisabled.forEach(item => {
-            if (item.images.length === 0) {
-              item.images[0] = {
-                description: '',
-                fileName: '',
-                imageName: '',
-                url: `http://via.placeholder.com/500x300?text=Maker's Image`
-              }
-            }
-          })
-          directory = directory.filter(maker => maker.enabled)
 
           for (let prop in azObject) {
             if (prop.match(/^[A-Za-z]+$/) === null) {
@@ -248,14 +202,7 @@ const actions = {
             })
           }
 
-          filterData.regions.data = findOccurences(filterData.regions.data, true, Config.routerSettings.filterBy.region)
-          filterData.products.data = findOccurences(filterData.products.data, true, Config.routerSettings.filterBy.products)
-          filterData.businessTypes.data = findOccurences(filterData.businessTypes.data, true, Config.routerSettings.filterBy.businessTypes)
-          filterData.serviceTypes.data = findOccurences(filterData.serviceTypes.data, true, Config.routerSettings.filterBy.serviceTypes)
-
           commit('mutateDirectory', directory)
-          commit('mutateDirectoryDisabled', directoryDisabled)
-          commit('mutateDirectoryFilterData', filterData)
           commit('mutateDirectoryAZ', sortObjectProperties(azObject))
         })
       }
@@ -268,7 +215,7 @@ const actions = {
     })
   },
   setIsMobile: ({commit}) => {
-    let isMobile = window.matchMedia('only screen and (max-width: 767px)').matches
+    const isMobile = window.matchMedia('only screen and (max-width: 767px)').matches
     commit('mutateIsMobile', isMobile)
   },
   setPointerIsTouch: ({ commit }, payload) => {
