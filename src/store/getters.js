@@ -21,6 +21,7 @@ export default {
   bannerPosts: state => state.bannerPosts,
   directoryBannersPosts: state => state.directoryBannersPosts,
   directory: state => state.directory,
+  directoryStats: state => state.directoryStats,
   showAllSuppliers: state => state.showAllSuppliers,
   directoryDisabled: state => state.directoryDisabled,
   directoryFilterData: state => state.directoryFilterData,

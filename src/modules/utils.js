@@ -79,7 +79,7 @@ const findOccurences = (array, withUrl, urlPrefix) => {
   return c
 }
 
-const friendlyUrl = (str) => str.split(' ').join('-').replace(/,/g, '')
+const friendlyUrl = (str) => str.split(' ').join('-').replace('_', '-').replace(/[^a-zA-Z0-9-]/g, '')
 
 const sortObjectProperties = (object) => {
   let sorted = {}
@@ -114,6 +114,44 @@ const isEmail = (str) => /^(([^<>()[\]\\.,;:#\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(
 
 const isWebsite = (str) => /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(str)
 
+const azDirectory = (directory) => {
+  let letter = ''
+  let azObject = {}
+  let azValNameNonAlpha = []
+
+  directory.forEach(item => {
+    item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${item.name.split(' ').join('-')}`
+
+    // sort the collection by initial char, case insensitive
+    letter = item.name.charAt(0).toUpperCase()
+
+    if (azObject[letter] === undefined) {
+      azObject[letter] = []
+    }
+
+    azObject[letter].push(item)
+  })
+
+  for (let prop in azObject) {
+    if (prop.match(/^[A-Za-z]+$/) === null) {
+      azValNameNonAlpha = azValNameNonAlpha.concat(azObject[prop])
+      if (prop !== '0-9') {
+        delete azObject[prop]
+      }
+    }
+  }
+
+  azObject['0-9'] = azValNameNonAlpha
+
+  // prepare the route property
+  for (let value in azObject) {
+    azObject[value].forEach((item) => {
+      item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${friendlyUrl(item.name)}`
+    })
+  }
+  return azObject
+}
+
 export {
   isTouch,
   stopZoomingWhenDoubleTapped,
@@ -127,5 +165,6 @@ export {
   getSubstringBetweenSubstrings,
   cleanupAuthCanceledSessions,
   isEmail,
-  isWebsite
+  isWebsite,
+  azDirectory
 }

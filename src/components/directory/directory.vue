@@ -88,10 +88,13 @@
       if (this.directory.length < 1) {
         this.loadDirectory()
       }
+      if (this.directoryStats.length < 1) {
+        this.loadDirectoryStats()
+      }
     },
     components: {makeriesMenu, makeriesList, viewType, postsSlider, dropdown},
     computed: {
-      ...mapGetters(['directoryFilterData', 'directory', 'viewType', 'isMobile', 'showAllSuppliers', 'directoryBannersPosts']),
+      ...mapGetters(['directoryFilterData', 'directory', 'directoryStats', 'viewType', 'isMobile', 'showAllSuppliers', 'directoryBannersPosts']),
       directoryBanner () {
         return this.posts.find(item => item.id === Config.pagesIDs.directoryBanner)
       },
@@ -124,7 +127,7 @@
       }
     },
     methods: {
-      ...mapActions(['loadDirectory']),
+      ...mapActions(['loadDirectory', 'loadDirectoryStats']),
       showAllSuppliersOn () {
         this.$store.commit('mutateShowAllSuppliers', true)
         this.$router.push('/directory')

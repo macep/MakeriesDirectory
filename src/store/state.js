@@ -36,6 +36,7 @@ export default {
   bannerPosts: [],
   directoryBannersPosts: [],
   directory: [],
+  directoryStats: [],
   showAllSuppliers: false,
   directoryDisabled: [],
   directoryFilterData: [],

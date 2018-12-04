@@ -62,6 +62,9 @@ export default {
   mutateDirectory: (state, directory) => {
     state.directory = directory
   },
+  mutateDirectoryStats: (state, directoryStats) => {
+    state.directoryStats = directoryStats
+  },
   mutateShowAllSuppliers: (state, showAllSuppliers) => {
     state.showAllSuppliers = showAllSuppliers
   },

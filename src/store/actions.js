@@ -1,12 +1,11 @@
-import apiService from '../api/api.service'
 import Config from '../api/app.config'
+import apiService from '../api/api.service'
 import {
   friendlyMonth,
   getRouteFromWpMenus,
-  // findOccurences,
-  friendlyUrl,
   sortObjectProperties,
-  getSubstringBetweenSubstrings
+  getSubstringBetweenSubstrings,
+  azDirectory
 } from '../modules/utils'
 
 const actions = {
@@ -158,68 +157,40 @@ const actions = {
       console.debug(`[actions] posts data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
     })
   },
-  loadDirectory: ({commit}) => {
+  async loadDirectory ({commit}) {
     let time = {}
-    return new Promise((resolve, reject) => {
-      commit('mutateActivityIndicator', true)
-      time.t0 = performance.now()
+    time.t0 = performance.now()
+    commit('mutateActivityIndicator', true)
 
-      const getDotNetData = () => {
-        apiService.callApi('maker', {per_page: 25}).then((data) => {
-          console.log(data.data)
-          let directory = data.data
-          let letter = ''
-          let azObject = {}
-          let azValNameNonAlpha = []
+    try {
+      const data = await apiService.callApi('maker', {per_page: 50})
+      commit('mutateDirectory', data.data)
+      console.debug(data.data)
+      commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(data.data)))
+      time.t1 = performance.now()
+      console.debug(`[actions] directory data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
+    } catch (err) {
+      console.error(err)
+      time.t1 = performance.now()
+      console.debug(`[actions] directory data failed in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
+    }
+  },
+  async loadDirectoryStats ({commit}) {
+    let time = {}
+    time.t0 = performance.now()
+    commit('mutateActivityIndicator', true)
 
-          directory.forEach(item => {
-            item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${item.name.split(' ').join('-')}`
-
-            // sort the collection by initial char, case insensitive
-            letter = item.name.charAt(0).toUpperCase()
-
-            if (azObject[letter] === undefined) {
-              azObject[letter] = []
-            }
-
-            azObject[letter].push(item)
-          })
-
-          for (let prop in azObject) {
-            if (prop.match(/^[A-Za-z]+$/) === null) {
-              azValNameNonAlpha = azValNameNonAlpha.concat(azObject[prop])
-              if (prop !== '0-9') {
-                delete azObject[prop]
-              }
-            }
-          }
-
-          azObject['0-9'] = azValNameNonAlpha
-
-          // prepare the route property
-          for (let value in azObject) {
-            azObject[value].forEach((item) => {
-              item.routeTo = `${Config.routerSettings.makerDetail}${item.id}/${friendlyUrl(item.name)}`
-            })
-          }
-
-          commit('mutateDirectory', directory)
-          commit('mutateDirectoryAZ', sortObjectProperties(azObject))
-        })
-      }
-
-      const getStats = () => {
-        apiService.callApi('/website/entities').then((data) => {
-          console.log(data)
-        })
-      }
-
-      Promise.all([getDotNetData(), getStats()])
-        .then(() => {
-          time.t1 = performance.now()
-          console.debug(`[actions] directory data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
-        })
-    })
+    try {
+      const data = await apiService.callApi('/website/entities')
+      commit('mutateDirectoryStats', data.data)
+      time.t1 = performance.now()
+      console.debug(data.data)
+      console.debug(`[actions] directory stats received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
+    } catch (err) {
+      time.t1 = performance.now()
+      console.error(err)
+      console.debug(`[actions] directoryStats stats failed in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
+    }
   },
   setIsMobile: ({commit}) => {
     const isMobile = window.matchMedia('only screen and (max-width: 767px)').matches
