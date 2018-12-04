@@ -130,7 +130,7 @@
       ]),
 
       toggleMobileMenuVisibility () {
-        this.mutateMobileMenuVisibil(!this.mobileMenuVisibile)
+        this.mutateMobileMenuVisibile(!this.mobileMenuVisibile)
       },
 
       stopActivityIndicator () {

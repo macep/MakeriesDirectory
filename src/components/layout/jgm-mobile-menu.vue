@@ -17,24 +17,24 @@
         <div class="mobile-nav-item">{{link.title}}</div>
       </v-touch>
 
-      <!--<v-touch @tap="closeAndSignOut" v-if="authenticated">-->
-        <!--<div class="mobile-nav-item auth-nav-item logged-in">logout</div>-->
-      <!--</v-touch>-->
+      <v-touch @tap="closeAndSignOut" v-if="authenticated">
+        <div class="mobile-nav-item auth-nav-item logged-in">logout</div>
+      </v-touch>
 
-      <!--<v-touch @tap="closeMobileMenuAndGotoRoute('/login')" v-if="!authenticated">-->
-        <!--<div class="mobile-nav-item auth-nav-item login">Login</div>-->
-      <!--</v-touch>-->
+      <v-touch @tap="closeMobileMenuAndGotoRoute('/login')" v-if="!authenticated">
+        <div class="mobile-nav-item auth-nav-item login">Login</div>
+      </v-touch>
 
-      <!--<v-touch @tap="closeMobileMenuAndGotoRoute('/register')" v-if="!authenticated">-->
-        <!--<small>or</small>-->
-        <!--<div class="mobile-nav-item auth-nav-item register">register</div>-->
-      <!--</v-touch>-->
+      <v-touch @tap="closeMobileMenuAndGotoRoute('/register')" v-if="!authenticated">
+        <small>or</small>
+        <div class="mobile-nav-item auth-nav-item register">register</div>
+      </v-touch>
     </div>
   </nav>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
   import Config from '../../api/app.config'
   import jgmLogo from '../common/jgm-logo.vue'
   import makeriesMenu from '../directory/directory-menu.vue'
@@ -42,33 +42,48 @@
 
   export default {
     name: 'jgm-menu',
+
     props: ['auth', 'authenticated'],
+
     components: {jgmLogo, makeriesMenu, blogMenu},
+
     mounted () {
-      let mobileMenu = this.$refs.mobileMenu
+      const mobileMenu = this.$refs.mobileMenu
       mobileMenu.addEventListener('scroll', () => {
         mobileMenu.classList[(this.$el.scrollTop > 20) ? 'add' : 'remove']('shadowed')
       })
     },
+
     computed: {
-      ...mapGetters(['mainMenu', 'mobileMenuVisibile', 'route', 'categories']),
+      ...mapGetters([
+        'mainMenu',
+        'mobileMenuVisibile',
+        'route',
+        'categories'
+      ]),
+
       appLogo () {
         return Config.appLogo
       },
+
       isDirectoryLocation () {
-        let directoryLocations = ['Directory', 'FilterBy', 'FilterAZ', 'Maker']
+        const directoryLocations = ['Directory', 'FilterBy', 'FilterAZ', 'Maker']
         return directoryLocations.indexOf(this.route.name) !== -1
       },
+
       isJournalLocation () {
-        let journalLocation = ['Journal', 'JournalByCat', 'JournalByYear', 'JournalSingle']
+        const journalLocation = ['Journal', 'JournalByCat', 'JournalByYear', 'JournalSingle']
         return journalLocation.indexOf(this.route.name) !== -1
       }
     },
+
     methods: {
+      ...mapMutations(['mutateMobileMenuVisibile']),
       closeMobileMenuAndGotoRoute (url) {
-        this.$store.commit('mutateMobileMenuVisibile', false)
+        this.mutateMobileMenuVisibile(false)
         this.$router.push(url)
       },
+
       closeAndSignOut () {
         this.auth.logout()
         this.closeMobileMenuAndGotoRoute()
