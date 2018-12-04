@@ -16,7 +16,7 @@ const actions = {
       commit('mutateActivityIndicator', true)
       time.t0 = performance.now()
 
-      let prepareMenuUrl = (menu) => {
+      const prepareMenuUrl = (menu) => {
         menu.forEach(item => {
           let relPath = getRouteFromWpMenus(item.url)
           item.url = relPath.url
@@ -24,46 +24,46 @@ const actions = {
         })
       }
 
-      let getMainMenu = () => {
+      const getMainMenu = () => {
         return apiService.getMenu(Config.menusIDs.primary).then((response) => {
           prepareMenuUrl(response.items)
           commit('mutateMainMenu', response.items)
         })
       }
 
-      let getSecondaryMenu = () => {
+      const getSecondaryMenu = () => {
         return apiService.getMenu(Config.menusIDs.secondary).then((response) => {
           prepareMenuUrl(response.items)
           commit('mutateSecondaryMenu', response.items)
         })
       }
 
-      let getCategories = () => {
+      const getCategories = () => {
         return apiService.getCategories().then((response) => {
           let categories = response.data.filter(item => item.id !== Config.postsIDs.sliderPosts && item.id !== Config.postsIDs.bannerPosts)
           commit('mutateCategories', categories)
         })
       }
 
-      let getAllPages = () => {
+      const getAllPages = () => {
         return apiService.getPages().then((response) => {
           commit('mutatePages', response.data)
         })
       }
 
-      let getSliderPosts = () => {
+      const getSliderPosts = () => {
         apiService.getPostsByCategory(Config.postsIDs.sliderPosts).then(response => {
           commit('mutateSliderPosts', response.posts)
         })
       }
 
-      let getDirectoryBannersPosts = () => {
+      const getDirectoryBannersPosts = () => {
         apiService.getPostsByCategory(Config.postsIDs.directoryBanners).then(response => {
           commit('mutateDirectoryBannersPosts', response.posts)
         })
       }
 
-      let getBannerPosts = () => {
+      const getBannerPosts = () => {
         apiService.getPostsByCategory(Config.postsIDs.bannerPosts).then(response => {
           let bannerPosts = response.posts.reverse()
           bannerPosts.forEach((item, idx) => {
@@ -86,43 +86,42 @@ const actions = {
       Promise.all([getMainMenu(), getSecondaryMenu(), getCategories(), getAllPages(), getSliderPosts(), getDirectoryBannersPosts(), getBannerPosts()])
         .then(() => {
           time.t1 = performance.now()
-          console.debug(`[actions] directory data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
+          console.debug(`[actions] website data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
         })
     })
   },
   loadPosts: ({commit}) => {
     let posts = []
     let years = []
+    let time = {}
     commit('mutateActivityIndicator', true)
 
     return apiService.getPosts(null, null, 100, 'desc').then((response) => {
-      let cleanPostsCollection = response.posts.filter(item => {
-        // TODO: could be improved
-        if (
-          item.categories[0] !== Config.postsIDs.bannerPosts &&
-          item.categories[0] !== Config.postsIDs.sliderPosts &&
-          item.categories[0] !== Config.postsIDs.directoryBanners
-        ) {
+      time.t0 = performance.now()
+      const bannedPostCategories = [Config.postsIDs.bannerPosts, Config.postsIDs.sliderPosts, Config.postsIDs.directoryBanners]
+      const cleanPostsCollection = response.posts.filter(item => {
+        if (!bannedPostCategories.includes(item.categories[0])) {
           return item
         }
       })
-      // TODO: this might be useless in production; it does the trick on dev tho
-      let fixImageUrl = (img) => {
-        let target = `/website/wp-content/`
-        let targetUpdated = `/wp-content/`
+
+      // TODO: fixing the images path is not needed in production
+      const fixImageUrl = (img) => {
+        const target = `/website/wp-content/`
+        const targetUpdated = `/wp-content/`
         return img.indexOf(target) !== -1 ? img.replace(target, targetUpdated) : img
       }
 
-      cleanPostsCollection.forEach((post) => {
-        let dateString = post.date.split('T')[0]
-        let imagesArrayFromContentString = post.content.rendered.match(/<img[^>]*>/g) || []
+      cleanPostsCollection.forEach(post => {
+        const dateString = post.date.split('T')[0]
+        const imagesArrayFromContentString = post.content.rendered.match(/<img[^>]*>/g) || []
         let imagesArrayFromContentStringProcessed = []
         imagesArrayFromContentString.forEach(img => {
-          let urlResulted = getSubstringBetweenSubstrings(img, `" src="`, `" alt="`)
+          const urlResulted = getSubstringBetweenSubstrings(img, `" src="`, `" alt="`)
           imagesArrayFromContentStringProcessed.push(urlResulted !== null ? fixImageUrl(urlResulted[1]) : Config.missingImageUrl)
         })
 
-        let frontCover = () => {
+        const frontCover = () => {
           if (post.better_featured_image) {
             return fixImageUrl(`<img src="${post.better_featured_image.source_url}"/>`)
           } else if (imagesArrayFromContentString.length > 0) {
@@ -155,6 +154,8 @@ const actions = {
       })
       commit('mutatePosts', posts)
       commit('mutateArchivedYears', years)
+      time.t1 = performance.now()
+      console.debug(`[actions] posts data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
     })
   },
   loadDirectory: ({commit}) => {
@@ -207,7 +208,13 @@ const actions = {
         })
       }
 
-      Promise.all([getDotNetData()])
+      const getStats = () => {
+        apiService.callApi('/website/entities').then((data) => {
+          console.log(data)
+        })
+      }
+
+      Promise.all([getDotNetData(), getStats()])
         .then(() => {
           time.t1 = performance.now()
           console.debug(`[actions] directory data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
