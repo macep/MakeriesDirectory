@@ -160,16 +160,21 @@
         maker: {}
       }
     },
-    created () {
+    async created () {
       this.$store.commit('mutateActivityIndicator', true)
-      apiService.callDotNetApi(`${Config.getById}${+getNthFragment(this.route.path, 2)}`).then((data) => {
-        this.maker = data.data
-      }).then(() => {
-        this.img = this.maker.images[0].url || this.img
+      try {
+        const maker = await apiService.callApi(`maker/${+getNthFragment(this.route.path, 2)}`)
+        this.maker = maker.data
+        // TODO: img is wrong again
+        // this.img = this.maker.images[0].url || this.img
+        this.img = ''
         this.imgs = this.maker.images
         this.draft = this.maker.enabled === false
         this.$store.commit('mutateActivityIndicator', false)
-      })
+      } catch (err) {
+        console.error(err)
+        this.$store.commit('mutateActivityIndicator', false)
+      }
     },
     computed: {
       ...mapGetters([
