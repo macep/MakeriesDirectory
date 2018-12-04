@@ -12,7 +12,7 @@
       </template>
 
       <transition name="slide" mode="out-in">
-        <router-view/>
+        <router-view :auth="auth"/>
       </transition>
 
       <jgm-footer/>
