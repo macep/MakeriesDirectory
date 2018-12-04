@@ -1,23 +1,30 @@
 <template>
-  <div id="app" class="row" :class="{'is-mobile': isMobile, 'is-touch': pointerIsTouch, 'no-scroll': mobileMenuVisibile}">
+  <div id="app" class="row" :class="[isMobile ? 'is-mobile' : '', pointerIsTouch ? 'is-touch' : '', mobileMenuVisibile ? 'no-scroll' : '']">
     <div class="col-xs-12">
+
       <jgm-header/>
-      <jgm-menu v-if="!isMobile" :auth="auth" :authenticated="authenticated"/>
-      <template v-if="isMobile">
-        <jgm-mobile-menu :auth="auth" :authenticated="authenticated"/>
+
+      <jgm-menu v-if="!isMobile"/>
+
+      <template v-else>
+        <jgm-mobile-menu/>
         <v-touch tag="i" @tap="toggleMobileMenuVisibility" :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"/>
       </template>
+
       <transition name="slide" mode="out-in">
-        <router-view :auth="auth" :authenticated="authenticated"/>
+        <router-view/>
       </transition>
+
       <jgm-footer/>
+
       <activity-indicator :show="showActivityIndicator"/>
+
     </div>
   </div>
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   import {stopZoomingWhenDoubleTapped} from './modules/utils'
   import activityIndicator from './components/common/activity-indicator.vue'
   import jgmHeader from './components/layout/jgm-header.vue'
@@ -30,17 +37,17 @@
   const auth = new AuthService()
   const {login, socialLogin, logout, authenticated, authNotifier} = auth
 
-  const pageClassSuffix = '-page'
-
-  const makeBodyClass = (fromRoute) => {
-    let currentRoute = fromRoute.path.replace(/\//g, '')
-    currentRoute += (currentRoute !== '') ? pageClassSuffix : ''
-    document.querySelector('body').classList = currentRoute
-  }
-
   export default {
     name: 'app',
-    components: {jgmHeader, jgmMenu, jgmMobileMenu, jgmFooter, activityIndicator},
+
+    components: {
+      jgmHeader,
+      jgmMenu,
+      jgmMobileMenu,
+      jgmFooter,
+      activityIndicator
+    },
+
     data () {
       authNotifier.$on('authChange', authState => {
         this.authenticated = authState.authenticated
@@ -51,40 +58,64 @@
         authenticated
       }
     },
-    mounted () {
-      this.setIsMobile()
-      this.setPointerIsTouch('ontouchstart' in window)
-      if (this.pages.length < 1) {
-        this.loadProject()
-      }
-      if (this.pointerIsTouch) {
-        stopZoomingWhenDoubleTapped()
-      }
-      this.setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      })
-      window.addEventListener('resize', () => {
-        clearTimeout(this.debounceWindowResizeId)
-        this.debounceWindowResizeId = setTimeout(() => {
-          this.setIsMobile()
-          this.setWindowSize({
-            width: window.innerWidth,
-            height: window.innerHeight
-          })
-        }, 500)
-      })
-      makeBodyClass(this.$route)
-    },
+
     computed: {
       ...mapGetters([
         'isMobile',
         'pointerIsTouch',
         'showActivityIndicator',
         'mobileMenuVisibile',
-        'pages'
+        'pages',
+        'windowSize'
       ])
     },
+
+    watch: {
+      $route (to, from) {
+        const fromRoute = this.baseRoute(from)
+        const toRoute = this.baseRoute(to)
+        document.body.classList.replace(fromRoute, toRoute)
+      },
+      windowSize () {
+        this.setIsMobile()
+      },
+      pages () {
+        this.stopActivityIndicator()
+      }
+    },
+
+    mounted () {
+      const initialRoute = this.baseRoute(this.$route)
+      document.body.classList.add(initialRoute)
+
+      this.setIsMobile()
+
+      this.setPointerIsTouch('ontouchstart' in window)
+
+      if (this.pages.length < 1) {
+        this.loadProject()
+      }
+
+      if (this.pointerIsTouch) {
+        stopZoomingWhenDoubleTapped()
+      }
+
+      this.setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+
+      window.addEventListener('resize', () => {
+        clearTimeout(this.debounceWindowResizeId)
+        this.debounceWindowResizeId = setTimeout(() => {
+          this.setWindowSize({
+            width: window.innerWidth,
+            height: window.innerHeight
+          })
+        }, 500)
+      })
+    },
+
     methods: {
       ...mapActions([
         'loadProject',
@@ -92,29 +123,35 @@
         'setWindowSize',
         'setPointerIsTouch'
       ]),
+
+      ...mapMutations([
+        'mutateMobileMenuVisibile',
+        'mutateActivityIndicator'
+      ]),
+
       toggleMobileMenuVisibility () {
-        this.$store.commit('mutateMobileMenuVisibile', !this.mobileMenuVisibile)
+        this.mutateMobileMenuVisibil(!this.mobileMenuVisibile)
       },
+
       stopActivityIndicator () {
         if (this.pages.length > 0) {
-          this.$store.commit('mutateActivityIndicator', false)
+          this.mutateActivityIndicator(false)
         }
       },
+
+      baseRoute (str) {
+        const baseRoute = str.path.split('/')[1]
+        return `${(baseRoute === '' ? 'home' : baseRoute)}-page`
+      },
+
       login,
       socialLogin,
       logout
     },
+
     metaInfo: {
       title: Config.titles.defaultSalutation,
       titleTemplate: `%s | ${Config.appTitle}`
-    },
-    watch: {
-      '$route' (to) {
-        makeBodyClass(to)
-      },
-      pages () {
-        this.stopActivityIndicator()
-      }
     }
   }
 </script>
