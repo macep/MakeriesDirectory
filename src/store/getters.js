@@ -20,12 +20,13 @@ export default {
   sliderPosts: state => state.sliderPosts,
   bannerPosts: state => state.bannerPosts,
   directoryBannersPosts: state => state.directoryBannersPosts,
+
   directory: state => state.directory,
   directoryStats: state => state.directoryStats,
-  showAllSuppliers: state => state.showAllSuppliers,
-  directoryDisabled: state => state.directoryDisabled,
-  directoryFilterData: state => state.directoryFilterData,
   directoryAZ: state => state.directoryAZ,
+  directoryActiveFilter: state => state.directoryActiveFilter,
+  showAllSuppliers: state => state.showAllSuppliers,
+
   viewType: state => state.viewType,
   searchCriteria: state => state.searchCriteria,
   route: state => state.route

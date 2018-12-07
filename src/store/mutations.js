@@ -65,17 +65,14 @@ export default {
   mutateDirectoryStats: (state, directoryStats) => {
     state.directoryStats = directoryStats
   },
-  mutateShowAllSuppliers: (state, showAllSuppliers) => {
-    state.showAllSuppliers = showAllSuppliers
-  },
-  mutateDirectoryDisabled: (state, directoryDisabled) => {
-    state.directoryDisabled = directoryDisabled
-  },
-  mutateDirectoryFilterData: (state, directoryFilterData) => {
-    state.directoryFilterData = directoryFilterData
-  },
   mutateDirectoryAZ: (state, directoryAZ) => {
     state.directoryAZ = directoryAZ
+  },
+  mutateDirectoryActiveFilter: (state, directoryActiveFilter) => {
+    state.directoryActiveFilter = directoryActiveFilter
+  },
+  mutateShowAllSuppliers: (state, showAllSuppliers) => {
+    state.showAllSuppliers = showAllSuppliers
   },
   mutateViewType: (state, viewType) => {
     state.viewType = viewType

@@ -108,7 +108,7 @@ const actions = {
       const fixImageUrl = (img) => {
         const target = `/website/wp-content/`
         const targetUpdated = `/wp-content/`
-        return img.indexOf(target) !== -1 ? img.replace(target, targetUpdated) : img
+        return img.indexOf(target) !== -1 && process.env.NODE_ENV === 'development' ? img.replace(target, targetUpdated) : img
       }
 
       cleanPostsCollection.forEach(post => {
