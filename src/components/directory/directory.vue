@@ -33,8 +33,8 @@
             </li>
             <li>
               <dropdown text="Filter by Region" type="primary">
-                <v-touch tag="li" @tap="gotoRoute(filter.url)" v-for="filter in directoryFilterDataCollection" :key="filter.el">
-                  <span>{{filter.el}} ({{filter.occurences}})</span>
+                <v-touch tag="li" @tap="selectFilter(filter)" v-for="filter in directoryStats.regions" :key="filter.id">
+                  <span>{{filter.name}} ({{filter.occurrence}})</span>
                 </v-touch>
               </dropdown>
             </li>
@@ -93,7 +93,6 @@
     },
     computed: {
       ...mapGetters([
-        'directoryFilterData',
         'directory',
         'directoryStats',
         'viewType',
@@ -108,12 +107,6 @@
       directoryFeatured () {
         const featured = this.directory.filter(maker => maker.featured === 'yes')
         return featured.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-      },
-      // TODO: probably replace with new stats response
-      directoryFilterDataCollection () {
-        if (this.directoryFilterData.regions !== undefined && this.directoryFilterData.regions.data.length > 0) {
-          return this.directoryFilterData.regions.data
-        }
       },
       sliderStyle () {
         if (!this.isMobile) {
@@ -147,7 +140,7 @@
     },
     methods: {
       ...mapActions(['loadDirectory', 'loadDirectoryStats']),
-      ...mapMutations(['mutateShowAllSuppliers', 'mutateShowAllSuppliers']),
+      ...mapMutations(['mutateShowAllSuppliers', 'mutateShowAllSuppliers', 'mutateDirectoryActiveFilter']),
       showAllSuppliersOn () {
         this.mutateShowAllSuppliers(true)
         this.$router.push('/directory')
@@ -155,6 +148,10 @@
       showFeaturedOn () {
         this.mutateShowAllSuppliers(false)
         this.$router.push('/directory')
+      },
+      selectFilter (filter) {
+        this.mutateDirectoryActiveFilter(filter.id)
+        this.gotoRoute(`/directory/filter-by/location/${filter.slug}`)
       },
       gotoRoute (url) {
         this.$router.push(url)
