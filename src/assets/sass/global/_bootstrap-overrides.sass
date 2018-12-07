@@ -1,8 +1,7 @@
 $border-style: 2px solid $light-turqoise
 
 .alert
-  @extend .din-web-cond
-  @extend .no-margin
+  @extend .din-web-cond, .no-margin
 
   .close
     @extend %fast-transitions
@@ -43,9 +42,7 @@ $border-style: 2px solid $light-turqoise
         background: $dark-turqoise
 
     a, div
-      @extend .md-padding-top
-      @extend .sm-padding-bottom
-      @extend %fast-transitions
+      @extend .md-padding-top, .sm-padding-bottom, %fast-transitions
       display: block
       cursor: pointer
 

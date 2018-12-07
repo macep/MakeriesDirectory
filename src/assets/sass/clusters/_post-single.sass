@@ -1,7 +1,6 @@
 #journal-single
   .post-content
-    @extend .xlg-margin-top
-    @extend .xlg-padding-top
+    @extend .xlg-margin-top, .xlg-padding-top
     border-top: $light-turqoise-divider
 
   .recent-posts-and-ads
@@ -36,8 +35,7 @@
       color: $white
 
     .inner-wrapper
-      @extend .xxlg-padding-right
-      @extend .xxlg-padding-left
+      @extend .xxlg-padding-right, .xxlg-padding-left
 
     .item
       display: inline-block
@@ -49,8 +47,7 @@
         top: -3px
 
     i
-      @extend .lg-padding
-      @extend %fast-transitions
+      @extend .lg-padding, %fast-transitions
       font-size: 21px
       display: block
 

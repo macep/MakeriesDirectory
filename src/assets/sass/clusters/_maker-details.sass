@@ -4,11 +4,7 @@
     background: $white
 
     &.left
-      @extend .xlg-padding-top
-      @extend .xxlg-padding-right
-      @extend .xlg-padding-bottom
-      @extend .xxlg-padding-left
-      @extend %hidden-scroll
+      @extend .xlg-padding-top, .xxlg-padding-right, .xlg-padding-bottom, .xxlg-padding-left, %hidden-scroll
 
       h3,
       .brief
@@ -33,13 +29,7 @@
       font-size: 14px
 
   .back-link
-    @extend .pull-left
-    @extend .md-padding-top
-    @extend .lg-padding-right
-    @extend .md-padding-bottom
-    @extend .lg-padding-left
-    @extend %main-headings
-    @extend %fast-transitions
+    @extend .pull-left, .md-padding-top, .lg-padding-right, .md-padding-bottom, .lg-padding-left, %main-headings, %fast-transitions
     position: absolute
     left: 0
     top: $xlg-space
@@ -53,8 +43,7 @@
     font-style: italic
 
   .long
-    @extend .no-padding-right
-    @extend .no-padding-left
+    @extend .no-padding-right, .no-padding-left
     border: 0
     background: transparent
     text-align: justify

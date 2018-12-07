@@ -1,14 +1,12 @@
 $fixed-logo-height: 110px
 
 %mobile-links
-  @extend .sm-padding-top
-  @extend .sm-padding-bottom
+  @extend .sm-padding-top, .sm-padding-bottom
   display: block
   font-size: 24px
 
 %mobile-links2
-  @extend .lg-padding-top
-  @extend .md-padding-bottom
+  @extend .lg-padding-top, .md-padding-bottom
   display: block
   font-size: 24px
 
@@ -37,8 +35,7 @@ $fixed-logo-height: 110px
       box-shadow: 0 2px 5px 0 rgba($black, .125)
 
 .fixed-logo
-  @extend .lg-padding
-  @extend %slow-transitions
+  @extend .lg-padding, %slow-transitions
   background: $body-bg
   position: fixed
   top: 0
@@ -61,9 +58,7 @@ $fixed-logo-height: 110px
   display: none
 
   > div
-    @extend %menu-animation
-    @extend %main-headings
-    @extend %mobile-links
+    @extend %menu-animation, %main-headings, %mobile-links
     border-bottom: $light-turqoise-divider
 
     &:first-child

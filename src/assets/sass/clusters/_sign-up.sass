@@ -13,8 +13,7 @@
 
 
 .fscf-label
-  @extend %main-headings
-  @extend .xlg-margin-top
+  @extend %main-headings, .xlg-margin-top
   font-size: 18px
 
 
@@ -40,8 +39,7 @@
     width: auto
 
   label
-    @extend %main-headings
-    @extend %fast-transitions
+    @extend %main-headings, %fast-transitions
     width: 200px
     cursor: pointer
 
@@ -69,13 +67,7 @@ legend
 
 
 input[type="submit"]
-  @extend %main-headings
-  @extend %fast-transitions
-  @extend .xlg-margin-top
-  @extend .lg-padding-top
-  @extend .md-padding-right
-  @extend .md-padding-bottom
-  @extend .md-padding-left
+  @extend %main-headings, %fast-transitions, .xlg-margin-top, .lg-padding-top, .md-padding-right, .md-padding-bottom, .md-padding-left
   width: 100%
   background: transparent
   border: 2px solid $dark-turqoise

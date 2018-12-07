@@ -1,7 +1,5 @@
 footer
-  @extend .xxlg-padding-top
-  @extend .xxlg-padding-bottom
-  @extend .text-center
+  @extend .xxlg-padding-top, .xxlg-padding-bottom, .text-center
 
   .light-pink &
     border-top: 2px solid $pink
@@ -23,14 +21,11 @@ footer
       color: lighten($dark-turqoise, 10%)
 
 .footer-menu
-  @extend .inline-list
-  @extend .no-margin
+  @extend .inline-list, .no-margin
 
 
 .footer-menu-item
-  @extend .md-padding
-  @extend .text-uppercase
-  @extend .din-web-cond
+  @extend .md-padding, .text-uppercase, .din-web-cond
   font-size: 12px
   letter-spacing: 1px
 
