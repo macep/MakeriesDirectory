@@ -7,30 +7,23 @@
         <p class="brief">{{maker.briefDescription}}</p>
 
         <carousel v-if="imgs.length > 1">
-          <slider v-for="slide in imgs" :key="slide.url" class="slide">
-            <img :src="slide.url" class="slide-image"/>
+          <slider v-for="(slide, index) in imgs" :key="index" class="slide">
+            <img :src="slide" class="slide-image"/>
           </slider>
         </carousel>
-        <img v-else :src="img" class="slide-image"/>
+        <img v-else :src="imgs[0]" class="slide-image"/>
 
-        <pre class="long">{{maker.longDescription}}</pre>
-        <!--<p class="address">{{maker.address}}</p>-->
-
-        <br>
-        <template v-if="maker.recommendations !== null">
-          <strong class="text-left">Recommendations</strong>
-          <p class="recommendations">"{{maker.recommendations}}"</p>
-        </template>
+        <pre class="long">{{maker.long_description}}</pre>
       </div>
     </div>
     <div class="col-sm-3">
       <div class="box right">
-        <div v-if="maker.businessTypes !== undefined && maker.businessTypes.length > 0" class="list-item">
+        <div v-if="maker.businesstypes !== undefined && maker.businesstypes.length > 0" class="list-item">
           <h6>{{businessTypes}}</h6>
           <div class="item">
-            <span v-for="(bt, index) in maker.businessTypes" :key="index">
-              <router-link :to="filterBy.businessTypes + '' + friendlyName(bt.name)"> {{bt.name}}</router-link>
-              <template v-if="index < maker.businessTypes.length - 1">, </template>
+            <span v-for="(bt, index) in maker.businesstypes" :key="index">
+              <router-link :to="filterBy.businesstypes + '' + friendlyName(bt.name)"> {{bt.name}}</router-link>
+              <template v-if="index < maker.businesstypes.length - 1">, </template>
             </span>
           </div>
         </div>
@@ -45,12 +38,12 @@
           </div>
         </div>
 
-        <div v-if="maker.serviceTypes !== undefined && maker.serviceTypes.length > 0" class="list-item">
+        <div v-if="maker.servicetypes !== undefined && maker.servicetypes.length > 0" class="list-item">
           <h6>{{serviceTypes}}</h6>
           <div class="item">
-            <span v-for="(s, index) in maker.serviceTypes" :key="index">
-              <router-link :to="filterBy.serviceTypes + '' + friendlyName(s.name)"> {{s.name}}</router-link>
-              <template v-if="index < maker.serviceTypes.length - 1">, </template>
+            <span v-for="(s, index) in maker.servicetypes" :key="index">
+              <router-link :to="filterBy.servicetypes + '' + friendlyName(s.name)"> {{s.name}}</router-link>
+              <template v-if="index < maker.servicetypes.length - 1">, </template>
             </span>
           </div>
         </div>
@@ -65,10 +58,13 @@
           </div>
         </div>
 
-        <div v-if="maker.region" class="list-item">
+        <div v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
           <h6>{{region}} </h6>
           <div class="item">
-            <router-link :to="filterBy.region + '' + friendlyName(maker.region.name)"> {{maker.region.name}}</router-link>
+            <span v-for="(r, index) in maker.regions" :key="index">
+              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
+              <template v-if="index < maker.regions.length - 1">, </template>
+            </span>
           </div>
         </div>
 
@@ -153,7 +149,7 @@
         map: Config.titles.directory.map,
         customer: Config.titles.directory.customer,
         tags: Config.titles.directory.tags,
-        img: `http://via.placeholder.com/800x800?text=Maker's Image`,
+        imgPlaceholder: `http://via.placeholder.com/800x800?text=Maker's Image`,
         imgs: [],
         draft: false,
         draftMaker: Config.titles.directory.draft,
@@ -165,10 +161,16 @@
       try {
         const maker = await apiService.callApi(`maker/${+getNthFragment(this.route.path, 2)}`)
         this.maker = maker.data
-        // TODO: img is wrong again
-        // this.img = this.maker.images[0].url || this.img
-        this.img = ''
-        this.imgs = this.maker.images
+
+        if (this.maker.images.length < 1) {
+          this.imgs.push(this.imgPlaceholder)
+        } else {
+          this.maker.images.forEach(async i => {
+            const img = await apiService.callApi(`maker/${this.maker.id}/image/${i.id}`)
+            this.imgs.push(`data:image/jpeg;base64,${img.data}`)
+          })
+        }
+
         this.draft = this.maker.enabled === false
         this.$store.commit('mutateActivityIndicator', false)
       } catch (err) {
@@ -177,14 +179,9 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'directory',
-        'directoryDisabled',
-        'directoryFilterData',
-        'route'
-      ]),
+      ...mapGetters(['directory', 'route']),
       back () {
-        let from = localStorage.getItem('jgm_origin_of_desired_route') || this.route.from.fullPath
+        const from = localStorage.getItem('jgm_origin_of_desired_route') || this.route.from.fullPath
         return from !== '/' ? from : null
       }
     },
