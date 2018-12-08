@@ -85,37 +85,6 @@ export default class AuthService {
   handleSocialAuthentication () {
     this.webAuth.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        // facebook doesn't give us the email, so in that case we can't send info to mailchimp
-        if (authResult.idTokenPayload.email !== 'underfined') {
-          // we build a form dynamically and post its data to the php file
-          let socialUserHiddenForm = document.createElement('form')
-          socialUserHiddenForm.action = '/social-user-to-mailchimp.php'
-          socialUserHiddenForm.method = 'post'
-
-          let email = document.createElement('input')
-          email.type = 'hidden'
-          email.name = 'email'
-          email.value = authResult.idTokenPayload.email
-
-          let fname = document.createElement('input')
-          fname.type = 'hidden'
-          fname.name = 'fname'
-          fname.value = authResult.idTokenPayload.given_name
-
-          let lname = document.createElement('input')
-          lname.type = 'hidden'
-          lname.name = 'lname'
-          lname.value = authResult.idTokenPayload.family_name
-
-          socialUserHiddenForm.appendChild(email)
-          socialUserHiddenForm.appendChild(fname)
-          socialUserHiddenForm.appendChild(lname)
-
-          document.getElementById('social-user-hidden-form-wrapper').appendChild(socialUserHiddenForm)
-
-          socialUserHiddenForm.submit()
-        }
-
         this.verifyUserProfile(authResult)
       } else if (err) {
         console.error(err)
@@ -161,7 +130,7 @@ export default class AuthService {
   }
 
   setSession (authResult) {
-    let expiresAt = JSON.stringify(authResult.expiresIn * 1e3 + new Date().getTime())
+    const expiresAt = JSON.stringify(authResult.expiresIn * 1e3 + new Date().getTime())
     localStorage.setItem(jgmAccessToken, authResult.accessToken)
     localStorage.setItem(jgmIdToken, authResult.idToken)
     localStorage.setItem(jgmExpiresAt, expiresAt)
@@ -169,7 +138,7 @@ export default class AuthService {
   }
 
   isAuthenticated () {
-    let expiresAt = JSON.parse(localStorage.getItem(jgmExpiresAt))
+    const expiresAt = JSON.parse(localStorage.getItem(jgmExpiresAt))
     return new Date().getTime() < expiresAt
   }
 

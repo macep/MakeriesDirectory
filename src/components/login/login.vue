@@ -75,8 +75,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
-  import cookieService from '../../api/cookie.service'
-  import {cleanupAuthCanceledSessions, isEmail} from '../../modules/utils'
+  import {isEmail} from '../../modules/utils'
   import megaAlert from '../overrides/megaAlert.vue'
 
   export default {
@@ -103,21 +102,6 @@
       }
     },
     mounted () {
-      let email = {}
-      email.result = cookieService.checkIfEmailIsVerified()
-      if (email.result.length > 3) {
-        email.verified = email.result[2].split('=')[1].replace(/%2540/g, '@')
-        email.cookie = cookieService.decodeCookieValue(cookieService.getCookie(email.verified))
-        this.title = `Welcome ${email.cookie.firstName}!`
-        this.description = email.result[3].split('=')[1]
-        this.orRegisterHere = Config.titles.registerAndAuthentication.orRegisterNewHere
-        this.email.value = email.verified
-        this.$refs.inputPassword.focus()
-        cookieService.deleteCookie(email.verified)
-        cookieService.deleteCookie(`${email.verified}-verified`)
-      }
-      cleanupAuthCanceledSessions()
-
       if (this.passwordResetResult !== {}) {
         if (this.passwordResetResult.success === 'true') {
           this.description = this.passwordResetResult.message

@@ -128,7 +128,6 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
-  import cookieService from '../../api/cookie.service'
   import megaAlert from '../overrides/megaAlert.vue'
   import {isEmail, isWebsite} from '../../modules/utils'
 
@@ -199,9 +198,6 @@
             metadata.website = this.website.value
           }
           this.auth.signup(this.username.value, this.email.value, this.password.value, metadata)
-
-          let cookieValue = JSON.stringify(Object.assign({username: this.username.value}, metadata))
-          cookieService.setCookie(this.email.value, cookieValue)
         }
       },
       closeRegistrationClientMessages () {

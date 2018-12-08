@@ -9,7 +9,7 @@
     name: 'change-password',
     components: {activityIndicator},
     data () {
-      let urlDecoded = decodeURIComponent(window.location.search.substr(1)).split('&')
+      const urlDecoded = decodeURIComponent(window.location.search.substr(1)).split('&')
       if (urlDecoded !== '') {
         let result = {}
         for (let i = 0; i < urlDecoded.length; i++) {

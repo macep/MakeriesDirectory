@@ -214,8 +214,8 @@
     methods: {
       updateUserInformation (scope) {
         const currentUser = Object.assign({}, JSON.parse(localStorage.getItem(jgmCurrentUser)))
-        let newMetadata = currentUser.user_metadata
-        let userID = currentUser.sub || currentUser.user_id
+        const newMetadata = currentUser.user_metadata
+        const userID = currentUser.sub || currentUser.user_id
 
         if (newMetadata.userInformationCollected === 'false') {
           if (this.showBusinessUseForm) {

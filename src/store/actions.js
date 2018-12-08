@@ -10,10 +10,8 @@ import {
 
 const actions = {
   loadProject: ({commit}) => {
-    let time = {}
     return new Promise((resolve, reject) => {
       commit('mutateActivityIndicator', true)
-      time.t0 = performance.now()
 
       const prepareMenuUrl = (menu) => {
         menu.forEach(item => {
@@ -83,20 +81,14 @@ const actions = {
       }
 
       Promise.all([getMainMenu(), getSecondaryMenu(), getCategories(), getAllPages(), getSliderPosts(), getDirectoryBannersPosts(), getBannerPosts()])
-        .then(() => {
-          time.t1 = performance.now()
-          console.debug(`[actions] website data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
-        })
     })
   },
   loadPosts: ({commit}) => {
     let posts = []
     let years = []
-    let time = {}
     commit('mutateActivityIndicator', true)
 
     return apiService.getPosts(null, null, 100, 'desc').then((response) => {
-      time.t0 = performance.now()
       const bannedPostCategories = [Config.postsIDs.bannerPosts, Config.postsIDs.sliderPosts, Config.postsIDs.directoryBanners]
       const cleanPostsCollection = response.posts.filter(item => {
         if (!bannedPostCategories.includes(item.categories[0])) {
@@ -153,43 +145,27 @@ const actions = {
       })
       commit('mutatePosts', posts)
       commit('mutateArchivedYears', years)
-      time.t1 = performance.now()
-      console.debug(`[actions] posts data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
     })
   },
   async loadDirectory ({commit}) {
-    let time = {}
-    time.t0 = performance.now()
     commit('mutateActivityIndicator', true)
 
     try {
       const data = await apiService.callApi('maker', {per_page: 50})
       commit('mutateDirectory', data.data)
-      console.debug(data.data)
       commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(data.data)))
-      time.t1 = performance.now()
-      console.debug(`[actions] directory data received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
     } catch (err) {
       console.error(err)
-      time.t1 = performance.now()
-      console.debug(`[actions] directory data failed in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
     }
   },
   async loadDirectoryStats ({commit}) {
-    let time = {}
-    time.t0 = performance.now()
     commit('mutateActivityIndicator', true)
 
     try {
       const data = await apiService.callApi('/website/entities')
       commit('mutateDirectoryStats', data.data)
-      time.t1 = performance.now()
-      console.debug(data.data)
-      console.debug(`[actions] directory stats received in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
     } catch (err) {
-      time.t1 = performance.now()
       console.error(err)
-      console.debug(`[actions] directoryStats stats failed in ${((time.t1 - time.t0) / 1e3).toFixed(3)}s`)
     }
   },
   setIsMobile: ({commit}) => {

@@ -4,7 +4,7 @@
 
       <jgm-header/>
 
-      <jgm-menu v-if="!isMobile"/>
+      <jgm-menu v-if="!isMobile" :auth="auth" :authenticated="authenticated"/>
 
       <template v-else>
         <jgm-mobile-menu/>
@@ -12,7 +12,7 @@
       </template>
 
       <transition name="slide" mode="out-in">
-        <router-view :auth="auth"/>
+        <router-view :auth="auth" :authenticated="authenticated"/>
       </transition>
 
       <jgm-footer/>
