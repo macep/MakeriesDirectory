@@ -1,9 +1,7 @@
 <template>
   <nav>
     <span v-for="link in mainMenu" :key="link.id" class="nav-item">
-      <a v-if="link.object_id === weekenderId" :href="weekenderExternal" target="_new">{{link.title}}</a>
-
-      <router-link v-else-if="link.object_id === directory" :to="directoryRoute" class="featured-makers">
+      <router-link v-if="link.object_id === directory" :to="directoryRoute" class="featured-makers">
         <v-touch @tap="directoryFeatured">{{link.title}}</v-touch>
       </router-link>
 
@@ -31,10 +29,8 @@
     props: ['auth', 'authenticated'],
     data () {
       return {
-        weekenderId: Config.pagesIDs.weekender,
         directory: Config.pagesIDs.directory,
         directoryRoute: Config.routerSettings.directory,
-        weekenderExternal: Config.routerSettings.weekenderExternal,
         avatar: Config.missingAvatar
       }
     },
