@@ -15,8 +15,8 @@ export default {
   directoryBannerHeight: '300px',
   analyticsPath: '//www.google-analytics.com/analytics.js',
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
-  genericCachingTime: 6e5,
-  // genericCachingTime: 864e5,
+  // genericCachingTime: 6e5,
+  genericCachingTime: 864e5,
   verificationURLLifetime: 5, // time [days] for the verification URL Lifetime, sync with https://manage.auth0.com/#/emails -- URL Lifetime
   recentPostsNumber: 3,
   routerSettings: {
@@ -101,7 +101,18 @@ export default {
       map: 'Map',
       customer: 'Customer',
       makerDetails: 'Maker details',
-      directoryAZ: 'Directory A-Z'
+      directoryAZ: 'Directory A-Z',
+      mainServices: 'Main Services',
+      mainMaterialsUsed: 'Main Materials Used',
+      tipicalProductsMade: 'Tipical Products Made',
+      capacity: 'Capacity',
+      contactName: 'Contact name',
+      emailContact: 'Email Contact',
+      getUs: 'Get Us',
+      testimonials: 'Testimonials',
+      ourStory: 'Our Story',
+      getInTouch: 'Get in touch',
+      getSpecific: 'Get specific'
     },
     registerAndAuthentication: {
       titleReg: 'Register New User',

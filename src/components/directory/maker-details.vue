@@ -1,35 +1,121 @@
 <template>
   <div id="maker-details" class="row small-gutter">
     <div class="col-sm-9 lg-margin-bottom">
-      <div class="box left">
+      <div class="box left text-center">
         <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
         <h3>{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
-        <p class="brief">{{maker.briefDescription}}</p>
+        <p v-if="maker.brief_description !==''" class="brief">{{maker.brief_description}}</p>
 
         <carousel v-if="imgs.length > 1">
           <slider v-for="(slide, index) in imgs" :key="index" class="slide">
             <img :src="slide" class="slide-image"/>
           </slider>
         </carousel>
+
         <img v-else :src="imgs[0]" class="slide-image"/>
 
-        <pre class="long">{{maker.long_description}}</pre>
+        <template v-if="maker.company_description !==''">
+          <h3>{{ getUs }}</h3>
+          <p>{{maker.company_description}}</p>
+        </template>
+
+        <template v-if="maker.testimonials !==''">
+          <h3>{{ testimonials }}</h3>
+          <p>{{maker.testimonials}}</p>
+        </template>
+
+        <template v-if="maker.story_description !==''">
+          <h3>{{ ourStory }}</h3>
+          <p>{{maker.story_description}}</p>
+        </template>
+
+        <template v-if="maker.long_description !==''">
+          <pre class="long">{{maker.long_description}}</pre>
+        </template>
       </div>
     </div>
     <div class="col-sm-3">
       <div class="box right">
-        <div v-if="maker.businesstypes !== undefined && maker.businesstypes.length > 0" class="list-item">
-          <h6>{{businessTypes}}</h6>
+        <h3>{{ getInTouch }}</h3>
+
+        <template v-if="maker.email !==''" class="list-item">
           <div class="item">
-            <span v-for="(bt, index) in maker.businesstypes" :key="index">
-              <router-link :to="filterBy.businesstypes + '' + friendlyName(bt.name)"> {{bt.name}}</router-link>
-              <template v-if="index < maker.businesstypes.length - 1">, </template>
+            <div v-if="maker.email">
+              <a :mail='maker.mail' :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'" @click="trackEmail(maker.email)">
+                {{ emailContact }}
+              </a>
+            </div>
+          </div>
+        </template>
+
+        <template v-if="maker.name !==''" class="list-item">
+          <h6>{{ contactName }}</h6>
+          <div class="item">
+            <strong>{{ maker.name }}</strong>
+            <template v-if="maker.website !==''" class="list-item">
+              <a :href="maker.website" target="_new">{{ website }}</a>
+            </template>
+          </div>
+        </template>
+
+        <template v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
+          <h6>{{region}}: </h6>
+          <div class="item">
+            <span v-for="(r, index) in maker.regions" :key="index">
+              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
+              <template v-if="index < maker.regions.length - 1">, </template>
             </span>
           </div>
-        </div>
+        </template>
 
-        <div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
-          <h6>{{productTypes}}</h6>
+        <template v-if="maker.address1 !==''" class="list-item">
+          <div class="item">
+            {{ maker.address1 }},
+            <template v-if="maker.address2 !== null">{{ maker.address2 }}, </template>
+            {{ maker.city }}
+          </div>
+        </template>
+
+        <template v-if="maker.map_url !==''" class="list-item">
+          <div class="image-holder" id="embededMap">
+            <google-map :pbcode="maker.map_url"></google-map>
+          </div>
+        </template>
+
+        <h3>{{ getSpecific }}</h3>
+
+        <template v-if="maker.capacities !== undefined && maker.capacities.length > 0" class="list-item">
+          <h6>{{capacity}}: </h6>
+          <div class="item">
+            <span v-for="(r, index) in maker.capacities" :key="index">
+              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
+              <template v-if="index < maker.capacities.length - 1">, </template>
+            </span>
+          </div>
+        </template>
+
+        <template v-if="maker.services !== undefined && maker.services.length > 0" class="list-item">
+          <h6>{{mainServices}}: </h6>
+          <div class="item">
+            <span v-for="(r, index) in maker.services" :key="index">
+              <router-link :to="`${filterBy.services}/${r.slug}`"> {{r.name}}</router-link>
+              <template v-if="index < maker.services.length - 1">, </template>
+            </span>
+          </div>
+        </template>
+
+        <template v-if="maker.materials !== undefined && maker.materials.length > 0" class="list-item">
+          <h6>{{mainMaterialsUsed}}: </h6>
+          <div class="item">
+            <span v-for="(r, index) in maker.materials" :key="index">
+              <router-link :to="`${filterBy.materials}/${r.slug}`"> {{r.name}}</router-link>
+              <template v-if="index < maker.materials.length - 1">, </template>
+            </span>
+          </div>
+        </template>
+
+        <div v-if="maker.products.length > 0" class="list-item">
+          <h6>{{tipicalProductsMade}}</h6>
           <div class="item">
             <span v-for="(p, index) in maker.products" :key="index">
               <router-link :to="filterBy.products + '' + friendlyName(p.name)"> {{p.name}}</router-link>
@@ -38,81 +124,57 @@
           </div>
         </div>
 
-        <div v-if="maker.servicetypes !== undefined && maker.servicetypes.length > 0" class="list-item">
-          <h6>{{serviceTypes}}</h6>
+        <div v-if="maker.social1 || maker.social2 || maker.social3" class="list-item">
+          <h6>{{socialNetworks}}</h6>
           <div class="item">
-            <span v-for="(s, index) in maker.servicetypes" :key="index">
-              <router-link :to="filterBy.servicetypes + '' + friendlyName(s.name)"> {{s.name}}</router-link>
-              <template v-if="index < maker.servicetypes.length - 1">, </template>
-            </span>
+            <div v-if="maker.social1"><a :href="maker.social1" target="_new">Join us on Facebook</a></div>
+            <div v-if="maker.social2"><a :href="maker.social2" target="_new">Follow us on Instagram</a></div>
+            <div v-if="maker.social3"><a :href="maker.social3" target="_new">Follow us on Twitter</a></div>
           </div>
         </div>
 
-        <div v-if="maker.processedTags !== undefined && maker.processedTags.length > 0" class="list-item">
-          <h6>{{tags}}</h6>
-          <div class="item">
-            <span v-for="(t, index) in maker.processedTags" :key="index">
-              {{t.name}}
-              <template v-if="index < maker.processedTags.length - 1">, </template>
-            </span>
-          </div>
-        </div>
-
-        <div v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
-          <h6>{{region}} </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.regions" :key="index">
-              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
-              <template v-if="index < maker.regions.length - 1">, </template>
-            </span>
-          </div>
-        </div>
-
-        <div v-if="maker.telephone || maker.email || maker.address" class="list-item">
-          <h6>{{contactDetails}}</h6>
-          <div class="item">
-            <div v-if="maker.email"><a :mail='maker.mail' :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'" @click="trackEmail(maker.email)">Email Contact</a></div>
-            <div v-if="maker.telephone">{{maker.telephone}}</div>
-            <div v-if="maker.address">{{maker.address}}</div>
-          </div>
-        </div>
-
-        <div v-if="maker.openingHours" class="list-item">
-          <h6>{{openingHours}}</h6>
-          <div class="item">
-            {{maker.openingHours}}
-          </div>
-        </div>
-
-        <!--<div v-if="maker.facebook || maker.instagram || maker.twitter" class="list-item">-->
-          <!--<h6>{{socialNetworks}}</h6>-->
+        <!--<div v-if="maker.businesstypes !== undefined && maker.businesstypes.length > 0" class="list-item">-->
+          <!--<h6>{{businessTypes}}</h6>-->
           <!--<div class="item">-->
-            <!--<div v-if="maker.facebook"><a :href="maker.facebook" target="_new">Join us on Facebook</a></div>-->
-            <!--<div v-if="maker.instagram"><a :href="maker.instagram" target="_new">Follow us on Instagram</a></div>-->
-            <!--<div v-if="maker.twitter"><a :href="maker.twitter" target="_new">Follow us on Twitter</a></div>-->
+            <!--<span v-for="(bt, index) in maker.businesstypes" :key="index">-->
+              <!--<router-link :to="filterBy.businesstypes + '' + friendlyName(bt.name)"> {{bt.name}}</router-link>-->
+              <!--<template v-if="index < maker.businesstypes.length - 1">, </template>-->
+            <!--</span>-->
           <!--</div>-->
         <!--</div>-->
-
-        <div v-if="maker.website" class="list-item">
-          <h6>{{website}}</h6>
-          <div class="item">
-            <a :href="maker.website" target="_new">{{maker.website}}</a>
-          </div>
-        </div>
-
-        <div v-if="maker.mapURL" class="list-item">
-          <h6>{{map}}</h6>
-          <div class="image-holder" id="embededMap">
-            <google-map :pbcode="maker.mapURL"></google-map>
-          </div>
-        </div>
-
-        <div v-if="maker.customer" class="list-item">
-          <h6>{{customer}}</h6>
-          <div class="item">
-            {{maker.customer}}
-          </div>
-        </div>
+        <!--<div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">-->
+          <!--<h6>{{productTypes}}</h6>-->
+          <!--<div class="item">-->
+            <!--<span v-for="(p, index) in maker.products" :key="index">-->
+              <!--<router-link :to="filterBy.products + '' + friendlyName(p.name)"> {{p.name}}</router-link>-->
+              <!--<template v-if="index < maker.products.length - 1">, </template>-->
+            <!--</span>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div v-if="maker.servicetypes !== undefined && maker.servicetypes.length > 0" class="list-item">-->
+          <!--<h6>{{serviceTypes}}</h6>-->
+          <!--<div class="item">-->
+            <!--<span v-for="(s, index) in maker.servicetypes" :key="index">-->
+              <!--<router-link :to="filterBy.servicetypes + '' + friendlyName(s.name)"> {{s.name}}</router-link>-->
+              <!--<template v-if="index < maker.servicetypes.length - 1">, </template>-->
+            <!--</span>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div v-if="maker.processedTags !== undefined && maker.processedTags.length > 0" class="list-item">-->
+          <!--<h6>{{tags}}</h6>-->
+          <!--<div class="item">-->
+            <!--<span v-for="(t, index) in maker.processedTags" :key="index">-->
+              <!--{{t.name}}-->
+              <!--<template v-if="index < maker.processedTags.length - 1">, </template>-->
+            <!--</span>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div v-if="maker.openingHours" class="list-item">-->
+          <!--<h6>{{openingHours}}</h6>-->
+          <!--<div class="item">-->
+            <!--{{maker.openingHours}}-->
+          <!--</div>-->
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -142,11 +204,21 @@
           businessTypes: Config.routerSettings.filterBy.businessTypes,
           serviceTypes: Config.routerSettings.filterBy.serviceTypes
         },
+        mainServices: Config.titles.directory.mainServices,
+        mainMaterialsUsed: Config.titles.directory.mainMaterialsUsed,
+        tipicalProductsMade: Config.titles.directory.tipicalProductsMade,
+        capacity: Config.titles.directory.capacity,
+        emailContact: Config.titles.directory.emailContact,
+        contactName: Config.titles.directory.contactName,
+        getUs: Config.titles.directory.getUs,
+        testimonials: Config.titles.directory.testimonials,
+        ourStory: Config.titles.directory.ourStory,
+        getInTouch: Config.titles.directory.getInTouch,
+        getSpecific: Config.titles.directory.getSpecific,
         contactDetails: Config.titles.directory.contactDetails,
         openingHours: Config.titles.directory.openingHours,
         socialNetworks: Config.titles.directory.socialNetworks,
         website: Config.titles.directory.website,
-        map: Config.titles.directory.map,
         customer: Config.titles.directory.customer,
         tags: Config.titles.directory.tags,
         imgPlaceholder: `http://via.placeholder.com/800x800?text=Maker's Image`,
@@ -170,6 +242,7 @@
             this.imgs.push(`data:image/jpeg;base64,${img.data}`)
           })
         }
+        console.log(this.maker)
 
         this.draft = this.maker.enabled === false
         this.$store.commit('mutateActivityIndicator', false)

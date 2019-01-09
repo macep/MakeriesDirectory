@@ -4,7 +4,7 @@
       <h3 class="no-margin-top">Regions</h3>
       <ul>
         <v-touch tag="li" v-for="filter in directoryStats.regions" :key="filter.id" @tap="selectFilter(filter)">
-          <div class="btn-link sm-padding-top sm-padding-bottom">{{filter.name}} ({{filter.occurrence}})</div>
+          <div class="btn-link sm-padding-top sm-padding-bottom">{{filter.name}} ({{filter.occurence}})</div>
         </v-touch>
       </ul>
     </div>

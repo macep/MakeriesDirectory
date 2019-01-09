@@ -96,7 +96,7 @@ const actions = {
         }
       })
 
-      // TODO: fixing the images path is not needed in production
+      // TODO: not needed in production?
       const fixImageUrl = (img) => {
         const target = `/website/wp-content/`
         const targetUpdated = `/wp-content/`
@@ -151,7 +151,7 @@ const actions = {
     commit('mutateActivityIndicator', true)
 
     try {
-      const data = await apiService.callApi('maker', {per_page: 50})
+      const data = await apiService.callApi('maker', {per_page: 350})
       commit('mutateDirectory', data.data)
       commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(data.data)))
     } catch (err) {
@@ -162,7 +162,7 @@ const actions = {
     commit('mutateActivityIndicator', true)
 
     try {
-      const data = await apiService.callApi('/website/entities')
+      const data = await apiService.callApi('/website/entities', null, 0)
       commit('mutateDirectoryStats', data.data)
     } catch (err) {
       console.error(err)

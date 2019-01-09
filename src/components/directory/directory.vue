@@ -34,7 +34,7 @@
             <li>
               <dropdown text="Filter by Region" type="primary">
                 <v-touch tag="li" @tap="selectFilter(filter)" v-for="filter in directoryStats.regions" :key="filter.id">
-                  <span>{{filter.name}} ({{filter.occurrence}})</span>
+                  <span>{{filter.name}} ({{filter.occurence}})</span>
                 </v-touch>
               </dropdown>
             </li>
@@ -100,10 +100,6 @@
         'showAllSuppliers',
         'directoryBannersPosts'
       ]),
-      // TODO: fix!
-      directoryBanner () {
-        return this.posts.find(item => item.id === Config.pagesIDs.directoryBanner)
-      },
       directoryFeatured () {
         const featured = this.directory.filter(maker => maker.featured === 'yes')
         return featured.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))

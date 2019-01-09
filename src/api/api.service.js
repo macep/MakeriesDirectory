@@ -104,7 +104,7 @@ const apiService = {
         .catch(error => reject(error))
     })
   },
-  callApi (url, options) {
+  async callApi (url, options, cache) {
     if (options) {
       url += '?'
       for (let prop in options) {
@@ -117,11 +117,8 @@ const apiService = {
       url,
       headers: { token }
     }
-    return new Promise((resolve, reject) => {
-      this.cacheRequest(requestParams, Config.genericCachingTime)
-        .then((response) => resolve(response))
-        .catch((error) => reject(error))
-    })
+    const response = await this.cacheRequest(requestParams, cache || Config.genericCachingTime)
+    return response
   }
 }
 
