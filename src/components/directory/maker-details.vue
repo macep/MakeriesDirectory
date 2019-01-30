@@ -242,8 +242,6 @@
             this.imgs.push(`data:image/jpeg;base64,${img.data}`)
           })
         }
-        console.log(this.maker)
-
         this.draft = this.maker.enabled === false
         this.$store.commit('mutateActivityIndicator', false)
       } catch (err) {

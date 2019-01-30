@@ -1,4 +1,4 @@
-const wpDomain = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : 'http://ui.macep23.com/website/'
+const wpDomain = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : 'http://wp.macep23.com/'
 
 export default {
   apiUrlBase: '/',
