@@ -113,7 +113,7 @@ export default {
       testimonials: 'Testimonials',
       ourStory: 'Our Story',
       getInTouch: 'Get in touch',
-      getSpecific: 'Get specific'
+      getSpecific: 'Typical Products Made'
     },
     registerAndAuthentication: {
       titleReg: 'Register New User',
