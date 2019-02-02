@@ -30,6 +30,7 @@
         </template>
 
         <template v-if="maker.what_we_do !==''">
+          <h3>{{ thisCompanyIsSpecial }}</h3>
           <pre class="long">{{maker.what_we_do}}</pre>
         </template>
       </div>
@@ -175,6 +176,7 @@
         getUs: Config.titles.directory.getUs,
         testimonials: Config.titles.directory.testimonials,
         ourStory: Config.titles.directory.ourStory,
+        thisCompanyIsSpecial: Config.titles.directory.thisCompanyIsSpecial,
         getInTouch: Config.titles.directory.getInTouch,
         getSpecific: Config.titles.directory.getSpecific,
         contactDetails: Config.titles.directory.contactDetails,

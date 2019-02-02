@@ -112,6 +112,7 @@ export default {
       getUs: 'Get Us',
       testimonials: 'Testimonials',
       ourStory: 'Our Story',
+      thisCompanyIsSpecial: 'This Company is Special',
       getInTouch: 'Get in touch',
       getSpecific: 'Get Specific'
     },
