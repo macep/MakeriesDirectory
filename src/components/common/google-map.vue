@@ -7,7 +7,7 @@
     name: 'google-map',
     props: {
       pbcode: {
-        type: String,
+        validator: prop => typeof prop === 'string' || prop === undefined,
         required: true
       }
     }
