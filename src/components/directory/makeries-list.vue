@@ -2,36 +2,24 @@
   <div class="row">
     <div :class="{'col-xs-6 col-md-4': viewType === 'grid', 'col-xs-12': viewType === 'list'}" class="maker" v-for="maker in makeries" :key="maker.id">
       <template v-if="viewType === 'grid'">
-        <banner :route="maker.routeTo" :img="maker.images[0].url || ''" :title="maker.name" :content="maker.briefDescription || ''" :overlayed="true" :escaped="true"/>
+        <makeries-list-item :route="maker.routeTo" :img="maker.images[0] ? maker.images[0].id : img" :title="maker.name" :content="maker.brief_description || ''"/>
       </template>
       <template v-else>
         <router-link :to="maker.routeTo">
           <h3>{{maker.name}}</h3>
         </router-link>
 
-        <p>{{region}}: {{maker.region.name}}</p>
+        <enumerate :collection="maker.regions || []" :category="region"/>
 
-        <p v-if="maker.businessTypes !== undefined && maker.businessTypes.length > 0" class="list-item">
-          <span>{{businessTypes}}:</span>
-          <span v-for="(bt, index) in maker.businessTypes" :key="index">{{bt.name}}<template v-if="index < maker.businessTypes.length - 1">, </template></span>
-        </p>
+        <enumerate :collection="maker.businesstypes || []" :category="businessTypes"/>
 
-        <p v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
-          <span>{{productTypes}}:</span>
-          <span v-for="(p, index) in maker.products" :key="index">{{p.name}}<template v-if="index < maker.products.length - 1">, </template></span>
-        </p>
+        <enumerate :collection="maker.products || []" :category="productTypes"/>
 
-        <p v-if="maker.serviceTypes !== undefined && maker.serviceTypes.length > 0" class="list-item">
-          <span>{{serviceTypes}}:</span>
-          <span v-for="(s, index) in maker.serviceTypes" :key="index">{{s.name}}<template v-if="index < maker.serviceTypes.length - 1">, </template></span>
-        </p>
+        <enumerate :collection="maker.servicetypes || []" :category="serviceTypes"/>
 
-        <p class="brief">{{description}}: {{maker.briefDescription}}</p>
+        <p class="brief">{{description}}: {{maker.brief_description}}</p>
 
-        <p v-if="maker.tags !== undefined && maker.tags.length > 0" class="list-item">
-          <span>{{tags}}:</span>
-          <span v-for="(t, index) in maker.tags" :key="index" class="tag">{{t}}<template v-if="index < maker.tags.length - 1">, </template></span>
-        </p>
+        <enumerate :collection="maker.tags || []" :category="tags"/>
       </template>
     </div>
   </div>
@@ -40,11 +28,12 @@
 <script>
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
-  import banner from '../common/banner'
+  import makeriesListItem from './makeries-list-item'
+  import enumerate from '../common/enumerate'
 
   export default {
     name: 'directory-page',
-    components: {banner},
+    components: { makeriesListItem, enumerate },
     data () {
       return {
         region: Config.titles.directory.region,
@@ -52,7 +41,8 @@
         productTypes: Config.titles.directory.productTypes,
         serviceTypes: Config.titles.directory.serviceTypes,
         description: Config.titles.directory.description,
-        tags: Config.titles.directory.tags
+        tags: Config.titles.directory.tags,
+        img: `http://via.placeholder.com/600x360?text=Maker's Image`
       }
     },
     props: {

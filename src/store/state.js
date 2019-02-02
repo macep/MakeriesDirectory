@@ -34,12 +34,14 @@ export default {
   archivedYears: [],
   sliderPosts: [],
   bannerPosts: [],
+
   directoryBannersPosts: [],
   directory: [],
-  showAllSuppliers: false,
-  directoryDisabled: [],
-  directoryFilterData: [],
+  directoryStats: [],
   directoryAZ: [],
+  directoryActiveFilter: '',
+  showAllSuppliers: false,
+
   viewType: 'grid',
   searchCriteria: ''
 }

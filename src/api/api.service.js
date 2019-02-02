@@ -1,7 +1,15 @@
 import Config from './app.config.js'
 import appCache from './api.service.cache.js'
+import nJwt from 'njwt'
 
 const wpRESTApiRoot = Config.wpDomain + (process.env.NODE_ENV === 'development' ? '' : 'index.php/')
+
+const token = nJwt.create({
+  userId: 1,
+  userRole: 'superAdmin',
+  iss: Config.apiV2Root,
+  scope: 'self'
+}, 'JWT_SECRET', 'HS256').compact()
 
 const apiService = {
   cacheRequest (path, cacheTime) {
@@ -51,7 +59,7 @@ const apiService = {
   },
   getPostsByCategory (categoryId) {
     return new Promise((resolve, reject) => {
-      let path = `${wpRESTApiRoot}wp-json/wp/v2/posts?categories=${categoryId}`
+      const path = `${wpRESTApiRoot}wp-json/wp/v2/posts?categories=${categoryId}`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => {
           let totalPages = (response.headers.hasOwnProperty('X-WP-TotalPages')) ? response.headers['X-WP-TotalPages'][0] : 0
@@ -66,7 +74,7 @@ const apiService = {
   },
   getPost (postId) {
     return new Promise((resolve, reject) => {
-      let path = `${wpRESTApiRoot}wp-json/wp/v2/posts/${postId}?fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
+      const path = `${wpRESTApiRoot}wp-json/wp/v2/posts/${postId}?fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response.data))
         .catch(error => reject(error))
@@ -74,7 +82,7 @@ const apiService = {
   },
   getPages () {
     return new Promise((resolve, reject) => {
-      let path = `${wpRESTApiRoot}wp-json/wp/v2/pages/?per_page=100&fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
+      const path = `${wpRESTApiRoot}wp-json/wp/v2/pages/?per_page=100&fields=id,title,slug,tags,date,better_featured_image,content,rest_api_enabler,pure_taxonomies`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
@@ -82,7 +90,7 @@ const apiService = {
   },
   getPage (pageId) {
     return new Promise((resolve, reject) => {
-      let path = `${wpRESTApiRoot}wp-json/wp/v2/pages/${pageId}`
+      const path = `${wpRESTApiRoot}wp-json/wp/v2/pages/${pageId}`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
@@ -90,31 +98,27 @@ const apiService = {
   },
   getCategories () {
     return new Promise((resolve, reject) => {
-      let path = `${wpRESTApiRoot}wp-json/wp/v2/categories`
+      const path = `${wpRESTApiRoot}wp-json/wp/v2/categories`
       this.cacheRequest(path, Config.genericCachingTime)
         .then(response => resolve(response))
         .catch(error => reject(error))
     })
   },
-  callDotNetApi (url) {
-    let requestParams = {
-      baseURL: Config.dotNetDomain,
-      url: url,
-      method: 'get',
-      headers: {
-        'useXDomain': true,
-        'X-Requested-With': '',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Basic ' + Config.dotNetToken
-      },
-      timeout: 3e4
+  async callApi (url, options, cache) {
+    if (options) {
+      url += '?'
+      for (let prop in options) {
+        url += `${prop}=${options[prop]}&`
+      }
+      url = url.substring(0, url.length - 1)
     }
-    return new Promise((resolve, reject) => {
-      this.cacheRequest(requestParams, Config.genericCachingTime)
-        .then((response) => resolve(response))
-        .catch((error) => reject(error))
-    })
+    const requestParams = {
+      baseURL: Config.apiV2Root,
+      url,
+      headers: { token }
+    }
+    const response = await this.cacheRequest(requestParams, cache || Config.genericCachingTime)
+    return response
   }
 }
 

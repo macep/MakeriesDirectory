@@ -1,7 +1,7 @@
 <template>
   <span class="image-overlayed-wrapper">
     <template v-if="escaped">
-      <img :src="url" class="image-overlayed"/>
+      <img ref="img" :src="imgData || url" class="image-overlayed"/>
     </template>
     <template v-else-if="background">
       <div :style="img"></div>
@@ -16,8 +16,11 @@
     name: 'image-overlayed',
     props: {
       url: {
-        type: String,
+        type: [String, Number],
         required: true
+      },
+      imgData: {
+        required: false
       },
       overlayed: {
         type: Boolean,

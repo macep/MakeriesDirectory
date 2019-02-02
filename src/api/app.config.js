@@ -1,4 +1,4 @@
-const wpDomain = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : `${window.location.origin}/website/`
+const wpDomain = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : 'http://wp.macep23.com/'
 
 export default {
   apiUrlBase: '/',
@@ -10,16 +10,13 @@ export default {
   missingImageUrl: '/static/no-img.png',
   missingAvatar: 'http://via.placeholder.com/100x100?text=AVATAR',
   wpDomain,
-  dotNetDomain: 'http://makeriesnew.azurewebsites.net/',
-  dotNetToken: 'MzM0N2NjYTItOTgwYy00YTE0LWExNGItNTlkMGZlYzZkMTc4OjQ2ZGU4MzI3LWM3ZDItNGVkMi1iYjFjLTBlMTExZmZhYzMyOQ==',
-  getAllMakers: 'api/makers/GetAllMakers',
-  getById: 'api/makers/GetById/',
+  apiV2Root: 'http://api.macep23.com/v2/',
   loadDbName: 'justGotMadeLocal',
   directoryBannerHeight: '300px',
   analyticsPath: '//www.google-analytics.com/analytics.js',
   activityLoaderImg: '/static/images/jgm-star-empty.svg',
-  genericCachingTime: 6e5,
-  // genericCachingTime: 864e5,
+  // genericCachingTime: 6e5,
+  genericCachingTime: 864e5,
   verificationURLLifetime: 5, // time [days] for the verification URL Lifetime, sync with https://manage.auth0.com/#/emails -- URL Lifetime
   recentPostsNumber: 3,
   routerSettings: {
@@ -104,7 +101,20 @@ export default {
       map: 'Map',
       customer: 'Customer',
       makerDetails: 'Maker details',
-      directoryAZ: 'Directory A-Z'
+      directoryAZ: 'Directory A-Z',
+      mainServices: 'Main Services',
+      mainMaterialsUsed: 'Main Materials Used',
+      typicalProductsMade: 'Typical Products Made',
+      capacity: 'Capacity',
+      contactName: 'Contact name',
+      position: 'Position',
+      emailContact: 'Email Contact',
+      getUs: 'Get Us',
+      testimonials: 'Testimonials',
+      ourStory: 'Our Story',
+      thisCompanyIsSpecial: 'This Company is Special',
+      getInTouch: 'Get in touch',
+      getSpecific: 'Get Specific'
     },
     registerAndAuthentication: {
       titleReg: 'Register New User',

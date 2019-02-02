@@ -5,7 +5,6 @@ import Config from '../api/app.config'
 import Home from '@/components/static-pages/home'
 import About from '@/components/static-pages/about'
 import Directory from '@/components/directory/directory'
-import DirectoryDisabled from '@/components/directory/directory-disabled'
 import FilterBy from '@/components/directory/filter-by'
 import FilterAZ from '@/components/directory/filter-az'
 import Maker from '@/components/directory/maker-details'
@@ -28,13 +27,12 @@ import PageNotFound from '@/components/static-pages/page-not-found'
 Vue.use(Router)
 
 const jgmExpiresAt = 'jgm_expires_at'
-// const jgmOriginOfDesiredRoute = 'jgm_origin_of_desired_route'
-// const jgmDesiredRoute = 'jgm_desired_route'
+const jgmOriginOfDesiredRoute = 'jgm_origin_of_desired_route'
+const jgmDesiredRoute = 'jgm_desired_route'
 
 const routes = [
   {path: '/', name: 'Home', component: Home},
   {path: `${Config.routerSettings.about}`, name: 'About', component: About},
-  {path: `${Config.routerSettings.directoryDisabled}`, name: 'DirectoryDisabled', component: DirectoryDisabled},
   {path: `${Config.routerSettings.directory}`, name: 'Directory', component: Directory},
   {path: `${Config.routerSettings.filterBy.region}:filter`, name: 'Regions', component: FilterBy},
   {path: `${Config.routerSettings.filterBy.products}:filter`, name: 'Products', component: FilterBy},
@@ -44,21 +42,20 @@ const routes = [
   {
     path: `${Config.routerSettings.makerDetail}:id/:page`,
     name: 'Maker',
-    component: Maker
-    // ,
-    // beforeEnter: (to, from, next) => {
-    //   let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem(jgmExpiresAt))
-    //   if (tokenExpired) {
-    //     localStorage.setItem(jgmDesiredRoute, to.fullPath)
-    //     if (from.fullPath.split('/')[1] !== 'callback') {
-    //       localStorage.setItem(jgmOriginOfDesiredRoute, from.fullPath)
-    //     }
-    //     next({ path: '/login' })
-    //   } else {
-    //     localStorage.setItem(jgmDesiredRoute, '')
-    //     next()
-    //   }
-    // }
+    component: Maker,
+    beforeEnter: (to, from, next) => {
+      const tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem(jgmExpiresAt))
+      if (tokenExpired) {
+        localStorage.setItem(jgmDesiredRoute, to.fullPath)
+        if (from.fullPath.split('/')[1] !== 'callback') {
+          localStorage.setItem(jgmOriginOfDesiredRoute, from.fullPath)
+        }
+        next({ path: '/login' })
+      } else {
+        localStorage.setItem(jgmDesiredRoute, '')
+        next()
+      }
+    }
   },
   {path: `${Config.routerSettings.journal}`, name: 'Journal', component: Journal},
   {path: `${Config.routerSettings.category}:id/:slug`, name: 'JournalByCat', component: JournalByCat},
@@ -74,7 +71,7 @@ const routes = [
     name: 'UserInformation',
     component: UserInformation,
     beforeEnter: (to, from, next) => {
-      let tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem(jgmExpiresAt))
+      const tokenExpired = new Date().getTime() >= JSON.parse(localStorage.getItem(jgmExpiresAt))
       if (tokenExpired) {
         next({ path: '/login' })
       } else {

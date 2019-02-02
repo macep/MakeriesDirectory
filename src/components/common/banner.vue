@@ -1,17 +1,9 @@
 <template>
   <div class="banner-inner">
-    <template v-if="route">
-      <router-link :to="route">
-        <image-overlayed :url="img" :overlayed="overlayed" :escaped="escaped"/>
-      </router-link>
-      <router-link :to="route" class="banner-title">{{title}}</router-link>
-    </template>
-    <template v-else>
-      <a :href="newsletter" target="_new">
-        <image-overlayed :url="img" :overlayed="overlayed" :escaped="escaped"/>
-      </a>
-      <a :href="newsletter" target="_new" class="banner-title">{{title}}</a>
-    </template>
+    <a :href="newsletter" target="_new">
+      <image-overlayed :url="img" :overlayed="overlayed" :escaped="escaped"/>
+    </a>
+    <a :href="newsletter" target="_new" class="banner-title">{{title}}</a>
     <span v-html="content" class="banner-content"/>
   </div>
 </template>
@@ -22,14 +14,14 @@
 
   export default {
     name: 'banner',
-    components: {imageOverlayed},
+    components: { imageOverlayed },
     props: {
       route: {
         type: String,
         required: false
       },
       img: {
-        type: String,
+        type: [String, Number],
         required: true
       },
       title: {

@@ -33,8 +33,8 @@
             </li>
             <li>
               <dropdown text="Filter by Region" type="primary">
-                <v-touch tag="li" @tap="gotoRoute(filter.url)" v-for="filter in directoryFilterDataCollection" :key="filter.el">
-                  <span>{{filter.el}} ({{filter.occurences}})</span>
+                <v-touch tag="li" @tap="selectFilter(filter)" v-for="filter in directoryStats.regions" :key="filter.id">
+                  <span>{{filter.name}} ({{filter.occurence}})</span>
                 </v-touch>
               </dropdown>
             </li>
@@ -43,11 +43,11 @@
 
         <div class="col-xs-12">
           <h1 v-if="term !== ''">{{searchResults}}</h1>
-          <h1 v-else-if="showAllSuppliers">All suppliers {{directoryEnabled.length}}</h1>
+          <h1 v-else-if="showAllSuppliers">All suppliers {{directory.length}}</h1>
           <h1 v-else>Featured Suppliers</h1>
         </div>
         <div class="col-xs-12">
-          <makeries-list :makeries="term !== '' ? methodResults : showAllSuppliers ? directoryEnabled : directoryFeatured"/>
+          <makeries-list :makeries="term !== '' ? methodResults : showAllSuppliers ? directory : directoryFeatured"/>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   import Config from '../../api/app.config'
   import makeriesMenu from './directory-menu.vue'
   import makeriesList from './makeries-list.vue'
@@ -84,29 +84,25 @@
         featuredSuppliers: Config.titles.featuredSuppliers
       }
     },
-    mounted () {
-      if (this.directory.length < 1) {
-        this.loadDirectory()
-      }
+    components: {
+      makeriesMenu,
+      makeriesList,
+      viewType,
+      postsSlider,
+      dropdown
     },
-    components: {makeriesMenu, makeriesList, viewType, postsSlider, dropdown},
     computed: {
-      ...mapGetters(['directoryFilterData', 'directory', 'viewType', 'isMobile', 'showAllSuppliers', 'directoryBannersPosts']),
-      directoryBanner () {
-        return this.posts.find(item => item.id === Config.pagesIDs.directoryBanner)
-      },
-      directoryEnabled () {
-        return this.directory.filter(maker => maker.enabled)
-      },
+      ...mapGetters([
+        'directory',
+        'directoryStats',
+        'viewType',
+        'isMobile',
+        'showAllSuppliers',
+        'directoryBannersPosts'
+      ]),
       directoryFeatured () {
-        let featured = this.directory.filter(maker => maker.featured)
-
-        return featured.sort((a, b) => new Date(b.created) - new Date(a.created))
-      },
-      directoryFilterDataCollection () {
-        if (this.directoryFilterData.regions !== undefined && this.directoryFilterData.regions.data.length > 0) {
-          return this.directoryFilterData.regions.data
-        }
+        const featured = this.directory.filter(maker => maker.featured === 'yes')
+        return featured.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
       },
       sliderStyle () {
         if (!this.isMobile) {
@@ -123,25 +119,38 @@
         return `${Config.titles.searchAll} ${this.directory.length} ${Config.titles.suppliers}`
       }
     },
+    watch: {
+      term () {
+        this.$search(this.term, this.directory, this.options).then(results => {
+          this.methodResults = results
+        })
+      }
+    },
+    mounted () {
+      if (this.directory.length < 1) {
+        this.loadDirectory()
+      }
+      if (this.directoryStats.length < 1) {
+        this.loadDirectoryStats()
+      }
+    },
     methods: {
-      ...mapActions(['loadDirectory']),
+      ...mapActions(['loadDirectory', 'loadDirectoryStats']),
+      ...mapMutations(['mutateShowAllSuppliers', 'mutateShowAllSuppliers', 'mutateDirectoryActiveFilter']),
       showAllSuppliersOn () {
-        this.$store.commit('mutateShowAllSuppliers', true)
+        this.mutateShowAllSuppliers(true)
         this.$router.push('/directory')
       },
       showFeaturedOn () {
-        this.$store.commit('mutateShowAllSuppliers', false)
+        this.mutateShowAllSuppliers(false)
         this.$router.push('/directory')
+      },
+      selectFilter (filter) {
+        this.mutateDirectoryActiveFilter(filter.id)
+        this.gotoRoute(`/directory/filter-by/location/${filter.slug}`)
       },
       gotoRoute (url) {
         this.$router.push(url)
-      }
-    },
-    watch: {
-      term () {
-        this.$search(this.term, this.directoryEnabled, this.options).then(results => {
-          this.methodResults = results
-        })
       }
     },
     metaInfo () {
