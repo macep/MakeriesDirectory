@@ -16,21 +16,21 @@
 
         <template v-if="maker.company_description !==''">
           <h3>{{ getUs }}</h3>
-          <p>{{maker.company_description}}</p>
+          <pre>{{maker.company_description}}</pre>
         </template>
 
         <template v-if="maker.testimonials !==''">
           <h3>{{ testimonials }}</h3>
-          <p>{{maker.testimonials}}</p>
+          <pre>{{maker.testimonials}}</pre>
         </template>
 
         <template v-if="maker.story_description !==''">
           <h3>{{ ourStory }}</h3>
-          <p>{{maker.story_description}}</p>
+          <pre>{{maker.story_description}}</pre>
         </template>
 
-        <template v-if="maker.long_description !==''">
-          <pre class="long">{{maker.long_description}}</pre>
+        <template v-if="maker.what_we_do !==''">
+          <pre class="long">{{maker.what_we_do}}</pre>
         </template>
       </div>
     </div>
