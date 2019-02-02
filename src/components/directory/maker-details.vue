@@ -48,13 +48,17 @@
           </div>
         </template>
 
-        <template v-if="maker.name !==''" class="list-item">
+        <template v-if="maker.contactName !==''" class="list-item">
           <h6>{{ contactName }}</h6>
           <div class="item">
-            <strong>{{ maker.name }}</strong>
-            <template v-if="maker.website !==''" class="list-item">
-              <a :href="maker.website" target="_new">{{ website }}</a>
-            </template>
+            <strong>{{ maker.contactName }}</strong>
+          </div>
+        </template>
+
+        <template v-if="maker.position !==''" class="list-item">
+          <h6>{{ position }}</h6>
+          <div class="item">
+            <strong>{{ maker.position }}</strong>
           </div>
         </template>
 
@@ -114,7 +118,7 @@
           </div>
         </template>
 
-        <div v-if="maker.products.length > 0" class="list-item">
+        <div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
           <h6>{{tipicalProductsMade}}</h6>
           <div class="item">
             <span v-for="(p, index) in maker.products" :key="index">
@@ -132,49 +136,6 @@
             <div v-if="maker.social3"><a :href="maker.social3" target="_new">Follow us on Twitter</a></div>
           </div>
         </div>
-
-        <!--<div v-if="maker.businesstypes !== undefined && maker.businesstypes.length > 0" class="list-item">-->
-          <!--<h6>{{businessTypes}}</h6>-->
-          <!--<div class="item">-->
-            <!--<span v-for="(bt, index) in maker.businesstypes" :key="index">-->
-              <!--<router-link :to="filterBy.businesstypes + '' + friendlyName(bt.name)"> {{bt.name}}</router-link>-->
-              <!--<template v-if="index < maker.businesstypes.length - 1">, </template>-->
-            <!--</span>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">-->
-          <!--<h6>{{productTypes}}</h6>-->
-          <!--<div class="item">-->
-            <!--<span v-for="(p, index) in maker.products" :key="index">-->
-              <!--<router-link :to="filterBy.products + '' + friendlyName(p.name)"> {{p.name}}</router-link>-->
-              <!--<template v-if="index < maker.products.length - 1">, </template>-->
-            <!--</span>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div v-if="maker.servicetypes !== undefined && maker.servicetypes.length > 0" class="list-item">-->
-          <!--<h6>{{serviceTypes}}</h6>-->
-          <!--<div class="item">-->
-            <!--<span v-for="(s, index) in maker.servicetypes" :key="index">-->
-              <!--<router-link :to="filterBy.servicetypes + '' + friendlyName(s.name)"> {{s.name}}</router-link>-->
-              <!--<template v-if="index < maker.servicetypes.length - 1">, </template>-->
-            <!--</span>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div v-if="maker.processedTags !== undefined && maker.processedTags.length > 0" class="list-item">-->
-          <!--<h6>{{tags}}</h6>-->
-          <!--<div class="item">-->
-            <!--<span v-for="(t, index) in maker.processedTags" :key="index">-->
-              <!--{{t.name}}-->
-              <!--<template v-if="index < maker.processedTags.length - 1">, </template>-->
-            <!--</span>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div v-if="maker.openingHours" class="list-item">-->
-          <!--<h6>{{openingHours}}</h6>-->
-          <!--<div class="item">-->
-            <!--{{maker.openingHours}}-->
-          <!--</div>-->
-        <!--</div>-->
       </div>
     </div>
   </div>
@@ -210,6 +171,7 @@
         capacity: Config.titles.directory.capacity,
         emailContact: Config.titles.directory.emailContact,
         contactName: Config.titles.directory.contactName,
+        position: Config.titles.directory.position,
         getUs: Config.titles.directory.getUs,
         testimonials: Config.titles.directory.testimonials,
         ourStory: Config.titles.directory.ourStory,

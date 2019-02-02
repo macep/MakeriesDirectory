@@ -107,6 +107,7 @@ export default {
       tipicalProductsMade: 'Tipical Products Made',
       capacity: 'Capacity',
       contactName: 'Contact name',
+      position: 'Position',
       emailContact: 'Email Contact',
       getUs: 'Get Us',
       testimonials: 'Testimonials',
