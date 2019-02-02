@@ -119,7 +119,7 @@
         </template>
 
         <div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
-          <h6>{{tipicalProductsMade}}</h6>
+          <h6>{{typicalProductsMade}}</h6>
           <div class="item">
             <span v-for="(p, index) in maker.products" :key="index">
               <router-link :to="filterBy.products + '' + friendlyName(p.name)"> {{p.name}}</router-link>
@@ -167,7 +167,7 @@
         },
         mainServices: Config.titles.directory.mainServices,
         mainMaterialsUsed: Config.titles.directory.mainMaterialsUsed,
-        tipicalProductsMade: Config.titles.directory.tipicalProductsMade,
+        typicalProductsMade: Config.titles.directory.typicalProductsMade,
         capacity: Config.titles.directory.capacity,
         emailContact: Config.titles.directory.emailContact,
         contactName: Config.titles.directory.contactName,

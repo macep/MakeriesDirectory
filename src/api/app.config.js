@@ -104,7 +104,7 @@ export default {
       directoryAZ: 'Directory A-Z',
       mainServices: 'Main Services',
       mainMaterialsUsed: 'Main Materials Used',
-      tipicalProductsMade: 'Tipical Products Made',
+      typicalProductsMade: 'Typical Products Made',
       capacity: 'Capacity',
       contactName: 'Contact name',
       position: 'Position',
@@ -113,7 +113,7 @@ export default {
       testimonials: 'Testimonials',
       ourStory: 'Our Story',
       getInTouch: 'Get in touch',
-      getSpecific: 'Typical Products Made'
+      getSpecific: 'Get Specific'
     },
     registerAndAuthentication: {
       titleReg: 'Register New User',
