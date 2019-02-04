@@ -42,24 +42,27 @@
         <template v-if="maker.email !==''" class="list-item">
           <div class="item">
             <div v-if="maker.email">
-              <a class="btn btn-success btn-sm" :mail='maker.mail' :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'" @click="trackEmail(maker.email)">
+              <a class="btn btn-success btn-sm"
+                 :mail='maker.mail'
+                 :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'"
+                 @click="trackEmail(maker.email)">
                 {{ emailContact }}
               </a>
             </div>
           </div>
         </template>
 
-        <template v-if="maker.contactName !==''" class="list-item">
+        <template v-if="maker.contact_name !==''" class="list-item">
           <h6>{{ contactName }}</h6>
           <div class="item">
-            <strong>{{ maker.contactName }}</strong>
+            <strong>{{ maker.contact_name }}</strong>
           </div>
         </template>
 
-        <template v-if="maker.position !==''" class="list-item">
+        <template v-if="maker.contact_position !==''" class="list-item">
           <h6>{{ position }}</h6>
           <div class="item">
-            <strong>{{ maker.position }}</strong>
+            <strong>{{ maker.contact_position }}</strong>
           </div>
         </template>
 
@@ -197,6 +200,7 @@
       try {
         const maker = await apiService.callApi(`maker/${+getNthFragment(this.route.path, 2)}`)
         this.maker = maker.data
+        console.debug(this.maker)
 
         if (this.maker.images.length < 1) {
           this.imgs.push(this.imgPlaceholder)
