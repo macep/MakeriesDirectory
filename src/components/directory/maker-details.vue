@@ -16,22 +16,22 @@
 
         <template v-if="maker.company_description !==''">
           <h3>{{ getUs }}</h3>
-          <pre>{{maker.company_description}}</pre>
+          <div>{{maker.company_description}}</div>
         </template>
 
         <template v-if="maker.testimonials !==''">
           <h3>{{ testimonials }}</h3>
-          <pre>{{maker.testimonials}}</pre>
+          <div>{{maker.testimonials}}</div>
         </template>
 
         <template v-if="maker.story_description !==''">
           <h3>{{ ourStory }}</h3>
-          <pre>{{maker.story_description}}</pre>
+          <div>{{maker.story_description}}</div>
         </template>
 
         <template v-if="maker.what_we_do !==''">
           <h3>{{ thisCompanyIsSpecial }}</h3>
-          <pre class="long">{{maker.what_we_do}}</pre>
+          <div class="long">{{maker.what_we_do}}</div>
         </template>
       </div>
     </div>
@@ -42,7 +42,7 @@
         <template v-if="maker.email !==''" class="list-item">
           <div class="item">
             <div v-if="maker.email">
-              <a :mail='maker.mail' :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'" @click="trackEmail(maker.email)">
+              <a class="btn btn-success btn-sm" :mail='maker.mail' :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'" @click="trackEmail(maker.email)">
                 {{ emailContact }}
               </a>
             </div>

@@ -8,7 +8,7 @@
 
       h3,
       .brief
-        @extend .text-center
+        @extend .text-center, .xlg-padding-top
 
     &.right
       @extend .lg-padding
@@ -16,7 +16,7 @@
       h6
         @extend %main-headings
 
-      a
+      a:not(.btn)
         text-decoration: underline
         word-wrap: break-word
 
@@ -46,8 +46,6 @@
     @extend .no-padding-right, .no-padding-left
     border: 0
     background: transparent
-    text-align: justify
-    text-align-last: left
     font-family: inherit
     word-break: keep-all
     white-space: pre
@@ -57,4 +55,3 @@
 
   .address
     @extend .xlg-padding-top
-
