@@ -132,6 +132,25 @@
           </div>
         </div>
 
+        <div v-if="maker.capacities !== undefined && maker.capacities.length > 0" class="list-item">
+          <h6>{{capacity}}</h6>
+          <div class="item">
+            <span v-for="(c, index) in maker.capacities" :key="index">
+              {{c.name}}
+              <template v-if="index < maker.capacities.length - 1">, </template>
+            </span>
+          </div>
+        </div>
+
+        <div v-if="maker.min !== null && maker.max !== null" class="list-item">
+          <h6>{{cost}}</h6>
+          <div class="item">
+            <span>
+              From {{ maker.min }} to {{ maker.max }}
+            </span>
+          </div>
+        </div>
+
         <div v-if="maker.social1 || maker.social2 || maker.social3" class="list-item">
           <h6>{{socialNetworks}}</h6>
           <div class="item">
@@ -173,6 +192,7 @@
         mainMaterialsUsed: Config.titles.directory.mainMaterialsUsed,
         typicalProductsMade: Config.titles.directory.typicalProductsMade,
         capacity: Config.titles.directory.capacity,
+        cost: Config.titles.directory.cost,
         emailContact: Config.titles.directory.emailContact,
         contactName: Config.titles.directory.contactName,
         position: Config.titles.directory.position,

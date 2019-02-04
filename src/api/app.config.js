@@ -106,6 +106,7 @@ export default {
       mainMaterialsUsed: 'Main Materials Used',
       typicalProductsMade: 'Typical Products Made',
       capacity: 'Capacity',
+      cost: 'Cost',
       contactName: 'Contact name',
       position: 'Position',
       emailContact: 'Email Contact',
