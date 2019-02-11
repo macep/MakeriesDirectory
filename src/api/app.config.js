@@ -118,8 +118,8 @@ export default {
       getSpecific: 'Get Specific'
     },
     registerAndAuthentication: {
-      titleReg: 'Register New User',
-      descriptionReg: 'Create a brand new user and add them to this site',
+      titleReg: 'Create your new account',
+      descriptionReg: 'Welcome to the locally made movement! Please take a minute to fill in your details below.',
       titleAuth: 'Login to your account',
       descriptionAuth: 'Full access to our directory data a couple of clicks away',
       descriptionAuth2: 'By signing into Just Got Made, you help to protect our craftspeople from spambots, we keep all your details private and protected.',
@@ -132,7 +132,7 @@ export default {
       orRegisterHere: `If you don’t have an account, you can easily`,
       orRegisterNewHere: `Or if you want to make a new account, you can easily`,
       orLoginHere: `Already have an account? Please`,
-      username: 'Username',
+      username: 'Username (= Email)',
       usernameOrEmail: 'Username or Email Address',
       email: 'Email',
       fullName: 'Full Name',

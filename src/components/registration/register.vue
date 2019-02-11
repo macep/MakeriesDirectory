@@ -11,25 +11,14 @@
       <hr>
       <div class="row form-horizontal small-gutter lg-padding">
 
-        <div class="form-group required" :class="{'has-error': !username.valid && username.value !==''}">
-          <label for="input-username" class="col-sm-3 control-label">{{userNameLabel}}</label>
-          <div class="col-sm-8">
-            <template v-if="!formCanPass && username.value !==''">
-              <i class="icon-close is-invalid" v-if="!username.valid"/>
-              <i class="icon-done is-valid" v-else/>
-            </template>
-            <input type="text" class="form-control" id="input-username" v-model="username.value" :placeholder="userNameLabel">
-          </div>
-        </div>
-
         <div class="form-group required" :class="{'has-error': !email.valid && email.value !==''}">
-          <label for="input-email" class="col-sm-3 control-label">{{emailLabel}}</label>
+          <label for="input-username" class="col-sm-3 control-label">{{userNameLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && email.value !==''">
               <i class="icon-close is-invalid" v-if="!email.valid"/>
               <i class="icon-done is-valid" v-else/>
             </template>
-            <input type="email" class="form-control" id="input-email" v-model="email.value" :placeholder="emailLabel">
+            <input type="email" class="form-control" id="input-username" v-model="email.value" :placeholder="emailLabel">
           </div>
         </div>
 
@@ -43,18 +32,7 @@
           </div>
         </div>
 
-        <div class="form-group" :class="{'has-warning': !website.valid}">
-          <label for="input-website" class="col-sm-3 control-label">{{websiteLabel}}</label>
-          <div class="col-sm-8">
-            <template v-if="!formIsValid && website.value !== ''">
-              <i v-if="!website.valid" class="icon-close is-invalid not-important"/>
-              <i class="icon-done is-valid" v-else/>
-            </template>
-            <input type="text" class="form-control" id="input-website" v-model="website.value" :placeholder="websiteLabel">
-          </div>
-        </div>
-
-        <div class="form-group required" :class="{'has-error': (!password.valid && password.value !== '') || !passwordsAreEqual}">
+        <div class="form-group required" :class="{'has-error': (!passwordsEqual || !passwordsLength) && (password.value !== '')}">
           <label for="input-password" class="col-sm-3 control-label">{{passwordLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && password.value !== ''">
@@ -62,10 +40,27 @@
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="password" class="form-control" id="input-password" v-model="password.value" :placeholder="passwordLabel">
+            <ul class="validation-errors" v-if="!formCanPass && password.value !== ''">
+              <li v-if="!passwordsLength">
+                <small>Password must have at least 8 and max 20 characters</small>
+              </li>
+              <li v-if="!passwordUppercase">
+                <small>Password must have at least an uppercase letter</small>
+              </li>
+              <li v-if="!passwordLowercase">
+                <small>Password must have at least an lowercase letter</small>
+              </li>
+              <li v-if="!passwordNumber">
+                <small>Password must have at least a number</small>
+              </li>
+              <li v-if="!passwordsEqual">
+                <small>Passwords must be equal</small>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div class="form-group required" :class="{'has-error': (!password2.valid && password2.value !== '') || !passwordsAreEqual}">
+        <div class="form-group required" :class="{'has-error': (!passwordsEqual || !passwordsLength) && (password2.value !== '')}">
           <label for="input-password" class="col-sm-3 control-label">{{passwordAgainLabel}}</label>
           <div class="col-sm-8">
             <template v-if="!formCanPass && password2.value !== ''">
@@ -73,6 +68,11 @@
               <i class="icon-done is-valid" v-else/>
             </template>
             <input type="password" class="form-control" id="input-password2" v-model="password2.value" :placeholder="passwordAgainPlaceholderLabel">
+            <ul class="validation-errors" v-if="!formCanPass && password.value !== ''">
+              <li v-if="!passwordsEqual">
+                <small>Passwords must be equal</small>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -109,7 +109,9 @@
           <div class="col-sm-offset-3 col-sm-8">
             <div class="checkbox">
               <v-touch tag="button" @tap="registerNewUser" type="submit" class="btn lg-margin-right"
-              :class="{'btn-warning': !formIsValid, 'btn-danger disabled': !formCanPass, 'btn-success': formCanPass}">{{loginSubmitLabel}}</v-touch>
+                :class="{'btn-danger disabled': !formCanPass, 'btn-outline-default': formCanPass}">
+                {{loginSubmitLabel}}
+              </v-touch>
             </div>
           </div>
         </div>
@@ -129,7 +131,7 @@
   import {mapGetters} from 'vuex'
   import Config from '../../api/app.config'
   import megaAlert from '../overrides/megaAlert.vue'
-  import {isEmail, isWebsite} from '../../modules/utils'
+  import {isEmail} from '../../modules/utils'
 
   export default {
     name: 'registration',
@@ -145,7 +147,6 @@
         fullNameLabel: Config.titles.registerAndAuthentication.fullName,
         firstNameLabel: Config.titles.registerAndAuthentication.firstName,
         lastNameLabel: Config.titles.registerAndAuthentication.lastName,
-        websiteLabel: Config.titles.registerAndAuthentication.website,
         passwordLabel: Config.titles.registerAndAuthentication.password,
         passwordAgainLabel: Config.titles.registerAndAuthentication.password2,
         passwordAgainPlaceholderLabel: Config.titles.registerAndAuthentication.password2placeholder,
@@ -155,7 +156,6 @@
         pleaseValidateRegisterFormLabel: Config.titles.registerAndAuthentication.pleaseValidateRegisterForm,
         markedFieldsLabel: Config.titles.registerAndAuthentication.markedFields,
         loginSubmitLabel: Config.titles.registerAndAuthentication.registerSubmit,
-        username: {value: '', required: true, valid: false},
         email: {value: '', required: true, valid: false},
         firstName: {value: '', required: false, valid: true},
         lastName: {value: '', required: false, valid: true},
@@ -172,10 +172,26 @@
     computed: {
       ...mapGetters(['serverRegistrationErrorMessage', 'serverRegistrationSuccessMessage']),
       formCanPass () {
-        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.passwordsAreEqual
+        return this.passwordUppercase &&
+          this.passwordLowercase &&
+          this.passwordNumber &&
+          this.passwordsLength &&
+          this.passwordsEqual
       },
-      formIsValid () {
-        return this.username.valid && this.email.valid && this.password.valid && this.password2.valid && this.passwordsAreEqual && this.website.valid
+      passwordsEqual () {
+        return this.password.value === this.password2.value
+      },
+      passwordsLength () {
+        return this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
+      },
+      passwordUppercase () {
+        return /(?=.*[A-Z])/.test(this.password.value)
+      },
+      passwordLowercase () {
+        return /(?=.*[a-z])/.test(this.password.value)
+      },
+      passwordNumber () {
+        return /(?=.*[0-9])/.test(this.password.value)
       }
     },
     methods: {
@@ -194,10 +210,7 @@
           if (this.lastName.value !== '') {
             metadata.lastName = this.lastName.value
           }
-          if (this.website.value !== '') {
-            metadata.website = this.website.value
-          }
-          this.auth.signup(this.username.value, this.email.value, this.password.value, metadata)
+          this.auth.signup(this.email.value, this.password.value, metadata)
         }
       },
       closeRegistrationClientMessages () {
@@ -227,40 +240,10 @@
       }
     },
     watch: {
-      username: {
-        handler () {
-          this.closeNotificationsWhenEditting()
-          this.username.valid = this.username.value.length !== '' && this.username.value.length >= Config.username.length.min && this.username.value.length <= Config.username.length.max
-        },
-        deep: true
-      },
       email: {
         handler () {
           this.closeNotificationsWhenEditting()
           this.email.valid = isEmail(this.email.value)
-        },
-        deep: true
-      },
-      website: {
-        handler () {
-          this.closeNotificationsWhenEditting()
-          this.website.valid = this.website.value === '' ? true : isWebsite(this.website.value)
-        },
-        deep: true
-      },
-      password: {
-        handler () {
-          this.closeNotificationsWhenEditting()
-          this.password.valid = this.password.value.length >= Config.password.length.min && this.password.value.length <= Config.password.length.max
-          this.passwordsAreEqual = this.password.value === this.password2.value
-        },
-        deep: true
-      },
-      password2: {
-        handler () {
-          this.closeNotificationsWhenEditting()
-          this.password2.valid = this.password2.value.length >= Config.password.length.min && this.password2.value.length <= Config.password.length.max
-          this.passwordsAreEqual = this.password.value === this.password2.value
         },
         deep: true
       },
@@ -274,11 +257,9 @@
         if (this.serverRegistrationSuccessMessage.visible) {
           this.showServerRegistrationSuccessMessage = true
           this.showRegistrationValidationError = false
-          this.username.value = ''
           this.firstName.value = ''
           this.lastName.value = ''
           this.email.value = ''
-          this.website.value = ''
           this.password.value = ''
           this.password2.value = ''
         }
