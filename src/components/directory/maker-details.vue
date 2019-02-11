@@ -70,7 +70,7 @@
           <h6>{{region}}: </h6>
           <div class="item">
             <span v-for="(r, index) in maker.regions" :key="index">
-              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
+              {{r.name}}
               <template v-if="index < maker.regions.length - 1">, </template>
             </span>
           </div>
@@ -92,21 +92,11 @@
 
         <h3>{{ getSpecific }}</h3>
 
-        <template v-if="maker.capacities !== undefined && maker.capacities.length > 0" class="list-item">
-          <h6>{{capacity}}: </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.capacities" :key="index">
-              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
-              <template v-if="index < maker.capacities.length - 1">, </template>
-            </span>
-          </div>
-        </template>
-
         <template v-if="maker.services !== undefined && maker.services.length > 0" class="list-item">
           <h6>{{mainServices}}: </h6>
           <div class="item">
             <span v-for="(r, index) in maker.services" :key="index">
-              <router-link :to="`${filterBy.services}/${r.slug}`"> {{r.name}}</router-link>
+              {{r.name}}
               <template v-if="index < maker.services.length - 1">, </template>
             </span>
           </div>
@@ -116,7 +106,7 @@
           <h6>{{mainMaterialsUsed}}: </h6>
           <div class="item">
             <span v-for="(r, index) in maker.materials" :key="index">
-              <router-link :to="`${filterBy.materials}/${r.slug}`"> {{r.name}}</router-link>
+              {{r.name}}
               <template v-if="index < maker.materials.length - 1">, </template>
             </span>
           </div>
@@ -126,7 +116,7 @@
           <h6>{{typicalProductsMade}}</h6>
           <div class="item">
             <span v-for="(p, index) in maker.products" :key="index">
-              <router-link :to="filterBy.products + '' + friendlyName(p.name)"> {{p.name}}</router-link>
+              {{p.name}}
               <template v-if="index < maker.products.length - 1">, </template>
             </span>
           </div>
