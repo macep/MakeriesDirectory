@@ -78,6 +78,7 @@ export default {
       directory: 'Directory',
       draftMakers: 'Draft Makers',
       draft: 'Draft',
+      address: 'Address',
       region: 'Region',
       businessTypes: 'Business Types',
       productTypes: 'Product Types',

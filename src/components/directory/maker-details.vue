@@ -1,9 +1,9 @@
 <template>
   <div id="maker-details" class="row small-gutter">
     <div class="col-sm-9 lg-margin-bottom">
-      <div class="box left text-center">
+      <div class="box left text-justify">
         <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
-        <h3>{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
+        <h3 class="maker-name">{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
         <p v-if="maker.brief_description !==''" class="brief">{{maker.brief_description}}</p>
 
         <carousel v-if="imgs.length > 1">
@@ -15,23 +15,21 @@
         <img v-else :src="imgs[0]" class="slide-image"/>
 
         <template v-if="maker.company_description !==''">
-          <h3>{{ getUs }}</h3>
-          <div>{{maker.company_description}}</div>
-        </template>
-
-        <template v-if="maker.testimonials !==''">
-          <h3>{{ testimonials }}</h3>
-          <div>{{maker.testimonials}}</div>
+          <div class="xlg-margin-top xlg-padding-bottom">{{maker.company_description}}</div>
         </template>
 
         <template v-if="maker.story_description !==''">
           <h3>{{ ourStory }}</h3>
-          <div>{{maker.story_description}}</div>
+          <div class="xlg-padding-bottom">{{maker.story_description}}</div>
+        </template>
+
+        <template v-if="maker.testimonials !==''">
+          <div class="xlg-padding-bottom lead"><strong>{{maker.testimonials}}</strong></div>
         </template>
 
         <template v-if="maker.what_we_do !==''">
           <h3>{{ thisCompanyIsSpecial }}</h3>
-          <div class="long">{{maker.what_we_do}}</div>
+          <div class="xlg-padding-bottom long">{{maker.what_we_do}}</div>
         </template>
       </div>
     </div>
@@ -42,7 +40,7 @@
         <template v-if="maker.email !==''" class="list-item">
           <div class="item">
             <div v-if="maker.email">
-              <a class="btn btn-success btn-sm"
+              <a class="btn email-maker"
                  :mail='maker.mail'
                  :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'"
                  @click="trackEmail(maker.email)">
@@ -55,28 +53,19 @@
         <template v-if="maker.contact_name !==''" class="list-item">
           <h6>{{ contactName }}</h6>
           <div class="item">
-            <strong>{{ maker.contact_name }}</strong>
+            <span>{{ maker.contact_name }}</span>
           </div>
         </template>
 
         <template v-if="maker.contact_position !==''" class="list-item">
           <h6>{{ position }}</h6>
           <div class="item">
-            <strong>{{ maker.contact_position }}</strong>
-          </div>
-        </template>
-
-        <template v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
-          <h6>{{region}}: </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.regions" :key="index">
-              {{r.name}}
-              <template v-if="index < maker.regions.length - 1">, </template>
-            </span>
+            <span>{{ maker.contact_position }}</span>
           </div>
         </template>
 
         <template v-if="maker.address1 !==''" class="list-item">
+          <h6>{{ address }}</h6>
           <div class="item">
             {{ maker.address1 }},
             <template v-if="maker.address2 !== null">{{ maker.address2 }}, </template>
@@ -87,6 +76,18 @@
         <template v-if="maker.map_url !==''" class="list-item">
           <div class="image-holder" id="embededMap">
             <google-map :pbcode="maker.map_url"></google-map>
+          </div>
+        </template>
+
+        <template v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
+          <h6>{{region}}: </h6>
+          <div class="item">
+            <span v-for="(r, index) in maker.regions" :key="index">
+              <v-touch tag="a" @click.native="selectFilter(r)">
+                {{r.name}}
+              </v-touch>
+              <template v-if="index < maker.regions.length - 1">, </template>
+            </span>
           </div>
         </template>
 
@@ -155,10 +156,10 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
   import Config from '../../api/app.config'
   import apiService from '../../api/api.service'
-  import {getNthFragment, friendlyUrl} from '../../modules/utils'
+  import {getNthFragment} from '../../modules/utils'
   import googleMap from '../common/google-map'
   import {carousel, slider} from 'vue-strap'
 
@@ -168,6 +169,7 @@
     data () {
       return {
         backLink: Config.titles.back,
+        address: Config.titles.directory.address,
         region: Config.titles.directory.region,
         businessTypes: Config.titles.directory.businessTypes,
         productTypes: Config.titles.directory.productTypes,
@@ -235,9 +237,7 @@
       }
     },
     methods: {
-      friendlyName (str) {
-        return friendlyUrl(str)
-      },
+      ...mapMutations(['mutateDirectoryActiveFilter']),
       trackEmail (email) {
         this.$ga.event({
           eventCategory: 'eventTracking',
@@ -245,6 +245,10 @@
           eventLabel: 'makerDetailEmailAnchor',
           eventValue: email
         })
+      },
+      selectFilter (filter) {
+        this.$router.push(`/directory/filter-by/location/${filter.slug}`)
+        this.mutateDirectoryActiveFilter(filter.id)
       }
     },
     metaInfo () {
