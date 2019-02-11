@@ -80,6 +80,7 @@ export default {
       draft: 'Draft',
       address: 'Address',
       region: 'Region',
+      materials: 'Materials',
       businessTypes: 'Business Types',
       productTypes: 'Product Types',
       products: 'Products',

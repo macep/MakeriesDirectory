@@ -11,11 +11,11 @@
 
         <enumerate :collection="maker.regions || []" :category="region"/>
 
-        <enumerate :collection="maker.businesstypes || []" :category="businessTypes"/>
-
         <enumerate :collection="maker.products || []" :category="productTypes"/>
 
-        <enumerate :collection="maker.servicetypes || []" :category="serviceTypes"/>
+        <enumerate :collection="maker.services || []" :category="serviceTypes"/>
+
+        <enumerate :collection="maker.materials || []" :category="materials"/>
 
         <p class="brief">{{description}}: {{maker.brief_description}}</p>
 
@@ -37,7 +37,7 @@
     data () {
       return {
         region: Config.titles.directory.region,
-        businessTypes: Config.titles.directory.businessTypes,
+        materials: Config.titles.directory.materials,
         productTypes: Config.titles.directory.productTypes,
         serviceTypes: Config.titles.directory.serviceTypes,
         description: Config.titles.directory.description,
