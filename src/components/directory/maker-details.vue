@@ -81,46 +81,24 @@
 
         <template v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
           <h6>{{region}}: </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.regions" :key="index">
-              <v-touch tag="a" @click.native="selectFilter(r)">
-                {{r.name}}
-              </v-touch>
-              <template v-if="index < maker.regions.length - 1">, </template>
-            </span>
-          </div>
+          <enumerate :collection="maker.regions || []" :wrapClass="`item text-italic`"/>
         </template>
 
         <h3>{{ getSpecific }}</h3>
 
         <template v-if="maker.services !== undefined && maker.services.length > 0" class="list-item">
           <h6>{{mainServices}}: </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.services" :key="index">
-              {{r.name}}
-              <template v-if="index < maker.services.length - 1">, </template>
-            </span>
-          </div>
+          <enumerate :collection="maker.services || []" :wrapClass="`item text-italic`"/>
         </template>
 
         <template v-if="maker.materials !== undefined && maker.materials.length > 0" class="list-item">
           <h6>{{mainMaterialsUsed}}: </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.materials" :key="index">
-              {{r.name}}
-              <template v-if="index < maker.materials.length - 1">, </template>
-            </span>
-          </div>
+          <enumerate :collection="maker.materials || []" :wrapClass="`item text-italic`"/>
         </template>
 
         <div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
           <h6>{{typicalProductsMade}}</h6>
-          <div class="item">
-            <span v-for="(p, index) in maker.products" :key="index">
-              {{p.name}}
-              <template v-if="index < maker.products.length - 1">, </template>
-            </span>
-          </div>
+          <enumerate :collection="maker.products || []" :wrapClass="`item text-italic`"/>
         </div>
 
         <div v-if="maker.capacities !== undefined && maker.capacities.length > 0" class="list-item">
@@ -162,16 +140,17 @@
   import {getNthFragment} from '../../modules/utils'
   import googleMap from '../common/google-map'
   import {carousel, slider} from 'vue-strap'
+  import enumerate from '../common/enumerate'
 
   export default {
     name: 'maker-details',
-    components: {googleMap, carousel, slider},
+    components: { googleMap, carousel, slider, enumerate },
     data () {
       return {
         backLink: Config.titles.back,
         address: Config.titles.directory.address,
         region: Config.titles.directory.region,
-        businessTypes: Config.titles.directory.businessTypes,
+        materials: Config.titles.directory.materials,
         productTypes: Config.titles.directory.productTypes,
         serviceTypes: Config.titles.directory.serviceTypes,
         filterBy: {
