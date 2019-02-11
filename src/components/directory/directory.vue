@@ -74,11 +74,13 @@
         searchResults: Config.titles.searchResults,
         defaultAllToggle: false,
         options: {
-          keys: ['name', 'briefDescription']
+          keys: ['name', 'brief_description', 'regions', 'products', 'services', 'materials'],
+          distance: 0,
+          matchAllTokens: true,
+          tokenize: true
         },
         componentResults: [],
         methodResults: [],
-        keys: ['name', 'briefDescription', 'region', 'products', 'businessTypes', 'serviceTypes'],
         azTitle: Config.titles.directory.directoryAZ,
         azRoute: Config.routerSettings.filterAZ,
         featuredSuppliers: Config.titles.featuredSuppliers
@@ -121,9 +123,11 @@
     },
     watch: {
       term () {
-        this.$search(this.term, this.directory, this.options).then(results => {
-          this.methodResults = results
-        })
+        setTimeout(() => {
+          this.$search(this.term, this.directory, this.options).then(results => {
+            this.methodResults = results
+          })
+        }, 300)
       }
     },
     mounted () {
