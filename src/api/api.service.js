@@ -117,8 +117,7 @@ const apiService = {
       url,
       headers: { token }
     }
-    const response = await this.cacheRequest(requestParams, cache || Config.genericCachingTime)
-    return response
+    return await this.cacheRequest(requestParams, cache || Config.genericCachingTime)
   }
 }
 
