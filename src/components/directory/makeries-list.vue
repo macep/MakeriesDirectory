@@ -2,12 +2,14 @@
   <div class="row">
     <div :class="{'col-xs-6 col-md-4': viewType === 'grid', 'col-xs-12': viewType === 'list'}" class="maker" v-for="maker in makeries" :key="maker.id">
       <template v-if="viewType === 'grid'">
-        <makeries-list-item :route="maker.routeTo" :img="maker.images[0] ? maker.images[0].id : img" :title="maker.name" :content="maker.brief_description || ''"/>
+        <makeries-list-item :route="maker.slug" :img="maker.images[0] ? maker.images[0].id : img" :title="maker.name" :content="maker.brief_description || ''"/>
       </template>
       <template v-else>
-        <router-link :to="maker.routeTo">
-          <h3>{{maker.name}}</h3>
+        <router-link :to="maker.slug">
+          <h3 class="sm-margin-bottom">{{maker.name}}</h3>
         </router-link>
+
+        <p class="brief">{{description}}: {{maker.brief_description}}</p>
 
         <enumerate :collection="maker.regions || []" :category="region"/>
 
@@ -16,10 +18,6 @@
         <enumerate :collection="maker.services || []" :category="serviceTypes"/>
 
         <enumerate :collection="maker.materials || []" :category="materials"/>
-
-        <p class="brief">{{description}}: {{maker.brief_description}}</p>
-
-        <enumerate :collection="maker.tags || []" :category="tags"/>
       </template>
     </div>
   </div>
