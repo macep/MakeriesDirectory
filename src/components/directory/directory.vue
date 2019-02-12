@@ -46,8 +46,9 @@
           <h1 v-else-if="showAllSuppliers">All suppliers {{directory.length}}</h1>
           <h1 v-else>Featured Suppliers</h1>
         </div>
+
         <div class="col-xs-12">
-          <makeries-list :makeries="term !== '' ? methodResults : showAllSuppliers ? directory : directoryFeaturedListShuffled || directoryFeaturedList"/>
+          <makeries-list :makeries="makeriesList" :paginated="showAllSuppliers"/>
         </div>
       </div>
     </div>
@@ -63,7 +64,10 @@
   import waitDirectoryData from '../../mixins/waitDirectoryData'
   import postsSlider from '../common/posts-slider.vue'
   import { dropdown } from 'vue-strap'
-  import {shuffle} from 'lodash'
+  import { shuffle } from 'lodash'
+  import { getSS } from '../../api/browserstorage'
+  import apiService from '../../api/api.service'
+  import { sortObjectProperties, azDirectory } from '../../modules/utils'
 
   export default {
     name: 'directory-page',
@@ -101,10 +105,14 @@
         'directoryStats',
         'viewType',
         'isMobile',
+        'resultsPerPage',
         'showAllSuppliers',
         'directoryFeaturedList',
         'directoryBannersPosts'
       ]),
+      makeriesList () {
+        return this.term !== '' ? this.methodResults : this.showAllSuppliers ? this.directory : this.directoryFeaturedListShuffled || this.directoryFeaturedList
+      },
       directoryFeatured () {
         const featured = this.directory.filter(maker => maker.featured === 'yes')
         return featured.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
@@ -127,34 +135,54 @@
     watch: {
       term () {
         setTimeout(() => {
+          // TODO: here we will decide what we filter
           this.$search(this.term, this.directory, this.options).then(results => {
             this.methodResults = results
           })
         }, 300)
       },
-      showAllSuppliers () {
+      async showAllSuppliers () {
+        this.directoryFeaturedListShuffled = shuffle(this.directoryFeaturedList)
+
         if (!this.showAllSuppliers && this.directoryFeaturedList.length < 1) {
           this.loadDirectoryFeaturedList()
+        }
+        if (this.showAllSuppliers && this.directory.length < 1) {
+          const pagesLoaded = +getSS('resultsPageNumberLoaded')
+
+          if (pagesLoaded === 0) {
+            this.loadDirectory()
+          } else {
+            for (let i = 1; i <= pagesLoaded; i++) {
+              this.mutateActivityIndicator(true)
+              try {
+                const data = await apiService.callApi('maker', {page: i, per_page: this.resultsPerPage}, 8.64e+7)
+                this.mutateDirectory(this.directory.concat(data.data))
+                this.mutateDirectoryAZ(sortObjectProperties(azDirectory(this.directory)))
+                this.mutateActivityIndicator(false)
+              } catch (err) {
+                console.error(err)
+                this.mutateActivityIndicator(false)
+              }
+            }
+          }
         }
       }
     },
     mounted () {
-      if (this.directory.length < 1) {
-        this.loadDirectory()
-      }
       if (this.directoryStats.length < 1) {
         this.loadDirectoryStats()
       }
       if (!this.showAllSuppliers && this.directoryFeaturedList.length < 1) {
         this.loadDirectoryFeaturedList()
       }
-      if (this.directoryFeaturedList.length > 0) {
+      if (!this.showAllSuppliers && this.directoryFeaturedList.length > 0) {
         this.directoryFeaturedListShuffled = shuffle(this.directoryFeaturedList)
       }
     },
     methods: {
       ...mapActions(['loadDirectory', 'loadDirectoryStats', 'loadDirectoryFeaturedList']),
-      ...mapMutations(['mutateShowAllSuppliers', 'mutateDirectoryActiveFilter']),
+      ...mapMutations(['mutateActivityIndicator', 'mutateDirectory', 'mutateDirectoryAZ', 'mutateShowAllSuppliers', 'mutateDirectoryActiveFilter']),
       showAllSuppliersOn () {
         this.mutateShowAllSuppliers(true)
         this.$router.push('/directory')

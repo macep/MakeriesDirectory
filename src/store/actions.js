@@ -1,11 +1,12 @@
 import Config from '../api/app.config'
+import {getSS, setSS} from '../api/browserstorage'
 import apiService from '../api/api.service'
 import {
   friendlyMonth,
   getRouteFromWpMenus,
   sortObjectProperties,
-  getSubstringBetweenSubstrings,
-  azDirectory
+  azDirectory,
+  getSubstringBetweenSubstrings
 } from '../modules/utils'
 
 const actions = {
@@ -147,18 +148,25 @@ const actions = {
       commit('mutateArchivedYears', years)
     })
   },
-  async loadDirectory ({commit}) {
+  async loadDirectory ({commit, state}) {
+    let time = { t0: performance.now() }
     commit('mutateActivityIndicator', true)
-
     try {
-      const data = await apiService.callApi('maker', {per_page: 350})
-      commit('mutateDirectory', data.data)
-      commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(data.data)))
+      const ssLabel = 'resultsPageNumberLoaded'
+
+      setSS(ssLabel, (state.directory.length / state.resultsPerPage) + 1)
+      const data = await apiService.callApi('maker', {page: +getSS(ssLabel), per_page: state.resultsPerPage}, 8.64e+7)
+
+      commit('mutateDirectory', state.directory.concat(data.data))
+      commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(state.directory)))
+
       commit('mutateActivityIndicator', false)
+      time.t1 = performance.now()
     } catch (err) {
       console.error(err)
       commit('mutateActivityIndicator', false)
     }
+    console.debug(time.t1 - time.t0, state.directory.length)
   },
   async loadDirectoryFeaturedList ({commit}) {
     commit('mutateActivityIndicator', true)
@@ -182,7 +190,7 @@ const actions = {
       console.error(err)
     }
   },
-  setPointerIsTouch: ({ commit }, payload) => {
+  setPointerIsTouch: ({commit}, payload) => {
     commit('mutatePointerIsTouch', payload)
   },
   setWindowSize: ({commit}, payload) => {

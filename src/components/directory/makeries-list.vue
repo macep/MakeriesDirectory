@@ -20,11 +20,17 @@
         <enumerate :collection="maker.materials || []" :category="materials"/>
       </template>
     </div>
+    <div v-if="paginated" class="col-xs-12 text-center xlg-padding">
+      <a href="#" class="btn btn-link" @click.prevent="loadDirectory">
+        <template v-if="showActivityIndicator">Loading...</template>
+        <template v-else>Load next page</template>
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import Config from '../../api/app.config'
   import makeriesListItem from './makeries-list-item'
   import enumerate from '../common/enumerate'
@@ -32,6 +38,16 @@
   export default {
     name: 'directory-page',
     components: { makeriesListItem, enumerate },
+    props: {
+      paginated: {
+        type: Boolean,
+        required: false
+      },
+      makeries: {
+        type: Array,
+        required: true
+      }
+    },
     data () {
       return {
         region: Config.titles.directory.region,
@@ -43,14 +59,11 @@
         img: `http://via.placeholder.com/600x360?text=Maker's Image`
       }
     },
-    props: {
-      makeries: {
-        type: Array,
-        required: true
-      }
-    },
     computed: {
-      ...mapGetters(['viewType'])
+      ...mapGetters(['viewType', 'showActivityIndicator'])
+    },
+    methods: {
+      ...mapActions(['loadDirectory'])
     }
   }
 </script>
