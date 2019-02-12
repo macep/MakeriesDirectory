@@ -10,7 +10,9 @@
 
 <script>
   import imageOverlayed from '../common/image-overlayed.vue'
-  import apiService from '../../api/api.service'
+  import axios from 'axios'
+  import nJwt from 'njwt'
+  import Config from '../../api/app.config.js'
 
   export default {
     name: 'banner',
@@ -46,7 +48,16 @@
     },
     async mounted () {
       if (typeof this.img === 'number') {
-        const imgData = await apiService.callApi(`maker/${this.id}/image/${this.img}`, null, 0)
+        const imgData = await axios({
+          method: 'get',
+          url: `${Config.apiV2Root}maker/${this.id}/image/${this.img}`,
+          headers: { token: nJwt.create({
+            userId: 1,
+            userRole: 'superAdmin',
+            iss: Config.apiV2Root,
+            scope: 'self'
+          }, 'JWT_SECRET', 'HS256').compact() }
+        })
         this.imgData = `data:image/jpeg;base64,${imgData.data}`
       }
     }

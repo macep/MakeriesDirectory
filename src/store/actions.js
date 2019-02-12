@@ -149,24 +149,18 @@ const actions = {
     })
   },
   async loadDirectory ({commit, state}) {
-    let time = { t0: performance.now() }
     commit('mutateActivityIndicator', true)
     try {
       const ssLabel = 'resultsPageNumberLoaded'
-
       setSS(ssLabel, (state.directory.length / state.resultsPerPage) + 1)
       const data = await apiService.callApi('maker', {page: +getSS(ssLabel), per_page: state.resultsPerPage}, 8.64e+7)
-
       commit('mutateDirectory', state.directory.concat(data.data))
       commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(state.directory)))
-
       commit('mutateActivityIndicator', false)
-      time.t1 = performance.now()
     } catch (err) {
       console.error(err)
       commit('mutateActivityIndicator', false)
     }
-    console.debug(time.t1 - time.t0, state.directory.length)
   },
   async loadDirectoryFeaturedList ({commit}) {
     commit('mutateActivityIndicator', true)
