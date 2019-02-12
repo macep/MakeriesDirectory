@@ -1,3 +1,5 @@
+import {getSS} from '../api/browserstorage'
+
 export default {
   serverRegistrationErrorMessage: {
     message: '',
@@ -46,6 +48,7 @@ export default {
   showAllSuppliers: false,
 
   resultsPerPage: 0,
+  resultsPageNumberLoaded: getSS('resultsPageNumberLoaded') || 0,
 
   viewType: 'grid',
   searchCriteria: ''
