@@ -62,6 +62,9 @@ export default {
   mutateDirectory: (state, directory) => {
     state.directory = directory
   },
+  mutateDirectoryFeaturedList: (state, directoryFeaturedList) => {
+    state.directoryFeaturedList = directoryFeaturedList
+  },
   mutateDirectoryStats: (state, directoryStats) => {
     state.directoryStats = directoryStats
   },

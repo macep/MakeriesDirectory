@@ -22,6 +22,7 @@ export default {
   directoryBannersPosts: state => state.directoryBannersPosts,
 
   directory: state => state.directory,
+  directoryFeaturedList: state => state.directoryFeaturedList,
   directoryStats: state => state.directoryStats,
   directoryAZ: state => state.directoryAZ,
   directoryActiveFilter: state => state.directoryActiveFilter,

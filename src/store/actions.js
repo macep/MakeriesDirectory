@@ -154,15 +154,29 @@ const actions = {
       const data = await apiService.callApi('maker', {per_page: 350})
       commit('mutateDirectory', data.data)
       commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(data.data)))
+      commit('mutateActivityIndicator', false)
     } catch (err) {
       console.error(err)
+      commit('mutateActivityIndicator', false)
+    }
+  },
+  async loadDirectoryFeaturedList ({commit}) {
+    commit('mutateActivityIndicator', true)
+
+    try {
+      const data = await apiService.callApi('maker', {featured: 'yes', per_page: 100})
+      commit('mutateDirectoryFeaturedList', data.data)
+      commit('mutateActivityIndicator', false)
+    } catch (err) {
+      console.error(err)
+      commit('mutateActivityIndicator', false)
     }
   },
   async loadDirectoryStats ({commit}) {
     commit('mutateActivityIndicator', true)
 
     try {
-      const data = await apiService.callApi('/website/entities', null, 0)
+      const data = await apiService.callApi('website/entities', null, 0)
       commit('mutateDirectoryStats', data.data)
     } catch (err) {
       console.error(err)

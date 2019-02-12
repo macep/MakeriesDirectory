@@ -47,7 +47,7 @@
           <h1 v-else>Featured Suppliers</h1>
         </div>
         <div class="col-xs-12">
-          <makeries-list :makeries="term !== '' ? methodResults : showAllSuppliers ? directory : directoryFeatured"/>
+          <makeries-list :makeries="term !== '' ? methodResults : showAllSuppliers ? directory : directoryFeaturedListShuffled || directoryFeaturedList"/>
         </div>
       </div>
     </div>
@@ -63,9 +63,17 @@
   import waitDirectoryData from '../../mixins/waitDirectoryData'
   import postsSlider from '../common/posts-slider.vue'
   import { dropdown } from 'vue-strap'
+  import {shuffle} from 'lodash'
 
   export default {
     name: 'directory-page',
+    components: {
+      makeriesMenu,
+      makeriesList,
+      viewType,
+      postsSlider,
+      dropdown
+    },
     mixins: [waitDirectoryData],
     data () {
       return {
@@ -83,15 +91,9 @@
         methodResults: [],
         azTitle: Config.titles.directory.directoryAZ,
         azRoute: Config.routerSettings.filterAZ,
-        featuredSuppliers: Config.titles.featuredSuppliers
+        featuredSuppliers: Config.titles.featuredSuppliers,
+        directoryFeaturedListShuffled: null
       }
-    },
-    components: {
-      makeriesMenu,
-      makeriesList,
-      viewType,
-      postsSlider,
-      dropdown
     },
     computed: {
       ...mapGetters([
@@ -100,6 +102,7 @@
         'viewType',
         'isMobile',
         'showAllSuppliers',
+        'directoryFeaturedList',
         'directoryBannersPosts'
       ]),
       directoryFeatured () {
@@ -128,6 +131,11 @@
             this.methodResults = results
           })
         }, 300)
+      },
+      showAllSuppliers () {
+        if (!this.showAllSuppliers && this.directoryFeaturedList.length < 1) {
+          this.loadDirectoryFeaturedList()
+        }
       }
     },
     mounted () {
@@ -137,10 +145,16 @@
       if (this.directoryStats.length < 1) {
         this.loadDirectoryStats()
       }
+      if (!this.showAllSuppliers && this.directoryFeaturedList.length < 1) {
+        this.loadDirectoryFeaturedList()
+      }
+      if (this.directoryFeaturedList.length > 0) {
+        this.directoryFeaturedListShuffled = shuffle(this.directoryFeaturedList)
+      }
     },
     methods: {
-      ...mapActions(['loadDirectory', 'loadDirectoryStats']),
-      ...mapMutations(['mutateShowAllSuppliers', 'mutateShowAllSuppliers', 'mutateDirectoryActiveFilter']),
+      ...mapActions(['loadDirectory', 'loadDirectoryStats', 'loadDirectoryFeaturedList']),
+      ...mapMutations(['mutateShowAllSuppliers', 'mutateDirectoryActiveFilter']),
       showAllSuppliersOn () {
         this.mutateShowAllSuppliers(true)
         this.$router.push('/directory')

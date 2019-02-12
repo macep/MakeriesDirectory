@@ -37,6 +37,7 @@ export default {
 
   directoryBannersPosts: [],
   directory: [],
+  directoryFeaturedList: [],
   directoryStats: [],
   directoryAZ: [],
   directoryActiveFilter: '',
