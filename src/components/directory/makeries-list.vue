@@ -2,7 +2,7 @@
   <div class="row">
     <div :class="{'col-xs-6 col-md-4': viewType === 'grid', 'col-xs-12': viewType === 'list'}" class="maker" v-for="maker in makeries" :key="maker.id">
       <template v-if="viewType === 'grid'">
-        <makeries-list-item :route="maker.slug" :img="maker.images[0] ? maker.images[0].id : img" :title="maker.name" :content="maker.brief_description || ''"/>
+        <makeries-list-item :route="maker.slug" :id="maker.id" :img="maker.images[0] ? maker.images[0].id : img" :title="maker.name" :content="maker.brief_description || ''"/>
       </template>
       <template v-else>
         <router-link :to="maker.slug">
