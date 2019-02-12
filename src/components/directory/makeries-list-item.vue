@@ -10,7 +10,7 @@
 
 <script>
   import imageOverlayed from '../common/image-overlayed.vue'
-  import apiService from '../../api/api.service'
+//  import apiService from '../../api/api.service'
 
   export default {
     name: 'banner',
@@ -41,11 +41,12 @@
       }
     },
     async mounted () {
-      if (typeof this.img === 'number') {
-        const makerId = this.route.split('/')[2]
-        const imgData = await apiService.callApi(`maker/${makerId}/image/${this.img}`)
-        this.imgData = `data:image/jpeg;base64,${imgData.data}`
-      }
+      //      if (typeof this.img === 'number') {
+      //        const makerId = this.route.split('/')[2]
+      //        const imgData = await apiService.callApi(`maker/${makerId}/image/${this.img}`, null, 0)
+      //        this.imgData = `data:image/jpeg;base64,${imgData.data}`
+      //      }
+      this.imgData = ``
     }
   }
 </script>
