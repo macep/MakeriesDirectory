@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="row" :class="[isMobile ? 'is-mobile' : '', pointerIsTouch ? 'is-touch' : '', mobileMenuVisibile ? 'no-scroll' : '']">
+  <div id="app" class="row" :class="[isMobile ? 'is-mobile' : '', isTablet ? 'is-tablet' : '', isDesktop ? 'is-desktop' : '', pointerIsTouch ? 'is-touch' : '', mobileMenuVisibile ? 'no-scroll' : '']">
     <div class="col-xs-12">
 
       <jgm-header/>
@@ -62,6 +62,8 @@
     computed: {
       ...mapGetters([
         'isMobile',
+        'isTablet',
+        'isDesktop',
         'pointerIsTouch',
         'showActivityIndicator',
         'mobileMenuVisibile',
@@ -77,7 +79,9 @@
         document.body.classList.replace(fromRoute, toRoute)
       },
       windowSize () {
-        this.setIsMobile()
+        this.mutateIsMobile()
+        this.mutateIsTablet()
+        this.mutateIsDesktop()
       },
       pages () {
         this.stopActivityIndicator()
@@ -88,17 +92,15 @@
       const initialRoute = this.baseRoute(this.$route)
       document.body.classList.add(initialRoute)
 
-      this.setIsMobile()
+      this.mutateIsMobile()
+      this.mutateIsTablet()
+      this.mutateIsDesktop()
 
       this.setPointerIsTouch('ontouchstart' in window)
 
-      if (this.pages.length < 1) {
-        this.loadProject()
-      }
+      if (this.pages.length < 1) this.loadProject()
 
-      if (this.pointerIsTouch) {
-        stopZoomingWhenDoubleTapped()
-      }
+      if (this.pointerIsTouch) stopZoomingWhenDoubleTapped()
 
       this.setWindowSize({
         width: window.innerWidth,
@@ -119,12 +121,14 @@
     methods: {
       ...mapActions([
         'loadProject',
-        'setIsMobile',
         'setWindowSize',
         'setPointerIsTouch'
       ]),
 
       ...mapMutations([
+        'mutateIsMobile',
+        'mutateIsTablet',
+        'mutateIsDesktop',
         'mutateMobileMenuVisibile',
         'mutateActivityIndicator'
       ]),
@@ -134,9 +138,7 @@
       },
 
       stopActivityIndicator () {
-        if (this.pages.length > 0) {
-          this.mutateActivityIndicator(false)
-        }
+        if (this.pages.length > 0) this.mutateActivityIndicator(false)
       },
 
       baseRoute (str) {

@@ -22,6 +22,8 @@ export default {
   passwordResetResult: {},
   hostName: window.location,
   isMobile: false,
+  isTablet: false,
+  isDesktop: false,
   pointerIsTouch: false,
   mobileMenuVisibile: false,
   windowSize: {},

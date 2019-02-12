@@ -7,6 +7,8 @@ export default {
   passwordResetResult: state => state.passwordResetResult,
   hostName: state => state.hostName,
   isMobile: state => state.isMobile,
+  isTablet: state => state.isTablet,
+  isDesktop: state => state.isDesktop,
   pointerIsTouch: state => state.pointerIsTouch,
   mobileMenuVisibile: state => state.mobileMenuVisibile,
   windowSize: state => state.windowSize,

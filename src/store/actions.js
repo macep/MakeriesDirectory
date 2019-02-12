@@ -182,10 +182,6 @@ const actions = {
       console.error(err)
     }
   },
-  setIsMobile: ({commit}) => {
-    const isMobile = window.matchMedia('only screen and (max-width: 767px)').matches
-    commit('mutateIsMobile', isMobile)
-  },
   setPointerIsTouch: ({ commit }, payload) => {
     commit('mutatePointerIsTouch', payload)
   },
