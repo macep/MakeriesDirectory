@@ -45,6 +45,8 @@ export default {
   directoryActiveFilter: '',
   showAllSuppliers: false,
 
+  resultsPerPage: 0,
+
   viewType: 'grid',
   searchCriteria: ''
 }

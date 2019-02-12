@@ -30,6 +30,8 @@ export default {
   directoryActiveFilter: state => state.directoryActiveFilter,
   showAllSuppliers: state => state.showAllSuppliers,
 
+  resultsPerPage: state => state.resultsPerPage,
+
   viewType: state => state.viewType,
   searchCriteria: state => state.searchCriteria,
   route: state => state.route

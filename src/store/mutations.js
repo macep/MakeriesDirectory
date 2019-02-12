@@ -83,6 +83,9 @@ export default {
   mutateShowAllSuppliers: (state, showAllSuppliers) => {
     state.showAllSuppliers = showAllSuppliers
   },
+  mutateResultsPerPage: (state, resultsPerPage) => {
+    state.resultsPerPage = resultsPerPage
+  },
   mutateViewType: (state, viewType) => {
     state.viewType = viewType
   },

@@ -95,6 +95,7 @@
       this.mutateIsMobile()
       this.mutateIsTablet()
       this.mutateIsDesktop()
+      this.mutateResultsPerPage(this.isDesktop ? 24 : 12)
 
       this.setPointerIsTouch('ontouchstart' in window)
 
@@ -114,7 +115,7 @@
             width: window.innerWidth,
             height: window.innerHeight
           })
-        }, 500)
+        }, 1e3)
       })
     },
 
@@ -129,6 +130,7 @@
         'mutateIsMobile',
         'mutateIsTablet',
         'mutateIsDesktop',
+        'mutateResultsPerPage',
         'mutateMobileMenuVisibile',
         'mutateActivityIndicator'
       ]),
