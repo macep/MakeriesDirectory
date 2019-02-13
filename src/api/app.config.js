@@ -33,7 +33,7 @@ export default {
       serviceTypes: '/directory/filter-by/service-types/'
     },
     filterAZ: '/directory-A-Z/',
-    makerDetail: '/directory/',
+    makerDetail: '/maker/',
     journal: '/journal/',
     category: '/journal/category/',
     archive: '/journal/archive/',

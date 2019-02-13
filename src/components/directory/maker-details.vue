@@ -37,7 +37,7 @@
       <div class="box right">
         <h3>{{ getInTouch }}</h3>
 
-        <template v-if="maker.email !==''" class="list-item">
+        <template v-if="maker.email && maker.email !==''" class="list-item">
           <div class="item">
             <div v-if="maker.email">
               <a class="btn email-maker"
@@ -50,21 +50,21 @@
           </div>
         </template>
 
-        <template v-if="maker.contact_name !==''" class="list-item">
+        <template v-if="maker.contact_name && maker.contact_name !==''" class="list-item">
           <h6>{{ contactName }}</h6>
           <div class="item">
             <span>{{ maker.contact_name }}</span>
           </div>
         </template>
 
-        <template v-if="maker.contact_position !==''" class="list-item">
+        <template v-if="maker.contact_position && maker.contact_position !==''" class="list-item">
           <h6>{{ position }}</h6>
           <div class="item">
             <span>{{ maker.contact_position }}</span>
           </div>
         </template>
 
-        <template v-if="maker.address1 !==''" class="list-item">
+        <template v-if="maker.address1 && maker.address1 !==''" class="list-item">
           <h6>{{ address }}</h6>
           <div class="item">
             {{ maker.address1 }},
@@ -79,29 +79,29 @@
           </div>
         </template>
 
-        <template v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
+        <template v-if="maker.regions && maker.regions.length > 0" class="list-item">
           <h6>{{region}}: </h6>
           <enumerate :collection="maker.regions || []" :wrapClass="`item text-italic`"/>
         </template>
 
         <h3>{{ getSpecific }}</h3>
 
-        <template v-if="maker.services !== undefined && maker.services.length > 0" class="list-item">
+        <template v-if="maker.services && maker.services.length > 0" class="list-item">
           <h6>{{mainServices}}: </h6>
           <enumerate :collection="maker.services || []" :wrapClass="`item text-italic`"/>
         </template>
 
-        <template v-if="maker.materials !== undefined && maker.materials.length > 0" class="list-item">
+        <template v-if="maker.materials && maker.materials.length > 0" class="list-item">
           <h6>{{mainMaterialsUsed}}: </h6>
           <enumerate :collection="maker.materials || []" :wrapClass="`item text-italic`"/>
         </template>
 
-        <div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
+        <div v-if="maker.products && maker.products.length > 0" class="list-item">
           <h6>{{typicalProductsMade}}</h6>
           <enumerate :collection="maker.products || []" :wrapClass="`item text-italic`"/>
         </div>
 
-        <div v-if="maker.capacities !== undefined && maker.capacities.length > 0" class="list-item">
+        <div v-if="maker.capacities && maker.capacities.length > 0" class="list-item">
           <h6>{{capacity}}</h6>
           <div class="item">
             <span v-for="(c, index) in maker.capacities" :key="index">
@@ -111,7 +111,7 @@
           </div>
         </div>
 
-        <div v-if="maker.min !== null && maker.max !== null" class="list-item">
+        <div v-if="maker.min && maker.max" class="list-item">
           <h6>{{cost}}</h6>
           <div class="item">
             <span>

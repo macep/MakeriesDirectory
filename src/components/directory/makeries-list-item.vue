@@ -1,9 +1,9 @@
 <template>
   <div class="banner-inner">
-    <router-link :to="route">
+    <router-link :to="`/maker/${id}/${route}`">
       <image-overlayed :url="img" :imgData="imgData" :overlayed="overlayed" :escaped="escaped"/>
     </router-link>
-    <router-link :to="route" class="banner-title">{{title}}</router-link>
+    <router-link :to="`/maker/${id}/${route}`" class="banner-title">{{title}}</router-link>
     <span v-html="content" class="banner-content"/>
   </div>
 </template>
@@ -59,6 +59,7 @@
           }, 'JWT_SECRET', 'HS256').compact() }
         })
         this.imgData = `data:image/jpeg;base64,${imgData.data}`
+        // this.imgData = ''
       }
     }
   }
