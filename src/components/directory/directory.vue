@@ -10,8 +10,29 @@
           <div class="row no-gutter">
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
               <div id="search-engine">
-                <input type="search" v-model="term" :placeholder="searchPlaceholder">
-                <span class="search-results" v-if="term.length > 0">{{methodResults.length}} {{searchResults}}</span>
+                <input v-if="searchTarget === 'database'" id="search-placeholder" v-model="searchTerm" :placeholder="searchPlaceholder" type="search" autocomplete="off">
+                <input v-if="searchTarget === 'results'" id="filter-placeholder" v-model="filterTerm" :placeholder="filterPlaceholder" type="search" autocomplete="off">
+
+                <span class="search-results" v-if="searchTarget === 'database' && searchTerm.length > 0">
+                  <template v-if="searchingDB">
+                    {{searchingDBLabel}}
+                  </template>
+                  <template v-else="">
+                    {{makeriesSearchResults.length}} {{searchResultsLabel}}
+                  </template>
+                </span>
+                <span class="search-results" v-if="searchTarget === 'results' && filterTerm.length > 0">{{methodResults.length}} {{searchResultsLabel}}</span>
+
+                <div class="search-target" id="search-target">
+                  <v-touch class="active-target" @tap="searchTargetVisibility = !searchTargetVisibility">
+                    <i :class="searchTarget === 'database' ? 'icon-database' : 'icon-filter_list'"></i>
+                  </v-touch>
+
+                  <ul v-show="searchTargetVisibility">
+                    <v-touch tag="li" @tap="setSearchTarget('database')"> {{searchDB}} &nbsp; <i class="icon-database"/></v-touch>
+                    <v-touch tag="li" @tap="setSearchTarget('results')"> {{filterResults}} &nbsp; <i class="icon-filter_list"/></v-touch>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="col-sm-2 col-md-1 pull-left view-type-wrapper lg-margin-bottom">
@@ -42,13 +63,15 @@
         </div>
 
         <div class="col-xs-12">
-          <h1 v-if="term !== ''">{{searchResults}}</h1>
-          <h1 v-else-if="showAllSuppliers">All suppliers {{directory.length}}</h1>
-          <h1 v-else>Featured Suppliers</h1>
+          <h1 v-if="searchTerm !== ''">{{searchResultsLabel}}</h1>
+          <h1 v-if="showAllSuppliers && filterTerm !== ''">{{methodResults.length}} supplier<template v-if="methodResults.length !== 1">s</template> filtered</h1>
+          <h1 v-if="showAllSuppliers && filterTerm === '' && searchTerm === ''">{{directory.length}} suppliers loaded</h1>
+          <h1 v-if="!showAllSuppliers && searchTerm === '' && filterTerm === ''">Featured Suppliers</h1>
+          <h1 v-if="!showAllSuppliers && searchTerm === '' && filterTerm !== ''">Featured Suppliers filtered</h1>
         </div>
 
         <div class="col-xs-12">
-          <makeries-list :makeries="makeriesList" :paginated="showAllSuppliers"/>
+          <makeries-list :makeries="searchTarget === 'database' && searchTerm.length > 0 ? makeriesSearchResults : makeriesList" :paginated="showAllSuppliers"/>
         </div>
       </div>
     </div>
@@ -81,9 +104,19 @@
     mixins: [waitDirectoryData],
     data () {
       return {
-        term: '',
+        filterTerm: '',
+        searchTerm: '',
+        searchingDB: false,
+        makeriesSearchResults: [],
+        searchTarget: 'database',
+        searchTargetVisibility: false,
+        filterPlaceholder: Config.titles.filterPlaceholder,
+        searchDB: Config.titles.searchDB,
+        filterResults: Config.titles.filterResults,
         searchPlaceholder: Config.titles.searchPlaceholder,
-        searchResults: Config.titles.searchResults,
+        searchResultsLabel: Config.titles.searchResultsLabel,
+        filterResultsLabel: Config.titles.filterResultsLabel,
+        searchingDBLabel: Config.titles.searchingDBLabel,
         defaultAllToggle: false,
         options: {
           keys: ['name', 'brief_description', 'regions', 'products', 'services', 'materials'],
@@ -111,7 +144,7 @@
         'directoryBannersPosts'
       ]),
       makeriesList () {
-        return this.term !== '' ? this.methodResults : this.showAllSuppliers ? this.directory : this.directoryFeaturedListShuffled || this.directoryFeaturedList
+        return this.filterTerm !== '' ? this.methodResults : this.showAllSuppliers ? this.directory : this.directoryFeaturedListShuffled || this.directoryFeaturedList
       },
       directoryFeatured () {
         const featured = this.directory.filter(maker => maker.featured === 'yes')
@@ -129,19 +162,33 @@
         }
       },
       searchAllTitle () {
-        return `${Config.titles.searchAll} ${this.directory.length} ${Config.titles.suppliers}`
+        return `${Config.titles.suppliers}`
       }
     },
     watch: {
-      term () {
+      searchTerm () {
+        setTimeout(async () => {
+          if (this.searchTerm !== '') {
+            this.searchingDB = true
+            this.showAllSuppliers = true
+            const search = await apiService.search(this.searchTerm)
+            this.makeriesSearchResults = search.data
+            this.searchingDB = false
+          }
+        }, 500)
+      },
+      filterTerm () {
         setTimeout(() => {
-          // TODO: here we will decide what we filter
-          this.$search(this.term, this.directory, this.options).then(results => {
+          this.$search(this.filterTerm, this.showAllSuppliers ? this.directory : this.directoryFeaturedListShuffled || this.directoryFeaturedList, this.options).then(results => {
             this.methodResults = results
           })
-        }, 300)
+        }, 500)
       },
       async showAllSuppliers () {
+        this.searchTerm = ''
+        this.filterTerm = ''
+        this.focusSearchInputField()
+
         this.directoryFeaturedListShuffled = shuffle(this.directoryFeaturedList)
 
         if (!this.showAllSuppliers && this.directoryFeaturedList.length < 1) {
@@ -169,7 +216,7 @@
         }
       }
     },
-    mounted () {
+    async mounted () {
       if (this.directoryStats.length < 1) {
         this.loadDirectoryStats()
       }
@@ -179,6 +226,12 @@
       if (!this.showAllSuppliers && this.directoryFeaturedList.length > 0) {
         this.directoryFeaturedListShuffled = shuffle(this.directoryFeaturedList)
       }
+
+      document.addEventListener('click', event => {
+        if (!document.getElementById('search-target').contains(event.target)) {
+          this.searchTargetVisibility = false
+        }
+      })
     },
     methods: {
       ...mapActions(['loadDirectory', 'loadDirectoryStats', 'loadDirectoryFeaturedList']),
@@ -197,6 +250,16 @@
       },
       gotoRoute (url) {
         this.$router.push(url)
+      },
+      setSearchTarget (target) {
+        this.focusSearchInputField()
+        this.searchTarget = target
+        this.searchTargetVisibility = false
+      },
+      focusSearchInputField () {
+        const search = document.getElementById('search-placeholder')
+        const filter = document.getElementById('filter-placeholder')
+        this.searchTarget === 'results' ? filter.focus() : search.focus()
       }
     },
     metaInfo () {

@@ -69,6 +69,7 @@ export default {
     contact: 'Contact',
     searchAll: 'Search all',
     searchResultsLabel: 'Search results',
+    filterResultsLabel: 'Filter results',
     listAll: 'List all',
     suppliers: 'Suppliers',
     featuredSuppliers: 'Featured Suppliers',
@@ -179,7 +180,11 @@ export default {
       save: 'Save',
       quitDontSave: 'Quit without saving'
     },
-    searchPlaceholder: 'Search all suppliers, products, services, regions, tags…'
+    filterPlaceholder: 'Filter through already loaded suppliers',
+    searchPlaceholder: 'Search the database for all suppliers, products, services, regions, materials, etc',
+    searchDB: 'Search within DB',
+    filterResults: 'Filter results',
+    searchingDBLabel: 'Searching DB...'
   },
   username: {
     length: {
