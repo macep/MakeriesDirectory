@@ -34,3 +34,48 @@
       max-height: inherit
       .slide
         max-height: inherit
+
+#search-engine
+  input
+    padding-right: 2 * $xxlg-space
+
+  .search-target
+    position: absolute
+    top: 0
+    right: 5px
+    text-align: right
+
+    .active-target
+      position: absolute
+      top: 3px
+      right: 3px
+      width: 4rem
+      padding: $md-space
+      background: $gray-lighter
+
+      &:hover
+        background: darken($gray-lighter, 4%)
+
+    .active-target, li
+      cursor: pointer
+
+    ul
+      position: absolute
+      top: 50px
+      right: 0
+      width: 17rem
+      height: auto
+      background: $white
+      border: 2px solid $light-turqoise
+      border-top: transparent
+      box-shadow: -2px 4px 6px 0 rgba($black, .05)
+
+      li
+        padding: $md-space
+
+        &:hover
+          background: $gray-lighter
+
+        &:not(:last-child)
+          border-bottom: 1px solid $gray-lighter
+
