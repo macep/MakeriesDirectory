@@ -1,6 +1,7 @@
 import Config from './app.config.js'
 import appCache from './api.service.cache.js'
 import nJwt from 'njwt'
+import request from 'axios'
 
 const wpRESTApiRoot = Config.wpDomain + (process.env.NODE_ENV === 'development' ? '' : 'index.php/')
 
@@ -118,6 +119,14 @@ const apiService = {
       headers: { token }
     }
     return await this.cacheRequest(requestParams, cache || Config.genericCachingTime)
+  },
+  async search (term) {
+    return await request({
+      method: 'get',
+      baseURL: Config.apiV2Root,
+      url: `maker/?combined_search_name=${term}`,
+      headers: {token}
+    })
   }
 }
 
