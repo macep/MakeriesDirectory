@@ -13,8 +13,8 @@ const token = nJwt.create({
 }, 'JWT_SECRET', 'HS256').compact()
 
 const apiService = {
-  async cacheRequest (path, cacheTime) {
-    return await appCache.get(path, cacheTime)
+  async cacheRequest (requestOptions, cacheTime) {
+    return await appCache.get(requestOptions, cacheTime)
   },
   async getMenu (id) {
     const response = await this.cacheRequest(`${wpRESTApiRoot}wp-json/wp-api-menus/v2/menus/${id}`, Config.genericCachingTime)
@@ -77,18 +77,17 @@ const apiService = {
       }
       url = url.substring(0, url.length - 1)
     }
-    const requestParams = {
+    const requestOptions = {
       baseURL: Config.apiV2Root,
       url,
       headers: {token}
     }
-    return await this.cacheRequest(requestParams, cache || Config.genericCachingTime)
+    return await this.cacheRequest(requestOptions, cache || Config.genericCachingTime)
   },
   async search (term) {
     return await request({
-      method: 'get',
       baseURL: Config.apiV2Root,
-      url: `maker/?combined_search_name=${term}`,
+      url: `maker?combined_search_name=${term}`,
       headers: {token}
     })
   }
