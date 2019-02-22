@@ -17,8 +17,14 @@ export default {
   mutatePasswordResetResult: (state, passwordResetResult) => {
     state.passwordResetResult = passwordResetResult
   },
-  mutateIsMobile: (state, isMobile) => {
-    state.isMobile = !!isMobile
+  mutateIsMobile: state => {
+    state.isMobile = !!window.matchMedia('only screen and (max-width: 767px)').matches
+  },
+  mutateIsTablet: state => {
+    state.isTablet = !!window.matchMedia('only screen and (min-width: 768px) and (max-width: 991px)').matches
+  },
+  mutateIsDesktop: state => {
+    state.isDesktop = !!window.matchMedia('only screen and (min-width: 992px)').matches
   },
   mutatePointerIsTouch: (state, isTouch) => {
     state.pointerIsTouch = !!isTouch
@@ -62,6 +68,9 @@ export default {
   mutateDirectory: (state, directory) => {
     state.directory = directory
   },
+  mutateDirectoryFeaturedList: (state, directoryFeaturedList) => {
+    state.directoryFeaturedList = directoryFeaturedList
+  },
   mutateDirectoryStats: (state, directoryStats) => {
     state.directoryStats = directoryStats
   },
@@ -73,6 +82,9 @@ export default {
   },
   mutateShowAllSuppliers: (state, showAllSuppliers) => {
     state.showAllSuppliers = showAllSuppliers
+  },
+  mutateResultsPerPage: (state, resultsPerPage) => {
+    state.resultsPerPage = resultsPerPage
   },
   mutateViewType: (state, viewType) => {
     state.viewType = viewType

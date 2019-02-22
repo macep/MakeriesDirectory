@@ -30,7 +30,7 @@ const stopZoomingWhenDoubleTapped = () => {
   })
 }
 
-const getRouteFromWpMenus = (url) => {
+const getRouteFromWpMenus = url => {
   const domainUrl = Config.wpDomain
   const domainLength = domainUrl.length
   const internalLocation = '^' + domainUrl
@@ -38,12 +38,12 @@ const getRouteFromWpMenus = (url) => {
   return (url.match(internalLocationRegExp) === null) ? {url: url, flag: 'absolute'} : {url: url.slice(domainLength - 1), flag: 'relative'}
 }
 
-const friendlyMonth = (month) => {
+const friendlyMonth = month => {
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   return arguments[0] === 'list' ? monthNames : monthNames[parseInt(month)]
 }
 
-const removeArrayDuplicates = (array) => array.filter((elem, idx, self) => idx === self.indexOf(elem))
+const removeArrayDuplicates = array => array.filter((elem, idx, self) => idx === self.indexOf(elem))
 
 const findOccurences = (array, withUrl, urlPrefix) => {
   let a = []
@@ -79,9 +79,9 @@ const findOccurences = (array, withUrl, urlPrefix) => {
   return c
 }
 
-const friendlyUrl = (str) => str.split(' ').join('-').replace('_', '-').replace(/[^a-zA-Z0-9-]/g, '')
+const friendlyUrl = str => str.split(' ').join('-').replace('_', '-').replace(/[^a-zA-Z0-9-]/g, '')
 
-const sortObjectProperties = (object) => {
+const sortObjectProperties = object => {
   let sorted = {}
   let key
   let a = []
@@ -110,11 +110,11 @@ const cleanupAuthCanceledSessions = () => {
   }
 }
 
-const isEmail = (str) => /^(([^<>()[\]\\.,;:#\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/.test(str)
+const isEmail = str => /^(([^<>()[\]\\.,;:#\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/.test(str)
 
-const isWebsite = (str) => /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(str)
+const isWebsite = str => /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i.test(str)
 
-const azDirectory = (directory) => {
+const azDirectory = directory => {
   let letter = ''
   let azObject = {}
   let azValNameNonAlpha = []

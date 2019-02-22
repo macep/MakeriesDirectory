@@ -4,19 +4,25 @@
     background: $white
 
     &.left
-      @extend .xlg-padding-top, .xxlg-padding-right, .xlg-padding-bottom, .xxlg-padding-left, %hidden-scroll
+      @extend .lg-padding-top, .xxlg-padding-right, .xlg-padding-bottom, .xxlg-padding-left, %hidden-scroll
 
-      h3,
+      .maker-name,
       .brief
         @extend .text-center
+
+      h3
+        @extend .lg-margin-top, .sm-padding-top, .no-margin-bottom
+
+      .brief
+        @extend .no-margin-top, .no-padding-top, .lg-margin-bottom
 
     &.right
       @extend .lg-padding
 
       h6
-        @extend %main-headings
+        @extend %main-headings, .sm-margin-bottom
 
-      a
+      a:not(.btn)
         text-decoration: underline
         word-wrap: break-word
 
@@ -46,8 +52,6 @@
     @extend .no-padding-right, .no-padding-left
     border: 0
     background: transparent
-    text-align: justify
-    text-align-last: left
     font-family: inherit
     word-break: keep-all
     white-space: pre
@@ -58,3 +62,8 @@
   .address
     @extend .xlg-padding-top
 
+  .btn
+    &.email-maker
+      color: $white
+      background: $dark-turqoise
+      border-radius: $sm-space

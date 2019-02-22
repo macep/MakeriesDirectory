@@ -57,10 +57,10 @@
       }
     },
     computed: {
-      ...mapGetters(['directoryFilterData', 'directory', 'isMobile', 'showAllSuppliers', 'route']),
+      ...mapGetters(['directoryStats', 'directory', 'isMobile', 'showAllSuppliers', 'route']),
       directoryFilterDataCollection () {
-        if (this.directoryFilterData.regions !== undefined && this.directoryFilterData.regions.data.length > 0) {
-          return this.directoryFilterData.regions.data
+        if (this.directoryStats.regions !== undefined && this.directoryStats.regions.length > 0) {
+          return this.directoryStats.regions
         }
       },
       searchAllTitle () {

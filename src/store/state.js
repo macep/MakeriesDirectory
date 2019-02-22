@@ -22,6 +22,8 @@ export default {
   passwordResetResult: {},
   hostName: window.location,
   isMobile: false,
+  isTablet: false,
+  isDesktop: false,
   pointerIsTouch: false,
   mobileMenuVisibile: false,
   windowSize: {},
@@ -37,10 +39,13 @@ export default {
 
   directoryBannersPosts: [],
   directory: [],
+  directoryFeaturedList: [],
   directoryStats: [],
   directoryAZ: [],
   directoryActiveFilter: '',
   showAllSuppliers: false,
+
+  resultsPerPage: 0,
 
   viewType: 'grid',
   searchCriteria: ''

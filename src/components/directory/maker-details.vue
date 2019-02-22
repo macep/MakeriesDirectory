@@ -1,9 +1,9 @@
 <template>
   <div id="maker-details" class="row small-gutter">
     <div class="col-sm-9 lg-margin-bottom">
-      <div class="box left text-center">
+      <div class="box left text-justify">
         <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
-        <h3>{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
+        <h3 class="maker-name">{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
         <p v-if="maker.brief_description !==''" class="brief">{{maker.brief_description}}</p>
 
         <carousel v-if="imgs.length > 1">
@@ -15,23 +15,21 @@
         <img v-else :src="imgs[0]" class="slide-image"/>
 
         <template v-if="maker.company_description !==''">
-          <h3>{{ getUs }}</h3>
-          <pre>{{maker.company_description}}</pre>
-        </template>
-
-        <template v-if="maker.testimonials !==''">
-          <h3>{{ testimonials }}</h3>
-          <pre>{{maker.testimonials}}</pre>
+          <div class="xlg-margin-top xlg-padding-bottom">{{maker.company_description}}</div>
         </template>
 
         <template v-if="maker.story_description !==''">
           <h3>{{ ourStory }}</h3>
-          <pre>{{maker.story_description}}</pre>
+          <div class="xlg-padding-bottom">{{maker.story_description}}</div>
+        </template>
+
+        <template v-if="maker.testimonials !==''">
+          <div class="xlg-padding-bottom lead"><strong>{{maker.testimonials}}</strong></div>
         </template>
 
         <template v-if="maker.what_we_do !==''">
           <h3>{{ thisCompanyIsSpecial }}</h3>
-          <pre class="long">{{maker.what_we_do}}</pre>
+          <div class="xlg-padding-bottom long">{{maker.what_we_do}}</div>
         </template>
       </div>
     </div>
@@ -39,41 +37,35 @@
       <div class="box right">
         <h3>{{ getInTouch }}</h3>
 
-        <template v-if="maker.email !==''" class="list-item">
+        <template v-if="maker.email && maker.email !==''" class="list-item">
           <div class="item">
             <div v-if="maker.email">
-              <a :mail='maker.mail' :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'" @click="trackEmail(maker.email)">
+              <a class="btn email-maker"
+                 :mail='maker.mail'
+                 :href="'mailto:' + maker.email + '?subject=New Enquiry from Just Got Made'"
+                 @click="trackEmail(maker.email)">
                 {{ emailContact }}
               </a>
             </div>
           </div>
         </template>
 
-        <template v-if="maker.contactName !==''" class="list-item">
+        <template v-if="maker.contact_name && maker.contact_name !==''" class="list-item">
           <h6>{{ contactName }}</h6>
           <div class="item">
-            <strong>{{ maker.contactName }}</strong>
+            <span>{{ maker.contact_name }}</span>
           </div>
         </template>
 
-        <template v-if="maker.position !==''" class="list-item">
+        <template v-if="maker.contact_position && maker.contact_position !==''" class="list-item">
           <h6>{{ position }}</h6>
           <div class="item">
-            <strong>{{ maker.position }}</strong>
+            <span>{{ maker.contact_position }}</span>
           </div>
         </template>
 
-        <template v-if="maker.regions !== undefined && maker.regions.length > 0" class="list-item">
-          <h6>{{region}}: </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.regions" :key="index">
-              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
-              <template v-if="index < maker.regions.length - 1">, </template>
-            </span>
-          </div>
-        </template>
-
-        <template v-if="maker.address1 !==''" class="list-item">
+        <template v-if="maker.address1 && maker.address1 !==''" class="list-item">
+          <h6>{{ address }}</h6>
           <div class="item">
             {{ maker.address1 }},
             <template v-if="maker.address2 !== null">{{ maker.address2 }}, </template>
@@ -87,44 +79,43 @@
           </div>
         </template>
 
+        <template v-if="maker.regions && maker.regions.length > 0" class="list-item">
+          <h6>{{region}}: </h6>
+          <enumerate :collection="maker.regions || []" :wrapClass="`item text-italic`"/>
+        </template>
+
         <h3>{{ getSpecific }}</h3>
 
-        <template v-if="maker.capacities !== undefined && maker.capacities.length > 0" class="list-item">
-          <h6>{{capacity}}: </h6>
+        <template v-if="maker.services && maker.services.length > 0" class="list-item">
+          <h6>{{mainServices}}: </h6>
+          <enumerate :collection="maker.services || []" :wrapClass="`item text-italic`"/>
+        </template>
+
+        <template v-if="maker.materials && maker.materials.length > 0" class="list-item">
+          <h6>{{mainMaterialsUsed}}: </h6>
+          <enumerate :collection="maker.materials || []" :wrapClass="`item text-italic`"/>
+        </template>
+
+        <div v-if="maker.products && maker.products.length > 0" class="list-item">
+          <h6>{{typicalProductsMade}}</h6>
+          <enumerate :collection="maker.products || []" :wrapClass="`item text-italic`"/>
+        </div>
+
+        <div v-if="maker.capacities && maker.capacities.length > 0" class="list-item">
+          <h6>{{capacity}}</h6>
           <div class="item">
-            <span v-for="(r, index) in maker.capacities" :key="index">
-              <router-link :to="`${filterBy.region}/${r.slug}`"> {{r.name}}</router-link>
+            <span v-for="(c, index) in maker.capacities" :key="index">
+              {{c.name}}
               <template v-if="index < maker.capacities.length - 1">, </template>
             </span>
           </div>
-        </template>
+        </div>
 
-        <template v-if="maker.services !== undefined && maker.services.length > 0" class="list-item">
-          <h6>{{mainServices}}: </h6>
+        <div v-if="maker.min && maker.max" class="list-item">
+          <h6>{{cost}}</h6>
           <div class="item">
-            <span v-for="(r, index) in maker.services" :key="index">
-              <router-link :to="`${filterBy.services}/${r.slug}`"> {{r.name}}</router-link>
-              <template v-if="index < maker.services.length - 1">, </template>
-            </span>
-          </div>
-        </template>
-
-        <template v-if="maker.materials !== undefined && maker.materials.length > 0" class="list-item">
-          <h6>{{mainMaterialsUsed}}: </h6>
-          <div class="item">
-            <span v-for="(r, index) in maker.materials" :key="index">
-              <router-link :to="`${filterBy.materials}/${r.slug}`"> {{r.name}}</router-link>
-              <template v-if="index < maker.materials.length - 1">, </template>
-            </span>
-          </div>
-        </template>
-
-        <div v-if="maker.products !== undefined && maker.products.length > 0" class="list-item">
-          <h6>{{typicalProductsMade}}</h6>
-          <div class="item">
-            <span v-for="(p, index) in maker.products" :key="index">
-              <router-link :to="filterBy.products + '' + friendlyName(p.name)"> {{p.name}}</router-link>
-              <template v-if="index < maker.products.length - 1">, </template>
+            <span>
+              From {{ maker.min }} to {{ maker.max }}
             </span>
           </div>
         </div>
@@ -143,21 +134,23 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
   import Config from '../../api/app.config'
   import apiService from '../../api/api.service'
-  import {getNthFragment, friendlyUrl} from '../../modules/utils'
+  import {getNthFragment} from '../../modules/utils'
   import googleMap from '../common/google-map'
   import {carousel, slider} from 'vue-strap'
+  import enumerate from '../common/enumerate'
 
   export default {
     name: 'maker-details',
-    components: {googleMap, carousel, slider},
+    components: { googleMap, carousel, slider, enumerate },
     data () {
       return {
         backLink: Config.titles.back,
+        address: Config.titles.directory.address,
         region: Config.titles.directory.region,
-        businessTypes: Config.titles.directory.businessTypes,
+        materials: Config.titles.directory.materials,
         productTypes: Config.titles.directory.productTypes,
         serviceTypes: Config.titles.directory.serviceTypes,
         filterBy: {
@@ -170,6 +163,7 @@
         mainMaterialsUsed: Config.titles.directory.mainMaterialsUsed,
         typicalProductsMade: Config.titles.directory.typicalProductsMade,
         capacity: Config.titles.directory.capacity,
+        cost: Config.titles.directory.cost,
         emailContact: Config.titles.directory.emailContact,
         contactName: Config.titles.directory.contactName,
         position: Config.titles.directory.position,
@@ -197,13 +191,11 @@
       try {
         const maker = await apiService.callApi(`maker/${+getNthFragment(this.route.path, 2)}`)
         this.maker = maker.data
-
         if (this.maker.images.length < 1) {
           this.imgs.push(this.imgPlaceholder)
         } else {
-          this.maker.images.forEach(async i => {
-            const img = await apiService.callApi(`maker/${this.maker.id}/image/${i.id}`)
-            this.imgs.push(`data:image/jpeg;base64,${img.data}`)
+          this.maker.images.forEach(i => {
+            this.imgs.push(i.path)
           })
         }
         this.draft = this.maker.enabled === false
@@ -221,9 +213,7 @@
       }
     },
     methods: {
-      friendlyName (str) {
-        return friendlyUrl(str)
-      },
+      ...mapMutations(['mutateDirectoryActiveFilter']),
       trackEmail (email) {
         this.$ga.event({
           eventCategory: 'eventTracking',
@@ -231,6 +221,10 @@
           eventLabel: 'makerDetailEmailAnchor',
           eventValue: email
         })
+      },
+      selectFilter (filter) {
+        this.$router.push(`/directory/filter-by/location/${filter.slug}`)
+        this.mutateDirectoryActiveFilter(filter.id)
       }
     },
     metaInfo () {

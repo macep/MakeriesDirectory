@@ -5,6 +5,7 @@
         <div class="col-sm-12 text-center">
           <h3>{{title}}</h3>
           <p>{{description}}</p>
+          <p>{{description2}}</p>
           <small class="login-register-alternatively">{{orRegisterHere}} <router-link to="register">register here</router-link></small>
         </div>
       </div>
@@ -12,9 +13,19 @@
       <div class="row form-horizontal small-gutter lg-padding">
         <div class="form-group">
           <div class="col-sm-7 col-sm-offset-3 text-center">
-            <v-touch tag="button" @tap="auth.socialLogin('google-oauth2')" class="btn btn-block btn-danger btn-google">Sign in with Google</v-touch>
-            <v-touch tag="button" @tap="auth.socialLogin('linkedin')" class="btn btn-block btn-primary btn-linkedin">Sign in with LinkedIn</v-touch>
-            <v-touch tag="button" @tap="auth.socialLogin('facebook')" class="btn btn-block btn-info btn-facebook">Sign in with Facebook</v-touch>
+            <h6 class="text-italic">{{ socialSignIn }}</h6>
+
+            <div class="row">
+              <div class="col-xs-4">
+                <v-touch tag="button" @tap="auth.socialLogin('google-oauth2')" class="btn btn-block btn-danger btn-google">Google</v-touch>
+              </div>
+              <div class="col-xs-4">
+                <v-touch tag="button" @tap="auth.socialLogin('linkedin')" class="btn btn-block btn-primary btn-linkedin">LinkedIn</v-touch>
+              </div>
+              <div class="col-xs-4">
+                <v-touch tag="button" @tap="auth.socialLogin('facebook')" class="btn btn-block btn-info btn-facebook">Facebook</v-touch>
+              </div>
+            </div>
             <div class="lg-padding-top alternative-to-auth">OR</div>
           </div>
         </div>
@@ -62,7 +73,7 @@
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-8">
             <v-touch tag="button" @tap="loginUser" type="submit" class="btn"
-                     :class="{'btn-danger disabled': !formIsValid, 'btn-primary': formIsValid}">{{loginSubmitLabel}}</v-touch>
+                     :class="{'btn-danger disabled': !formIsValid, 'btn-outline-default': formIsValid}">{{loginSubmitLabel}}</v-touch>
             <small class="lg-margin-left login-register-alternatively">{{resetPass}} <router-link to="reset-password">here</router-link></small>
           </div>
         </div>
@@ -86,8 +97,10 @@
       return {
         title: Config.titles.registerAndAuthentication.titleAuth,
         description: Config.titles.registerAndAuthentication.descriptionAuth,
+        description2: Config.titles.registerAndAuthentication.descriptionAuth2,
         resetPass: Config.titles.registerAndAuthentication.titleResetPass,
         orRegisterHere: Config.titles.registerAndAuthentication.orRegisterHere,
+        socialSignIn: Config.titles.registerAndAuthentication.socialSignIn,
         emailLabel: Config.titles.registerAndAuthentication.email,
         passwordLabel: Config.titles.registerAndAuthentication.password,
         registerErrorLabel: Config.titles.registerAndAuthentication.registerError,

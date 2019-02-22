@@ -38,10 +38,9 @@ export default class AuthService {
     this.logout = this.logout.bind(this)
   }
 
-  signup (username, email, password, userMetadata) {
+  signup (email, password, userMetadata) {
     this.webAuth.signup({
       connection: AUTH_CONFIG.connection,
-      username,
       email,
       password,
       user_metadata: userMetadata

@@ -25,7 +25,7 @@
     color: rgba($dark-turqoise, .5)
     position: absolute
     top: $lg-space
-    right: $lg-space
+    right: $xxlg-space
     pointer-events: none
 
 #app:not(.is-mobile)
@@ -34,3 +34,63 @@
       max-height: inherit
       .slide
         max-height: inherit
+
+#search-engine
+  input
+    padding-right: 2.5 * $xxlg-space
+
+  .search-target
+    position: absolute
+    top: 0
+    right: 5px
+    text-align: right
+
+    .active-target
+      position: absolute
+      top: 3px
+      right: 3px
+      width: 4rem
+      padding: $md-space
+      background: $gray-lighter
+
+      &:hover
+        background: darken($gray-lighter, 4%)
+
+      &:after
+        content: ''
+        position: absolute
+        bottom: .25rem
+        right: .25rem
+        width: 0
+        height: 0
+        border-style: solid
+        border-width: 4px 4px 0 4px
+        border-color: rgba($dark-turqoise, .5) transparent transparent transparent
+
+    .active-target, li
+      cursor: pointer
+
+    ul
+      position: absolute
+      top: 50px
+      right: 0
+      width: 20rem
+      height: auto
+      background: $white
+      border: 2px solid $light-turqoise
+      border-top: transparent
+      box-shadow: -2px 4px 6px 0 rgba($black, .05)
+
+      li
+        padding: $md-space
+
+        &:hover
+          background: $gray-lighter
+
+        &:not(:last-child)
+          border-bottom: 1px solid $gray-lighter
+
+        i
+          padding-left: $md-space
+          padding-right: $sm-space
+          border-left: 1px solid $gray-lighter
