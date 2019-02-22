@@ -170,7 +170,7 @@
         setTimeout(async () => {
           if (this.searchTerm !== '') {
             this.searchingDB = true
-            this.showAllSuppliers = true
+            this.mutateShowAllSuppliers(true)
             const search = await apiService.search(this.searchTerm)
             this.makeriesSearchResults = search.data
             this.searchingDB = false
