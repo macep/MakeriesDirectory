@@ -80,16 +80,12 @@ const apiService = {
     const requestOptions = {
       baseURL: Config.apiV2Root,
       url,
-      headers: {token}
+      headers: { token }
     }
     return await this.cacheRequest(requestOptions, cache || Config.genericCachingTime)
   },
   async search (term) {
-    return await request({
-      baseURL: Config.apiV2Root,
-      url: `maker?combined_search_name=${term}`,
-      headers: {token}
-    })
+    return await request.get(`${Config.apiV2Root}maker?combined_search_name=${term}`, { headers: { token } })
   }
 }
 
