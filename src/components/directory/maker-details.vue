@@ -191,14 +191,11 @@
       try {
         const maker = await apiService.callApi(`maker/${+getNthFragment(this.route.path, 2)}`)
         this.maker = maker.data
-        console.debug(this.maker)
-
         if (this.maker.images.length < 1) {
           this.imgs.push(this.imgPlaceholder)
         } else {
-          this.maker.images.forEach(async i => {
-            const img = await apiService.callApi(`maker/${this.maker.id}/image/${i.id}`)
-            this.imgs.push(`data:image/jpeg;base64,${img.data}`)
+          this.maker.images.forEach(i => {
+            this.imgs.push(i.path)
           })
         }
         this.draft = this.maker.enabled === false

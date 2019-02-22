@@ -1,7 +1,7 @@
 <template>
   <div class="banner-inner">
     <router-link :to="`/maker/${id}/${route}`">
-      <image-overlayed :url="img" :imgData="imgData" :overlayed="overlayed" :escaped="escaped"/>
+      <image-overlayed :url="img" :overlayed="overlayed" :escaped="escaped"/>
     </router-link>
     <router-link :to="`/maker/${id}/${route}`" class="banner-title">{{title}}</router-link>
     <span v-html="content" class="banner-content"/>
@@ -10,9 +10,6 @@
 
 <script>
   import imageOverlayed from '../common/image-overlayed.vue'
-  import axios from 'axios'
-  import nJwt from 'njwt'
-  import Config from '../../api/app.config.js'
 
   export default {
     name: 'banner',
@@ -41,25 +38,8 @@
     },
     data () {
       return {
-        imgData: '',
         overlayed: true,
         escaped: true
-      }
-    },
-    async mounted () {
-      if (typeof this.img === 'number') {
-        const imgData = await axios({
-          method: 'get',
-          url: `${Config.apiV2Root}maker/${this.id}/image/${this.img}`,
-          headers: { token: nJwt.create({
-            userId: 1,
-            userRole: 'superAdmin',
-            iss: Config.apiV2Root,
-            scope: 'self'
-          }, 'JWT_SECRET', 'HS256').compact() }
-        })
-        this.imgData = `data:image/jpeg;base64,${imgData.data}`
-        // this.imgData = ''
       }
     }
   }
