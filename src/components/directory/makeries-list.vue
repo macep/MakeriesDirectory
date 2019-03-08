@@ -25,6 +25,10 @@
         <template v-if="showActivityIndicator">Loading...</template>
         <template v-else>Load next page</template>
       </a>
+      <a href="#" class="btn btn-link" @click.prevent="loadAllDirectory">
+        <template v-if="showActivityIndicator">Loading...</template>
+        <template v-else>Load all</template>
+      </a>
     </div>
   </div>
 </template>
@@ -63,7 +67,7 @@
       ...mapGetters(['viewType', 'showActivityIndicator'])
     },
     methods: {
-      ...mapActions(['loadDirectory'])
+      ...mapActions(['loadDirectory', 'loadAllDirectory'])
     }
   }
 </script>

@@ -162,6 +162,18 @@ const actions = {
       commit('mutateActivityIndicator', false)
     }
   },
+  async loadAllDirectory ({commit}) {
+    commit('mutateActivityIndicator', true)
+    try {
+      const data = await apiService.callApi('maker', {per_page: 1000}, 8.64e+7)
+      commit('mutateDirectory', data.data)
+      commit('mutateDirectoryAZ', sortObjectProperties(azDirectory(data.data)))
+      commit('mutateActivityIndicator', false)
+    } catch (err) {
+      console.error(err)
+      commit('mutateActivityIndicator', false)
+    }
+  },
   async loadDirectoryFeaturedList ({commit}) {
     commit('mutateActivityIndicator', true)
 
