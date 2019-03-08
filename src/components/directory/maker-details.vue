@@ -73,7 +73,7 @@
           </div>
         </template>
 
-        <template v-if="maker.map_url !==''" class="list-item">
+        <template class="list-item">
           <div class="image-holder" id="embededMap">
             <google-map :pbcode="maker.map_url"></google-map>
           </div>
