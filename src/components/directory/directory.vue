@@ -10,8 +10,10 @@
           <div class="row no-gutter">
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
               <div id="search-engine">
-                <input v-if="searchTarget === 'database'" id="search-placeholder" v-model="searchTerm" :placeholder="searchPlaceholder" type="search" autocomplete="off">
-                <input v-if="searchTarget === 'results'" id="filter-placeholder" v-model="filterTerm" :placeholder="filterPlaceholder" type="search" autocomplete="off">
+                <input v-if="searchTarget === 'database'" id="search-placeholder" v-model="searchTerm"
+                       :placeholder="searchPlaceholder" type="search" autocomplete="off">
+                <input v-if="searchTarget === 'results'" id="filter-placeholder" v-model="filterTerm"
+                       :placeholder="filterPlaceholder" type="search" autocomplete="off">
 
                 <span class="search-results" v-if="searchTarget === 'database' && searchTerm.length > 0">
                   <template v-if="searchingDB">
@@ -21,7 +23,8 @@
                     {{makeriesSearchResults.length}} {{searchResultsLabel}}
                   </template>
                 </span>
-                <span class="search-results" v-if="searchTarget === 'results' && filterTerm.length > 0">{{methodResults.length}} {{searchResultsLabel}}</span>
+                <span class="search-results"
+                      v-if="searchTarget === 'results' && filterTerm.length > 0">{{methodResults.length}} {{searchResultsLabel}}</span>
 
                 <div class="search-target" id="search-target">
                   <v-touch class="active-target" @tap="searchTargetVisibility = !searchTargetVisibility">
@@ -29,7 +32,7 @@
                   </v-touch>
 
                   <ul v-show="searchTargetVisibility">
-                    <v-touch tag="li" @tap="setSearchTarget('database')"> {{searchDB}} &nbsp; <i class="icon-database"/></v-touch>
+                    <v-touch tag="li" @tap="setSearchTarget('database')"> {{searchDB}} &nbsp; <i class="icon-database"/> </v-touch>
                     <v-touch tag="li" @tap="setSearchTarget('results')"> {{filterResults}} &nbsp; <i class="icon-filter_list"/></v-touch>
                   </ul>
                 </div>
@@ -64,14 +67,20 @@
 
         <div class="col-xs-12">
           <h1 v-if="searchTerm !== ''">{{searchResultsLabel}}</h1>
-          <h1 v-if="showAllSuppliers && filterTerm !== ''">{{methodResults.length}} supplier<template v-if="methodResults.length !== 1">s</template> filtered</h1>
-          <h1 v-if="showAllSuppliers && filterTerm === '' && searchTerm === ''">{{directory.length}} suppliers loaded</h1>
+          <h1 v-if="showAllSuppliers && filterTerm !== ''">{{methodResults.length}} supplier
+            <template v-if="methodResults.length !== 1">s</template>
+            filtered
+          </h1>
+          <h1 v-if="showAllSuppliers && filterTerm === '' && searchTerm === ''">
+            {{directory.length}} suppliers loaded</h1>
           <h1 v-if="!showAllSuppliers && searchTerm === '' && filterTerm === ''">Featured Suppliers</h1>
           <h1 v-if="!showAllSuppliers && searchTerm === '' && filterTerm !== ''">Featured Suppliers filtered</h1>
         </div>
 
         <div class="col-xs-12">
-          <makeries-list :makeries="searchTarget === 'database' && searchTerm.length > 0 ? makeriesSearchResults : makeriesList" :paginated="showAllSuppliers"/>
+          <makeries-list
+            :makeries="searchTarget === 'database' && searchTerm.length > 0 ? makeriesSearchResults : makeriesList"
+            :paginated="showAllSuppliers"/>
         </div>
       </div>
     </div>
@@ -86,11 +95,11 @@
   import viewType from './view-type.vue'
   import waitDirectoryData from '../../mixins/waitDirectoryData'
   import postsSlider from '../common/posts-slider.vue'
-  import { dropdown } from 'vue-strap'
-  import { shuffle } from 'lodash'
-  import { getSS } from '../../api/browserstorage'
+  import {dropdown} from 'vue-strap'
+  import {shuffle} from 'lodash'
+  import {getSS} from '../../api/browserstorage'
   import apiService from '../../api/api.service'
-  import { sortObjectProperties, azDirectory } from '../../modules/utils'
+  import {sortObjectProperties, azDirectory} from '../../modules/utils'
 
   export default {
     name: 'directory-page',
@@ -119,7 +128,12 @@
         searchingDBLabel: Config.titles.searchingDBLabel,
         defaultAllToggle: false,
         options: {
-          keys: ['name', 'brief_description', 'regions', 'products', 'services', 'materials'],
+          keys: ['name',
+            'brief_description',
+            'regions',
+            'products',
+            'services',
+            'materials'],
           distance: 0,
           matchAllTokens: true,
           tokenize: true
@@ -216,12 +230,12 @@
         }
       }
     },
-    async mounted () {
+    async created () {
       if (this.directoryStats.length < 1) {
-        this.loadDirectoryStats()
+        this.$store.dispatch('loadDirectoryStats')
       }
       if (!this.showAllSuppliers && this.directoryFeaturedList.length < 1) {
-        this.loadDirectoryFeaturedList()
+        this.$store.dispatch('loadDirectoryFeaturedList')
       }
       if (!this.showAllSuppliers && this.directoryFeaturedList.length > 0) {
         this.directoryFeaturedListShuffled = shuffle(this.directoryFeaturedList)
@@ -234,8 +248,18 @@
       })
     },
     methods: {
-      ...mapActions(['loadDirectory', 'loadDirectoryStats', 'loadDirectoryFeaturedList']),
-      ...mapMutations(['mutateActivityIndicator', 'mutateDirectory', 'mutateDirectoryAZ', 'mutateShowAllSuppliers', 'mutateDirectoryActiveFilter']),
+      ...mapActions([
+        'loadDirectory',
+        'loadDirectoryStats',
+        'loadDirectoryFeaturedList'
+      ]),
+      ...mapMutations([
+        'mutateActivityIndicator',
+        'mutateDirectory',
+        'mutateDirectoryAZ',
+        'mutateShowAllSuppliers',
+        'mutateDirectoryActiveFilter'
+      ]),
       showAllSuppliersOn () {
         this.mutateShowAllSuppliers(true)
         this.$router.push('/directory')

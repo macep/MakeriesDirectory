@@ -20,14 +20,13 @@
         <enumerate :collection="maker.materials || []" :category="materials"/>
       </template>
     </div>
-    <div v-if="paginated" class="col-xs-12 text-center xlg-padding">
-      <a href="#" class="btn btn-link" @click.prevent="loadDirectory">
-        <template v-if="showActivityIndicator">Loading...</template>
-        <template v-else>Load next page</template>
+    <div v-if="paginated && !allMakersLoaded && (makeries.length < directoryStats.makers)" class="col-xs-12 text-center xlg-padding">
+      <a v-if="!showActivityIndicator" href="#" class="btn btn-link" @click.prevent="loadDirectory">
+        Load next page
       </a>
-      <a href="#" class="btn btn-link" @click.prevent="loadAllDirectory">
-        <template v-if="showActivityIndicator">Loading...</template>
-        <template v-else>Load all</template>
+      <template v-if="showActivityIndicator">Loading...</template>
+      <a v-if="!showActivityIndicator" href="#" class="btn btn-link" @click.prevent="loadAllDirectory">
+        Load all
       </a>
     </div>
   </div>
@@ -60,11 +59,16 @@
         serviceTypes: Config.titles.directory.serviceTypes,
         description: Config.titles.directory.description,
         tags: Config.titles.directory.tags,
-        img: `http://via.placeholder.com/600x360?text=Maker's Image`
+        img: `http://via.placeholder.com/600x360?text=Maker's Image`,
+        allMakersLoaded: false
       }
     },
     computed: {
-      ...mapGetters(['viewType', 'showActivityIndicator'])
+      ...mapGetters([
+        'viewType',
+        'showActivityIndicator',
+        'directoryStats'
+      ])
     },
     methods: {
       ...mapActions(['loadDirectory', 'loadAllDirectory'])
