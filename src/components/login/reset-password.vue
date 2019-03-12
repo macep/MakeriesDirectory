@@ -31,7 +31,7 @@
       <div v-if="showClientResetPassErrorMessage || showServerResetPassErrorMessage || showServerResetPassSuccessMessage" class="row form-horizontal small-gutter lg-padding">
         <transition name="slide-errors" mode="out-in">
           <div v-if="showClientResetPassErrorMessage" class="form-group invalid-form has-error">
-            <label class="col-sm-3 control-label">{{errorLabel}}</label>
+            <label class="col-sm-3 control-label md-margin-top">{{errorLabel}}</label>
             <div class="col-sm-7">
               <mega-alert v-model="showClientResetPassErrorMessage" :closeAction="closeClientMessage" duration="0" type="danger" width="100%" dismissable>
                 {{pleaseValidateResetPassForm}}
@@ -40,7 +40,7 @@
           </div>
 
           <div v-if="showServerResetPassErrorMessage" class="form-group invalid-form has-error">
-            <label class="col-sm-3 control-label">{{errorLabel}}</label>
+            <label class="col-sm-3 control-label md-margin-top">{{errorLabel}}</label>
             <div class="col-sm-7">
               <mega-alert v-model="showServerResetPassErrorMessage" :closeAction="closeServerErrorMessage" duration="0" type="danger" closeFunc="closeServerMessage" width="100%" dismissable>
                 {{serverResetPassErrorMessage.message}}
@@ -48,8 +48,8 @@
             </div>
           </div>
 
-          <div v-if="showServerResetPassSuccessMessage" class="form-group invalid-form has-success">
-            <label class="col-sm-3 control-label">{{errorLabel}}</label>
+          <div v-if="showServerResetPassSuccessMessage" class="form-group valid-form has-success">
+            <label class="col-sm-3 control-label md-margin-top"></label>
             <div class="col-sm-7">
               <mega-alert v-model="showServerResetPassSuccessMessage" :closeAction="closeServerSuccessMessage" duration="5000" type="success" closeFunc="closeServerMessage" width="100%" dismissable>
                 {{serverResetPassSuccessMessage.message}}
