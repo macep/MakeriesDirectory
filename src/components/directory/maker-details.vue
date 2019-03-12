@@ -1,7 +1,7 @@
 <template>
   <div id="maker-details" class="row small-gutter">
     <div class="col-sm-9 lg-margin-bottom">
-      <div class="box left text-justify">
+      <div class="box left">
         <router-link v-if="back" :to="back" class="back-link">{{backLink}}</router-link>
         <h3 class="maker-name">{{maker.name}} <small class="draft" v-if="draft">{{draftMaker}}</small></h3>
         <p v-if="maker.brief_description !==''" class="brief">{{maker.brief_description}}</p>
@@ -15,21 +15,25 @@
         <img v-else :src="imgs[0]" class="slide-image"/>
 
         <template v-if="maker.company_description !==''">
-          <div class="xlg-margin-top xlg-padding-bottom">{{maker.company_description}}</div>
+          <div class="xlg-margin-top xlg-padding-bottom text-justify">{{maker.company_description}}</div>
         </template>
 
         <template v-if="maker.story_description !==''">
           <h3>{{ ourStory }}</h3>
-          <div class="xlg-padding-bottom">{{maker.story_description}}</div>
+          <div class="xlg-padding-bottom text-justify">{{maker.story_description}}</div>
         </template>
 
         <template v-if="maker.testimonials !==''">
-          <div class="xlg-padding-bottom lead"><strong>{{maker.testimonials}}</strong></div>
+          <div class="xlg-padding-bottom lead ">
+            <strong>
+              {{maker.testimonials}}
+            </strong>
+          </div>
         </template>
 
         <template v-if="maker.what_we_do !==''">
           <h3>{{ thisCompanyIsSpecial }}</h3>
-          <div class="xlg-padding-bottom long">{{maker.what_we_do}}</div>
+          <div class="xlg-padding-bottom long text-justify">{{maker.what_we_do}}</div>
         </template>
       </div>
     </div>
