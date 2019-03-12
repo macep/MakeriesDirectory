@@ -126,6 +126,7 @@
         searchResultsLabel: Config.titles.searchResultsLabel,
         filterResultsLabel: Config.titles.filterResultsLabel,
         searchingDBLabel: Config.titles.searchingDBLabel,
+        searchAllTitle: Config.titles.suppliers,
         defaultAllToggle: false,
         options: {
           keys: ['name',
@@ -174,9 +175,6 @@
         } else {
           return null
         }
-      },
-      searchAllTitle () {
-        return `${Config.titles.suppliers}`
       }
     },
     watch: {
@@ -288,7 +286,7 @@
     },
     metaInfo () {
       return {
-        title: `${Config.titles.searchAll} ${this.directory.length} ${Config.titles.suppliers}`
+        title: this.directory.length > 0 ? `${this.directory.length} ${Config.titles.suppliers}` : 'JGM Directory'
       }
     }
   }
