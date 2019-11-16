@@ -8,10 +8,6 @@
       <makeries-menu/><br>
     </div>
 
-    <div id="mobile-journal-menu-links" v-if="isJournalLocation">
-      <blog-menu :one-at-a-time="true" :acc-data="categories"/><br>
-    </div>
-
     <div id="mobile-menu-links">
       <v-touch @tap="closeMobileMenuAndGotoRoute(link.url)" v-for="(link, index) in mainMenu" :key="link.id" v-if="index > 0">
         <div class="mobile-nav-item">{{link.title}}</div>
@@ -69,11 +65,6 @@
       isDirectoryLocation () {
         const directoryLocations = ['Directory', 'FilterBy', 'FilterAZ', 'Maker']
         return directoryLocations.indexOf(this.route.name) !== -1
-      },
-
-      isJournalLocation () {
-        const journalLocation = ['Journal', 'JournalByCat', 'JournalByYear', 'JournalSingle']
-        return journalLocation.indexOf(this.route.name) !== -1
       }
     },
 

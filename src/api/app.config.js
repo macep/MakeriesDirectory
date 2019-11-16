@@ -1,4 +1,4 @@
-const wpDomain = process.env.NODE_ENV === 'development' ? 'http://justgotmade.com:8888/' : 'http://wp.macep23.com/'
+const wpDomain = process.env.NODE_ENV === 'development' ? 'http://www.justgotmade.com/' : 'http://www.justgotmade.com/'
 
 export default {
   apiUrlBase: '/',
@@ -10,7 +10,7 @@ export default {
   missingImageUrl: '/static/no-img.png',
   missingAvatar: 'http://via.placeholder.com/100x100?text=AVATAR',
   wpDomain,
-  apiV2Root: 'http://api.macep23.com/v2/',
+  apiV2Root: 'http://api.makeries.com/v2/',
   loadDbName: 'justGotMadeLocal',
   directoryBannerHeight: '300px',
   analyticsPath: '//www.google-analytics.com/analytics.js',
@@ -21,30 +21,22 @@ export default {
   recentPostsNumber: 3,
   routerSettings: {
     userMetadataRetrievalUrl: 'https://jgm:eu:auth0:com/user_metadata', // sync this with https://manage.auth0.com/#/rules/rul_CQ7VKCGBHteUTP07
-    about: '/about/',
-    directory: '/directory/',
-    directoryAll: '/directory/all',
+    directory: '/',
+    directoryAll: '/all',
     directoryDisabled: '/directory-draft-makers/',
-    filterDirectory: '/directory/filterBy/',
+    filterDirectory: '/filterBy/',
     filterBy: {
-      region: '/directory/filter-by/location/',
-      products: '/directory/filter-by/products/',
-      businessTypes: '/directory/filter-by/business-types/',
-      serviceTypes: '/directory/filter-by/service-types/'
+      region: '/filter-by/location/',
+      products: '/filter-by/products/',
+      businessTypes: '/filter-by/business-types/',
+      serviceTypes: '/filter-by/service-types/'
     },
-    filterAZ: '/directory-A-Z/',
+    filterAZ: '/A-Z/',
     makerDetail: '/maker/',
-    journal: '/journal/',
-    category: '/journal/category/',
-    archive: '/journal/archive/',
-    journalSingle: '/journal/',
     signUp: '/sign-up/',
     weekender: '/justgotmade-weekender/',
     weekenderExternal: 'http://www.justgotmadeweekender.com/',
-    privacy: '/privacy-policy/',
-    disclaimer: '/disclaimer/',
     userActivation: '/user-activation/',
-    contact: '/contact/',
     newsletter: 'http://eepurl.com/lobiL'
   },
   titles: {

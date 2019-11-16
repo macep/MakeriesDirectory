@@ -1,5 +1,15 @@
 <template>
-  <div id="app" class="row" :class="[isMobile ? 'is-mobile' : '', isTablet ? 'is-tablet' : '', isDesktop ? 'is-desktop' : '', pointerIsTouch ? 'is-touch' : '', mobileMenuVisibile ? 'no-scroll' : '']">
+  <div
+    id="app"
+    class="row"
+    :class="[
+      {'is-mobile': isMobile},
+      {'is-tablet': isTablet},
+      {'is-desktop': isDesktop},
+      {'is-touch': pointerIsTouch},
+      {'no-scroll': mobileMenuVisibile}
+    ]
+  ">
     <div class="col-xs-12">
 
       <jgm-header/>
@@ -8,7 +18,11 @@
 
       <template v-else>
         <jgm-mobile-menu/>
-        <v-touch tag="i" @tap="toggleMobileMenuVisibility" :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"/>
+        <v-touch
+          tag="i"
+          @tap="toggleMobileMenuVisibility"
+          :class="{'icon-dehaze': !mobileMenuVisibile, 'icon-close': mobileMenuVisibile}"
+        />
       </template>
 
       <transition name="slide" mode="out-in">
@@ -67,7 +81,6 @@
         'pointerIsTouch',
         'showActivityIndicator',
         'mobileMenuVisibile',
-        'pages',
         'windowSize'
       ])
     },
@@ -98,8 +111,6 @@
       this.mutateResultsPerPage(this.isDesktop ? 24 : 12)
 
       this.setPointerIsTouch('ontouchstart' in window)
-
-      if (this.pages.length < 1) this.loadProject()
 
       if (this.pointerIsTouch) stopZoomingWhenDoubleTapped()
 

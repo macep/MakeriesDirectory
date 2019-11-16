@@ -169,6 +169,6 @@ export default class AuthService {
     localStorage.removeItem(jgmDesiredRoute)
     localStorage.removeItem(jgmOriginOfDesiredRoute)
     this.authNotifier.$emit('authChange', false)
-    router.replace('/directory')
+    router.replace(Config.routerSettings.directory)
   }
 }

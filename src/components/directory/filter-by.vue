@@ -58,13 +58,13 @@
     },
     mounted () {
       if (this.directoryActiveFilter === '') {
-        this.$router.push('/directory')
+        this.$router.push('/')
       }
     },
     methods: {
       ...mapMutations(['mutateDirectoryActiveFilter']),
       selectFilter (filter) {
-        this.$router.push(`/directory/filter-by/location/${filter.slug}`)
+        this.$router.push(`${Config.routerSettings.filterBy.region}${filter.slug}`)
         this.mutateDirectoryActiveFilter(filter.id)
       }
     },

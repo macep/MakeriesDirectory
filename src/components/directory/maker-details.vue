@@ -193,7 +193,7 @@
     async created () {
       this.$store.commit('mutateActivityIndicator', true)
       try {
-        const maker = await apiService.callApi(`maker/${+getNthFragment(this.route.path, 2)}`)
+        const maker = await apiService.callApi(`${Config.routerSettings.makerDetail}${+getNthFragment(this.route.path, 2)}`)
         this.maker = maker.data
         if (this.maker.images.length < 1) {
           this.imgs.push(this.imgPlaceholder)
@@ -227,7 +227,7 @@
         })
       },
       selectFilter (filter) {
-        this.$router.push(`/directory/filter-by/location/${filter.slug}`)
+        this.$router.push(`${Config.routerSettings.filterBy.region}${filter.slug}`)
         this.mutateDirectoryActiveFilter(filter.id)
       }
     },

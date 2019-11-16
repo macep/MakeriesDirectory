@@ -44,24 +44,6 @@ export default {
   mutateSecondaryMenu: (state, secondaryMenu) => {
     state.secondaryMenu = secondaryMenu
   },
-  mutateCategories: (state, categories) => {
-    state.categories = categories
-  },
-  mutatePages: (state, pages) => {
-    state.pages = pages
-  },
-  mutatePosts: (state, posts) => {
-    state.posts = posts
-  },
-  mutateArchivedYears: (state, archivedYears) => {
-    state.archivedYears = archivedYears
-  },
-  mutateSliderPosts: (state, sliderPosts) => {
-    state.sliderPosts = sliderPosts
-  },
-  mutateBannerPosts: (state, bannerPosts) => {
-    state.bannerPosts = bannerPosts
-  },
   mutateDirectoryBannersPosts: (state, directoryBannersPosts) => {
     state.directoryBannersPosts = directoryBannersPosts
   },

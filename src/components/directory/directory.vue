@@ -6,7 +6,7 @@
           <posts-slider :data="directoryBannersPosts"/>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-xs-12 search-region">
           <div class="row no-gutter">
             <div class="col-sm-10 col-md-11 pull-left search-directory-wrapper lg-margin-bottom">
               <div id="search-engine">
@@ -44,7 +44,7 @@
           </div>
         </div>
 
-        <div class="col-xs-12" v-if="!isMobile">
+        <div class="col-xs-12 directory-menu-horizontal-region" v-if="!isMobile">
           <ul id="directory-menu-horizontal" class="list-inline">
             <li>
               <v-touch tag="a" @tap="showAllSuppliersOn">{{searchAllTitle}}</v-touch>
@@ -191,9 +191,10 @@
       },
       filterTerm () {
         setTimeout(() => {
-          this.$search(this.filterTerm, this.showAllSuppliers ? this.directory : this.directoryFeaturedListShuffled || this.directoryFeaturedList, this.options).then(results => {
-            this.methodResults = results
-          })
+          this.$search(this.filterTerm, this.showAllSuppliers ? this.directory : this.directoryFeaturedListShuffled || this.directoryFeaturedList, this.options)
+            .then(results => {
+              this.methodResults = results
+            })
         }, 500)
       },
       async showAllSuppliers () {
@@ -238,9 +239,9 @@
       if (!this.showAllSuppliers && this.directoryFeaturedList.length > 0) {
         this.directoryFeaturedListShuffled = shuffle(this.directoryFeaturedList)
       }
-
       document.addEventListener('click', event => {
-        if (!document.getElementById('search-target').contains(event.target)) {
+        const srcTarget = document.getElementById('search-target')
+        if (srcTarget && !srcTarget.contains(event.target)) {
           this.searchTargetVisibility = false
         }
       })
@@ -260,15 +261,15 @@
       ]),
       showAllSuppliersOn () {
         this.mutateShowAllSuppliers(true)
-        this.$router.push('/directory')
+        this.$router.push('/')
       },
       showFeaturedOn () {
         this.mutateShowAllSuppliers(false)
-        this.$router.push('/directory')
+        this.$router.push('/')
       },
       selectFilter (filter) {
         this.mutateDirectoryActiveFilter(filter.id)
-        this.gotoRoute(`/directory/filter-by/location/${filter.slug}`)
+        this.gotoRoute(`${Config.routerSettings.filterBy.region}${filter.slug}`)
       },
       gotoRoute (url) {
         this.$router.push(url)
