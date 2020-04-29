@@ -10,22 +10,6 @@ First off, you'll need to install the base environment. The rest of it is on Web
 * Vue-CLI - `npm i -g vue-cli`
 * Git - `https://git-scm.com/downloads`
 
-## Repository
-##### Clone the repository for first time. It will create a directory containing the project in the current directory
-  `git clone git@github.com:macep/MakeriesDirectory.git` SSH way
-  
-  `git clone https://github.com/macep/MakeriesDirectory.git` HTTPS way
-  
-##### Update the repo just before every time you want to make changes (recommended)
-  `git pull` from project's root directory 
-
-##### Save made changes and update the remote repo as well
-  `git add .` from project root - adds all changes to the stage for a new commit
-  
-  `git commit -am "custom message here explaining the changes""` saves the changes
-  
-  `git push` pushes the new commit/s to the remote origin
-
 ## Install dependencies
 `npm i`
 
@@ -43,5 +27,20 @@ npm run build --production
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
+
+## Repository
+##### Clone the repository for first time. It will create a directory containing the project in the current directory
+  `git clone https://github.com/macep/MakeriesDirectory.git`
+  
+##### Update the repo just before every time you want to make changes (recommended)
+  `git pull` from project's root directory 
+
+##### Save made changes and update the remote repo as well
+  `git add .` from project root - adds all changes to the stage for a new commit
+  
+  `git commit -am "custom message here explaining the changes"` saves the changes
+  
+  `git push` pushes the new commit/s to the remote origin
+
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
